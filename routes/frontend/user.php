@@ -1,15 +1,12 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\User\AccountController;
 use App\Http\Controllers\Frontend\User\DashboardController;
 use App\Http\Controllers\Frontend\User\ProfileController;
 use Tabuna\Breadcrumbs\Trail;
+use App\Http\Controllers\Frontend\User\SubscribeController;
 
-/*
- * These frontend controllers require the user to be logged in
- * All route names are prefixed with 'frontend.'
- * These routes can not be hit if the user has not confirmed their email
- */
 Route::group(['as' => 'user.', 'middleware' => ['auth', 'password.expires', config('boilerplate.access.middleware.verified')]], function () {
     Route::get('dashboard', [DashboardController::class, 'index'])
         ->middleware('is_user')
@@ -27,4 +24,18 @@ Route::group(['as' => 'user.', 'middleware' => ['auth', 'password.expires', conf
         });
 
     Route::patch('profile/update', [ProfileController::class, 'update'])->name('profile.update');
+
+    Route::group([
+        'prefix' => 'subscribe/',
+        'as' => 'subscribe.'
+    ],function (){
+        Route::get('', [SubscribeController::class, 'index'])->name('index');
+        Route::get('view/{id}', [SubscribeController::class, 'view'])->name('view');
+        Route::get('create', [SubscribeController::class, 'create'])->name('create');
+        Route::post('create', [SubscribeController::class, 'insert'])->name('insert');
+        Route::get('edit/{id}', [SubscribeController::class, 'edit'])->name('edit');
+        Route::post('edit/{id}', [SubscribeController::class, 'update'])->name('update');
+        Route::get('delete/{id}', [SubscribeController::class, 'delete'])->name('delete');
+
+    });
 });

@@ -1,6 +1,7 @@
 <?php
 
 use Carbon\Carbon;
+use App\Domains\Auth\Models\Parcels;
 
 if (! function_exists('appName')) {
     /**
@@ -48,5 +49,19 @@ if (! function_exists('homeRoute')) {
         }
 
         return 'frontend.index';
+    }
+}
+
+if(!function_exists('getParcelStatus')){
+
+    function getParcelStatus($tracking_no){
+
+        $parcel = Parcels::where('tracking_no', $tracking_no)->first();
+
+        if(!$parcel){
+            return '<span class="badge badge-danger badge-pill">Not Found</span>';
+        }
+
+        return '<span class="badge badge-success badge-pill">In Transit</span>';
     }
 }

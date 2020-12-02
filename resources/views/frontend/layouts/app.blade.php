@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="eb" class="js">
 
-@include('backend.includes.header1')
+@include('frontend.includes.header1')
 
 <body class="nk-body npc-subscription has-aside ui-clean ">
 <div class="nk-app-root">
@@ -9,17 +9,17 @@
     <div class="nk-main ">
         <!-- wrap @s -->
         <div class="nk-wrap ">
-            @include('backend.includes.topbar')
+            @include('frontend.includes.topbar')
             <div class="nk-content ">
                 <div class="container wide-xl">
                     <div class="nk-content-inner">
-                        @include('backend.includes.menu')
+                        @include('frontend.includes.menu')
                         <div class="nk-content-body">
                             @include('includes.partials.messages')
                             @include('includes.partials.logged-in-as')
                             @yield('content')
 
-                            @include('backend.includes.footer')
+                            @include('frontend.includes.footer')
                         </div>
                     </div>
                 </div>

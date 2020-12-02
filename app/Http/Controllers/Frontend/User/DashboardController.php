@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers\Frontend\User;
 
+use App\Domains\Auth\Models\Subscribe;
 use App\Http\Controllers\Controller;
 
-/**
- * Class DashboardController.
- */
-class DashboardController extends Controller
-{
-    /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
+class DashboardController extends Controller{
+
     public function index()
     {
-        return view('frontend.user.dashboard');
+        $subscribes = Subscribe::where('user_id', auth()->user()->id)
+            ->get();
+
+        return view('frontend.user.dashboard', compact('subscribes'));
     }
 }

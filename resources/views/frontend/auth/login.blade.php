@@ -18,7 +18,7 @@
             /*background-size: cover;*/
 
             background-size: 100% 100%;
-            background-image: url('{{ asset('images/login.jpg') }}')
+            background-image: url('{{ asset('images/sampai.jpg') }}')
         }
 
         .bg-text {
@@ -51,7 +51,7 @@
                 <div class="nk-block-head-content">
                     <h5 class="nk-block-title">Log Masuk</h5>
                     <div class="nk-block-des">
-                        <p>Akses panel menggunakan No. Kad Pengenalan dan  katalaluan anda.</p>
+                        <p>Access the panel using your email and password.</p>
                     </div>
                 </div>
             </div><!-- .nk-block-head -->
@@ -113,8 +113,8 @@
     <div class="nk-split-content nk-split-stretch bg-lighter d-flex toggle-break-lg toggle-slide toggle-slide-right bc" data-content="athPromo" data-toggle-screen="lg" data-toggle-overlay="true">
         <div class="slider-wrap w-100 w-max-550px p-3 p-sm-5 m-auto text-center text-white" >
             <div class="bg-text">
-                <h3>Sistem Direktori Alumni PMU</h3>
-                <h6>Tagline Alumni</h6>
+                <h3>sampai @ utem</h3>
+                <h6>Tagline</h6>
             </div>
         </div><!-- .slider-wrap -->
     </div><!-- .nk-split-content -->

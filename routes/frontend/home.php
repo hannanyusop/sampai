@@ -8,8 +8,9 @@ use Tabuna\Breadcrumbs\Trail;
  * Frontend Controllers
  * All route names are prefixed with 'frontend.'.
  */
-Route::get('/', [HomeController::class, 'index'])
-    ->name('index')
+Route::get('/', function (){
+    return redirect()->route('frontend.auth.login');
+})->name('index')
     ->breadcrumbs(function (Trail $trail) {
         $trail->push(__('Home'), route('frontend.index'));
     });
