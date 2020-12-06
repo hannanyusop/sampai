@@ -41,7 +41,7 @@
                         <td class="tb-tnx-id"><span>{{ $key+1 }}</span></td>
                         <td class="tb-tnx-info">
                             <div class="tb-tnx-desc">
-                                <a href="{{ route('frontend.user.subscribe.view', encrypt($subscribe->id)) }}"><span class="title font-weight-bold">ER23468473MY</span></a>
+                                <a href="{{ route('frontend.user.subscribe.view', $subscribe->tracking_no) }}"><span class="title font-weight-bold">{{ $subscribe->tracking_no }}</span></a>
                             </div>
                             <div class="tb-tnx-date">
                                 <span>{{ $subscribe->remark }}</span>

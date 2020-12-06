@@ -102,7 +102,7 @@
                                         <h6 class="title">{{ $subscribe->tracking_no }}
                                             {!! getParcelStatus($subscribe->tracking_no) !!}
                                         </h6>
-                                        <p>Trip ID: <span class="text-base">LES-201111-1</span></p>
+                                        <p>Trip ID: <span class="text-base">{{ ($subscribe->parcel)? $subscribe->parcel->trip->code : "Not found" }}</span></p>
                                     </div>
                                 </div>
                                 <div class="col-xl-3 col-sm-4">
@@ -118,11 +118,15 @@
                         <div class="sp-plan-desc card-inner">
                             <ul class="row gx-1">
                                 <li class="col-6 col-lg-3">
-                                    <p><span class="text-soft">Notes</span> Baju Shoppe</p>
+                                    <p><span class="text-soft">Notes</span>{{ $subscribe->remark }}</p>
                                 </li>
-                                <li class="col-6 col-lg-3">
-                                    <p><span class="text-soft">Last Transaction	</span>Received By Utem Mel	</p>
-                                </li>
+                                @if($subscribe->parcel)
+                                    <li class="col-6 col-lg-6">
+                                        <p><span class="text-soft">Last Transaction	</span>
+                                            <small>{{ $subscribe->parcel->lastTransaction->remark }}</small>
+                                        </p>
+                                    </li>
+                                @endif
                             </ul>
                         </div><!-- .sp-plan-desc -->
                     </div><!-- .col -->
@@ -130,7 +134,7 @@
                         <div class="sp-plan-action card-inner">
                             @if($subscribe->parcel)
                                 <div class="sp-plan-btn">
-                                    <a href="{{ route('frontend.user.parcel.view', encrypt($subscribe->id)) }}" class="btn btn-primary"><span>View</span></a>
+                                    <a href="{{ route('frontend.user.subscribe.view', $subscribe->tracking_no) }}" class="btn btn-primary"><span>View</span></a>
                                 </div>
                             @else
                                 <div class="sp-plan-note text-md-center">

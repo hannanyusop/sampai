@@ -18,13 +18,13 @@
                 </a>
                 <ul class="nk-menu-sub">
                     <li class="nk-menu-item">
-                        <a href="user/admin-trip-index.php" class="nk-menu-link">
+                        <a href="{{ route('admin.trip.index') }}" class="nk-menu-link">
                             <span class="nk-menu-text">List</span>
                         </a>
-                        <a href="user/admin-trip-add.php" class="nk-menu-link">
+                        <a href="{{ route('admin.trip.create') }}" class="nk-menu-link">
                             <span class="nk-menu-text">Add Trip</span>
                         </a>
-                        <a href="user/admin-trip-receive.php" class="nk-menu-link">
+                        <a href="{{ route('admin.trip.receive') }}" class="nk-menu-link">
                             <span class="nk-menu-text">Receive Trip (DP)</span>
                         </a>
                     </li>

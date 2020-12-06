@@ -7,6 +7,10 @@ class Trip extends Model{
 
     protected $fillable = [];
 
+    public function destination(){
+        return $this->hasOne(Office::class, 'id', 'destination_id');
+    }
+
     public function parcels(){
         return $this->hasMany(Parcels::class, 'trip_id', 'id');
     }

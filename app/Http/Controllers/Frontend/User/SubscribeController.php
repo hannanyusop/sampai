@@ -19,9 +19,12 @@ class SubscribeController extends Controller
         return view('frontend.user.subscribe.index', compact('subscribes'));
     }
 
-    public function view($id){
+    public function view($tracking_no){
 
-        $sub = Subscribe::where('user_id', auth()->user()->id)->findOrFail(decrypt($id));
+        $sub = Subscribe::where([
+            'user_id' =>  auth()->user()->id,
+            'tracking_no'=> $tracking_no
+        ])->firstOrFail();
 
         return view('frontend.user.subscribe.view', compact('sub'));
     }
@@ -33,15 +36,26 @@ class SubscribeController extends Controller
 
     public function insert(AddRequest $request){
 
-        $sub = new Subscribe();
-        $sub->user_id = auth()->user()->id;
-        $sub->tracking_no = strtoupper($request->tracking_no);
-        $sub->remark = $request->remark;
-        $sub->is_notify = ($request->is_notify == "on")? 1 : 0;
+        $check = Subscribe::where(['user_id' => auth()->user()->id,
+            'tracking_no' => $request->tracking_no])
+            ->first();
 
-        $sub->save();
+        if(!$check){
 
-        return redirect()->back()->withFlashSuccess("Parcel: $sub->tracking_no subscribe successfully!");
+            $sub = new Subscribe();
+            $sub->user_id = auth()->user()->id;
+            $sub->tracking_no = strtoupper($request->tracking_no);
+            $sub->remark = $request->remark;
+            $sub->is_notify = ($request->is_notify == "on")? 1 : 0;
+
+            $sub->save();
+
+            return redirect()->back()->withFlashSuccess("Parcel: $sub->tracking_no subscribe successfully!");
+
+        }else{
+            return redirect()->back()->withFlashWarning("You already subscribe this: $request->tracking_no parcel!");
+        }
+
 
     }
 

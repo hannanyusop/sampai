@@ -15,4 +15,8 @@ class Parcels extends Model{
 
         return $this->hasMany(ParcelTransaction::class, 'parcel_id', 'id');
     }
+
+    public function lastTransaction(){
+        return $this->hasOne(ParcelTransaction::class, 'parcel_id', 'id')->orderBy('id', 'DESC');
+    }
 }
