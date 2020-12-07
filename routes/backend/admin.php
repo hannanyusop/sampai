@@ -18,6 +18,7 @@ Route::get('dashboard', [DashboardController::class, 'index'])
 Route::group(['prefix' => 'trip/', 'as' => 'trip.'], function (){
 
     Route::get('', [TripController::class, 'index'])->name('index');
+    Route::get('search/', [TripController::class, 'search'])->name('search');
 
 
     Route::get('create/', [TripController::class, 'create'])->name('create');
@@ -30,6 +31,9 @@ Route::group(['prefix' => 'trip/', 'as' => 'trip.'], function (){
     Route::get('addParcel/{id}', [TripController::class, 'addParcel'])->name('addParcel');
     Route::post('insertParcel/{id}', [TripController::class, 'insertParcel'])->name('insertParcel');
     Route::get('deleteParcel/{parcel_id}', [TripController::class, 'deleteParcel'])->name('deleteParcel');
+
+    Route::get('close/{id}', [TripController::class, 'close'])->name('close');
+    Route::get('picked/{id}', [TripController::class, 'picked'])->name('picked');
 
     Route::get('receive/', [TripController::class, 'receive'])->name('receive');
     Route::post('receive/', [TripController::class, 'receiveSave'])->name('receiveSave');

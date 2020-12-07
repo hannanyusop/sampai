@@ -20,7 +20,7 @@
                                         <div class="form-group">
                                             <label class="form-label" for="trip_no">Trip No</label>
                                             <div class="form-control-wrap">
-                                                <input id="trip_no" name="trip_no" type="text" class="form-control" placeholder="Ex: LES-11111-1">
+                                                <input id="code" name="code" type="text" class="form-control" placeholder="Ex: LES-11111-1">
                                             </div>
                                         </div>
                                     </div>
@@ -28,30 +28,14 @@
                                         <div class="form-group">
                                             <label class="form-label">Status</label>
                                             <ul class="custom-control-group g-3 align-center">
-                                                <li>
-                                                    <div class="custom-control custom-control-sm custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" id="pay-card-1">
-                                                        <label class="custom-control-label" for="pay-card-1">All</label>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="custom-control custom-control-sm custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" id="pay-card-1">
-                                                        <label class="custom-control-label" for="pay-card-1">Opened</label>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="custom-control custom-control-sm custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" id="pay-bitcoin-1">
-                                                        <label class="custom-control-label" for="pay-bitcoin-1">In Transit</label>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="custom-control custom-control-sm custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" id="pay-cash-1">
-                                                        <label class="custom-control-label" for="pay-cash-1">Completed</label>
-                                                    </div>
-                                                </li>
+                                                @foreach(getTripStatus() as $key => $status)
+                                                    <li>
+                                                        <div class="custom-control custom-control-sm custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" name="status" value="{{ $key }}" id="status_{{ $key }}">
+                                                            <label class="custom-control-label" for="status_{{ $key }}">{{ $status }}</label>
+                                                        </div>
+                                                    </li>
+                                                @endforeach
                                             </ul>
                                         </div>
                                     </div>
@@ -59,44 +43,18 @@
                                         <div class="form-group">
                                             <label class="form-label">Drop Point</label>
                                             <ul class="custom-control-group g-3 align-center">
+                                                @foreach($dps as $dp)
                                                 <li>
                                                     <div class="custom-control custom-control-sm custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" id="com-email-1" checked>
-                                                        <label class="custom-control-label" for="com-email-1">All</label>
+                                                        <input type="checkbox" class="custom-control-input" name="office_id" id="dp_{{ $dp->id }}" checked>
+                                                        <label class="custom-control-label" for="dp_{{ $dp->id }}">{{ $dp->code }}</label>
                                                     </div>
                                                 </li>
-                                                <li>
-                                                    <div class="custom-control custom-control-sm custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" id="com-email-1">
-                                                        <label class="custom-control-label" for="com-email-1">FTMK</label>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="custom-control custom-control-sm custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" id="com-sms-1">
-                                                        <label class="custom-control-label" for="com-sms-1">FKM</label>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="custom-control custom-control-sm custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" id="com-phone-1">
-                                                        <label class="custom-control-label" for="com-phone-1">LES</label>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="custom-control custom-control-sm custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" id="com-phone-1">
-                                                        <label class="custom-control-label" for="com-phone-1">SATR</label>
-                                                    </div>
-                                                </li>
+                                                @endforeach
+
                                             </ul>
                                         </div>
                                     </div>
-                                    <!--                                                            <div class="col-12">-->
-                                    <!--                                                                <div class="form-group">-->
-                                    <!--                                                                    <button type="submit" class="btn btn-lg btn-primary">Search (Ajax)</button>-->
-                                    <!--                                                                </div>-->
-                                    <!--                                                            </div>-->
                                 </div>
                             </form>
                         </div>
@@ -104,57 +62,28 @@
 
                     <div class="card card-bordered">
                         <div class="card-inner p-0 border-top">
-                            <div class="nk-tb-list nk-tb-orders">
-                                <div class="nk-tb-item nk-tb-head">
-                                    <div class="nk-tb-col"><span>Trip No.</span></div>
-                                    <div class="nk-tb-col tb-col-sm"><span>Destination</span></div>
-                                    <div class="nk-tb-col tb-col-md"><span>Date</span></div>
-                                    <div class="nk-tb-col"><span>Amount</span></div>
-                                    <div class="nk-tb-col"><span class="d-none d-sm-inline">Status</span></div>
-                                    <div class="nk-tb-col"><span class="d-none d-sm-inline">Current Location</span></div>
-                                    <div class="nk-tb-col"><span>&nbsp;</span></div>
-                                </div>
-                                @foreach($trips as $trip)
-                                    <div class="nk-tb-item">
-                                        <div class="nk-tb-col">
-                                            <span class="tb-lead"><a href="#">{{ $trip->code }}</a></span>
-                                        </div>
-                                        <div class="nk-tb-col tb-col-sm">
-                                            <div class="user-card">
-                                                <div class="user-name">
-                                                    <span class="tb-lead">{{ $trip->destination->code }}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="nk-tb-col tb-col-md">
-                                            <span class="tb-sub">{{ $trip->date }}</span>
-                                        </div>
-                                        <div class="nk-tb-col">
-                                            <span class="tb-sub tb-amount">{{ $trip->parcels->count() }} Parcel(s)</span>
-                                        </div>
-                                        <div class="nk-tb-col">
-                                            @if($trip->status == 0)
-                                                <span class="badge badge-dot badge-dot-xs badge-secondary">Open</span>
-                                            @else
-                                                <span class="badge badge-dot badge-dot-xs badge-success">In Transit</span>
-                                            @endif
-                                        </div>
-                                        <div class="nk-tb-col">Runner</div>
-                                        <div class="nk-tb-col nk-tb-col-action">
-                                            <div class="dropdown">
-                                                <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-md">
-                                                    <ul class="link-list-plain">
-                                                        <li><a href="{{ route('admin.trip.view', $trip->id) }}">View</a></li>
-                                                        <li><a href="{{ route('admin.trip.addParcel', $trip->id) }}">Add Parcel</a></li>
-                                                        <li><a href="{{ route('admin.trip.transferCode', $trip->id) }}">Transfer Trip (runner)</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
+
+                            <table class="table table-orders">
+                                <thead class="tb-odr-head">
+                                <tr class="tb-odr-item">
+                                    <th class="tb-odr-info">
+                                        <span class="tb-odr-id">Trip No.</span>
+                                        <span class="tb-odr-date d-none d-md-inline-block">Date</span>
+                                    </th>
+                                    <th class="tb-odr-amount">
+                                        <span class="tb-odr-total">Destination</span>
+                                        <span class="tb-odr-status d-none d-md-inline-block">Status</span>
+                                    </th>
+                                    <th class="tb-odr-amount">
+                                        <span class="tb-odr-total">Current Location</span>
+                                        <span class="tb-odr-status d-none d-md-inline-block">Total Parcel</span>
+                                    </th>
+                                    <th class="tb-odr-action">&nbsp;</th>
+                                </tr>
+                                </thead>
+                                <tbody class="tb-odr-body" id="data">
+                                </tbody>
+                            </table>
                         </div>
                     </div><!-- .card -->
                 </div>
@@ -164,5 +93,34 @@
     </div>
 @endsection
 @push('after-scripts')
+    <script type="text/javascript">
+        $(document).ready(function () {
 
+            $('#code').on('keyup',function() {
+                var query = $(this).val();
+                $.ajax({
+
+                    url:"{{ route('admin.trip.search') }}",
+
+                    type:"GET",
+
+                    data:{'code':query},
+
+                    success:function (data) {
+
+                        $('#data').html(data);
+                    }
+                })
+                // end of ajax call
+            });
+
+
+            $(document).on('click', 'li', function(){
+
+                var value = $(this).text();
+                $('#country').val(value);
+                $('#data').html("");
+            });
+        });
+    </script>
 @endpush

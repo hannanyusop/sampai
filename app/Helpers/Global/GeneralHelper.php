@@ -88,6 +88,28 @@ if(!function_exists('generateTripCode')){
     }
 }
 
+if(!function_exists('generateTripReceiveCode')){
+
+    function generateTripReceiveCode(){
+
+        do{
+            $characters = '123456789ABCDEFGHIJKLMNPQRSTUVWXYZ';
+
+            $charactersLength = strlen($characters);
+            $randomString = '';
+            for ($i = 0; $i < 6; $i++) {
+                $randomString .= $characters[rand(0, $charactersLength - 1)];
+            }
+
+            $trip = Trip::where('receive_code', $randomString)->first();
+
+        }while($trip);
+
+        return $randomString;
+    }
+
+}
+
 if(!function_exists('reformatDatetime')){
 
     function reformatDatetime($str, $format = 'd-m-Y , h:i:s A'){
@@ -116,4 +138,39 @@ if(!function_exists('addParcelTransaction')){
         return true;
     }
 
+}
+
+if(!function_exists('getTripStatusBadge')){
+
+    function getTripStatusBadge($status = null){
+
+        $statuses = [
+            0 => '<span class="badge badge-dot badge-dot-xs badge-secondary">Open</span>',
+            1 => '<span class="badge badge-dot badge-dot-xs badge-success" > Close </span>',
+            2 => '<span class="badge badge-dot badge-dot-xs badge-success" > In Transit </span>',
+            3 => '<span class="badge badge-dot badge-dot-xs badge-success" > Arrive </span>',
+            4 => '<span class="badge badge-dot badge-dot-xs badge-success" > Delivered </span>'
+        ];
+
+        return (is_null($status))? $statuses : $statuses[$status];
+
+    }
+}
+
+if(!function_exists('getTripStatus')){
+
+    function getTripStatus($status = null){
+
+        #open -> close (ready to pick by runner) -> in transit -> arrive -> delivered
+        $statuses = [
+            0 => 'Open',
+            1 => 'Close',
+            2 => 'In Transit',
+            3 => 'Arrived',
+            4 => 'Delivered'
+        ];
+
+        return (is_null($status))? $statuses : $statuses[$status];
+
+    }
 }

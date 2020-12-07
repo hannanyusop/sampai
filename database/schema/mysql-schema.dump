@@ -114,8 +114,14 @@ CREATE TABLE `parcel_transactions` (
 CREATE TABLE `parcels` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `trip_id` int(10) unsigned NOT NULL,
+  `status` int(10) NOT NULL DEFAULT '0',
   `tracking_no` varchar(100) NOT NULL,
   `receiver_name` varchar(255) DEFAULT NULL,
+  `receiver_info` varchar(255) DEFAULT NULL,
+  `pickup_name` varchar(255) DEFAULT NULL,
+  `pickup_id` varchar(255) DEFAULT NULL,
+  `serve_by` bigint(20) DEFAULT NULL,
+  `pickup_datetime` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -214,12 +220,16 @@ CREATE TABLE `trips` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL,
   `code` varchar(50) NOT NULL,
+  `date` date NOT NULL,
   `destination_id` int(11) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT '0',
+  `receive_code` varchar(50) NOT NULL,
   `remark` varchar(255) DEFAULT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `code` (`code`)
+  UNIQUE KEY `code` (`code`),
+  UNIQUE KEY `receive_code` (`receive_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

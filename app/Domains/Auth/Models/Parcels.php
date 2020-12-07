@@ -13,7 +13,7 @@ class Parcels extends Model{
 
     public function transactions(){
 
-        return $this->hasMany(ParcelTransaction::class, 'parcel_id', 'id');
+        return $this->hasMany(ParcelTransaction::class, 'parcel_id', 'id')->orderBy('id', 'DESC');
     }
 
     public function lastTransaction(){
