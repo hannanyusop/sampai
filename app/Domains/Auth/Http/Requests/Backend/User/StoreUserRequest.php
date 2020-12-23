@@ -37,7 +37,7 @@ class StoreUserRequest extends FormRequest
             'active' => ['sometimes', 'in:1'],
             'email_verified' => ['sometimes', 'in:1'],
             'send_confirmation_email' => ['sometimes', 'in:1'],
-            'roles' => ['sometimes', 'array'],
+            'roles' => ['sometimes'],
             'roles.*' => [Rule::exists('roles', 'id')->where('type', $this->type)],
             'permissions' => ['sometimes', 'array'],
             'permissions.*' => [Rule::exists('permissions', 'id')->where('type', $this->type)],

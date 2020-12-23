@@ -21,12 +21,17 @@
                         <a href="{{ route('admin.trip.index') }}" class="nk-menu-link">
                             <span class="nk-menu-text">List</span>
                         </a>
-                        <a href="{{ route('admin.trip.create') }}" class="nk-menu-link">
-                            <span class="nk-menu-text">Add Trip</span>
-                        </a>
-                        <a href="{{ route('admin.trip.receive') }}" class="nk-menu-link">
-                            <span class="nk-menu-text">Receive Trip (DP)</span>
-                        </a>
+                        @if($logged_in_user->can('staff.inhouse'))
+                            <a href="{{ route('admin.trip.create') }}" class="nk-menu-link">
+                                <span class="nk-menu-text">Add Trip</span>
+                            </a>
+                            <a href="{{ route('admin.trip.receive') }}" class="nk-menu-link">
+                                <span class="nk-menu-text">Receive Trip</span>
+                            </a>
+                        @endif
+                        @if($logged_in_user->can('staff.runner'))
+
+                        @endif
                     </li>
                 </ul>
             </li>
@@ -62,8 +67,12 @@
                             @if ($logged_in_user->hasAllAccess())
                             @endif
 
-                            <a href="{{ route('admin.auth.role.index') }}" class="nk-menu-link">
-                                <span class="nk-menu-text">{{ __('Role Management') }}</span>
+
+{{--                            <a href="{{ route('admin.auth.role.index') }}" class="nk-menu-link">--}}
+{{--                                <span class="nk-menu-text">{{ __('Role Management') }}</span>--}}
+{{--                            </a>--}}
+                            <a href="{{ route('admin.office.index') }}" class="nk-menu-link">
+                                <span class="nk-menu-text">{{ __('Office Management') }}</span>
                             </a>
                         </li>
                     </ul>

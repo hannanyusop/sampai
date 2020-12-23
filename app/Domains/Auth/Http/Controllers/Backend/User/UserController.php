@@ -2,43 +2,27 @@
 
 namespace App\Domains\Auth\Http\Controllers\Backend\User;
 
+use App\Domains\Auth\Http\Requests\Backend\User\AssignUserRequest;
 use App\Domains\Auth\Http\Requests\Backend\User\DeleteUserRequest;
 use App\Domains\Auth\Http\Requests\Backend\User\EditUserRequest;
 use App\Domains\Auth\Http\Requests\Backend\User\StoreUserRequest;
 use App\Domains\Auth\Http\Requests\Backend\User\UpdateUserRequest;
+use App\Domains\Auth\Models\Office;
+use App\Domains\Auth\Models\Permission;
 use App\Domains\Auth\Models\User;
 use App\Domains\Auth\Services\PermissionService;
 use App\Domains\Auth\Services\RoleService;
 use App\Domains\Auth\Services\UserService;
 use App\Http\Controllers\Controller;
 
-/**
- * Class UserController.
- */
 class UserController extends Controller
 {
-    /**
-     * @var UserService
-     */
     protected $userService;
-
-    /**
-     * @var RoleService
-     */
     protected $roleService;
 
-    /**
-     * @var PermissionService
-     */
     protected $permissionService;
 
-    /**
-     * UserController constructor.
-     *
-     * @param  UserService  $userService
-     * @param  RoleService  $roleService
-     * @param  PermissionService  $permissionService
-     */
+
     public function __construct(UserService $userService, RoleService $roleService, PermissionService $permissionService)
     {
         $this->userService = $userService;
@@ -46,12 +30,11 @@ class UserController extends Controller
         $this->permissionService = $permissionService;
     }
 
-    /**
-     * @return \Illuminate\View\View
-     */
+
     public function index()
     {
-        return view('backend.auth.user.index');
+        $users = User::get();
+        return view('backend.auth.user.index', compact('users'));
     }
 
     /**
@@ -59,10 +42,14 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('backend.auth.user.create')
-            ->withRoles($this->roleService->get())
-            ->withCategories($this->permissionService->getCategorizedPermissions())
-            ->withGeneral($this->permissionService->getUncategorizedPermissions());
+        $arr = [
+            'Administrator' => Permission::where('name', 'admin.access.user')->with('children')->first(),
+            'Staff' => Permission::where('name', 'staff')->with('children')->first(),
+        ];
+
+        $roles = $this->roleService->get();
+
+        return view('backend.auth.user.create', compact('roles', 'arr'));
     }
 
     /**
@@ -90,6 +77,36 @@ class UserController extends Controller
             ->withUser($user);
     }
 
+    public function assign(User $user){
+
+        if($user->can('staff.inhouse')){
+
+            $offices = Office::get();
+            return view('backend.auth.user.assign', compact('user', 'offices'));
+
+        }else{
+            return redirect()->back()->withFlashWarning('Invalid user permission.');
+
+        }
+    }
+
+    public function assignSave(AssignUserRequest $request, $id){
+
+        $user = User::findOrFail($id);
+
+
+        if($user->can('staff.inhouse')){
+            $user->office_id = $request->office;
+            $user->save();
+            return redirect()->back()->withFlashSuccess(__('The user was successfully updated.'));
+        }else{
+            return redirect()->back()->withFlashWarning('Invalid user permission.');
+
+        }
+
+
+    }
+
     /**
      * @param  EditUserRequest  $request
      * @param  User  $user
@@ -98,21 +115,19 @@ class UserController extends Controller
      */
     public function edit(EditUserRequest $request, User $user)
     {
-        return view('backend.auth.user.edit')
-            ->withUser($user)
-            ->withRoles($this->roleService->get())
-            ->withCategories($this->permissionService->getCategorizedPermissions())
-            ->withGeneral($this->permissionService->getUncategorizedPermissions())
-            ->withUsedPermissions($user->permissions->modelKeys());
+
+
+        $arr = [
+            'Administrator' => Permission::where('name', 'admin.access.user')->with('children')->first(),
+            'Staff' => Permission::where('name', 'staff')->with('children')->first(),
+        ];
+
+
+        $roles = $this->roleService->get();
+
+        return view('backend.auth.user.edit', compact('roles', 'user', 'arr'));
     }
 
-    /**
-     * @param  UpdateUserRequest  $request
-     * @param  User  $user
-     *
-     * @return mixed
-     * @throws \Throwable
-     */
     public function update(UpdateUserRequest $request, User $user)
     {
         $this->userService->update($user, $request->validated());

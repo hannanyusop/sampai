@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Domains\Auth\Http\Requests\Backend\User\InsertOfficeRequest;
+use App\Domains\Auth\Http\Requests\Backend\Office\InsertOfficeRequest;
 use App\Domains\Auth\Models\Office;
 use App\Domains\Auth\Models\User;
 use App\Http\Controllers\Controller;
@@ -26,9 +26,9 @@ class OfficeController extends Controller
 
         $office = new Office();
 
-        $office->code = $request->code;
-        $office->name = $request->name;
-        $office->is_drop_point = $request->is_drop_point;
+        $office->code = strtoupper($request->code);
+        $office->name = strtoupper($request->name);
+        $office->is_drop_point = ($request->is_drop_point)? 1 : 0;
         $office->address = $request->address;
         $office->location = $request->location;
         $office->operation_day = $request->operation_day;
@@ -50,9 +50,9 @@ class OfficeController extends Controller
 
         $office = Office::findOrFail($id);
 
-        $office->code = $request->code;
-        $office->name = $request->name;
-        $office->is_drop_point = $request->is_drop_point;
+        $office->code = strtoupper($request->code);
+        $office->name = strtoupper($request->name);
+        $office->is_drop_point = ($request->is_drop_point)? 1 : 0;
         $office->address = $request->address;
         $office->location = $request->location;
         $office->operation_day = $request->operation_day;

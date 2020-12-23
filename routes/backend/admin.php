@@ -4,6 +4,7 @@ use App\Http\Controllers\Backend\DashboardController;
 use Tabuna\Breadcrumbs\Trail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\TripController;
+use App\Http\Controllers\Backend\OfficeController;
 
 // All route names are prefixed with 'admin.'.
 Route::redirect('/', '/admin/dashboard', 301);
@@ -37,4 +38,18 @@ Route::group(['prefix' => 'trip/', 'as' => 'trip.'], function (){
 
     Route::get('receive/', [TripController::class, 'receive'])->name('receive');
     Route::post('receive/', [TripController::class, 'receiveSave'])->name('receiveSave');
+});
+
+Route::group(['prefix' => 'office/', 'as' => 'office.'], function (){
+
+    Route::get('', [OfficeController::class, 'index'])->name('index');
+    Route::get('create', [OfficeController::class, 'create'])->name('create');
+    Route::post('create', [OfficeController::class, 'insert'])->name('insert');
+    Route::get('edit/{id}', [OfficeController::class, 'edit'])->name('edit');
+    Route::post('edit/{id}', [OfficeController::class, 'update'])->name('update');
+    Route::get('delete/{id}', [OfficeController::class, 'delete'])->name('delete');
+
+    Route::post('updateManager/{id}', [OfficeController::class, 'updateManager'])->name('updateManager');
+    Route::get('updateManager/{id}', [OfficeController::class, 'updateManagerSave'])->name('updateManagerSave');
+
 });

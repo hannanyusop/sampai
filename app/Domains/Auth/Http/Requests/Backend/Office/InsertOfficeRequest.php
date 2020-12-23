@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\Auth\Http\Requests\Backend\User;
+namespace App\Domains\Auth\Http\Requests\Backend\Office;
 
 use App\Domains\Auth\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
@@ -23,7 +23,7 @@ class InsertOfficeRequest extends FormRequest
     {
         return [
             'code' => 'required|unique:offices,code|min:3|max:5',
-            'name' => 'required|max:20',
+            'name' => 'required|max:50',
             'is_drop_point' => '',
             'address' => '',
             'location' => '',

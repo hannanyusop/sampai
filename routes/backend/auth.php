@@ -9,6 +9,7 @@ use App\Domains\Auth\Http\Controllers\Backend\User\UserSessionController;
 use App\Domains\Auth\Models\Role;
 use App\Domains\Auth\Models\User;
 use Tabuna\Breadcrumbs\Trail;
+use Illuminate\Support\Facades\Route;
 
 // All route names are prefixed with 'admin.auth'.
 Route::group([
@@ -93,6 +94,14 @@ Route::group([
                 Route::post('clear-session', [UserSessionController::class, 'update'])
                     ->name('clear-session')
                     ->middleware('permission:admin.access.user.clear-session');
+
+                Route::get('assign', [UserController::class, 'assign'])
+                    ->name('assign')
+                    ->middleware('permission:admin.access.user.list');
+
+                Route::post('assign', [UserController::class, 'assignSave'])
+                    ->name('assignSave')
+                    ->middleware('permission:admin.access.user.list');
 
                 Route::get('password/change', [UserPasswordController::class, 'edit'])
                     ->name('change-password')

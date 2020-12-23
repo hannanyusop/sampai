@@ -29,13 +29,14 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
             'type' => [Rule::requiredIf(function () {
                 return ! $this->user->isMasterAdmin();
             }), Rule::in([User::TYPE_ADMIN, User::TYPE_USER])],
             'name' => ['required', 'max:100'],
             'email' => ['required', 'max:255', 'email', Rule::unique('users')->ignore($this->user->id)],
-            'roles' => ['sometimes', 'array'],
+            'roles' => ['sometimes'],
             'roles.*' => [Rule::exists('roles', 'id')->where('type', $this->type)],
             'permissions' => ['sometimes', 'array'],
             'permissions.*' => [Rule::exists('permissions', 'id')->where('type', $this->type)],
