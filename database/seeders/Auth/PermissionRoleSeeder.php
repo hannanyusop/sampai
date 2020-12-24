@@ -29,6 +29,12 @@ class PermissionRoleSeeder extends Seeder
             'name' => 'Administrator',
         ]);
 
+        Role::create([
+            'id' => 2,
+            'type' => User::TYPE_ADMIN,
+            'name' => 'Staff',
+        ]);
+
         // Non Grouped Permissions
         //
 
@@ -75,6 +81,39 @@ class PermissionRoleSeeder extends Seeder
                 'name' => 'admin.access.user.change-password',
                 'description' => 'Change User Passwords',
                 'sort' => 6,
+            ]),
+        ]);
+
+        $officer = Permission::create([
+            'type' => User::TYPE_ADMIN,
+            'name' => 'staff',
+            'description' => 'Officer',
+        ]);
+
+        $officer->children()->saveMany([
+            new Permission([
+                'type' => User::TYPE_ADMIN,
+                'name' => 'staff.runner',
+                'description' => 'Runner',
+                'sort' => 1,
+            ]),
+            new Permission([
+                'type' => User::TYPE_ADMIN,
+                'name' => 'staff.manager',
+                'description' => 'Office Manager',
+                'sort' => 2,
+            ]),
+            new Permission([
+                'type' => User::TYPE_ADMIN,
+                'name' => 'staff.inhouse',
+                'description' => 'Officer',
+                'sort' => 3,
+            ]),
+            new Permission([
+                'type' => User::TYPE_ADMIN,
+                'name' => 'staff.distributor',
+                'description' => 'UTeM-Mel Staff',
+                'sort' => 4,
             ]),
         ]);
 

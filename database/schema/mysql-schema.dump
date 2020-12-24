@@ -119,7 +119,8 @@ CREATE TABLE `parcels` (
   `receiver_name` varchar(255) DEFAULT NULL,
   `receiver_info` varchar(255) DEFAULT NULL,
   `pickup_name` varchar(255) DEFAULT NULL,
-  `pickup_id` varchar(255) DEFAULT NULL,
+  `pickup_info` varchar(255) DEFAULT NULL,
+  `pickup_id` bigint(20) DEFAULT NULL,
   `serve_by` bigint(20) DEFAULT NULL,
   `pickup_datetime` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
@@ -219,6 +220,7 @@ CREATE TABLE `trip_transactions` (
 CREATE TABLE `trips` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL,
+  `runner_id` bigint(20) NOT NULL DEFAULT '0',
   `code` varchar(50) NOT NULL,
   `date` date NOT NULL,
   `destination_id` int(11) NOT NULL,

@@ -40,18 +40,18 @@ class ParcelController extends Controller{
 
             $receiver = null;
 
+            $parcel = Parcels::where('tracking_no', $request->tracking_no)->first();
+
             if(auth()->user()->can('staff.distributor')){
 
-                $parcel = Parcels::leftJoin('trips', 'trips.id', 'parcels.trip_id')
-                    ->where('tracking_no', $tracking_no)
-                    ->first();
 
             }else{
 
-                $parcel = Parcels::leftJoin('trips', 'trips.id', 'parcels.trip_id')
-                    ->where('trips.destination_id', auth()->user()->office_id)
-                    ->where('tracking_no', $tracking_no)
-                    ->first();
+                if($parcel->trip->destination_id != auth()->user()->office_id){
+
+                    return redirect()->back()->withFlashWarning('Parcel not found!');
+                }
+
             }
 
             if(!$parcel){

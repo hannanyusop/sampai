@@ -80,11 +80,6 @@ class User extends Authenticatable implements MustVerifyEmail, TwoFactorAuthenti
         'password_changed_at',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'active' => 'boolean',
         'last_login_at' => 'datetime',
@@ -107,52 +102,27 @@ class User extends Authenticatable implements MustVerifyEmail, TwoFactorAuthenti
         'roles',
     ];
 
-    /**
-     * Send the password reset notification.
-     *
-     * @param  string  $token
-     * @return void
-     */
+
     public function sendPasswordResetNotification($token): void
     {
         $this->notify(new ResetPasswordNotification($token));
     }
 
-    /**
-     * Send the registration verification email.
-     */
     public function sendEmailVerificationNotification(): void
     {
         $this->notify(new VerifyEmail);
     }
 
-    /**
-     * Return true or false if the user can impersonate an other user.
-     *
-     * @param void
-     * @return  bool
-     */
     public function canImpersonate(): bool
     {
         return $this->can('admin.access.user.impersonate');
     }
 
-    /**
-     * Return true or false if the user can be impersonate.
-     *
-     * @param void
-     * @return  bool
-     */
     public function canBeImpersonated(): bool
     {
         return ! $this->isMasterAdmin();
     }
 
-    /**
-     * Create a new factory instance for the model.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
     protected static function newFactory()
     {
         return UserFactory::new();

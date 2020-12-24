@@ -146,9 +146,9 @@ if(!function_exists('getTripStatusBadge')){
 
         $statuses = [
             0 => '<span class="badge badge-dot badge-dot-xs badge-secondary">Open</span>',
-            1 => '<span class="badge badge-dot badge-dot-xs badge-success" > Close </span>',
+            1 => '<span class="badge badge-dot badge-dot-xs badge-success" > Closed </span>',
             2 => '<span class="badge badge-dot badge-dot-xs badge-success" > In Transit </span>',
-            3 => '<span class="badge badge-dot badge-dot-xs badge-success" > Arrive </span>',
+            3 => '<span class="badge badge-dot badge-dot-xs badge-success" > Arrived </span>',
             4 => '<span class="badge badge-dot badge-dot-xs badge-success" > Delivered </span>'
         ];
 
@@ -164,7 +164,7 @@ if(!function_exists('getTripStatus')){
         #open -> close (ready to pick by runner) -> in transit -> arrive -> delivered
         $statuses = [
             0 => 'Open',
-            1 => 'Close',
+            1 => 'Closed',
             2 => 'In Transit',
             3 => 'Arrived',
             4 => 'Delivered'
