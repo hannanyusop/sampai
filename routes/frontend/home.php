@@ -9,8 +9,17 @@ use Tabuna\Breadcrumbs\Trail;
  * All route names are prefixed with 'frontend.'.
  */
 Route::get('/', function (){
-    return redirect()->route('frontend.auth.login');
+
+    return view('frontend.index');
 })->name('index')
+    ->breadcrumbs(function (Trail $trail) {
+        $trail->push(__('Home'), route('frontend.index'));
+    });
+
+Route::get('/track', function (){
+
+    return view('frontend.track');
+})->name('track')
     ->breadcrumbs(function (Trail $trail) {
         $trail->push(__('Home'), route('frontend.index'));
     });
