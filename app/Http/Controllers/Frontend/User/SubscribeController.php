@@ -29,6 +29,21 @@ class SubscribeController extends Controller
         return view('frontend.user.subscribe.view', compact('sub'));
     }
 
+    public function qr($tracking_no){
+
+        $sub = Subscribe::where([
+            'user_id' =>  auth()->user()->id,
+            'tracking_no'=> $tracking_no
+        ])->firstOrFail();
+
+        if(!$sub->parcel){
+
+            return redirect()->back()->withFlashWarning("Invalid parcel/parcel not found!");
+        }
+
+        return view('frontend.user.subscribe.qr', compact('sub'));
+    }
+
     public function create(){
 
         return view('frontend.user.subscribe.create');

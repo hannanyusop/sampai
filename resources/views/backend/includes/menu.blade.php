@@ -21,12 +21,17 @@
                         <a href="{{ route('admin.trip.index') }}" class="nk-menu-link">
                             <span class="nk-menu-text">List</span>
                         </a>
-                        @if($logged_in_user->can('staff.inhouse'))
+                        @if($logged_in_user->can('staff.distributor'))
                             <a href="{{ route('admin.trip.create') }}" class="nk-menu-link">
                                 <span class="nk-menu-text">Add Trip</span>
                             </a>
+                        @endif
+                        @if($logged_in_user->can('staff.inhouse') && auth()->user()->office_id != 0)
                             <a href="{{ route('admin.trip.receive') }}" class="nk-menu-link">
                                 <span class="nk-menu-text">Receive Trip</span>
+                            </a>
+                            <a href="{{ route('admin.parcel.index') }}" class="nk-menu-link">
+                                <span class="nk-menu-text">Parcel List</span>
                             </a>
                         @endif
                         @if($logged_in_user->can('staff.runner'))

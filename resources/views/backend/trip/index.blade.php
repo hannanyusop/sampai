@@ -96,22 +96,23 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
-            $('#code').on('keyup',function() {
-                var query = $(this).val();
+            function getTrip(){
+
+                var query = $('#code').val();
                 $.ajax({
-
                     url:"{{ route('admin.trip.search') }}",
-
                     type:"GET",
-
                     data:{'code':query},
-
                     success:function (data) {
-
                         $('#data').html(data);
                     }
                 })
-                // end of ajax call
+            }
+
+            getTrip();
+
+            $('#code').on('keyup',function() {
+                getTrip();
             });
 
 

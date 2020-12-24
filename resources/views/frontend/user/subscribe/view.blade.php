@@ -9,6 +9,8 @@
             <div class="col-xl-12">
                 <div class="card card-bordered">
                     <div class="card-inner-group">
+
+                        <a href="{{ route('frontend.user.subscribe.qr', $sub->tracking_no) }}" class="btn btn-primary">Show My QR</a>
                         <div class="card-inner">
                             <div class="sp-plan-head">
                                 <h6 class="title">Parcel Details</h6>

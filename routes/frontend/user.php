@@ -31,6 +31,7 @@ Route::group(['as' => 'user.', 'middleware' => ['auth', 'password.expires', conf
     ],function (){
         Route::get('', [SubscribeController::class, 'index'])->name('index');
         Route::get('view/{id}', [SubscribeController::class, 'view'])->name('view');
+        Route::get('qr/{tracking_no}', [SubscribeController::class, 'qr'])->name('qr');
         Route::get('create', [SubscribeController::class, 'create'])->name('create');
         Route::post('create', [SubscribeController::class, 'insert'])->name('insert');
         Route::get('edit/{id}', [SubscribeController::class, 'edit'])->name('edit');

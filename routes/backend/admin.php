@@ -5,6 +5,7 @@ use Tabuna\Breadcrumbs\Trail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\TripController;
 use App\Http\Controllers\Backend\OfficeController;
+use App\Http\Controllers\Backend\ParcelController;
 
 // All route names are prefixed with 'admin.'.
 Route::redirect('/', '/admin/dashboard', 301);
@@ -38,6 +39,17 @@ Route::group(['prefix' => 'trip/', 'as' => 'trip.'], function (){
 
     Route::get('receive/', [TripController::class, 'receive'])->name('receive');
     Route::post('receive/', [TripController::class, 'receiveSave'])->name('receiveSave');
+});
+
+Route::group(['prefix' => 'parcel/', 'as' => 'parcel.'], function (){
+
+    Route::get('', [ParcelController::class, 'index'])->name('index');
+    Route::get('search/', [ParcelController::class, 'search'])->name('search');
+
+    Route::get('view', [ParcelController::class, 'view'])->name('view');
+    Route::get('scan/', [ParcelController::class, 'scan'])->name('scan');
+    Route::post('deliver/{tracking_no}', [ParcelController::class, 'deliver'])->name('deliver');
+
 });
 
 Route::group(['prefix' => 'office/', 'as' => 'office.'], function (){

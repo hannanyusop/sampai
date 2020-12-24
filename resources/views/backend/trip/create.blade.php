@@ -3,12 +3,17 @@
 @section('title', __('Add Trip'))
 
 @section('content')
+
+    <div class="nk-block-head nk-block-head-lg wide-sm">
+        <div class="nk-block-head-content">
+            <div class="nk-block-head-sub"><a class="back-to" href="{{ route('admin.trip.index') }}"><em class="icon ni ni-arrow-left"></em><span>Trip List</span></a></div>
+            <h2 class="nk-block-title fw-normal">Add Trip</h2>
+        </div>
+    </div>
+
     <div class="nk-content-wrap">
         <div class="card card-bordered">
             <div class="card-inner">
-                <div class="card-head">
-                    <h5 class="card-title">Add Trip</h5>
-                </div>
                 <x-forms.post :action="route('admin.trip.insert')" class="form-validate gy-3">
                     <div class="row g-3 align-center">
                         <div class="col-lg-5">

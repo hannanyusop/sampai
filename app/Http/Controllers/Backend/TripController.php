@@ -52,15 +52,21 @@ class TripController extends Controller
                                             <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-md">
                                                 <ul class="link-list-plain">
-                                                    <li><a href="'.route('admin.trip.view', $trip->id).'">View</a></li>
-                                                    <li><a href="'.route('admin.trip.addParcel', $trip->id).'">Add Parcel</a></li>';
+                                                    <li><a href="'.route('admin.trip.view', $trip->id).'">View</a></li>';
 
-                                                    if($trip->status == 0){
-                                                        $output .= '<li><a href="'.route('admin.trip.close', $trip->id).'">Closed</a></li>';
-                                                    }elseif ($trip->status == 1){
-                                                        $output .= '<li><a href="'.route('admin.trip.picked', $trip->id).'">Picked</a></li>';
-                                                    }elseif ($trip->status == 2){
-                                                        $output .='<li><a href="'.route('admin.trip.transferCode', $trip->id).'">Transfer Trip (runner)</a></li>';
+                                                    if(auth()->user()->can('staff.distributor')) {
+
+                                                        if($trip->status == 0){
+                                                            $output .= '<li><a href="' . route('admin.trip.addParcel', $trip->id) . '">Add Parcel</a></li>';
+                                                            $output .= '<li><a href="'.route('admin.trip.close', $trip->id).'" onclick="return confirm(\'Are you sure want to close this trip?\')">Closed</a></li>';
+                                                        }
+                                                    }
+                                                    if (auth()->user()->can('staff.runner')){
+                                                        if ($trip->status == 1){
+                                                            $output .= '<li><a href="'.route('admin.trip.picked', $trip->id).'">Pick</a></li>';
+                                                        }elseif ($trip->status == 2 && $trip->runner_id == auth()->user()->id){
+                                                            $output .='<li><a href="'.route('admin.trip.transferCode', $trip->id).'">Transfer Trip</a></li>';
+                                                        }
                                                     }
 
                                     $output .= '</ul>
@@ -130,6 +136,10 @@ class TripController extends Controller
 
         $trip = Trip::findOrFail($id);
 
+        if($trip->status != 0){
+            return redirect()->back()->withFlashWarning('Trip has been closed.');
+        }
+
         $parcels = Parcels::where('trip_id', $trip->id)->orderBy('id', 'DESC')->limit(3)->get();
 
         return view('backend.trip.addParcel', compact('trip', 'parcels'));
@@ -186,28 +196,47 @@ class TripController extends Controller
 
     public function picked($id){
 
-        $trip = Trip::where('status', 1)->findOrFail($id);
+        if(auth()->user()->can('staff.runner')){
+            $trip = Trip::where('status', 1)->findOrFail($id);
 
-        foreach ($trip->parcels as $parcel){
+            foreach ($trip->parcels as $parcel){
 
-            $remark = "In transit to ".$trip->destination->name;
+                $remark = "In transit to ".$trip->destination->name.". RIDER:".auth()->user()->name;
 
-            addParcelTransaction($parcel->id, $remark);
+                addParcelTransaction($parcel->id, $remark);
 
-            $parcel->status = 2;
-            $parcel->save();
+                $parcel->status = 2;
+                $parcel->save();
+            }
+
+            $trip->runner_id = auth()->user()->id;
+            $trip->status = 2;
+            $trip->save();
+
+            return redirect()->back()->withFlashSuccess('Trip picked.');
+        }else{
+            return redirect()->back()->withFlashWarning('Permission denied!');
         }
 
-        $trip->status = 2;
-        $trip->save();
-
-        return redirect()->back()->withFlashSuccess('Trip picked.');
     }
 
     public function receive(){
 
         #anyone can receive trip as long he assign on that particular office
-        return view('backend.trip.receive');
+        if(auth()->user()->office_id != 0){
+
+            $office = Office::where('is_drop_point', 1)->find(auth()->user()->office_id);
+
+            if(!$office){
+
+                return redirect()->back()->withFlashWarning('Only staff under drop point office can receive this parcel!');
+            }
+
+            return view('backend.trip.receive');
+        }else{
+
+            return redirect()->back()->withFlashWarning('Permission denied! (You\'re not belong to any drop point office.)');
+        }
     }
 
     public function receiveSave(Request $request){
@@ -215,6 +244,15 @@ class TripController extends Controller
         $trip = Trip::where('receive_code', $request->code)
             ->where('status', 2)
             ->first();
+
+        if(!$trip){
+            return redirect()->back()->withFlashWarning('Invalid code.');
+        }
+
+        if($trip->destination_id != auth()->user()->office_id){
+
+            return redirect()->back()->withFlashWarning('This trip is not belong to yor office.');
+        }
 
         foreach ($trip->parcels as $parcel){
 
@@ -228,10 +266,6 @@ class TripController extends Controller
 
         $trip->status = 3;
         $trip->save();
-
-        if(!$trip){
-            return redirect()->back()->withFlashWarning('Invalid code.');
-        }
 
         return redirect()->back()->withFlashSuccess('Code accepted.');
     }
