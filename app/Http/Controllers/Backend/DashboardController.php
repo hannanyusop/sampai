@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Domains\Auth\Models\Trip;
 use App\Http\Controllers\Controller;
 
 /**
@@ -14,6 +15,9 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('backend.dashboard');
+
+        $trips = Trip::get();
+
+        return view('backend.dashboard', compact('trips'));
     }
 }

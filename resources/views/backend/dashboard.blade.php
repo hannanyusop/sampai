@@ -92,106 +92,82 @@
                     </div>
                 </div><!-- .col -->
             </div>
+        </div>
+
+        <div class="nk-block">
             <div class="row g-gs">
                 <div class="col-xxl-8">
-                    <div class="card card-bordered card-full">
-                        <div class="card-inner">
-                            <div class="card-title-group">
-                                <div class="card-title">
-                                    <h6 class="title"><span class="mr-2">Transaction</span> <a href="#" class="link d-none d-sm-inline">See History</a></h6>
-                                </div>
-                                <div class="card-tools">
-                                    <ul class="card-tools-nav">
-                                        <li><a href="#"><span>Paid</span></a></li>
-                                        <li><a href="#"><span>Pending</span></a></li>
-                                        <li class="active"><a href="#"><span>All</span></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+
+                    <div class="card card-bordered">
                         <div class="card-inner p-0 border-top">
-                            <div class="nk-tb-list nk-tb-orders">
-                                <div class="nk-tb-item nk-tb-head">
-                                    <div class="nk-tb-col"><span>Trip No.</span></div>
-                                    <div class="nk-tb-col tb-col-sm"><span>Destination</span></div>
-                                    <div class="nk-tb-col tb-col-md"><span>Date</span></div>
-                                    <div class="nk-tb-col"><span>Amount</span></div>
-                                    <div class="nk-tb-col"><span class="d-none d-sm-inline">Status</span></div>
-                                    <div class="nk-tb-col"><span class="d-none d-sm-inline">Current Location</span></div>
-                                    <div class="nk-tb-col"><span>&nbsp;</span></div>
-                                </div>
-                                <div class="nk-tb-item">
-                                    <div class="nk-tb-col">
-                                        <span class="tb-lead"><a href="#">#LES-201111-1</a></span>
-                                    </div>
-                                    <div class="nk-tb-col tb-col-sm">
-                                        <div class="user-card">
-                                            <div class="user-name">
-                                                <span class="tb-lead">Lestari</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="nk-tb-col tb-col-md">
-                                        <span class="tb-sub">11/11/2020</span>
-                                    </div>
-                                    <div class="nk-tb-col">
-                                        <span class="tb-sub tb-amount">23 Parcels</span>
-                                    </div>
-                                    <div class="nk-tb-col">
-                                        <span class="badge badge-dot badge-dot-xs badge-success">In Transit</span>
-                                    </div>
-                                    <div class="nk-tb-col">Runner</div>
-                                    <div class="nk-tb-col nk-tb-col-action">
+
+                            <table class="table table-orders">
+                                <thead class="tb-odr-head">
+                                <tr class="tb-odr-item">
+                                    <th class="tb-odr-info">
+                                        <span class="tb-odr-id">Trip No.</span>
+                                        <span class="tb-odr-date d-none d-md-inline-block">Date</span>
+                                    </th>
+                                    <th class="tb-odr-amount">
+                                        <span class="tb-odr-total">Destination</span>
+                                        <span class="tb-odr-status d-none d-md-inline-block">Status</span>
+                                    </th>
+                                    <th class="tb-odr-amount">
+                                        <span class="tb-odr-total">Current Location</span>
+                                        <span class="tb-odr-status d-none d-md-inline-block">Total Parcel</span>
+                                    </th>
+                                    <th class="tb-odr-action">&nbsp;</th>
+                                </tr>
+                                </thead>
+                                <tbody class="tb-odr-body">
+                                @foreach($trips as $trip)
+
+                                <tr class="tb-odr-item">
+                                    <td class="tb-odr-info">
+                                        <span class="tb-odr-id"><a href="#">{{ $trip->code }}</a></span>
+                                        <span class="tb-odr-date">{{ $trip->date }}</span>
+                                    </td>
+                                    <td class="tb-odr-amount">
+                                        <span class="tb-odr-total">
+                                            <span class="amount">{{ $trip->destination->code }}</span>
+                                        </span>
+                                        <span class="tb-odr-status">{!! getTripStatusBadge($trip->status) !!}</span>
+                                    </td>
+                                    <td class="tb-odr-amount">
+                                         <span class="tb-odr-total">
+                                            <span class="amount">Runner</span>
+                                        </span>
+                                        <span class="tb-odr-status">{{ $trip->parcels->count() }} Parcel(s)
+                                        </span>
+                                    </td>
+                                    <td class="tb-odr-action">
                                         <div class="dropdown">
                                             <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs">
+                                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-md">
                                                 <ul class="link-list-plain">
-                                                    <li><a href="#">View</a></li>
-                                                    <li><a href="#">Invoice</a></li>
-                                                    <li><a href="#">Print</a></li>
+                                                    <li><a href="{{ route('admin.trip.view', $trip->id) }}">View</a></li>
+
+                                                    @if(auth()->user()->can('staff.distributor'))
+                                                        @if($trip->status == 0)
+                                                            <li><a href="{{ route('admin.trip.addParcel', $trip->id)  }}">Add Parcel</a></li>
+                                                            <li><a href="{{ route('admin.trip.close', $trip->id) }}" onclick="return confirm('Are you sure want to close this trip?')">Closed</a></li>
+                                                        @endif
+                                                    @endif
+                                                    @if(auth()->user()->can('staff.runner'))
+                                                        @if($trip->status == 1)
+                                                            <li><a href="{{ route('admin.trip.picked', $trip->id) }}">Pick</a></li>
+                                                        @elseif($trip->status == 2 && $trip->runner_id == auth()->user()->id)
+                                                        <li><a href="{{ route('admin.trip.transferCode', $trip->id) }}">Transfer Trip</a></li>
+                                                        @endif
+                                                    @endif
                                                 </ul>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="nk-tb-item">
-                                    <div class="nk-tb-col">
-                                        <span class="tb-lead"><a href="#">#FTMK-201111-1</a></span>
-                                    </div>
-                                    <div class="nk-tb-col tb-col-sm">
-                                        <div class="user-card">
-                                            <div class="user-name">
-                                                <span class="tb-lead">Fakulti Tenknologi Maklumat & Komunikasi</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="nk-tb-col tb-col-md">
-                                        <span class="tb-sub">11/11/2020</span>
-                                    </div>
-                                    <div class="nk-tb-col">
-                                        <span class="tb-sub tb-amount">1 Parcels</span>
-                                    </div>
-                                    <div class="nk-tb-col">
-                                        <span class="badge badge-dot badge-dot-xs badge-secondary">Open</span>
-                                    </div>
-                                    <div class="nk-tb-col">Unit Mel</div>
-                                    <div class="nk-tb-col nk-tb-col-action">
-                                        <div class="dropdown">
-                                            <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-sm">
-                                                <ul class="link-list-plain">
-                                                    <li><a href="user/admin-trip-view.php">View</a></li>
-                                                    <li><a href="user/admin-trip-add-parcel.php">Add Add Parcel</a></li>
-                                                    <li><a href="#">Ready To Pick</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-inner-sm border-top text-center d-sm-none">
-                            <a href="#" class="btn btn-link btn-block">See History</a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div><!-- .card -->
                 </div>
