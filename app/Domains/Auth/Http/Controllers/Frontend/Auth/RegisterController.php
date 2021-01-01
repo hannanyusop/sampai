@@ -2,10 +2,15 @@
 
 namespace App\Domains\Auth\Http\Controllers\Frontend\Auth;
 
+use App\Domains\Auth\Events\User\UserCreated;
+use App\Domains\Auth\Models\User;
 use App\Domains\Auth\Services\UserService;
+use App\Exceptions\GeneralException;
 use App\Http\Controllers\Controller;
 use App\Rules\Captcha;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use LangleyFoxall\LaravelNISTPasswordRules\PasswordRules;
@@ -15,49 +20,12 @@ use LangleyFoxall\LaravelNISTPasswordRules\PasswordRules;
  */
 class RegisterController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
 
-    use RegistersUsers;
-
-    /**
-     * @var UserService
-     */
-    protected $userService;
-
-    /**
-     * RegisterController constructor.
-     *
-     * @param  UserService  $userService
-     */
-    public function __construct(UserService $userService)
-    {
-        $this->userService = $userService;
-    }
-
-    /**
-     * Where to redirect users after registration.
-     *
-     * @return string
-     */
     public function redirectPath()
     {
         return route(homeRoute());
     }
 
-    /**
-     * Show the application registration form.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
     public function showRegistrationForm()
     {
         abort_unless(config('boilerplate.access.user.registration'), 404);
@@ -65,34 +33,59 @@ class RegisterController extends Controller
         return view('frontend.auth.register');
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
     protected function validator(array $data)
     {
+//        array_merge(['max:100'], PasswordRules::register($data['email'] ?? null))
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:100'],
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')],
-            'password' => array_merge(['max:100'], PasswordRules::register($data['email'] ?? null)),
-            'terms' => ['required', 'in:1'],
-            'g-recaptcha-response' => ['required_if:captcha_status,true', new Captcha],
+
         ], [
             'terms.required' => __('You must accept the Terms & Conditions.'),
             'g-recaptcha-response.required_if' => __('validation.required', ['attribute' => 'captcha']),
         ]);
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     *
-     * @return \App\Domains\Auth\Models\User|mixed
-     * @throws \App\Domains\Auth\Exceptions\RegisterException
-     */
+    public function register(Request $request){
+
+//        array_merge(['max:100'], PasswordRules::register($data['email'] ?? null))
+
+         $request->validate([
+            'name' => ['required', 'string', 'max:100'],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')],
+            'password' => ['required', 'confirmed', 'min:5'],
+            'terms' => ['required', 'in:1'],
+            'g-recaptcha-response' => ['required_if:captcha_status,true', new Captcha], [
+                'terms.required' => __('You must accept the Terms & Conditions.'),
+                'g-recaptcha-response.required_if' => __('validation.required', ['attribute' => 'captcha']),
+            ]
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+
+            $user =  User::create([
+                'type' => 'user',
+                'name' => strtoupper($request->name),
+                'email' => $request->email,
+                'password' => $request->password,
+                'email_verified_at' => now(),
+                'active' => 1,
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()->route('frontend.auth.register')->with('error', __('Sila hubungi pihak pengrusan untuk bantuan'));
+        }
+
+        event(new UserCreated($user));
+
+        DB::commit();
+
+        auth()->guard()->login($user);
+        return redirect()->route(homeRoute())->withFlashSuccess('Akaun berjaya didaftarkan');
+    }
+
     protected function create(array $data)
     {
         abort_unless(config('boilerplate.access.user.registration'), 404);

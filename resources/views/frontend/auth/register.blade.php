@@ -1,69 +1,102 @@
-@extends('frontend.layouts.app')
+@extends('frontend.layouts.auth')
 
-@section('title', __('Register'))
+@section('title', __('Buat akaun'))
 
 @section('content')
-    <div class="container py-4">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <x-frontend.card>
-                    <x-slot name="header">
-                        @lang('Register')
-                    </x-slot>
+    <style>
+        #body {
+            background: #051d39!important;
+        }
 
-                    <x-slot name="body">
+        .card-signin {
+            border: 0;
+            border-radius: 1rem;
+            box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .card-signin .card-title {
+            margin-bottom: 2rem;
+            font-weight: 300;
+            font-size: 1.5rem;
+        }
+
+        .card-signin .card-body {
+            padding: 2rem;
+        }
+
+        .form-signin {
+            width: 100%;
+        }
+    </style>
+    <body id="body">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9 col-md-6 col-lg-5 mx-auto">
+
+                <div class="card card-signin my-5">
+                    <div class="card-body">
+                        <div class="brand-logo text-center">
+                            <a href="" class="logo-link">
+                                <img class="logo-light logo-img logo-img-lg" src="{{ asset('images/logo.png') }}"  alt="logo">
+                                <img class="logo-dark logo-img logo-img-lg" src="{{ asset('images/logo-dark.png') }}" alt="logo-dark">
+                            </a>
+                        </div>
+                        <h6 class="card-title text-center">Getting Started With {{ env('APP_NAME') }} Is Free And Takes 57 Seconds</h6>
                         <x-forms.post :action="route('frontend.auth.register')">
-                            <div class="form-group row">
-                                <label for="name" class="col-md-4 col-form-label text-md-right">@lang('Name')</label>
 
-                                <div class="col-md-6">
-                                    <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}" placeholder="{{ __('Name') }}" maxlength="100" required autofocus autocomplete="name" />
+                            @if(session('error'))
+                                <div class="alert alert-danger alert-icon alert-dismissible">
+                                    <em class="icon ni ni-cross-circle"></em> <strong>Failed to create  account</strong>!  {{ session('error') }} <button class="close" data-dismiss="alert"></button>
                                 </div>
-                            </div><!--form-group-->
-
-                            <div class="form-group row">
-                                <label for="name" class="col-md-4 col-form-label text-md-right">@lang('E-mail Address')</label>
-
-                                <div class="col-md-6">
-                                    <input type="email" name="email" id="email" class="form-control" placeholder="{{ __('E-mail Address') }}" value="{{ old('email') }}" maxlength="255" required autocomplete="email" />
-                                </div>
-                            </div><!--form-group-->
-
-                            <div class="form-group row">
-                                <label for="name" class="col-md-4 col-form-label text-md-right">@lang('Password')</label>
-
-                                <div class="col-md-6">
-                                    <input type="password" name="password" id="password" class="form-control" placeholder="{{ __('Password') }}" maxlength="100" required autocomplete="new-password" />
-                                </div>
-                            </div><!--form-group-->
-
-                            <div class="form-group row">
-                                <label for="name" class="col-md-4 col-form-label text-md-right">@lang('Password Confirmation')</label>
-
-                                <div class="col-md-6">
-                                    <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" placeholder="{{ __('Password Confirmation') }}" maxlength="100" required autocomplete="new-password" />
-                                </div>
-                            </div><!--form-group-->
-
-                            <div class="form-group row">
-                                <div class="col-md-6 offset-md-4">
-                                    <div class="form-check">
-                                        <input type="checkbox" name="terms" value="1" id="terms" class="form-check-input" required>
-                                        <label class="form-check-label" for="terms">
-                                            @lang('I agree to the') <a href="{{ route('frontend.pages.terms') }}" target="_blank">@lang('Terms & Conditions')</a>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div><!--form-group-->
-
-                            @if(config('boilerplate.access.captcha.registration'))
-                                <div class="row">
-                                    <div class="col">
-                                        @captcha
-                                        <input type="hidden" name="captcha_status" value="true" />
-                                    </div><!--col-->
-                                </div><!--row-->
                             @endif
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <label class="form-label" for="name">Full Name</label>
+                                </div>
+                                <input type="text" name="name" id="name" class="form-control form-control-lg text-uppercase" placeholder="Full Name" value="{{ old('name') }}" maxlength="255" required autofocus autocomplete="name" />
+                                @error('name')
+                                <span id="fv-name-error" class="invalid">{{ $message }}</span>
+                                @enderror
+                            </div><!-- .foem-group -->
+
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <label class="form-label" for="password">E-mail</label>
+                                </div>
+                                <input type="email" name="email" id="email" class="form-control form-control-lg" value="{{ old('email') }}" maxlength="255" required autofocus autocomplete="email" />
+                                @error('email')
+                                <span id="fv-email-error" class="invalid">{{ $message }}</span>
+                                @enderror
+                            </div><!-- .foem-group -->
+
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <label class="form-label" for="password">Password</label>
+                                </div>
+                                <input type="password" name="password" id="password" class="form-control form-control-lg" value="" maxlength="255" required />
+                                @error('password')
+                                <span id="password_error" class="invalid">{{ $message }}</span>
+                                @enderror
+                            </div><!-- .foem-group -->
+
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <label class="form-label" for="password_confirmation">Password Confirmation</label>
+                                </div>
+                                <input type="password" name="password_confirmation" id="password_confirmation" class="form-control form-control-lg" value="" maxlength="255" required>
+                                @error('password_confirmation')
+                                <span id="fv-ic_no-error" class="invalid">{{ $message }}</span>
+                                @enderror
+                            </div><!-- .foem-group -->
+
+                            <div class="form-group row">
+                                <div class="form-check">
+                                    <input type="checkbox" name="terms" value="1" id="terms" class="form-check-input" required>
+                                    <label class="form-check-label" for="terms">
+                                        @lang('I agree with') <a href="{{ route('frontend.pages.terms') }}" target="_blank">@lang('Term & Condition')</a>
+                                    </label>
+                                </div>
+                            </div><!--form-group-->
 
                             <div class="form-group row mb-0">
                                 <div class="col-md-6 offset-md-4">
@@ -71,9 +104,16 @@
                                 </div>
                             </div><!--form-group-->
                         </x-forms.post>
-                    </x-slot>
-                </x-frontend.card>
-            </div><!--col-md-8-->
-        </div><!--row-->
-    </div><!--container-->
+                    </div>
+                </div>
+
+                <div class="text-center mt-5">
+                    <span class="fw-500 text-white">Already have an account? <a class="text-success" href="{{ route('frontend.auth.login') }}">Login Now </a>    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
 @endsection
+
+
