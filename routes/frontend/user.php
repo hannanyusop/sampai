@@ -6,6 +6,7 @@ use App\Http\Controllers\Frontend\User\DashboardController;
 use App\Http\Controllers\Frontend\User\ProfileController;
 use Tabuna\Breadcrumbs\Trail;
 use App\Http\Controllers\Frontend\User\SubscribeController;
+use App\Http\Controllers\Frontend\User\ParcelController;
 
 Route::group(['as' => 'user.', 'middleware' => ['auth', 'password.expires', config('boilerplate.access.middleware.verified')]], function () {
     Route::get('dashboard', [DashboardController::class, 'index'])
@@ -25,6 +26,12 @@ Route::group(['as' => 'user.', 'middleware' => ['auth', 'password.expires', conf
 
     Route::patch('profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
+    Route::group([
+        'prefix' => 'parcel/',
+        'as' => 'parcel.'
+    ],function (){
+        Route::get('search', [ParcelController::class, 'search'])->name('search');
+    });
     Route::group([
         'prefix' => 'subscribe/',
         'as' => 'subscribe.'

@@ -18,6 +18,9 @@
                 </a>
                 <ul class="nk-menu-sub">
                     <li class="nk-menu-item">
+                        <a href="{{ route('frontend.user.parcel.search') }}" class="nk-menu-link">
+                            <span class="nk-menu-text">Track Parcel</span>
+                        </a>
                         <a href="{{ route('frontend.user.subscribe.index') }}" class="nk-menu-link">
                             <span class="nk-menu-text">Mine</span>
                         </a>

@@ -193,7 +193,7 @@ class UserService extends BaseService
      */
     public function updateProfile(User $user, array $data = []): User
     {
-        $user->name = $data['name'] ?? null;
+        $user->name = strtoupper($data['name']) ?? null;
 
         if ($user->canChangeEmail() && $user->email !== $data['email']) {
             $user->email = $data['email'];
