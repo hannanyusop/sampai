@@ -41,7 +41,7 @@
                                 <img class="logo-dark logo-img logo-img-lg" src="{{ asset('images/logo-dark.png') }}" alt="logo-dark">
                             </a>
                         </div>
-                        <h6 class="card-title text-center">Getting Started With {{ env('APP_NAME') }} Is Free And Takes 57 Seconds</h6>
+                        <p class="">Getting Started With {{ env('APP_NAME') }} Is Free And Takes 57 Seconds</p>
                         <x-forms.post :action="route('frontend.auth.register')">
 
                             @if(session('error'))
@@ -53,7 +53,7 @@
                                 <div class="form-label-group">
                                     <label class="form-label" for="name">Full Name</label>
                                 </div>
-                                <input type="text" name="name" id="name" class="form-control form-control-lg text-uppercase" placeholder="Full Name" value="{{ old('name') }}" maxlength="255" required autofocus autocomplete="name" />
+                                <input type="text" name="name" id="name" class="form-control form-control-lg text-uppercase" value="{{ old('name') }}" maxlength="255" required autofocus autocomplete="name" />
                                 @error('name')
                                 <span id="fv-name-error" class="invalid">{{ $message }}</span>
                                 @enderror
@@ -89,7 +89,7 @@
                                 @enderror
                             </div><!-- .foem-group -->
 
-                            <div class="form-group row">
+                            <div class="form-group">
                                 <div class="form-check">
                                     <input type="checkbox" name="terms" value="1" id="terms" class="form-check-input" required>
                                     <label class="form-check-label" for="terms">
@@ -98,11 +98,9 @@
                                 </div>
                             </div><!--form-group-->
 
-                            <div class="form-group row mb-0">
-                                <div class="col-md-6 offset-md-4">
-                                    <button class="btn btn-primary" type="submit">@lang('Register')</button>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-lg btn-success btn-block btn-round">Create Account</button>
                                 </div>
-                            </div><!--form-group-->
                         </x-forms.post>
                     </div>
                 </div>

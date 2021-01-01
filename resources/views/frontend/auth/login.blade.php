@@ -91,7 +91,7 @@
                                 </div><!--row-->
                             @endif
                             <div class="form-group">
-                                <button type="submit" class="btn btn-lg btn-success btn-block btn-round">Log Masuk</button>
+                                <button type="submit" class="btn btn-lg btn-success btn-block btn-round">Login</button>
                             </div>
                         </x-forms.post>
                     </div>
