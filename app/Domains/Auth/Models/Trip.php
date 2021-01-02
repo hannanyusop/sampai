@@ -18,4 +18,9 @@ class Trip extends Model{
     public function transactions(){
         return $this->hasOne(Trip::class, 'id', 'trip_id');
     }
+
+    public function remarks(){
+
+        return $this->hasMany(TripRemark::class, 'trip_id', 'id');
+    }
 }

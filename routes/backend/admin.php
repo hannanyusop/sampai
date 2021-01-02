@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\TripController;
 use App\Http\Controllers\Backend\OfficeController;
 use App\Http\Controllers\Backend\ParcelController;
+use App\Http\Controllers\Backend\TripRemarkController;
 
 // All route names are prefixed with 'admin.'.
 Route::redirect('/', '/admin/dashboard', 301);
@@ -39,6 +40,13 @@ Route::group(['prefix' => 'trip/', 'as' => 'trip.'], function (){
 
     Route::get('receive/', [TripController::class, 'receive'])->name('receive');
     Route::post('receive/', [TripController::class, 'receiveSave'])->name('receiveSave');
+});
+
+Route::group(['prefix' => 'trip-remark/', 'as' => 'trip-remark.'], function (){
+
+    Route::post('create/{id}', [TripRemarkController::class, 'create'])->name('create');
+    Route::get('delete/{id}', [TripRemarkController::class, 'delete'])->name('delete');
+
 });
 
 Route::group(['prefix' => 'parcel/', 'as' => 'parcel.'], function (){

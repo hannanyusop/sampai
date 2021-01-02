@@ -374,7 +374,7 @@
                                 <!-- Slide -->
                                 <div class="swiper-slide">
                                     <a href="{{ asset('landing/images/screenshot-1.png') }}" class="popup-link" data-effect="fadeIn">
-                                        <img class="img-fluid" src="{{ asset('landing/images/screenshot-1.png') }}" alt="alternative">
+                                        <img class="img-fluid" src="{{ asset('landing/images/screenshot-1.jpeg') }}" alt="alternative">
                                     </a>
                                 </div>
                                 <!-- end of slide -->
@@ -382,7 +382,7 @@
                                 <!-- Slide -->
                                 <div class="swiper-slide">
                                     <a href="{{ asset('landing/images/screenshot-2.png') }}" class="popup-link" data-effect="fadeIn">
-                                        <img class="img-fluid" src="{{ asset('landing/images/screenshot-2.png') }}" alt="alternative">
+                                        <img class="img-fluid" src="{{ asset('landing/images/screenshot-2.jpeg') }}" alt="alternative">
                                     </a>
                                 </div>
                                 <!-- end of slide -->
@@ -390,7 +390,7 @@
                                 <!-- Slide -->
                                 <div class="swiper-slide">
                                     <a href="{{ asset('landing/images/screenshot-3.png') }}" class="popup-link" data-effect="fadeIn">
-                                        <img class="img-fluid" src="{{ asset('landing/images/screenshot-3.png') }}" alt="alternative">
+                                        <img class="img-fluid" src="{{ asset('landing/images/screenshot-3.jpeg') }}" alt="alternative">
                                     </a>
                                 </div>
                                 <!-- end of slide -->
@@ -398,59 +398,10 @@
                                 <!-- Slide -->
                                 <div class="swiper-slide">
                                     <a href="{{ asset('landing/images/screenshot-4.png') }}" class="popup-link" data-effect="fadeIn">
-                                        <img class="img-fluid" src="{{ asset('landing/images/screenshot-4.png') }}" alt="alternative">
+                                        <img class="img-fluid" src="{{ asset('landing/images/screenshot-4.jpeg') }}" alt="alternative">
                                     </a>
                                 </div>
                                 <!-- end of slide -->
-
-                                <!-- Slide -->
-                                <div class="swiper-slide">
-                                    <a href="{{ asset('landing/images/screenshot-5.png') }}" class="popup-link" data-effect="fadeIn">
-                                        <img class="img-fluid" src="{{ asset('landing/images/screenshot-5.png') }}" alt="alternative">
-                                    </a>
-                                </div>
-                                <!-- end of slide -->
-
-                                <!-- Slide -->
-                                <div class="swiper-slide">
-                                    <a href="{{ asset('landing/images/screenshot-6.png') }}" class="popup-link" data-effect="fadeIn">
-                                        <img class="img-fluid" src="{{ asset('landing/images/screenshot-6.png') }}" alt="alternative">
-                                    </a>
-                                </div>
-                                <!-- end of slide -->
-
-                                <!-- Slide -->
-                                <div class="swiper-slide">
-                                    <a href="{{ asset('landing/images/screenshot-7.png') }}" class="popup-link" data-effect="fadeIn">
-                                        <img class="img-fluid" src="{{ asset('landing/images/screenshot-7.png') }}" alt="alternative">
-                                    </a>
-                                </div>
-                                <!-- end of slide -->
-
-                                <!-- Slide -->
-                                <div class="swiper-slide">
-                                    <a href="{{ asset('landing/images/screenshot-8.png') }}" class="popup-link" data-effect="fadeIn">
-                                        <img class="img-fluid" src="{{ asset('landing/images/screenshot-8.png') }}" alt="alternative">
-                                    </a>
-                                </div>
-                                <!-- end of slide -->
-
-                                <!-- Slide -->
-                                <div class="swiper-slide">
-                                    <a href="{{ asset('landing/images/screenshot-9.png') }}" class="popup-link" data-effect="fadeIn">
-                                        <img class="img-fluid" src="{{ asset('landing/images/screenshot-9.png') }}" alt="alternative">
-                                    </a>
-                                </div>
-                                <!-- end of slide -->
-
-                                <!-- Slide -->
-                                <div class="swiper-slide">
-                                    <a href="{{ asset('landing/images/screenshot-10.png') }}" class="popup-link" data-effect="fadeIn">
-                                        <img class="img-fluid" src="{{ asset('landing/images/screenshot-10.png') }}" alt="alternative">
-                                    </a>
-                                </div>
-                                <!-- end of slide -->
-
                             </div> <!-- end of swiper-wrapper -->
 
                             <!-- Add Arrows -->

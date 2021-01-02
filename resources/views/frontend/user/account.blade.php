@@ -80,7 +80,7 @@
                                 <span class="data-label">Password Last Change At</span>
                                 <span class="data-value"> {{ (is_null($logged_in_user->password_changed_at))? "Not Yet" : $logged_in_user->password_changed_at->diffForHumans() }}</span>
                             </div>
-                            <div class="data-col data-col-end"><a href="#"data-toggle="modal" data-target="#update-password" class="link link-primary">Update Password</a></div>
+                            <div class="data-col data-col-end"><a href="#" data-toggle="modal" data-target="#update-password" class="link link-primary">Update Password</a></div>
                         </div><!-- .data-item -->
                     </div><!-- .nk-data -->
                 </div><!-- .card -->
