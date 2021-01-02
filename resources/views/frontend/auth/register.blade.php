@@ -105,8 +105,8 @@
                     </div>
                 </div>
 
-                <div class="text-center mt-5">
-                    <span class="fw-500 text-white">Already have an account? <a class="text-success" href="{{ route('frontend.auth.login') }}">Login Now </a>    </span>
+                <div class="text-center mt-3">
+                    <span class="fw-500 text-white mb-5">Already have an account? <a class="text-success" href="{{ route('frontend.auth.login') }}">Login Now </a>    </span>
                 </div>
             </div>
         </div>

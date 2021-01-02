@@ -2,11 +2,14 @@
 
 namespace App\Domains\Auth\Http\Controllers\Frontend\Auth;
 
+use App\Domains\Auth\Models\PasswordReset;
 use App\Domains\Auth\Rules\UnusedPassword;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use App\Domains\Auth\Models\User;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use LangleyFoxall\LaravelNISTPasswordRules\PasswordRules;
 
 /**
@@ -73,8 +76,39 @@ class ResetPasswordController extends Controller
      */
     public function showResetForm(Request $request, $token = null)
     {
-        return view('frontend.auth.passwords.reset')
-            ->withToken($token)
-            ->withEmail($request->email);
+
+        $reset = PasswordReset::where('token', $token)->first();
+
+        if(!$reset){
+
+            return redirect()->back()->withErrors('Invalid token!');
+        }
+
+        return view('frontend.auth.passwords.reset', compact('reset'));
+    }
+
+    public function reset(Request $request){
+
+
+        $v = Validator::make($request->all(),[
+            'token' => ['required'],
+            'password' => 'confirmed|required|min:5'
+        ]);
+
+        if ($v->fails()) {
+            return redirect()->back()->withErrors($v->errors());
+        }
+
+        $reset = PasswordReset::where('token', $request->token)->firstOrFail();
+
+        $user = User::where('email', $reset->email)->first();
+
+        $user->password = $request->password;
+        $user->save();
+
+        \DB::table('password_resets')->where('token', $request->token)->delete();
+
+        auth()->login($user);
+        return redirect()->route(homeRoute())->withFlashSuccess('Reset password successfully');
     }
 }
