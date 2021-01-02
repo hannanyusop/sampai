@@ -1,7 +1,7 @@
 <div class="nk-footer">
     <div class="container wide-xl">
         <div class="nk-footer-wrap g-2">
-            <div class="nk-footer-copyright"> &copy; 2020 ALUMNI PMU. Dibangunkan oleh <a href="#">FTMK</a>
+            <div class="nk-footer-copyright"> &copy; 2020 Develop by Hannan, Azrul, Mardiah <a href="#">(FTMK)</a>
             </div>
             <div class="nk-footer-links">
                 <ul class="nav nav-sm">

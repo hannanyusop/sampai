@@ -1,4 +1,4 @@
-<div class="nk-header nk-header-fixed is-light">
+<div class="nk-header nk-header-fluid is-theme">
     <div class="container-lg wide-xl">
         <div class="nk-header-wrap">
             <div class="nk-header-brand">

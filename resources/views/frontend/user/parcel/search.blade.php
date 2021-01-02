@@ -3,34 +3,35 @@
 @section('title', __('Search Parcel'))
 
 @section('content')
-    <div class="nk-content-wrap">
-        <div class="card card-bordered">
-            <div class="card-inner">
-                <div class="card-head">
-                    <h5 class="card-title">Search Parcel</h5>
-                </div>
-                <x-forms.get class="form-validate gy-3">
-                <div class="row g-3 align-center">
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <div class="form-control-wrap">
-                                    <input type="text" class="form-control text-uppercase form-control-lg" id="tracking_no" name="tracking_no" value="{{ request('tracking_no') }}" placeholder="ER123456MY">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row g-3">
-                        <div class="col-lg-7 offset-lg-5">
-                            <div class="form-group mt-2">
-                                <button type="submit" class="btn btn-lg btn-primary">Search</button>
-                                <a href="{{ route('frontend.user.parcel.search') }}" class="btn btn-lg btn-outline-warning">Clear</a>
-                            </div>
-                        </div>
-                    </div>
-                </x-forms.get>
-            </div>
-        </div>
 
+    <div class="nk-block">
+        <div class="card card-bordered">
+            <div class="nk">
+                <form  class="nk-refwg-invite card-inner">
+                    <div class="nk-refwg-head g-3">
+                        <div class="nk-refwg-title">
+                            <h5 class="title">Search Parcel</h5>
+                            <div class="title-sub">You can add parcel to subscription list for faster parcel status checking.</div>
+                        </div>
+                        <div class="nk-refwg-action">
+                            <a href="{{ route('frontend.user.subscribe.create') }}" class="btn btn-primary">Subscribe</a>
+                        </div>
+                    </div>
+                    <div class="nk-refwg-url">
+                        <div class="form-control-wrap">
+                            <div class="form-clip clipboard-init"><button type="submit" class="btn"><em class="clipboard-icon icon ni ni-search"></em> <span class="clipboard-text"> Search</span></button></div>
+                            <div class="form-icon">
+                                <em class="icon ni ni-tag-alt"></em>
+                            </div>
+                            <input type="text" class="form-control copy-text" id="tracking_no" name="tracking_no" placeholder="ER123456MY" value="{{ request('tracking_no') }}">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div><!-- .card -->
+    </div><!-- .nk-block -->
+
+    <div class="nk-content-wrap">
         @if(request()->tracking_no)
             @if($parcel)
             <div class="card card-bordered mt-3">
