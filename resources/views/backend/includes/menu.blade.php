@@ -38,7 +38,7 @@
                         </a>
                     </li>
                 @endif
-                @if($logged_in_user->can('staff.inhouse') && auth()->user()->office_id != 0)
+            @if($logged_in_user->can('staff.inhouse') && auth()->user()->office_id != 0)
                     <li class="nk-menu-item">
                         <a href="{{ route('admin.trip.receive') }}" class="nk-menu-link">
                             <span class="nk-menu-text">Receive Trip</span>
@@ -47,6 +47,11 @@
                     <li class="nk-menu-item">
                         <a href="{{ route('admin.parcel.index') }}" class="nk-menu-link">
                             <span class="nk-menu-text">Parcel List</span>
+                        </a>
+                    </li>
+                    <li class="nk-menu-item">
+                        <a href="{{ route('admin.parcel.scan') }}" class="nk-menu-link">
+                            <span class="nk-menu-text">Scan QR</span>
                         </a>
                     </li>
                 @endif

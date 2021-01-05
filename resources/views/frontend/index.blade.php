@@ -8,9 +8,9 @@
                 <div class="col-lg-6">
                     <div class="text-container">
                         <h1>SAMPAI <br>FOR <span id="js-rotating">TRUST, FAST, SATISFIED</span></h1>
-                        <p class="p-large">Leno is one of the easiest and feature packed marketing automation apps in the market. Download it today!</p>
-                        <a class="btn-solid-lg" href="#your-link"><i class="fab fa-apple"></i>For Apple</a>
-                        <a class="btn-solid-lg" href="#your-link"><i class="fab fa-google-play"></i>For Android</a>
+                        <p class="p-large">Sampai.com is a service to check the arrival of parcel at the UTeM Mel units. The system is create for students and staff.</p>
+                        <a class="btn-solid-lg" href="{{ route('frontend.auth.login') }}"><i class="fa fa-sign-in-alt"></i> Login</a>
+                        <a class="btn-solid-lg" href="{{ route('frontend.auth.register') }}"><i class="fa fa-user-friends"></i> Sign Up</a>
                     </div> <!-- end of text-container -->
                 </div> <!-- end of col -->
                 <div class="col-lg-6">
@@ -25,7 +25,9 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h2 class="h2-heading">FEATURES</h2>
-                    <div class="p-heading">Leno was designed based on input from personal development coaches and popular trainers so it offers all required features</div>
+                    <div class="p-heading">There are several unique services and features to boost up your eCommerce operation.
+                        With this system, we can easily managing your store order to keeping your receivers informed on delivering statuses
+                    </div>
                 </div> <!-- end of col -->
             </div> <!-- end of row -->
             <div class="row">

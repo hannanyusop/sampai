@@ -12,8 +12,8 @@
                     <!-- Contact Form -->
                     <form id="contactForm" class="mb-6" data-toggle="validator" data-focus="false">
                         <div class="form-group">
-                            <input type="text" class="form-control-input" id="cname" required>
-                            <label class="label-control" for="cname">Name</label>
+                            <input type="text" class="form-control-input" name="tracking_no" id="tracking_no" required>
+                            <label class="label-control" for="tracking_no">Tracking Number</label>
                             <div class="help-block with-errors"></div>
                         </div>
                         <div class="form-group">

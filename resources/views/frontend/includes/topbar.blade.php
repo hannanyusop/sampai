@@ -3,9 +3,8 @@
         <div class="nk-header-wrap">
             <div class="nk-header-brand">
                 <a href="#" class="logo-link">
-                    <img class="logo-light logo-img" src="../../images/logo.png" srcset="../../images/logo2x.png 2x" alt="logo">
-                    <img class="logo-dark logo-img" src="../../images/logo-dark.png" srcset="../../images/logo-dark2x.png 2x" alt="logo-dark">
-                    <span class="nio-version">Alumni</span>
+                    <img class="logo-light logo-img" src="{{ asset('images/logo-dark.png') }}"  alt="logo">
+                    <img class="logo-dark logo-img" src="{{ asset('images/logo-dark.png') }}" alt="logo-dark">
                 </a>
             </div><!-- .nk-header-brand -->
             <div class="nk-header-tools">
@@ -33,12 +32,12 @@
                             </div>
                             <div class="dropdown-inner">
                                 <ul class="link-list">
-                                    <li><a href="{{ route('frontend.user.account') }}"><em class="icon ni ni-setting-alt"></em><span>Tetapan Akaun</span></a></li>
+                                    <li><a href="{{ route('frontend.user.account') }}"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
                                 </ul>
                             </div>
                             <div class="dropdown-inner">
                                 <ul class="link-list">
-                                    <li><a href="{{ route('frontend.auth.logout') }}"><em class="icon ni ni-signout"></em><span>Log Keluar</span></a></li>
+                                    <li><a href="{{ route('frontend.auth.logout') }}"><em class="icon ni ni-signout"></em><span>Log Out</span></a></li>
                                 </ul>
                             </div>
                         </div>

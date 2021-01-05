@@ -28,7 +28,7 @@
     <link href="{{ asset('landing/css/styles.css') }}" rel="stylesheet">
 
     <!-- Favicon  -->
-    <link rel="icon" href="{{ asset('landing/images/favicon.png') }}">
+    <link rel="icon" href="{{ asset('images/favicon.png') }}">
 </head>
 <body data-spy="scroll" data-target=".fixed-top">
 
@@ -36,7 +36,7 @@
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark">
     <div class="container">
 
-        <a class="navbar-brand logo-image" href="{{ route('frontend.index') }}"><img src="{{ asset('landing/images/logo.svg') }}" alt="alternative"></a>
+        <a class="navbar-brand logo-image" href="{{ route('frontend.index') }}"><img src="{{ asset('images/logo-dark.png') }}" style="height: auto" alt="alternative"></a>
 
         <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
             <span class="navbar-toggler-icon"></span>
@@ -89,14 +89,11 @@
             <div class="col-lg-12">
                 <div class="footer-col first">
                     <h6>About Leno</h6>
-                    <p class="p-small">Leno is a mobile app HTML Bootstrap landing page template built to help you create great basic websites for apps and grow the user base.</p>
+                    <p class="p-small">Sampai.com is a service to check the arrival of parcel at the UTeM Mel units. The system is create for students and staff</p>
                 </div> <!-- end of footer-col -->
                 <div class="footer-col second">
                     <h6>Links</h6>
                     <ul class="list-unstyled li-space-lg p-small">
-                        <li>Important: <a href="terms.html">Terms & Conditions</a>, <a href="privacy.html">Privacy Policy</a></li>
-                        <li>Useful: <a href="#">Colorpicker</a>, <a href="#">Icon Library</a>, <a href="#">Illustrations</a></li>
-                        <li>Menu: <a href="article.html">Article</a>, <a href="features.html">Features</a>, <a href="pricing.html">Pricing</a>, <a href="contact.html">Contact</a></li>
                     </ul>
                 </div> <!-- end of footer-col -->
                 <div class="footer-col third">
@@ -124,7 +121,7 @@
                                 <i class="fab fa-instagram fa-stack-1x"></i>
                             </a>
                         </span>
-                    <p class="p-small">We would love to hear from you <a href="mailto:contact@leno.com"><strong>contact@leno.com</strong></a></p>
+                    <p class="p-small">We would love to hear from you <a href="mailto:admin@sampai.com"><strong>admin@sampai.com</strong></a></p>
                 </div> <!-- end of footer-col -->
             </div> <!-- end of col -->
         </div> <!-- end of row -->
@@ -138,7 +135,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <p class="p-small">Copyright © <a href="https://inovatik.com/">Template by Inovatik</a></p>
+                <p class="p-small">Copyright © <a href="#">Sampai Team</a></p>
             </div> <!-- end of col -->
         </div> <!-- enf of row -->
     </div> <!-- end of container -->
