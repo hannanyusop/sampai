@@ -19,9 +19,8 @@
                     </div>
                     <div class="nk-header-brand">
                         <a href="{{ route(homeRoute()) }}" class="logo-link">
-                            <img class="logo-light logo-img" src="{{ asset('images/logo.png') }}"  alt="logo">
+                            <img class="logo-light logo-img" src="{{ asset('images/logo-dark.png') }}"  alt="logo">
                             <img class="logo-dark logo-img" src="{{ asset('images/logo-dark.png') }}" alt="logo-dark">
-                            <span class="nio-version">Admin Panel</span>
                         </a>
                     </div><!-- .nk-header-brand -->
                     @include('backend.includes.menu')
@@ -45,7 +44,7 @@
         @include('backend.includes.footer')
     </div>
 </div>
-<script src="{{ asset('assets/js/charts/gd-general.js') }}?ver=1.4.0"></script>
+{{--<script src="{{ asset('assets/js/charts/gd-general.js') }}?ver=1.4.0"></script>--}}
 
 </body>
 

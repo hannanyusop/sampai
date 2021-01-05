@@ -71,7 +71,7 @@
 
             <li class="nk-menu-item has-sub">
                 <a href="#" class="nk-menu-link nk-menu-toggle">
-                    <span class="nk-menu-text">Dashboard <em class="icon ni ni-external"></em> </span>
+                    <span class="nk-menu-text">System Setting <em class="icon ni ni-setting"></em> </span>
                 </a>
                 <ul class="nk-menu-sub">
 

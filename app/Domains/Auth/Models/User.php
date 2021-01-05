@@ -127,4 +127,11 @@ class User extends Authenticatable implements MustVerifyEmail, TwoFactorAuthenti
     {
         return UserFactory::new();
     }
+
+    public function office(){
+
+        $office = Office::where('id', $this->office_id)->first();
+
+        return ($office)? $office->name : "Not Assign To Any Office";
+    }
 }

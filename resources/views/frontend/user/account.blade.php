@@ -1,4 +1,6 @@
-@extends('frontend.layouts.app')
+@php $extend = (auth()->user()->type == 'user')? 'frontend.layouts.app' :  'backend.layouts.app'; @endphp
+
+@extends($extend)
 
 @section('title', __('My Account'))
 
