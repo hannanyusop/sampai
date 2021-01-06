@@ -36,7 +36,7 @@
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark">
     <div class="container">
 
-        <a class="navbar-brand logo-image" href="{{ route('frontend.index') }}"><img src="{{ asset('images/logo-dark.png') }}" style="height: auto" alt="alternative"></a>
+        <a class="navbar-brand logo-image" href="{{ route('frontend.index') }}"><img src="{{ asset('images/logo-dark.png') }}" style="height:40px;width: auto" alt="alternative"></a>
 
         <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
             <span class="navbar-toggler-icon"></span>
@@ -50,6 +50,9 @@
                         <a class="nav-link page-scroll" href="{{ route(homeRoute()) }}">Dashboard <span class="sr-only">Dashboard</span></a>
                     </li>
                 @else
+                    <li class="nav-item">
+                        <a class="nav-link page-scroll" href="{{ route('frontend.index') }}">Main</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link page-scroll" href="{{ route('frontend.auth.login') }}">Login</a>
                     </li>
@@ -88,7 +91,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="footer-col first">
-                    <h6>About Leno</h6>
+                    <h6>About SAMPAI.MY</h6>
                     <p class="p-small">Sampai.com is a service to check the arrival of parcel at the UTeM Mel units. The system is create for students and staff</p>
                 </div> <!-- end of footer-col -->
                 <div class="footer-col second">

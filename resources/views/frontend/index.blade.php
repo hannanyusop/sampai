@@ -375,32 +375,56 @@
 
                                 <!-- Slide -->
                                 <div class="swiper-slide">
-                                    <a href="{{ asset('landing/images/screenshot-1.png') }}" class="popup-link" data-effect="fadeIn">
-                                        <img class="img-fluid" src="{{ asset('landing/images/screenshot-1.jpeg') }}" alt="alternative">
+                                    <a href="{{ asset('landing/images/1.png') }}" class="popup-link" data-effect="fadeIn">
+                                        <img class="img-fluid" src="{{ asset('landing/images/1.png') }}" alt="alternative">
                                     </a>
                                 </div>
                                 <!-- end of slide -->
 
                                 <!-- Slide -->
                                 <div class="swiper-slide">
-                                    <a href="{{ asset('landing/images/screenshot-2.png') }}" class="popup-link" data-effect="fadeIn">
-                                        <img class="img-fluid" src="{{ asset('landing/images/screenshot-2.jpeg') }}" alt="alternative">
+                                    <a href="{{ asset('landing/images/2.png') }}" class="popup-link" data-effect="fadeIn">
+                                        <img class="img-fluid" src="{{ asset('landing/images/2.png') }}" alt="alternative">
                                     </a>
                                 </div>
                                 <!-- end of slide -->
 
                                 <!-- Slide -->
                                 <div class="swiper-slide">
-                                    <a href="{{ asset('landing/images/screenshot-3.png') }}" class="popup-link" data-effect="fadeIn">
-                                        <img class="img-fluid" src="{{ asset('landing/images/screenshot-3.jpeg') }}" alt="alternative">
+                                    <a href="{{ asset('landing/images/3.png') }}" class="popup-link" data-effect="fadeIn">
+                                        <img class="img-fluid" src="{{ asset('landing/images/3.png') }}" alt="alternative">
                                     </a>
                                 </div>
                                 <!-- end of slide -->
 
                                 <!-- Slide -->
                                 <div class="swiper-slide">
-                                    <a href="{{ asset('landing/images/screenshot-4.png') }}" class="popup-link" data-effect="fadeIn">
-                                        <img class="img-fluid" src="{{ asset('landing/images/screenshot-4.jpeg') }}" alt="alternative">
+                                    <a href="{{ asset('landing/images/4.png') }}" class="popup-link" data-effect="fadeIn">
+                                        <img class="img-fluid" src="{{ asset('landing/images/4.png') }}" alt="alternative">
+                                    </a>
+                                </div>
+
+                                <div class="swiper-slide">
+                                    <a href="{{ asset('landing/images/5.png') }}" class="popup-link" data-effect="fadeIn">
+                                        <img class="img-fluid" src="{{ asset('landing/images/5.png') }}" alt="alternative">
+                                    </a>
+                                </div>
+
+                                <div class="swiper-slide">
+                                    <a href="{{ asset('landing/images/6.png') }}" class="popup-link" data-effect="fadeIn">
+                                        <img class="img-fluid" src="{{ asset('landing/images/6.png') }}" alt="alternative">
+                                    </a>
+                                </div>
+
+                                <div class="swiper-slide">
+                                    <a href="{{ asset('landing/images/7.png') }}" class="popup-link" data-effect="fadeIn">
+                                        <img class="img-fluid" src="{{ asset('landing/images/7.png') }}" alt="alternative">
+                                    </a>
+                                </div>
+
+                                <div class="swiper-slide">
+                                    <a href="{{ asset('landing/images/8.png') }}" class="popup-link" data-effect="fadeIn">
+                                        <img class="img-fluid" src="{{ asset('landing/images/8.png') }}" alt="alternative">
                                     </a>
                                 </div>
                                 <!-- end of slide -->

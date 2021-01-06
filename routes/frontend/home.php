@@ -16,10 +16,7 @@ Route::get('/', function (){
         $trail->push(__('Home'), route('frontend.index'));
     });
 
-Route::get('/track', function (){
-
-    return view('frontend.track');
-})->name('track')
+Route::get('/track', [HomeController::class, 'track'])->name('track')
     ->breadcrumbs(function (Trail $trail) {
         $trail->push(__('Home'), route('frontend.index'));
     });
