@@ -64,7 +64,7 @@
         @if($logged_in_user->can('staff.distributor'))
             <li class="nk-menu-item has-sub">
                 <a href="#" class="nk-menu-link nk-menu-toggle">
-                    <span class="nk-menu-text">Statics</span>
+                    <span class="nk-menu-text">Report</span>
                 </a>
                 <ul class="nk-menu-sub">
                     <li class="nk-menu-item">
