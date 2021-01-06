@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\TripController;
 use App\Http\Controllers\Backend\OfficeController;
 use App\Http\Controllers\Backend\ParcelController;
 use App\Http\Controllers\Backend\TripRemarkController;
+use App\Http\Controllers\Backend\ReportController;
 
 // All route names are prefixed with 'admin.'.
 Route::redirect('/', '/admin/dashboard', 301);
@@ -71,5 +72,11 @@ Route::group(['prefix' => 'office/', 'as' => 'office.'], function (){
 
     Route::post('updateManager/{id}', [OfficeController::class, 'updateManager'])->name('updateManager');
     Route::get('updateManager/{id}', [OfficeController::class, 'updateManagerSave'])->name('updateManagerSave');
+
+});
+
+Route::group(['prefix' => 'report/', 'as' => 'report.'], function (){
+
+    Route::get('monthly', [ReportController::class, 'monthly'])->name('monthly');
 
 });

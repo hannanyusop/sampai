@@ -224,6 +224,15 @@ if(!function_exists('getQr')){
     }
 }
 
+if(!function_exists('dropPoints')){
+
+    function dropPoints(){
+
+        return Office::where('is_drop_point', 1)->get();
+    }
+
+}
+
 if(!function_exists('parcelData')){
 
     function parcelData(){
@@ -240,5 +249,20 @@ if(!function_exists('parcelData')){
             'user' => User::where('type', 'user')->count(),
 
         ];
+    }
+}
+
+if(!function_exists('getYear')){
+
+    function getYear(){
+        return range(2019, date('Y'));
+    }
+}
+
+if (!function_exists('getMonthName')){
+
+    function getMonthName(){
+
+        return array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
     }
 }
