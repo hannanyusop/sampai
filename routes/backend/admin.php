@@ -25,22 +25,22 @@ Route::group(['prefix' => 'trip/', 'as' => 'trip.'], function (){
     Route::get('search/', [TripController::class, 'search'])->name('search');
 
 
-    Route::get('create/', [TripController::class, 'create'])->name('create');
-    Route::post('create/', [TripController::class, 'insert'])->name('insert');
-    Route::get('edit/{id}', [TripController::class, 'edit'])->name('edit');
-    Route::post('edit/{id}', [TripController::class, 'update'])->name('update');
+    Route::get('create/', [TripController::class, 'create'])->name('create')->middleware('permission:staff.distributor');
+    Route::post('create/', [TripController::class, 'insert'])->name('insert')->middleware('permission:staff.distributor');
+    Route::get('edit/{id}', [TripController::class, 'edit'])->name('edit')->middleware('permission:staff.distributor');
+    Route::post('edit/{id}', [TripController::class, 'update'])->name('update')->middleware('permission:staff.distributor');
 
     Route::get('view/{id}', [TripController::class, 'view'])->name('view');
-    Route::get('transferCode/{id}', [TripController::class, 'transferCode'])->name('transferCode');
-    Route::get('addParcel/{id}', [TripController::class, 'addParcel'])->name('addParcel');
-    Route::post('insertParcel/{id}', [TripController::class, 'insertParcel'])->name('insertParcel');
-    Route::get('deleteParcel/{parcel_id}', [TripController::class, 'deleteParcel'])->name('deleteParcel');
+    Route::get('transferCode/{id}', [TripController::class, 'transferCode'])->name('transferCode')->middleware('permission:staff.runner');
+    Route::get('addParcel/{id}', [TripController::class, 'addParcel'])->name('addParcel')->middleware('permission:staff.distributor');
+    Route::post('insertParcel/{id}', [TripController::class, 'insertParcel'])->name('insertParcel')->middleware('permission:staff.distributor');
+    Route::get('deleteParcel/{parcel_id}', [TripController::class, 'deleteParcel'])->name('deleteParcel')->middleware('permission:staff.distributor');
 
     Route::get('close/{id}', [TripController::class, 'close'])->name('close');
     Route::get('picked/{id}', [TripController::class, 'picked'])->name('picked');
 
-    Route::get('receive/', [TripController::class, 'receive'])->name('receive');
-    Route::post('receive/', [TripController::class, 'receiveSave'])->name('receiveSave');
+    Route::get('receive/', [TripController::class, 'receive'])->name('receive')->middleware('permission:staff.inhouse');;
+    Route::post('receive/', [TripController::class, 'receiveSave'])->name('receiveSave')->middleware('permission:staff.inhouse');
 });
 
 Route::group(['prefix' => 'trip-remark/', 'as' => 'trip-remark.'], function (){
@@ -56,27 +56,29 @@ Route::group(['prefix' => 'parcel/', 'as' => 'parcel.'], function (){
     Route::get('search/', [ParcelController::class, 'search'])->name('search');
 
     Route::get('view', [ParcelController::class, 'view'])->name('view');
-    Route::get('scan/', [ParcelController::class, 'scan'])->name('scan');
-    Route::post('deliver/{tracking_no}', [ParcelController::class, 'deliver'])->name('deliver');
+    Route::get('scan/', [ParcelController::class, 'scan'])->name('scan')->middleware('permission:staff.inhouse');;
+    Route::post('deliver/{tracking_no}', [ParcelController::class, 'deliver'])->name('deliver')->middleware('permission:staff.inhouse');;
 
 });
 
 Route::group(['prefix' => 'office/', 'as' => 'office.'], function (){
 
-    Route::get('', [OfficeController::class, 'index'])->name('index');
-    Route::get('create', [OfficeController::class, 'create'])->name('create');
-    Route::post('create', [OfficeController::class, 'insert'])->name('insert');
-    Route::get('edit/{id}', [OfficeController::class, 'edit'])->name('edit');
-    Route::post('edit/{id}', [OfficeController::class, 'update'])->name('update');
-    Route::get('delete/{id}', [OfficeController::class, 'delete'])->name('delete');
+    Route::get('', [OfficeController::class, 'index'])->name('index')->middleware('permission:admin.access.user');;
+    Route::get('create', [OfficeController::class, 'create'])->name('create')->middleware('permission:admin.access.user');
+    Route::post('create', [OfficeController::class, 'insert'])->name('insert')->middleware('permission:admin.access.user');
+    Route::get('edit/{id?}', [OfficeController::class, 'edit'])->name('edit')->middleware('permission:staff.manager|admin.access.user');
+    Route::post('edit/{id?}', [OfficeController::class, 'update'])->name('update')->middleware('permission:staff.manager|admin.access.user');
+    Route::get('delete/{id}', [OfficeController::class, 'delete'])->name('delete')->middleware('permission:admin.access.user');
 
-    Route::post('updateManager/{id}', [OfficeController::class, 'updateManager'])->name('updateManager');
-    Route::get('updateManager/{id}', [OfficeController::class, 'updateManagerSave'])->name('updateManagerSave');
+    Route::get('staff', [OfficeController::class, 'staff'])->name('staff')->middleware('permission:staff.inhouse');
+
+    Route::post('updateManager/{id}', [OfficeController::class, 'updateManager'])->name('updateManager')->middleware('permission:admin.access.user');;
+    Route::get('updateManager/{id}', [OfficeController::class, 'updateManagerSave'])->name('updateManagerSave')->middleware('permission:admin.access.user');
 
 });
 
 Route::group(['prefix' => 'report/', 'as' => 'report.'], function (){
 
-    Route::get('monthly', [ReportController::class, 'monthly'])->name('monthly');
+    Route::get('monthly', [ReportController::class, 'monthly'])->name('monthly')->middleware('permission:staff.distributor');
 
 });

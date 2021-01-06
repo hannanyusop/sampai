@@ -12,7 +12,8 @@
                     <div class="nk-block-head-content">
                         <h2 class="nk-block-title fw-normal">{{ auth()->user()->name }}</h2>
                         <div class="nk-block-des">
-                            <p>Drop Point Officer (Office : {{ auth()->user()->office() }})</p>
+                            <p>Drop Point Officer (Office : {{ auth()->user()->office() }})<br>
+                            Position : {{ auth()->user()->can('staff.manager')? "Manager" : "Staff" }}</p>
                         </div>
                     </div><!-- .nk-block-head-content -->
                     <div class="nk-block-head-content">
@@ -23,8 +24,10 @@
                                 <a href="#" class="btn btn-white btn-light btn-icon" data-toggle="dropdown"><em class="icon ni ni-setting"></em></a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <ul class="link-list-opt no-bdr">
-                                        <li><a href="#"><em class="icon ni ni-coin-alt"></em><span>Curreny Settings</span></a></li>
-                                        <li><a href="#"><em class="icon ni ni-notify"></em><span>Push Notification</span></a></li>
+                                        @if(auth()->user()->can('staff.manager'))
+                                        <li><a href="{{ route('admin.office.edit') }}"><em class="icon ni ni-setting"></em><span>Manage Office</span></a></li>
+                                        @endif
+                                        <li><a href="{{ route('admin.office.staff') }}"><em class="icon ni ni-user-list"></em><span>Staff List</span></a></li>
                                     </ul>
                                 </div>
                             </li>

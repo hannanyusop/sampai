@@ -9,15 +9,16 @@
 @section('content')
 
     <div class="nk-block nk-block-lg">
+        <div class="nk-block-head nk-block-head-lg wide-sm">
+            <div class="nk-block-head-content">
+                <h2 class="nk-block-title fw-normal">Staff List</h2>
+                <div class="nk-block-des">
+                    <p class="lead"></p>
+                </div>
+            </div>
+        </div>
         <div class="card card-bordered card-preview">
             <div class="card-inner">
-                @if ($logged_in_user->hasAllAccess())
-                    <div class="row text-right">
-                        <div class="m-2 float-right">
-                            <a href="{{ route('admin.auth.user.create') }}" class="btn btn-primary">Create New User</a>
-                        </div>
-                    </div>
-                @endif
                 <table class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="false">
                     <thead>
                     <tr class="nk-tb-item nk-tb-head">
@@ -110,56 +111,6 @@
                                 @endif
                             </td>
                             <td class="nk-tb-col nk-tb-col-tools">
-                                <ul class="nk-tb-actions gx-1">
-                                    <li>
-                                        <div class="drodown">
-                                            <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <ul class="link-list-opt no-bdr">
-                                                    @if ($user->trashed() && $logged_in_user->hasAllAccess())
-                                                        <li><a href="{{ route('admin.auth.user.restore', $user) }}"><em class="icon ni ni-focus"></em><span>Restore</span></a></li>
-                                                        @if (config('boilerplate.access.user.permanently_delete'))
-                                                            <li><a href="{{ route('admin.auth.user.permanently-delete', $user) }}"><em class="icon ni ni-focus"></em><span>Delete Permanently</span></a></li>
-                                                        @endif
-                                                    @else
-                                                        @if ($logged_in_user->hasAllAccess())
-                                                            <li><a href="{{ route('admin.auth.user.show', $user) }}"><em class="icon ni ni-eye"></em><span>Show</span></a></li>
-                                                            <li><a href="{{ route('admin.auth.user.edit', $user) }}"><em class="icon ni ni-edit"></em><span>Edit</span></a></li>
-
-                                                            @if($user->can('staff.inhouse'))
-                                                                <li><a href="{{ route('admin.auth.user.assign', $user) }}"><em class="icon ni ni-link-alt"></em><span>@lang('Assign office')</span></a></li>
-                                                            @endif
-
-                                                        @endif
-                                                        @if (! $user->isActive())
-                                                            <li><a href="{{ route('admin.auth.user.mark', [$user, 1]) }}"><em class="icon ni ni-focus"></em><span>@lang('Reactivate')</span></a></li>
-                                                        @endif
-                                                        @if ($user->id !== $logged_in_user->id && !$user->isMasterAdmin() && $logged_in_user->hasAllAccess())
-                                                            <li><a href="{{ route('admin.auth.user.destroy', $user) }}"><em class="icon ni ni-focus"></em><span>@lang('Reactivate')</span></a></li>
-                                                        @endif
-                                                        @if ($user->isMasterAdmin() && $logged_in_user->isMasterAdmin())
-                                                            <li><a href="{{ route('admin.auth.user.change-password', $user) }}"><em class="icon ni ni-focus"></em><span>{{ __('Change Password') }}</span></a></li>
-                                                        @elseif (!$user->isMasterAdmin() && // This is not the master admin
-                                                            $user->isActive() && // The account is active
-                                                            $user->id !== $logged_in_user->id && // It's not the person logged in
-                                                            ($logged_in_user->can('admin.access.user.change-password') ||$logged_in_user->can('admin.access.user.clear-session') ||
-                                                             $logged_in_user->can('admin.access.user.impersonate') ||$logged_in_user->can('admin.access.user.deactivate')))
-
-                                                            <li><a href="{{ route('admin.auth.user.change-password', $user) }}"><em class="icon ni ni-lock-alt"></em><span>{{ __('Change Password') }}</span></a></li>
-
-                                                            @if ($user->id !== $logged_in_user->id && !$user->isMasterAdmin())
-
-                                                                <li><a href="{{ route('admin.auth.user.clear-session', $user) }}"><em class="icon ni ni-regen"></em><span>@lang('Clear Session')</span></a></li>
-
-                                                                <li><a href="{{ route('admin.auth.user.mark', [$user, 0]) }}"><em class="icon ni ni-user-cross"></em><span>@lang('Deactivate')</span></a></li>
-                                                            @endif
-                                                        @endif
-                                                    @endif
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
                             </td>
                         </tr>
                     @endforeach
