@@ -8,6 +8,7 @@ use App\Domains\Auth\Models\TripTransaction;
 use App\Domains\Auth\Models\Subscribe;
 use Illuminate\Support\Carbon;
 use App\Domains\Auth\Models\ParcelTransaction;
+use Mailgun\Mailgun;
 
 if (! function_exists('appName')) {
     /**
@@ -266,3 +267,35 @@ if (!function_exists('getMonthName')){
         return array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
     }
 }
+
+if(!function_exists('sendEmail')){
+
+    function sendEmail(array $receiver, $subject, $content){
+
+        try {
+
+            foreach ($receiver as $to){
+
+                $mgClient = Mailgun::create(env('MAILGUN_API'), 'https://api.mailgun.net');
+                $domain = env('MAILGUN_API_URL');
+                $params = array(
+                    'from'    => 'no-reply@sampai.my',
+                    'to'      => $to,
+                    'subject' => $subject,
+                    'text'    => $content
+                );
+
+                $mgClient->messages()->send($domain, $params);
+            }
+
+
+        }catch (Exception $exception){
+        }
+
+
+    }
+}
+
+
+
+

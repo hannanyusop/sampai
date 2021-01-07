@@ -7,6 +7,7 @@ use App\Domains\Auth\Http\Requests\Backend\Trip\InsertTripRequest;
 use App\Domains\Auth\Models\Office;
 use App\Domains\Auth\Models\Parcels;
 use App\Domains\Auth\Models\ParcelTransaction;
+use App\Domains\Auth\Models\Subscribe;
 use App\Domains\Auth\Models\Trip;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -160,6 +161,14 @@ class TripController extends Controller
 
         $remark = "Parcel received by UTeM-mel";
 
+        $emails = Subscribe::leftJoin('users', 'users.id', '=', 'subscribes.user_id')
+            ->where('subscribes.is_notify', 1)
+            ->where('tracking_no', $parcel->tracking_no)->pluck('email');
+
+        if($emails->count() > 0){
+            sendEmail($emails->toArray(), "Parcel #$parcel->tracking_no", "Parcel #$parcel->tracking_no received by UTeM-mel. Please login to the dashboard to get more details.");
+        }
+
         addParcelTransaction($parcel->id, $remark);
         return redirect()->back()->withFlashSuccess('Parcel inserted');
     }
@@ -256,12 +265,20 @@ class TripController extends Controller
 
         foreach ($trip->parcels as $parcel){
 
-            $remark = "Ready to pickup at ".$trip->destination->name;
+            $remark = "Ready to collect at ".$trip->destination->name;
 
             addParcelTransaction($parcel->id, $remark);
 
             $parcel->status = 3;
             $parcel->save();
+
+            $emails = Subscribe::leftJoin('users', 'users.id', '=', 'subscribes.user_id')
+                ->where('subscribes.is_notify', 1)
+                ->where('tracking_no', $parcel->tracking_no)->pluck('email');
+
+            if($emails->count() > 0){
+                sendEmail($emails->toArray(), "Parcel #$parcel->tracking_no", "Parcel #$parcel->tracking_no $remark. Please login to the dashboard to get more details.");
+            }
         }
 
         $trip->status = 3;
