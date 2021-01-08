@@ -218,7 +218,7 @@ if(!function_exists('getQr')){
 
     function getQr($tracking_no){
 
-        return QRCode::url(route('admin.parcel.view',  ['tracking_no' => $tracking_no, 'uid' => encrypt(auth()->user()->id)]))
+        return QRCode::url(route('admin.parcel.view',  ['tracking_no' => $tracking_no, 'uid' => auth()->user()->id]))
             ->setSize(5)
             ->setMargin(2)
             ->svg();

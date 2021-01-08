@@ -29,7 +29,7 @@ class ParcelController extends Controller{
 
     public function scan(){
 
-        return view('backend.parcel.scan');
+        return view('backend.parcel.h');
     }
 
     public function view(Request $request){
@@ -59,7 +59,7 @@ class ParcelController extends Controller{
             }
 
             if($request->uid){
-                $receiver = User::find(decrypt($request->uid));
+                $receiver = User::find($request->uid);
 
                 if(!$receiver){
                     return redirect()->back()->withFlashWarning('Invalid user!');
