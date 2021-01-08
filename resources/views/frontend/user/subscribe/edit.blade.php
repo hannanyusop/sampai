@@ -56,7 +56,7 @@
                         <div class="col-lg-7">
                             <div class="form-group">
                                 <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" name="is_notify" (a ? b : c) ? d : e id="is_notify" {{ (old('is_notify')? "checked" : ($sub->is_notify == 1))? "checked" : "" }}>
+                                    <input type="checkbox" class="custom-control-input" name="is_notify" id="is_notify" {{ (old('is_notify')? "checked" : ($sub->is_notify == 1))? "checked" : "" }}>
                                     <label class="custom-control-label" for="is_notify">Notify</label>
                                 </div>
                             </div>

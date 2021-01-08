@@ -114,7 +114,11 @@ class SubscribeController extends Controller
 
     public function delete($id){
 
-        $sub = Subscribe::where('user_id', auth()->user()->id)->findOrFail(decrypt($id));
+        $sub = Subscribe::where('user_id', auth()->user()->id)->where('tracking_no', $id)->first();
+
+        if(!$sub){
+            return  redirect()-back()->withFlashError('Data not found!');
+        }
 
         $sub->delete();
 
