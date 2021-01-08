@@ -45,13 +45,13 @@ class DashboardController extends Controller
 
         }elseif (auth()->user()->can('staff.runner')){
 
-
+            $trips = Trip::whereIn('status', [2])->get();
 
             return view('backend.dashboard-runner', compact('trips'));
         }elseif ('staff.inhouse'){
 
             $data =  [
-                'all' => Parcels::leftJoin('trips', 'trips.id', '=', 'parcels.trip_id')->whereNotIn('parcels.status', [0])->count(),
+                'all' => Parcels::leftJoin('trips', 'trips.id', '=', 'parcels.trip_id')->whereNotIn('parcels.status', [0    ])->count(),
                 'delivered' => Parcels::leftJoin('trips', 'trips.id', '=', 'parcels.trip_id')->where('parcels.status', 4)->count(),
                 'ready' => Parcels::leftJoin('trips', 'trips.id', '=', 'parcels.trip_id')->where('parcels.status', 3)->count(),
                 'return' => Parcels::leftJoin('trips', 'trips.id', '=', 'parcels.trip_id')->where('parcels.status', 5)->count(),
