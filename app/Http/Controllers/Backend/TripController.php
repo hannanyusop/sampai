@@ -43,7 +43,7 @@ class TripController extends Controller
                                     </td>
                                     <td class="tb-odr-amount">
                                          <span class="tb-odr-total">
-                                            <span class="amount">Runner</span>
+                                            <span class="amount"></span>
                                         </span>
                                         <span class="tb-odr-status">'.$trip->parcels->count().'Parcel(s)
                                         </span>
@@ -59,12 +59,12 @@ class TripController extends Controller
 
                                                         if($trip->status == 0){
                                                             $output .= '<li><a href="' . route('admin.trip.addParcel', $trip->id) . '">Add Parcel</a></li>';
-                                                            $output .= '<li><a href="'.route('admin.trip.close', $trip->id).'" onclick="return confirm(\'Are you sure want to close this trip?\')">Closed</a></li>';
+                                                            $output .= '<li><a href="'.route('admin.trip.close', $trip->id).'" onclick="return confirm(\'Are you sure want to close this trip?\')">Close Parcel</a></li>';
                                                         }
                                                     }
                                                     if (auth()->user()->can('staff.runner')){
                                                         if ($trip->status == 1){
-                                                            $output .= '<li><a href="'.route('admin.trip.picked', $trip->id).'">Pick</a></li>';
+                                                            $output .= '<li><a href="'.route('admin.trip.picked', $trip->id).'">Pick Trip</a></li>';
                                                         }elseif ($trip->status == 2 && $trip->runner_id == auth()->user()->id){
                                                             $output .='<li><a href="'.route('admin.trip.transferCode', $trip->id).'">Transfer Trip</a></li>';
                                                         }
@@ -189,7 +189,7 @@ class TripController extends Controller
 
         foreach ($trip->parcels as $parcel){
 
-            $remark = "Ready to pick by runner";
+            $remark = "Ready to pickup from UTeM-mel";
 
             addParcelTransaction($parcel->id, $remark);
 
