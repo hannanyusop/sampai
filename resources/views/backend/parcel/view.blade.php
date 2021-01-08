@@ -57,7 +57,7 @@
             </div><!-- .col -->
         </div>
 
-        @if($parcel->status == 3)
+        @if($parcel->status == 3 && auth()->user()->can('staff.inhouse') )
             <div class="card card-bordered mt-3">
                 <div class="card-inner">
                     <x-forms.post :action="route('admin.parcel.deliver', $parcel->tracking_no)" class="form-validate gy-3">

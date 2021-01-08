@@ -14,139 +14,11 @@
                     <div class="nk-block-head-content">
                         <h2 class="nk-block-title fw-normal">{{ auth()->user()->name }}</h2>
                         <div class="nk-block-des">
-                            <p>At a glance summary of your account. Have fun!</p>
+                            <p>Role : Runner</p>
                         </div>
-                    </div><!-- .nk-block-head-content -->
-                    <div class="nk-block-head-content">
-                        <ul class="nk-block-tools gx-3">
-                            <li><a href="#" class="btn btn-primary"><span>Deposit</span> <em class="icon ni ni-arrow-long-right"></em></a></li>
-                            <li><a href="#" class="btn btn-white btn-light"><span>Buy / Sell</span> <em class="icon ni ni-arrow-long-right d-none d-sm-inline-block"></em></a></li>
-                            <li class="opt-menu-md dropdown">
-                                <a href="#" class="btn btn-white btn-light btn-icon" data-toggle="dropdown"><em class="icon ni ni-setting"></em></a>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <ul class="link-list-opt no-bdr">
-                                        <li><a href="#"><em class="icon ni ni-coin-alt"></em><span>Curreny Settings</span></a></li>
-                                        <li><a href="#"><em class="icon ni ni-notify"></em><span>Push Notification</span></a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
                     </div><!-- .nk-block-head-content -->
                 </div><!-- .nk-block-between -->
             </div><!-- .nk-block-head -->
-            <div class="nk-block">
-                <div class="row gy-gs">
-                    <div class="col-lg-12 col-xl-12">
-                        <div class="nk-block">
-                            <div class="nk-block nk-block-md">
-                                <div class="nk-block-head-xs">
-                                    <div class="nk-block-between-md g-2">
-                                        <div class="nk-block-head-content">
-                                            <h6 class="nk-block-title title">Data</h6>
-                                        </div>
-                                    </div>
-                                </div><!-- .nk-block-head -->
-                                <div class="row g-2">
-                                    <div class="col-sm-4">
-                                        <div class="card bg-light">
-                                            <div class="nk-wgw sm">
-                                                <a class="nk-wgw-inner" href="">
-                                                    <div class="nk-wgw-name">
-                                                        <h5 class="nk-wgw-title title">Total Staff</h5>
-                                                    </div>
-                                                    <div class="nk-wgw-balance">
-                                                        <div class="amount">{{ $data['staff'] }}</div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div><!-- .col -->
-                                    <div class="col-sm-4">
-                                        <div class="card bg-light">
-                                            <div class="nk-wgw sm">
-                                                <a class="nk-wgw-inner" href="#">
-                                                    <div class="nk-wgw-name">
-                                                        <h5 class="nk-wgw-title title">Total Office</h5>
-                                                    </div>
-                                                    <div class="nk-wgw-balance">
-                                                        <div class="amount">{{ $data['office'] }}</div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div><!-- .col -->
-                                    <div class="col-sm-4">
-                                        <div class="card bg-light">
-                                            <div class="nk-wgw sm">
-                                                <a class="nk-wgw-inner" href="#">
-                                                    <div class="nk-wgw-name">
-                                                        <h5 class="nk-wgw-title title">Total Registered Users</h5>
-                                                    </div>
-                                                    <div class="nk-wgw-balance">
-                                                        <div class="amount">{{ $data['user'] }}</div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div><!-- .col -->
-                                </div><!-- .row -->
-                            </div> <!-- .nk-block -->
-
-                            <div class="nk-block-head-xs">
-                                <div class="nk-block-between-md g-2">
-                                    <div class="nk-block-head-content">
-                                        <h6 class="nk-block-title title">Parcel</h6>
-                                    </div>
-                                </div>
-                            </div><!-- .nk-block-head -->
-                            <div class="row g-2">
-                                <div class="col-sm-4">
-                                    <div class="card bg-light">
-                                        <div class="nk-wgw sm">
-                                            <a class="nk-wgw-inner" href="#">
-                                                <div class="nk-wgw-name">
-                                                    <h5 class="nk-wgw-title title">Utem Mel</h5>
-                                                </div>
-                                                <div class="nk-wgw-balance">
-                                                    <div class="amount">{{ $data['umel'] }}</div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div><!-- .col -->
-                                <div class="col-sm-4">
-                                    <div class="card bg-light">
-                                        <div class="nk-wgw sm">
-                                            <a class="nk-wgw-inner" href="#">
-                                                <div class="nk-wgw-name">
-                                                    <h5 class="nk-wgw-title title">Runner</h5>
-                                                </div>
-                                                <div class="nk-wgw-balance">
-                                                    <div class="amount">{{ $data['runner'] }}</div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div><!-- .col -->
-                                <div class="col-sm-4">
-                                    <div class="card bg-light">
-                                        <div class="nk-wgw sm">
-                                            <a class="nk-wgw-inner" href="#">
-                                                <div class="nk-wgw-name">
-                                                    <h5 class="nk-wgw-title title">Drop Point Office</h5>
-                                                </div>
-                                                <div class="nk-wgw-balance">
-                                                    <div class="amount">{{ $data['drop'] }}</div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div><!-- .col -->
-                            </div><!-- .row -->
-                        </div><!-- .nk-block -->
-                    </div><!-- .col -->
-                </div><!-- .row -->
-            </div><!-- .nk-block -->
 
             <div class="nk-block nk-block-lg">
                 <div class="row gy-gs">
@@ -157,7 +29,7 @@
                                     <div class="tranx-col">
                                         <div class="tranx-info">
                                             <div class="tranx-data">
-                                                <div class="tranx-label">{{ $trip->code }} <em class="tranx-icon sm icon ni ni-sign-btc"></em></div>
+                                                <div class="tranx-label">{{ $trip->code }}</div>
                                                 <div class="tranx-date">{{ reformatDatetime($trip->date, 'M d, Y h:i A') }}
                                                     <span><br>Status : {!! getTripStatusBadge($trip->status) !!}</span>
                                                     <br>Total : {{ $trip->parcels->count() }}<span class="currency currency-usd"> Parcel(s) </span>
@@ -211,11 +83,6 @@
 
         !function (NioApp, $) {
             "use strict"; //////// for developer - User Balance ////////
-            // Avilable options to pass from outside
-            // labels: array,
-            // legend: false - boolean,
-            // dataUnit: string, (Used in tooltip or other section for display)
-            // datasets: [{label : string, color: string (color code with # or other format), data: array}]
 
             var profileBalance = {
                 labels: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"],

@@ -45,7 +45,7 @@ class DashboardController extends Controller
 
         }elseif (auth()->user()->can('staff.runner')){
 
-            $trips = Trip::whereIn('status', [2])->get();
+            $trips = Trip::whereIn('status', [1,2])->get();     
 
             return view('backend.dashboard-runner', compact('trips'));
         }elseif ('staff.inhouse'){

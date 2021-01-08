@@ -177,10 +177,18 @@ class TripController extends Controller
         #check either trip open or not
 
         $parcel = Parcels::findOrFail($parcel_id);
-        $parcel->transactions()->delete();
-        $parcel->delete();
 
-        return redirect()->back()->withFlashSuccess('Parcel deleted');
+        if($parcel->status == 0){
+
+            $parcel->transactions()->delete();
+            $parcel->delete();
+
+            return redirect()->back()->withFlashSuccess('Parcel deleted');
+        }else{
+            return redirect()->back()->withFlashError('Parcel cannot be deleted! Reason : Status in '.getParcelStatus($parcel->status));
+        }
+
+
     }
 
     public function close($id){

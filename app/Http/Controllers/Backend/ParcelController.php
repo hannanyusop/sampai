@@ -11,7 +11,7 @@ class ParcelController extends Controller{
 
     public function index(){
 
-        if(auth()->user()->can('staff.distributor')){
+        if(auth()->user()->can('staff.distributor') || auth()->user()->can('staff.runner')){
 
             $parcels = Parcels::leftJoin('trips', 'trips.id', 'parcels.trip_id')
                 ->get();
@@ -36,13 +36,11 @@ class ParcelController extends Controller{
 
         if($request->tracking_no){
 
-            $tracking_no = $request->tracking_no;
-
             $receiver = null;
 
             $parcel = Parcels::where('tracking_no', $request->tracking_no)->first();
 
-            if(auth()->user()->can('staff.distributor')){
+            if(auth()->user()->can('staff.distributor') || auth()->user()->can('staff.runner')){
 
 
             }else{
