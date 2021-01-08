@@ -205,6 +205,18 @@ CREATE TABLE `subscribes` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `trip_remarks` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `trip_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `text` longtext,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `trip_transactions` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) unsigned NOT NULL,
@@ -226,7 +238,7 @@ CREATE TABLE `trips` (
   `destination_id` int(11) NOT NULL,
   `status` int(11) NOT NULL DEFAULT '0',
   `receive_code` varchar(50) NOT NULL,
-  `remark` varchar(255) DEFAULT NULL,
+  `remark` text,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
