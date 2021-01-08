@@ -48,15 +48,11 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-xl dropdown-menu-right dropdown-menu-s1">
                             <div class="dropdown-head">
-                                <span class="sub-title nk-dropdown-title">Notifications</span>
-                                <a href="#">Mark All as Read</a>
+                                <span class="sub-title nk-dropdown-title">Announcement</span>
                             </div>
                             <div class="dropdown-body">
                                 @include('includes.partials.announcements')
                             </div><!-- .nk-dropdown-body -->
-                            <div class="dropdown-foot center">
-                                <a href="#">View All</a>
-                            </div>
                         </div>
                     </li><!-- .dropdown -->
                     <li class="d-lg-none">

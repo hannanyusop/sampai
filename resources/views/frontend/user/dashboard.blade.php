@@ -2,6 +2,10 @@
 
 @section('title', __('Dashboard'))
 
+@php
+$dataUser = dataUserDashboard();
+@endphp
+
 @section('content')
     <div class="nk-content-wrap">
         <div class="nk-block-head nk-block-head-lg">
@@ -28,7 +32,7 @@
                                     <h5 class="nk-wgw-title title">Pending</h5>
                                 </div>
                                 <div class="nk-wgw-balance">
-                                    <div class="amount">0</div>
+                                    <div class="amount">{{ $dataUser['pending'] }}</div>
                                 </div>
                             </a>
                         </div>
@@ -45,7 +49,7 @@
                                     <h5 class="nk-wgw-title title">In Transit</h5>
                                 </div>
                                 <div class="nk-wgw-balance">
-                                    <div class="amount">2</div>
+                                    <div class="amount">{{ $dataUser['transit'] }}</div>
                                 </div>
                             </a>
                         </div>
@@ -62,7 +66,7 @@
                                     <h5 class="nk-wgw-title title">Arrived</h5>
                                 </div>
                                 <div class="nk-wgw-balance">
-                                    <div class="amount">0</div>
+                                    <div class="amount">{{ $dataUser['arrive'] }}</div>
                                 </div>
                             </a>
                         </div>
@@ -79,7 +83,7 @@
                                     <h5 class="nk-wgw-title title">Received</h5>
                                 </div>
                                 <div class="nk-wgw-balance">
-                                    <div class="amount">5</div>
+                                    <div class="amount">{{ $dataUser['received'] }}</div>
                                 </div>
                             </a>
                         </div>
@@ -108,7 +112,7 @@
                                 <div class="col-xl-3 col-sm-4">
                                     <div class="sp-plan-opt">
                                         <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input" name="is_notify_" id="is_notify_{{ $subscribe->tracking_no }}" {{ ($subscribe->is_notify ==1)? "checked" : "" }}>
+                                            <input type="checkbox" class="custom-control-input" name="is_notify_" id="is_notify_{{ $subscribe->tracking_no }}" {{ ($subscribe->is_notify ==1)? "checked" : "" }} disabled>
                                             <label class="custom-control-label text-soft" for="is_notify_{{ $subscribe->tracking_no }}">Notify</label>
                                         </div>
                                     </div>

@@ -30,16 +30,7 @@ class UpdatePasswordRequest extends FormRequest
     {
         return [
             'current_password' => ['required', 'max:100'],
-            'password' => array_merge(
-                [
-                    'max:100',
-                    new UnusedPassword($this->user()),
-                ],
-                PasswordRules::changePassword(
-                    $this->email,
-                    config('boilerplate.access.user.password_history') ? 'current_password' : null
-                )
-            ),
+            'password' => 'confirmed|required|min:5'
         ];
     }
 }

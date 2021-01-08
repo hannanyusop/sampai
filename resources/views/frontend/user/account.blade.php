@@ -152,7 +152,7 @@
 
 
                     <div class="tab-pane active" id="personal">
-                        <x-forms.patch :action="route('frontend.user.profile.update')" class="row gy-4">
+                        <x-forms.patch :action="route('frontend.user.profile.password')" class="row gy-4">
 
                             <div class="col-md-12">
                                 <div class="form-group">

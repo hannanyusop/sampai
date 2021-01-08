@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Frontend\User;
 
+use App\Domains\Auth\Http\Requests\Frontend\Auth\UpdatePasswordRequest;
+use App\Domains\Auth\Models\User;
 use App\Domains\Auth\Services\UserService;
+use App\Exceptions\GeneralException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Frontend\User\UpdateProfileRequest;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * Class ProfileController.
@@ -26,5 +30,21 @@ class ProfileController extends Controller
         }
 
         return redirect()->route('frontend.user.account', ['#information'])->withFlashSuccess(__('Profile successfully updated.'));
+    }
+
+    public function password(UpdatePasswordRequest $request){
+
+        $user = User::findOrFail(auth()->user()->id);
+
+        throw_if(
+            ! Hash::check($request->current_password, $user->password),
+            new GeneralException(__('That is not your old password.'))
+        );
+
+        $user->password_changed_at = now();
+        $user->password = $request->password;
+        $user->save();
+
+        return redirect()->back()->withFlashSuccess('Password updated!');
     }
 }

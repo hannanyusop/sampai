@@ -203,7 +203,7 @@ if(!function_exists('getParcelStatusBadge')){
             0 => '<span class="badge badge-dot badge-dot-xs badge-secondary">Receive By Utem Mel</span>',
             1 => '<span class="badge badge-dot badge-dot-xs badge-success" > Outbound To Drop Point </span>',
             2 => '<span class="badge badge-dot badge-dot-xs badge-success" > Inbound To Drop Point </span>',
-            3 => '<span class="badge badge-dot badge-dot-xs badge-success" > Ready To Collect </span>',
+                3 => '<span class="badge badge-dot badge-dot-xs badge-success" > Ready To Collect </span>',
             4 => '<span class="badge badge-dot badge-dot-xs badge-success" > Delivered </span>',
             5 => '<span class="badge badge-dot badge-dot-xs badge-danger" > Return </span>'
         ];
@@ -293,6 +293,38 @@ if(!function_exists('sendEmail')){
         }
 
 
+    }
+}
+
+if(!function_exists('dataUserDashboard')){
+
+    function dataUserDashboard(){
+
+        $parcel = Parcels::pluck('tracking_no');
+
+        $pending = Subscribe::where('user_id', auth()->user()->id)->whereNotIn('tracking_no', $parcel)->count();
+
+        $transit = Subscribe::leftJoin('parcels', 'parcels.tracking_no', '=','subscribes.tracking_no')
+            ->where('user_id', auth()->user()->id)
+            ->whereIn('status', [0,1,2])
+            ->count();
+
+        $arrive = Subscribe::leftJoin('parcels', 'parcels.tracking_no', '=','subscribes.tracking_no')
+            ->where('user_id', auth()->user()->id)
+            ->whereIn('status', [3])
+            ->count();
+
+        $received = Subscribe::leftJoin('parcels', 'parcels.tracking_no', '=','subscribes.tracking_no')
+            ->where('user_id', auth()->user()->id)
+            ->whereIn('status', [4])
+            ->count();
+
+        return [
+            'pending' => $pending,
+            'transit' => $transit,
+            'arrive' => $arrive,
+            'received' => $received
+        ];
     }
 }
 
