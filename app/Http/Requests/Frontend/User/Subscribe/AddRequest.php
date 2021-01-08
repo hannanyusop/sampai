@@ -17,7 +17,7 @@ class AddRequest extends FormRequest
     {
         return [
             'tracking_no' => 'required|max:50',
-            'remark' => 'max:255'
+            'remark' => 'required|max:255'
         ];
     }
 }
