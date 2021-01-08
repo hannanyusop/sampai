@@ -59,19 +59,19 @@ if (! function_exists('homeRoute')) {
     }
 }
 
-//if(!function_exists('getParcelStatus')){
-//
-//    function getParcelStatus($tracking_no){
-//
-//        $parcel = Parcels::where('tracking_no', $tracking_no)->first();
-//
-//        if(!$parcel){
-//            return '<span class="badge badge-danger badge-pill">Not Found</span>';
-//        }
-//
-//        return '<span class="badge badge-success badge-pill">In Transit</span>';
-//    }
-//}
+if(!function_exists('getStatusByParcel')){
+
+    function getStatusByParcel($tracking_no){
+
+        $parcel = Parcels::where('tracking_no', $tracking_no)->first();
+
+        if(!$parcel){
+            return '<span class="badge badge-danger badge-pill">Not Found</span>';
+        }
+
+        return '<span class="badge badge-success badge-pill">In Transit</span>';
+    }
+}
 
 if(!function_exists('generateTripCode')){
 

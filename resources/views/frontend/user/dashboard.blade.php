@@ -104,7 +104,7 @@ $dataUser = dataUserDashboard();
                                 <div class="col-xl-9 col-sm-8">
                                     <div class="sp-plan-name">
                                         <h6 class="title">{{ $subscribe->tracking_no }}
-                                            {!! getParcelStatus($subscribe->tracking_no) !!}
+                                            {!! getStatusByParcel($subscribe->tracking_no) !!}
                                         </h6>
                                         <p>Trip ID: <span class="text-base">{{ ($subscribe->parcel)? $subscribe->parcel->trip->code : "Not found" }}</span></p>
                                     </div>
