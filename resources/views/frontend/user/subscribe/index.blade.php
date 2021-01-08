@@ -76,7 +76,7 @@
                                 <span></span>
                             </div>
                             <div class="tb-tnx-status">
-                                <a href="{{ route('frontend.user.subscribe.edit', $subscribe->tracking_no) }}" class="">Edit</a> | 
+                                <a href="{{ route('frontend.user.subscribe.edit', $subscribe->tracking_no) }}" class="">Edit</a> |
                                 <a onclick="return confirm('Are you sure want to remove this tracking from your list?')" href="{{ route('frontend.user.subscribe.delete', $subscribe->tracking_no) }}" class="text-danger">Delete</a>
                             </div>
                         </td>
