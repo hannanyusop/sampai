@@ -29,7 +29,7 @@ class ParcelController extends Controller{
 
     public function scan(){
 
-        return view('backend.parcel.h');
+        return view('backend.parcel.scan');
     }
 
     public function view(Request $request){
