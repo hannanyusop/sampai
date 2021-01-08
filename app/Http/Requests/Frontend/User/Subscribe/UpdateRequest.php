@@ -16,13 +16,8 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => 'required|min:3|max:5|unique:offices,code,'.$this->id,
-            'name' => 'required|max:50',
-            'is_drop_point' => '',
-            'address' => '',
-            'location' => '',
-            'operation_day' => '',
-
+            'tracking_no' => 'required|max:50',
+            'remark' => 'required|max:255'
         ];
     }
 }

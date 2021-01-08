@@ -34,6 +34,10 @@
                             <span class="tb-tnx-total">Destination</span>
                             <span class="tb-tnx-status d-none d-md-inline-block">Status</span>
                         </th>
+                        <th class="tb-tnx-amount">
+                            <span class="tb-tnx-total"></span>
+                            <span class="tb-tnx-status d-none d-md-inline-block">Action</span>
+                        </th>
                     </tr></thead>
                     <tbody>
                     @foreach($subscribes as $key => $subscribe)
@@ -51,10 +55,10 @@
                         <td class="tb-tnx-amount">
                             @if($subscribe->parcel)
                                 <div class="tb-tnx-total">
-                                    <span>Lestari</span>
+                                    <span>{{ $subscribe->parcel->trip->destination->name }}</span>
                                 </div>
                                 <div class="tb-tnx-status">
-                                    <span class="badge badge-dot badge-success">In Transit</span>
+                                    {!! getParcelStatusBadge($subscribe->parcel->status) !!}
                                 </div>
                             @else
                                 <div class="tb-tnx-total">
@@ -65,6 +69,15 @@
                                 </div>
                             @endif
 
+                        </td>
+
+                        <td class="tb-tnx-amount">
+                            <div class="tb-tnx-total">
+                                <span></span>
+                            </div>
+                            <div class="tb-tnx-status">
+                                <a href="{{ route('frontend.user.subscribe.edit', $subscribe->tracking_no) }}" class="">Edit</a>
+                            </div>
                         </td>
                     </tr>
                     @endforeach

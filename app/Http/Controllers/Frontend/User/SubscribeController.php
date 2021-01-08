@@ -76,20 +76,40 @@ class SubscribeController extends Controller
 
     public function edit($id){
 
-        $sub = Subscribe::where('user_id', auth()->user()->id)->findOrFail(decrypt($id));
+        $sub = Subscribe::where('user_id', auth()->user()->id)->where('tracking_no', $id)->first();
+
+        if(!$sub){
+            return  redirect()-back()->withFlashError('Data not found!');
+        }
 
         return view('frontend.user.subscribe.edit', compact('sub'));
     }
 
     public function update(UpdateRequest $request, $id){
 
-        $sub = Subscribe::where('user_id', auth()->user()->id)->findOrFail(decrypt($id));
+        $sub = Subscribe::where('user_id', auth()->user()->id)->where('tracking_no', $id)->first();
 
-        $sub->remark = $request->remark;
-        $sub->is_notify = ($request->is_notify == "on")? 1 : 0;
+        if(!$sub){
+            return  redirect()-back()->withFlashError('Data not found!');
+        }
 
-        $sub->save();
-        return redirect()->back()->withFlashSuccess("Tracking no: $sub->tracking_no updated successfully!");
+        $check = Subscribe::where(['user_id' => auth()->user()->id,
+            'tracking_no' => $request->tracking_no])
+            ->where('id', '!=', $sub->id)
+            ->first();
+
+        if(!$check){
+
+            $sub->remark = $request->remark;
+            $sub->is_notify = ($request->is_notify == "on")? 1 : 0;
+
+            $sub->save();
+            return redirect()->back()->withFlashSuccess("Tracking no: $sub->tracking_no updated successfully!");
+
+        }else{
+            return redirect()->back()->withFlashWarning("You already subscribe this: $request->tracking_no parcel!");
+        }
+
     }
 
     public function delete($id){
