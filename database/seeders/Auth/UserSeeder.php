@@ -44,6 +44,8 @@ class UserSeeder extends Seeder
             'email' => 'admin@mail.com',
             'password' => 'secret',
             'email_verified_at' => now(),
+            'identification' => '96020213'.rand(1000,9999),
+            'phone_number' => '010'.rand(1000000,9999999),
             'active' => true,
         ]);
 
@@ -55,6 +57,8 @@ class UserSeeder extends Seeder
                 'email' => 'mel@mail.com',
                 'password' => 'secret',
                 'email_verified_at' => now(),
+                'identification' => '96020213'.rand(1000,9999),
+                'phone_number' => '010'.rand(1000000,9999999),
                 'active' => true,
             ]);
 
@@ -65,6 +69,8 @@ class UserSeeder extends Seeder
                 'email' => 'lestari@mail.com',
                 'password' => 'secret',
                 'email_verified_at' => now(),
+                'identification' => '96020213'.rand(1000,9999),
+                'phone_number' => '010'.rand(1000000,9999999),
                 'active' => true,
             ]);
 
@@ -75,6 +81,8 @@ class UserSeeder extends Seeder
                 'email' => 'runner@mail.com',
                 'password' => 'secret',
                 'email_verified_at' => now(),
+                'identification' => '96020213'.rand(1000,9999),
+                'phone_number' => '010'.rand(1000000,9999999),
                 'active' => true,
             ]);
 
@@ -85,6 +93,8 @@ class UserSeeder extends Seeder
                 'email' => 'student@mail.com',
                 'password' => 'secret',
                 'email_verified_at' => now(),
+                'identification' => '96020213'.rand(1000,9999),
+                'phone_number' => '010'.rand(1000000,9999999),
                 'active' => true,
             ]);
         }

@@ -30,6 +30,12 @@
                     </li>
                 </ul>
             </li>
+            <li class="nk-menu-item">
+                <a href="{{ route('frontend.user.wallet.index') }}" class="nk-menu-link">
+                    <span class="nk-menu-icon"><em class="icon ni ni-wallet"></em></span>
+                    <span class="nk-menu-text">Wallet</span>
+                </a>
+            </li>
         </ul>
     </div>
     <div class="nk-aside-close">

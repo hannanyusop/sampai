@@ -328,6 +328,38 @@ if(!function_exists('dataUserDashboard')){
     }
 }
 
+if(!function_exists('getToyyibPayUrl')){
+
+    function getToyyibPayUrl(){
+
+        $is_sandbox = env('TOYYIB_SANDBOX', true);
+
+        if($is_sandbox){
+
+            return 'https://dev.toyyibpay.com';
+        }else{
+
+            return 'https://toyyibpay.com';
+        }
+    }
+
+}
+
+if(!function_exists('paymentEnabled')){
+
+    function paymentEnabled(){
+        return true;
+    }
+}
+
+if(!function_exists('displayPriceFormat')){
+
+    function displayPriceFormat($price){
+
+        return 'RM '.number_format($price, 2, '.', '');
+    }
+}
+
 
 
 

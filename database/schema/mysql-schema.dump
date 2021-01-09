@@ -205,6 +205,17 @@ CREATE TABLE `subscribes` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `track_histories` (
+  `id` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `user_id` int(11) NOT NULL,
+  `tracking_no` varchar(50) NOT NULL DEFAULT '',
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `trip_remarks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `trip_id` int(11) NOT NULL,
@@ -276,23 +287,48 @@ CREATE TABLE `users` (
   `office_id` int(11) NOT NULL DEFAULT '0',
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `identification` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `password_changed_at` timestamp NULL DEFAULT NULL,
   `active` tinyint(3) unsigned NOT NULL DEFAULT '1',
   `timezone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `avatar` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `last_login_at` timestamp NULL DEFAULT NULL,
   `last_login_ip` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `to_be_logged_out` tinyint(1) NOT NULL DEFAULT '0',
   `provider` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `provider_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `wallet` decimal(10,2) DEFAULT '0.00',
+  `wallet_total` decimal(10,2) DEFAULT '0.00',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `identification` (`identification`),
   UNIQUE KEY `users_email_unique` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `wallet_transactions` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `bill_code` varchar(50) NOT NULL DEFAULT '',
+  `collection_id` varchar(50) NOT NULL DEFAULT '',
+  `payment_type` varchar(50) NOT NULL,
+  `txn_id` varchar(50) NOT NULL,
+  `receipt` varchar(50) DEFAULT '',
+  `status` varchar(50) NOT NULL DEFAULT 'unpaid',
+  `amount` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `balance` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

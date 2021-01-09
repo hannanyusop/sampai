@@ -15,7 +15,10 @@
                                 <div class="user-avatar sm">
                                     <em class="icon ni ni-user-alt"></em>
                                 </div>
-                                <div class="user-name dropdown-indicator d-none d-sm-block">{{ auth()->user()->name }}</div>
+                                <div class="user-info d-none d-md-block">
+                                    <div class="user-status user-status-unverified">Account Type :User</div>
+                                    <div class="user-name dropdown-indicator">{{ auth()->user()->name }}</div>
+                                </div>
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-md dropdown-menu-right dropdown-menu-s1 is-light">
@@ -30,6 +33,13 @@
                                     </div>
                                 </div>
                             </div>
+                            @if(paymentEnabled())
+                                <div class="dropdown-inner user-account-info">
+                                    <h6 class="overline-title-alt">Wallet Account</h6>
+                                    <div class="user-balance">{{ displayPriceFormat(auth()->user()->wallet) }}</div>
+                                    <a href="{{ route('frontend.user.wallet.toppup') }}" class="link"><span>Top-up Wallet</span> <em class="icon ni ni-wallet-in"></em></a>
+                                </div>
+                            @endif
                             <div class="dropdown-inner">
                                 <ul class="link-list">
                                     <li><a href="{{ route('frontend.user.account') }}"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>

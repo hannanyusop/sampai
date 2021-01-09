@@ -59,6 +59,10 @@ class User extends Authenticatable implements MustVerifyEmail, TwoFactorAuthenti
         'to_be_logged_out',
         'provider',
         'provider_id',
+        'wallet',
+        'wallet_total',
+        'identification',
+        'phone_number'
     ];
 
     /**
@@ -133,5 +137,10 @@ class User extends Authenticatable implements MustVerifyEmail, TwoFactorAuthenti
         $office = Office::where('id', $this->office_id)->first();
 
         return ($office)? $office->name : "Not Assign To Any Office";
+    }
+
+    public function transactions(){
+
+        return $this->hasMany(WalletTransaction::class, 'user_id', 'id');
     }
 }
