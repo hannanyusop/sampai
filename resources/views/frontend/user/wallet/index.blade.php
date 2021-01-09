@@ -46,7 +46,7 @@
                                     </div>
                                     <div class="tranx-data">
                                         <div class="tranx-label">{{ displayPriceFormat($transaction->amount) }}</div>
-                                        <div class="number">Txn ID :  <span class="currency currency-btc">{{ $transaction->txn_id }}</span></div>
+                                        <div class="number">Txn ID :  <a href="{{ $transaction->receipt }}"><span class="currency currency-btc">{{ $transaction->txn_id }}</span></a> </div>
                                     </div>
                                 </div>
                             </div>
