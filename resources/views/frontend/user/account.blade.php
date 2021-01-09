@@ -49,7 +49,30 @@
                                 <span class="data-value text-soft">{{ $logged_in_user->email }}</span>
                             </div>
                             <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
-                        </div><!-- .data-item -->
+                        </div>
+                        <div class="data-item" data-toggle="modal" data-target="#profile-edit">
+                            <div class="data-col">
+                                <span class="data-label">Student/Staff ID </span>
+                                <span class="data-value text-soft">{{ $logged_in_user->identification }}</span>
+                            </div>
+                            <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                        </div>
+                        <div class="data-item" data-toggle="modal" data-target="#profile-edit">
+                            <div class="data-col">
+                                <span class="data-label">Phone Number </span>
+                                <span class="data-value text-soft">{{ $logged_in_user->phone_number }}</span>
+                            </div>
+                            <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                        </div>
+
+                        <div class="data-item" data-toggle="modal" data-target="#profile-edit">
+                            <div class="data-col">
+                                <span class="data-label">Address </span>
+                                <span class="data-value text-soft">{{ $logged_in_user->address }}</span>
+                            </div>
+                            <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                        </div>
+
                         <div class="data-item" data-toggle="modal" data-target="#profile-edit">
                             <div class="data-col">
                                 <span class="data-label">Registered Date</span>
@@ -105,7 +128,10 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="form-label" for="name">@lang('Name')</label>
-                                        <input type="text" name="name" class="form-control text-uppercase" placeholder="{{ __('Name') }}" value="{{ old('name') ?? $logged_in_user->name }}" required autofocus autocomplete="name" />
+                                        <input type="text" name="name" id="name" class="form-control text-uppercase" placeholder="{{ __('Name') }}" value="{{ old('name') ?? $logged_in_user->name }}" required>
+                                        @error('name')
+                                        <span id="address" class="invalid">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                 </div>
 
@@ -122,6 +148,36 @@
                                         </div><!--form-group-->
                                     </div>
                                 @endif
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="identification">@lang('Student/Staff ID')</label>
+                                    <input type="text" name="identification" id="identification" class="form-control text-uppercase"  value="{{ old('identification') ?? $logged_in_user->identification }}" required autofocus>
+                                    @error('identification')
+                                    <span id="identification" class="invalid">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="phone_number">@lang('Phone Number')</label>
+                                    <input type="text" name="phone_number" id="phone_number" class="form-control text-uppercase"  value="{{ old('phone_number') ?? $logged_in_user->phone_number }}" required autofocus>
+                                    @error('phone_number')
+                                        <span id="phone_number" class="invalid">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="address">@lang('Address')</label>
+                                    <textarea name="address" id="address" class="form-control text-uppercase" required>{{ old('address') ?? $logged_in_user->address }}</textarea>
+                                    @error('address')
+                                        <span id="address" class="invalid">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
 
                                 <div class="col-12 m-2">
                                     <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
@@ -156,23 +212,32 @@
 
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="name">@lang('Current Password')</label>
-                                    <input type="password" name="current_password" class="form-control" placeholder="{{ __('Current Password') }}" maxlength="100" required autofocus />
+                                    <label class="form-label" for="current_password">@lang('Current Password')</label>
+                                    <input type="password" name="current_password" id="current_password" class="form-control" placeholder="{{ __('Current Password') }}" maxlength="100" required autofocus />
+                                    @error('current_password')
+                                    <span id="address" class="invalid">{{ $message }}</span>
+                                    @enderror
                                 </div>
                             </div>
 
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="name">@lang('New Password')</label>
-                                    <input type="password" name="password" class="form-control" placeholder="{{ __('New Password') }}" maxlength="100" required />
+                                    <label class="form-label" for="password">@lang('New Password')</label>
+                                    <input type="password" name="password" id="password" class="form-control" placeholder="{{ __('New Password') }}" maxlength="100" required />
+                                    @error('password')
+                                        <span id="address" class="invalid">{{ $message }}</span>
+                                    @enderror
                                 </div>
                             </div>
 
 
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="name">@lang('New Password Confirmation')</label>
-                                    <input type="password" name="password_confirmation" class="form-control" placeholder="{{ __('New Password Confirmation') }}" maxlength="100" required />
+                                    <label class="form-label" for="password_confirmation">@lang('New Password Confirmation')</label>
+                                    <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" placeholder="{{ __('New Password Confirmation') }}" maxlength="100" required />
+                                    @error('password_confirmation')
+                                        <span id="address" class="invalid">{{ $message }}</span>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -196,3 +261,16 @@
     </div><!-- .modal -->
 
 @endsection
+@push('after-scripts')
+    <script type="text/javascript">
+        $(function (){
+            @if($errors->has('name') || $errors->has('email') || $errors->has('phone_number') || $errors->has('identification') || $errors->has('address'))
+            $("#profile-edit").modal('show');
+            @endif
+
+            @if($errors->has('current_password') || $errors->has('password') || $errors->has('password_confirmation'))
+            $("#update-password").modal('show');
+            @endif
+        });
+    </script>
+@endpush

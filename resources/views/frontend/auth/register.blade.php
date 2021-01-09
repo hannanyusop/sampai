@@ -59,6 +59,27 @@
                                 @enderror
                             </div><!-- .foem-group -->
 
+
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <label class="form-label" for="identification">Student/Staff ID</label>
+                                </div>
+                                <input type="text" name="identification" id="identification" class="form-control form-control-lg text-uppercase" value="{{ old('identification') }}" maxlength="20" required autofocus placeholder="EX: 960516011234" />
+                                @error('identification')
+                                <span id="fv-name-error" class="invalid">{{ $message }}</span>
+                                @enderror
+                            </div><!-- .foem-group -->
+
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <label class="form-label" for="phone_number">Phone Number</label>
+                                </div>
+                                <input type="text" name="phone_number" id="phone_number" class="form-control form-control-lg text-uppercase" value="{{ old('phone_number') }}" maxlength="15" required>
+                                @error('phone_number')
+                                    <span id="fv-name-error" class="invalid">{{ $message }}</span>
+                                @enderror
+                            </div><!-- .foem-group -->
+
                             <div class="form-group">
                                 <div class="form-label-group">
                                     <label class="form-label" for="password">E-mail</label>

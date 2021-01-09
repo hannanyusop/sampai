@@ -51,6 +51,8 @@ class RegisterController extends Controller
          $request->validate([
             'name' => ['required', 'string', 'max:100'],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')],
+            'identification' => ['required', 'string','min:5', 'max:20', Rule::unique('users')],
+            'phone_number' => ['required', 'string','min:9', 'max:15', Rule::unique('users')],
             'password' => ['required', 'confirmed', 'min:5'],
             'terms' => ['required', 'in:1'],
             'g-recaptcha-response' => ['required_if:captcha_status,true', new Captcha], [
@@ -66,6 +68,8 @@ class RegisterController extends Controller
             $user =  User::create([
                 'type' => 'user',
                 'name' => strtoupper($request->name),
+                'identification' => strtoupper($request->identification),
+                'phone_number' => strtoupper($request->phone_number),
                 'email' => $request->email,
                 'password' => $request->password,
                 'email_verified_at' => now(),
