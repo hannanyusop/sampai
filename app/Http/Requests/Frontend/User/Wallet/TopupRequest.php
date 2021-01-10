@@ -16,7 +16,7 @@ class TopupRequest extends FormRequest
     public function rules()
     {
         return [
-            'amount' => 'numeric|required|min:5',
+            'amount' => 'numeric|required|min:'.getMinTopUp(),
         ];
     }
 }

@@ -56,13 +56,17 @@
                     <li class="nav-item">
                         <a class="nav-link page-scroll" href="{{ route('frontend.auth.login') }}">Login</a>
                     </li>
+                    @if(registrationEnabled())
+                        <li class="nav-item">
+                            <a class="nav-link page-scroll" href="{{ route('frontend.auth.register') }}">Register</a>
+                        </li>
+                    @endif
+                @endif
+                @if(trackEnabled())
                     <li class="nav-item">
-                        <a class="nav-link page-scroll" href="{{ route('frontend.auth.register') }}">Register</a>
+                        <a class="nav-link page-scroll" href="{{ route('frontend.track') }}">Track</a>
                     </li>
                 @endif
-                <li class="nav-item">
-                    <a class="nav-link page-scroll" href="{{ route('frontend.track') }}">Track</a>
-                </li>
             </ul>
         </div> <!-- end of navbar-collapse -->
     </div> <!-- end of container -->

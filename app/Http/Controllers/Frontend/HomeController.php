@@ -16,12 +16,20 @@ class HomeController extends Controller
 
     public function track(Request $request){
 
-        $parcel = null;
+        if(trackEnabled()){
 
-        if($request->tracking_no){
-            $parcel = Parcels::where('tracking_no', $request->tracking_no)->first();
+            $parcel = null;
+
+            if($request->tracking_no){
+                $parcel = Parcels::where('tracking_no', $request->tracking_no)->first();
+            }
+
+            return view('frontend.track', compact('parcel'));
+
+        }else{
+            return  redirect()->route('frontend.index')->withErrors('Action Not Allowed!');
+
         }
 
-        return view('frontend.track', compact('parcel'));
     }
 }

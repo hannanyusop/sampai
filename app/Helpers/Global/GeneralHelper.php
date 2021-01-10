@@ -346,24 +346,45 @@ if(!function_exists('getToyyibPayUrl')){
 
 }
 
+if(!function_exists('registrationEnabled')){
+
+    function registrationEnabled(){
+        return getOption('allow_registration', true);
+    }
+}
+
+if(!function_exists('trackEnabled')){
+
+    function trackEnabled(){
+        return getOption('allow_tracking', true);
+    }
+}
+
 if(!function_exists('paymentEnabled')){
 
     function paymentEnabled(){
-        return true;
+        return getOption('payment_enabled', true);
     }
 }
 
 if(!function_exists('getMaxTrack')){
 
     function getMaxTrack(){
-        return 5;
+        return getOption('payment_limit_query', 5);
+    }
+}
+
+if(!function_exists('getMinTopUp')){
+
+    function getMinTopUp(){
+        return getOption('payment_limit_top_up', 5);
     }
 }
 
 if(!function_exists('getCost')){
 
     function getCost(){
-        return 0.30;
+        return getOption('payment_cost', 0.30);
     }
 }
 

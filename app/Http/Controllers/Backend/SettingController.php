@@ -55,8 +55,8 @@ class SettingController extends Controller{
             'value' => ($request->allow_registration)? true : false
         ]);
 
-        getOption('show_tracking', true);
-        $show_tracking = Option::where('name', 'show_tracking')->first();
+        getOption('allow_tracking', true);
+        $show_tracking = Option::where('name', 'allow_tracking')->first();
         $show_tracking->update([
             'value' => ($request->show_tracking)? true : false
         ]);

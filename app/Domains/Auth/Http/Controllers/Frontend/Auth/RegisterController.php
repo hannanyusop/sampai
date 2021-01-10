@@ -28,7 +28,10 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
-        abort_unless(config('boilerplate.access.user.registration'), 404);
+
+        if(!registrationEnabled()){
+            return  redirect()->route('frontend.index')->withErrors('Action Not Allowed!');
+        }
 
         return view('frontend.auth.register');
     }

@@ -22,7 +22,7 @@ class WalletController extends Controller{
         if(paymentEnabled() == false){
             return redirect()->back()->withFlashError('Invalid action.');
         }
-        $min = 5;
+        $min = getMinTopUp();
 
         return view('frontend.user.wallet.toppup', compact('min'));
 
@@ -34,7 +34,7 @@ class WalletController extends Controller{
             return redirect()->back()->withFlashError('Invalid action.');
         }
 
-        $collection_id = env('TOYYIB_COLLECTION');
+        $collection_id = getOption('payment_collection_id', '');
 
         $some_data = array(
             'userSecretKey'=> env('TOYYIB_SECRET_KEY'),

@@ -36,7 +36,7 @@
                 <div class="card card-signin my-5">
                     <div class="card-body">
                         <div class="brand-logo text-center mb-2">
-                            <a href="" class="logo-link">
+                            <a href="{{ route('frontend.index') }}" class="logo-link">
                                 <img class="logo-light logo-img logo-img-lg" src="{{ asset('images/logo.png') }}"  alt="logo">
                                 <img class="logo-dark logo-img logo-img-lg" src="{{ asset('images/logo.png') }}" alt="logo-dark">
                             </a>
