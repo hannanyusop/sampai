@@ -81,6 +81,7 @@ Route::group(['prefix' => 'office/', 'as' => 'office.'], function (){
 Route::group(['prefix' => 'report/', 'as' => 'report.'], function (){
 
     Route::get('monthly', [ReportController::class, 'monthly'])->name('monthly')->middleware('permission:staff.distributor');
+    Route::get('income', [ReportController::class, 'income'])->name('income')->middleware('permission:staff.distributor');
 
 });
 

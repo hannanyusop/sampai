@@ -27,6 +27,33 @@
     <div class="nk-content-wrap">
         <div class="row">
             <div class="col-xl-12">
+
+                <div class="nk-block nk-block-lg mb-3">
+
+                    <div class="nk-iv-scheme-list text-center">
+                        <div class="nk-iv-scheme-item">
+                            <div class="nk-iv-scheme-term">
+                                <div class="nk-iv-scheme-start nk-iv-scheme-order">
+                                    <span class="nk-iv-scheme-value date">Received By UTeM-Mel</span>
+                                    <span class="nk-iv-scheme-label text-soft">Utem-Mel</span>
+                                </div>
+                                <div class="nk-iv-scheme-start nk-iv-scheme-order">
+                                    <span class="nk-iv-scheme-value date">Outbound To Drop Point</span>
+                                    <span class="nk-iv-scheme-label text-soft">Runner</span>
+                                </div>
+                                <div class="nk-iv-scheme-start nk-iv-scheme-order">
+                                    <span class="nk-iv-scheme-value date">Inbound To Drop Point</span>
+                                    <span class="nk-iv-scheme-label text-soft">Runner</span>
+                                </div>
+                                <div class="nk-iv-scheme-end nk-iv-scheme-order">
+                                    <span class="nk-iv-scheme-value date">Ready To Collect</span>
+                                    <span class="nk-iv-scheme-label text-soft">Drop Point Office</span>
+                                </div>
+                            </div>
+                        </div><!-- .nk-iv-scheme-item -->
+                    </div><!-- .nk-iv-scheme-list -->
+                </div>
+
                 <div class="card card-bordered">
                     <div class="card-inner-group">
                         <div class="card-inner">

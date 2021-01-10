@@ -70,9 +70,16 @@
                 <ul class="nk-menu-sub">
                     <li class="nk-menu-item">
                         <a href="{{ route('admin.report.monthly') }}" class="nk-menu-link">
-                            <span class="nk-menu-text">Monthly</span>
+                            <span class="nk-menu-text">Parcel Report</span>
                         </a>
                     </li>
+                    @if ($logged_in_user->hasAllAccess())
+                        <li class="nk-menu-item">
+                            <a href="{{ route('admin.report.income') }}" class="nk-menu-link">
+                                <span class="nk-menu-text">Sales Report</span>
+                            </a>
+                        </li>
+                    @endif
                 </ul>
             </li>
         @endif

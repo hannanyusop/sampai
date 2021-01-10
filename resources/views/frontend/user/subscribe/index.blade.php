@@ -47,6 +47,7 @@
                                 <div class="user-card">
                                     <div class="user-info">
                                         <span class="tb-lead">{{ $subscribe->tracking_no }}</span>
+                                        <span>{{ reformatDatetime($subscribe->created_at, 'd M Y, h:i A') }}</span>
                                     </div>
                                 </div>
                             </td>

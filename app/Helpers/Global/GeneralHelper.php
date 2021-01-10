@@ -183,7 +183,7 @@ if(!function_exists('getParcelStatus')){
 
         #open -> close (ready to pick by runner) -> in transit -> arrive -> delivered
         $statuses = [
-            0 => 'Inbound To UTeM-Mel',
+            0 => 'Received By UTeM-Mel',
             1 => 'Outbound To Drop Point',
             2 => 'Inbound To Drop Point',
             3 => 'Ready To Collect',

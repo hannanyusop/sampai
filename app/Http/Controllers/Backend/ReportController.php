@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Domains\Auth\Models\Parcels;
+use App\Domains\Auth\Models\WalletTransaction;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -77,4 +78,39 @@ class ReportController extends Controller{
 
         return view('backend.report.monthly', compact('data', 'year', 'table'));
     }
+
+    public function income(Request $request){
+
+        if(!$request->year){
+            return redirect()->route('admin.report.income', ['year' => date('Y')]);
+        }
+
+
+
+        $year = $request->year;
+
+        $month = 1;
+
+        $data = array();
+
+        do{
+
+
+            $amount = WalletTransaction::whereYear('created_at', $year)
+                ->whereMonth('created_at', $month)
+                ->where('status', 'paid')
+                ->sum('amount');
+            $month++;
+
+            array_push($data, $amount);
+        }while($month <= 12);
+
+        $sum = array_sum($data);
+        $avg = $sum/12;
+        $min = min($data);
+        $max = max($data);
+
+        return view('backend.report.income', compact('data', 'year', 'sum', 'avg', 'min', 'max'));
+    }
+
 }
