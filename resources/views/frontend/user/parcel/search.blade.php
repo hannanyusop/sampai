@@ -26,8 +26,28 @@
                             <input type="text" class="form-control copy-text" id="tracking_no" name="tracking_no" placeholder="ER123456MY" value="{{ request('tracking_no') }}">
                         </div>
                     </div>
+
+                    @if(paymentEnabled())
+                    <div class="alert alert-warning mt-3">
+                        <div class="alert-cta flex-wrap flex-md-nowrap">
+                            <div class="alert-text">
+                                <p>You have {{ getMaxTrack()-auth()->user()->todayTracks->count() }} attempt left for today.</p>
+                            </div>
+{{--                            <ul class="alert-actions gx-3 mt-3 mb-1 my-md-0">--}}
+{{--                                <li class="order-md-last">--}}
+{{--                                    <a href="#" class="btn btn-sm btn-warning">Upgrade</a>--}}
+{{--                                </li>--}}
+{{--                                <li>--}}
+{{--                                    <a href="#" class="link link-primary">Learn More</a>--}}
+{{--                                </li>--}}
+{{--                            </ul>--}}
+                        </div>
+                    </div>
+                    @endif
                 </form>
+
             </div>
+
         </div><!-- .card -->
     </div><!-- .nk-block -->
 

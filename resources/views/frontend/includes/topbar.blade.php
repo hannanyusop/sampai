@@ -16,7 +16,7 @@
                                     <img src="{{ auth()->user()->avatar }}" alt="">
                                 </div>
                                 <div class="user-info d-none d-md-block">
-                                    <div class="user-status user-status-unverified">Account Type :User</div>
+                                    <div class="user-status text-white">{{ auth()->user()->identification }}</div>
                                     <div class="user-name dropdown-indicator">{{ auth()->user()->name }}</div>
                                 </div>
                             </div>

@@ -352,6 +352,13 @@ if(!function_exists('paymentEnabled')){
     }
 }
 
+if(!function_exists('getMaxTrack')){
+
+    function getMaxTrack(){
+        return 5;
+    }
+}
+
 if(!function_exists('displayPriceFormat')){
 
     function displayPriceFormat($price){

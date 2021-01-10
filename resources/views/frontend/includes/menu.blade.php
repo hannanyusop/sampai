@@ -1,5 +1,13 @@
 <div class="nk-aside" data-content="sideNav" data-toggle-overlay="true" data-toggle-screen="lg" data-toggle-body="true">
     <div class="nk-sidebar-menu" data-simplebar>
+
+        <div class="user-account-info between-center text-center">
+            <div class="user-account-main">
+                <h6 class="overline-title-alt">Date & Time</h6>
+                <div class="user-balance" id="time"></div>
+                <div class="user-balance-alt" id="dates"> </div>
+            </div>
+        </div>
         <!-- Menu -->
         <ul class="nk-menu">
             <li class="nk-menu-heading">

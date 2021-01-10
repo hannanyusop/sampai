@@ -153,3 +153,5 @@ $dataUser = dataUserDashboard();
         </div>
     </div>
 @endsection
+@push('after-scripts')
+@endpush
