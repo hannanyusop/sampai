@@ -62,6 +62,20 @@
                             </div>
                         </div>
                     </div>
+                    @if(paymentEnabled())
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <div class="form-group">
+                                    <label class="form-label" for="site-off">Cost</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-7">
+                                <div class="form-group">
+                                    <h5>{{ displayPriceFormat(getCost()) }}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                     <div class="row g-3">
                         <div class="col-lg-7 offset-lg-5">
                             <div class="form-group mt-2">

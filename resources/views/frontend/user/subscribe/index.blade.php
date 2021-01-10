@@ -8,7 +8,7 @@
             <div class="card card-bordered">
                 <div class="card-inner card-inner-md">
                     <div class="card-title-group">
-                        <h6 class="card-title">Subscribed Parcel</h6>
+                        <h6 class="card-title">Subscription List</h6>
                         <div class="card-action">
                             <a href="#" class="link link-sm">See All <em class="icon ni ni-chevron-right"></em></a>
                         </div>
@@ -65,7 +65,7 @@
                                     <span></span>
                                 </div>
                                 <div class="tb-tnx-status">
-                                    <span class="badge badge-dot badge-danger">Not Found</span>
+                                    <span class="badge badge-dot badge-danger">Pending</span>
                                 </div>
                             @endif
 

@@ -57,9 +57,23 @@ class SubscribeController extends Controller
 
         if(!$check){
 
+            $user = auth()->user();
+            $cost = 0;
+            if(paymentEnabled()){
+
+                if($user->wallet < getCost()){
+
+                    return  redirect()->back()->withErrors('Not enough wallet balance.');
+                }
+
+                $cost = getCost();
+                $user->decrement('wallet', $cost);
+            }
+
             $sub = new Subscribe();
-            $sub->user_id = auth()->user()->id;
+            $sub->user_id = $user->id;
             $sub->tracking_no = strtoupper($request->tracking_no);
+            $sub->cost = $cost;
             $sub->remark = $request->remark;
             $sub->is_notify = ($request->is_notify == "on")? 1 : 0;
 

@@ -29,11 +29,11 @@
                         <a href="{{ route('frontend.user.parcel.search') }}" class="nk-menu-link">
                             <span class="nk-menu-text">Track Parcel</span>
                         </a>
-                        <a href="{{ route('frontend.user.subscribe.index') }}" class="nk-menu-link">
-                            <span class="nk-menu-text">Mine</span>
-                        </a>
                         <a href="{{ route('frontend.user.subscribe.create') }}" class="nk-menu-link">
                             <span class="nk-menu-text">Subscribe</span>
+                        </a>
+                        <a href="{{ route('frontend.user.subscribe.index') }}" class="nk-menu-link">
+                            <span class="nk-menu-text">Subscription List</span>
                         </a>
                     </li>
                 </ul>

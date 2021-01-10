@@ -66,10 +66,10 @@ if(!function_exists('getStatusByParcel')){
         $parcel = Parcels::where('tracking_no', $tracking_no)->first();
 
         if(!$parcel){
-            return '<span class="badge badge-danger badge-pill">Not Found</span>';
+            return '<span class="badge badge-danger badge-pill">Pending</span>';
         }
 
-        return '<span class="badge badge-success badge-pill">In Transit</span>';
+        return '<span class="badge badge-success badge-pill">In Transit /Received</span>';
     }
 }
 
@@ -356,6 +356,13 @@ if(!function_exists('getMaxTrack')){
 
     function getMaxTrack(){
         return 5;
+    }
+}
+
+if(!function_exists('getCost')){
+
+    function getCost(){
+        return 0.30;
     }
 }
 
