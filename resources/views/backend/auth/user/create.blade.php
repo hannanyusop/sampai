@@ -47,6 +47,29 @@
 
                         <div class="col-lg-6">
                             <div class="form-group">
+                                <label class="form-label" for="identification">@lang('Student/Staff ID')</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" id="identification" name="identification" class="form-control text-uppercase" placeholder="{{ __('') }}" value="{{ old('identification') }}" maxlength="15" required />
+                                    @error('identification')
+                                    <span id="fv-name-error" class="invalid">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-label" for="phone_number">@lang('Phone Number')</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" name="phone_number" id="phone_number" class="form-control" placeholder="{{ __('Phone Number') }}" value="{{ old('phone_number') }}" maxlength="15" required />
+                                    @error('phone_number')
+                                    <span id="fv-name-error" class="invalid">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
                                 <label class="form-label" for="password">@lang('Password')</label>
                                 <div class="form-control-wrap">
                                     <input type="password" name="password" id="password" class="form-control" placeholder="{{ __('Type Password') }}" value="" maxlength="255" required />
@@ -112,13 +135,13 @@
                                     <li>
                                         <div class="custom-control custom-control-sm custom-radio">
                                             <input type="radio" class="custom-control-input" {{ old('type') === $model::TYPE_USER ? 'checked' : '' }} name="type" value="{{ $model::TYPE_USER }}" id="{{ $model::TYPE_USER }}">
-                                            <label class="custom-control-label" for="{{ $model::TYPE_USER }}">@lang('Public')</label>
+                                            <label class="custom-control-label" for="{{ $model::TYPE_USER }}">@lang('User')</label>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="custom-control custom-control-sm custom-radio">
                                             <input type="radio" class="custom-control-input" {{ old('type') === $model::TYPE_ADMIN ? 'checked' : '' }} name="type" value="{{ $model::TYPE_ADMIN }}" id="{{ $model::TYPE_ADMIN }}">
-                                            <label class="custom-control-label" for="{{ $model::TYPE_ADMIN }}">@lang('Internal')</label>
+                                            <label class="custom-control-label" for="{{ $model::TYPE_ADMIN }}">@lang('Staff/Admin')</label>
                                         </div>
                                     </li>
                                 </ul>

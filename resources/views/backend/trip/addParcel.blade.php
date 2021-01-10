@@ -51,7 +51,12 @@
                                         <div class="form-group">
                                             <label class="form-label" for="receiver_name">Receiver Name</label>
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control text-uppercase" id="receiver_name" name="receiver_name" value="{{ old('receiver_name') }}">
+                                                <input type="text" list="prevUser" class="form-control text-uppercase" id="receiver_name" name="receiver_name" value="{{ old('receiver_name') }}">
+                                                <datalist id="prevUser">
+                                                    @foreach($sName as $suggestion)
+                                                        <option value="{{ $suggestion['receiver_name'] }}">
+                                                    @endforeach
+                                                </datalist>
                                                 @error('name')
                                                     <span id="fv-name-error" class="invalid">{{ $message }}</span>
                                                 @enderror
@@ -62,7 +67,12 @@
                                         <div class="form-group">
                                             <label class="form-label" for="receiver_info">Receiver Info</label>
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" id="receiver_info" name="receiver_info" placeholder="Email address / Staff No /Student No" value="{{ old('receiver_info') }}">
+                                                <input type="text" class="form-control" list="prevInfo" id="receiver_info" name="receiver_info" placeholder="Email address / Staff No /Student No" value="{{ old('receiver_info') }}">
+                                                <datalist id="prevInfo">
+                                                    @foreach($sInfo as $suggestion)
+                                                        <option value="{{ $suggestion['receiver_info'] }}">
+                                                    @endforeach
+                                                </datalist>
                                                 @error('receiver_info')
                                                     <span id="fv-name-error" class="invalid">{{ $message }}</span>
                                                 @enderror

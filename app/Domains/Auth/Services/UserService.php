@@ -118,6 +118,8 @@ class UserService extends BaseService
                 'type' => $data['type'],
                 'name' => $data['name'],
                 'email' => $data['email'],
+                'identification' => $data['identification'],
+                'phone_number' => $data['phone_number'],
                 'password' => $data['password'],
                 'email_verified_at' => isset($data['email_verified']) && $data['email_verified'] === '1' ? now() : null,
                 'active' => isset($data['active']) && $data['active'] === '1',
@@ -131,6 +133,7 @@ class UserService extends BaseService
         } catch (Exception $e) {
             DB::rollBack();
 
+            dd($e);
             throw new GeneralException(__('There was a problem creating this user. Please try again.'));
         }
 
@@ -331,6 +334,8 @@ class UserService extends BaseService
             'type' => $data['type'] ?? $this->model::TYPE_USER,
             'name' => $data['name'] ?? null,
             'email' => $data['email'] ?? null,
+            'identification' => $data['identification'] ?? null,
+            'phone_number' => $data['phone_number'] ?? null,
             'password' => $data['password'] ?? null,
             'provider' => $data['provider'] ?? null,
             'provider_id' => $data['provider_id'] ?? null,

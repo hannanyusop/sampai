@@ -137,13 +137,16 @@ class TripController extends Controller
 
         $trip = Trip::findOrFail($id);
 
+        $sName = Parcels::select([ \DB::raw('DISTINCT receiver_name')])->get()->toArray();
+        $sInfo = Parcels::select([ \DB::raw('DISTINCT receiver_info')])->get()->toArray();
+
         if($trip->status != 0){
             return redirect()->back()->withFlashWarning('Trip has been closed.');
         }
 
         $parcels = Parcels::where('trip_id', $trip->id)->orderBy('id', 'DESC')->limit(3)->get();
 
-        return view('backend.trip.addParcel', compact('trip', 'parcels'));
+        return view('backend.trip.addParcel', compact('trip', 'parcels', 'sInfo', 'sName'));
     }
 
     public function insertParcel(InsertParcelRequest $request, $id){

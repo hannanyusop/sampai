@@ -20,6 +20,7 @@ class ParcelController extends Controller{
 
             $parcels = Parcels::leftJoin('trips', 'trips.id', 'parcels.trip_id')
                 ->where('trips.destination_id', auth()->user()->office_id)
+                ->whereIn('parcels.status', [3,4,5])
                 ->get();
         }
 

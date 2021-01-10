@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\OfficeController;
 use App\Http\Controllers\Backend\ParcelController;
 use App\Http\Controllers\Backend\TripRemarkController;
 use App\Http\Controllers\Backend\ReportController;
+use App\Http\Controllers\Backend\SettingController;
 
 // All route names are prefixed with 'admin.'.
 Route::redirect('/', '/admin/dashboard', 301);
@@ -80,5 +81,16 @@ Route::group(['prefix' => 'office/', 'as' => 'office.'], function (){
 Route::group(['prefix' => 'report/', 'as' => 'report.'], function (){
 
     Route::get('monthly', [ReportController::class, 'monthly'])->name('monthly')->middleware('permission:staff.distributor');
+
+});
+
+Route::group(['prefix' => 'setting/', 'as' => 'setting.', 'middleware' => 'permission:admin.access.user'], function (){
+
+    Route::get('payment', [SettingController::class, 'payment'])->name('payment');
+    Route::post('payment', [SettingController::class, 'paymentSave'])->name('paymentSave');
+
+    Route::get('system', [SettingController::class, 'system'])->name('system');
+    Route::post('system', [SettingController::class, 'systemSave'])->name('systemSave');
+
 
 });

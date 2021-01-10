@@ -46,7 +46,25 @@
                                     <span class="data-label">Email</span>
                                     <span class="data-value">{{ $user->email }}</span>
                                 </div>
-                            </div><!-- data-item -->
+                            </div>
+                            <div class="data-item">
+                                <div class="data-col">
+                                    <span class="data-label">Student/Staff ID</span>
+                                    <span class="data-value">{{ $user->identification }}</span>
+                                </div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-col">
+                                    <span class="data-label">Phone Number</span>
+                                    <span class="data-value">{{ $user->phone_number }}</span>
+                                </div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-col">
+                                    <span class="data-label">Address</span>
+                                    <span class="data-value">{{ $user->address }}</span>
+                                </div>
+                            </div>
                             <div class="data-item" data-toggle="modal" data-target="#profile-edit">
                                 <div class="data-col">
                                     <span class="data-label">@lang('Type')</span>

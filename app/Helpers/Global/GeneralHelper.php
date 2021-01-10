@@ -9,6 +9,7 @@ use App\Domains\Auth\Models\Subscribe;
 use Illuminate\Support\Carbon;
 use App\Domains\Auth\Models\ParcelTransaction;
 use Mailgun\Mailgun;
+use App\Domains\Auth\Models\Option;
 
 if (! function_exists('appName')) {
     /**
@@ -371,6 +372,25 @@ if(!function_exists('displayPriceFormat')){
     function displayPriceFormat($price){
 
         return 'RM '.number_format($price, 2, '.', '');
+    }
+}
+
+if(!function_exists('getOption')){
+
+    function getOption($name, $default = null){
+
+
+        $option = Option::where('name', $name)->first();
+
+        if(!$option){
+
+           $option = Option::create([
+                'name' => $name,
+                'value' => $default
+            ]);
+        }
+
+        return  $option->value;
     }
 }
 

@@ -20,8 +20,8 @@
                 <span class="nk-menu-text">Dashboard</span>
             </a>
         </li>
-
-        <li class="nk-menu-item has-sub">
+        @if(!$logged_in_user->can('admin.access.user'))
+            <li class="nk-menu-item has-sub">
             <a href="#" class="nk-menu-link nk-menu-toggle">
                 <span class="nk-menu-text">Trip Management</span>
             </a>
@@ -61,6 +61,7 @@
                 </li>
             </ul>
         </li>
+        @endif
         @if($logged_in_user->can('staff.distributor'))
             <li class="nk-menu-item has-sub">
                 <a href="#" class="nk-menu-link nk-menu-toggle">
@@ -86,9 +87,21 @@
 
             <li class="nk-menu-item has-sub">
                 <a href="#" class="nk-menu-link nk-menu-toggle">
-                    <span class="nk-menu-text">System Setting <em class="icon ni ni-setting"></em> </span>
+                    <span class="nk-menu-text">System Setting</span>
                 </a>
                 <ul class="nk-menu-sub">
+
+                    <li class="nk-menu-item">
+                        <a href="{{ route('admin.setting.system') }}" class="nk-menu-link">
+                            <span class="nk-menu-text">{{ __('System Setting') }}</span>
+                        </a>
+                    </li>
+
+                    <li class="nk-menu-item">
+                        <a href="{{ route('admin.setting.payment') }}" class="nk-menu-link">
+                            <span class="nk-menu-text">{{ __('Payment Setting') }}</span>
+                        </a>
+                    </li>
 
                     @if ($logged_in_user->hasAllAccess() ||(
                            $logged_in_user->can('admin.access.user.list') ||
@@ -108,11 +121,11 @@
                     @if ($logged_in_user->hasAllAccess())
                     @endif
 
-                    <li class="nk-menu-item">
-                        <a href="{{ route('admin.auth.role.index') }}" class="nk-menu-link">
-                            <span class="nk-menu-text">{{ __('Role Management') }}</span>
-                        </a>
-                    </li>
+{{--                    <li class="nk-menu-item">--}}
+{{--                        <a href="{{ route('admin.auth.role.index') }}" class="nk-menu-link">--}}
+{{--                            <span class="nk-menu-text">{{ __('Role Management') }}</span>--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
                     <li class="nk-menu-item">
                         <a href="{{ route('admin.office.index') }}" class="nk-menu-link">
                             <span class="nk-menu-text">{{ __('Office Management') }}</span>
