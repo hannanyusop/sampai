@@ -99,6 +99,18 @@ CREATE TABLE `offices` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `options` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `value` longtext NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `parcel_transactions` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) unsigned NOT NULL,
@@ -198,6 +210,8 @@ CREATE TABLE `subscribes` (
   `tracking_no` varchar(100) NOT NULL,
   `remark` varchar(100) NOT NULL,
   `is_notify` tinyint(4) NOT NULL DEFAULT '0',
+  `cost` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `is_hide` tinyint(4) NOT NULL DEFAULT '0',
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -206,8 +220,8 @@ CREATE TABLE `subscribes` (
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `track_histories` (
-  `id` bigint(20) unsigned NOT NULL DEFAULT '0',
-  `user_id` int(11) NOT NULL,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
   `tracking_no` varchar(50) NOT NULL DEFAULT '',
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
@@ -295,7 +309,7 @@ CREATE TABLE `users` (
   `password_changed_at` timestamp NULL DEFAULT NULL,
   `active` tinyint(3) unsigned NOT NULL DEFAULT '1',
   `timezone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `avatar` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `last_login_at` timestamp NULL DEFAULT NULL,
   `last_login_ip` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `to_be_logged_out` tinyint(1) NOT NULL DEFAULT '0',

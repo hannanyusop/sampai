@@ -183,7 +183,7 @@ if(!function_exists('getParcelStatus')){
 
         #open -> close (ready to pick by runner) -> in transit -> arrive -> delivered
         $statuses = [
-            0 => 'Receive By Utem Mel',
+            0 => 'Inbound To UTeM-Mel',
             1 => 'Outbound To Drop Point',
             2 => 'Inbound To Drop Point',
             3 => 'Ready To Collect',
@@ -204,7 +204,7 @@ if(!function_exists('getParcelStatusBadge')){
             0 => '<span class="badge badge-dot badge-dot-xs badge-secondary">Receive By Utem Mel</span>',
             1 => '<span class="badge badge-dot badge-dot-xs badge-success" > Outbound To Drop Point </span>',
             2 => '<span class="badge badge-dot badge-dot-xs badge-success" > Inbound To Drop Point </span>',
-                3 => '<span class="badge badge-dot badge-dot-xs badge-success" > Ready To Collect </span>',
+            3 => '<span class="badge badge-dot badge-dot-xs badge-success" > Ready To Collect </span>',
             4 => '<span class="badge badge-dot badge-dot-xs badge-success" > Delivered </span>',
             5 => '<span class="badge badge-dot badge-dot-xs badge-danger" > Return </span>'
         ];

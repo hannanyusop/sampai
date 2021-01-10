@@ -15,7 +15,7 @@
                 </div>
                 <div class="nk-block-head-content">
                     <ul class="nk-block-tools gx-3">
-                        @if($sub->parcel)
+                        @if($sub->parcel && $sub->parcel->status == 3)
                             <li class="order-md-last"><a href="{{ route('frontend.user.subscribe.qr', $sub->tracking_no) }}" class="btn btn-success"><em class="icon ni ni-qr"></em> <span>Show My QR</span> </a></li>
                         @endif
                         <li><a href="{{ route('frontend.user.subscribe.view', $sub->tracking_no) }}" class="btn btn-icon btn-light"><em class="icon ni ni-reload"></em></a></li>
@@ -24,7 +24,6 @@
             </div>
         </div>
     </div>
-
     <div class="nk-content-wrap">
         <div class="row">
             <div class="col-xl-12">
@@ -62,28 +61,36 @@
         <div class="card card-bordered mt-3">
             <div class="card-inner">
 
-                @if($sub->parcel)
-                    <div class="timeline">
-                    <h6 class="timeline-head">November, 2020</h6>
+                <div class="timeline">
                     <ul class="timeline-list">
-
-                        @foreach($sub->parcel->transactions as $transaction)
-                        <li class="timeline-item">
-                            <div class="timeline-status bg-primary"></div>
-                            <div class="timeline-date">{{ reformatDatetime($transaction->created_at, 'd M') }} <em class="icon ni ni-alarm-alt"></em></div>
-                            <div class="timeline-data">
-                                <h6 class="timeline-title">{{ $transaction->remark }}</h6>
-                                <div class="timeline-des">
-                                    <span class="time">{{ reformatDatetime($transaction->created_at, 'h:i A') }}</span>
+                        @if($sub->parcel)
+                            @foreach($sub->parcel->transactions as $transaction)
+                                <li class="timeline-item">
+                                    <div class="timeline-status bg-primary"></div>
+                                    <div class="timeline-date">{{ reformatDatetime($transaction->created_at, 'd M') }} <em class="icon ni ni-alarm-alt"></em></div>
+                                    <div class="timeline-data">
+                                        <h6 class="timeline-title">{{ $transaction->remark }}</h6>
+                                        <div class="timeline-des">
+                                            <span class="time">{{ reformatDatetime($transaction->created_at, 'h:i A') }}</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            @endforeach
+                        @endif
+                            <li class="timeline-item">
+                                <div class="timeline-status bg-primary"></div>
+                                <div class="timeline-date">{{ reformatDatetime($sub->created_at, 'd M') }} <em class="icon ni ni-alarm-alt"></em></div>
+                                <div class="timeline-data">
+                                    <h6 class="timeline-title">Added To Subscription List</h6>
+                                    <div class="timeline-des">
+                                        <span class="time">{{ reformatDatetime($sub->created_at, 'h:i A') }}</span>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                        @endforeach
+                            </li>
                     </ul>
                 </div>
-                @else
-                    No info
-                @endif
+
+
             </div>
         </div>
 

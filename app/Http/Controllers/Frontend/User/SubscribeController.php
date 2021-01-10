@@ -41,6 +41,11 @@ class SubscribeController extends Controller
             return redirect()->back()->withFlashWarning("Invalid parcel/parcel not found!");
         }
 
+        if($sub->parcel->status != 3){
+            return redirect()->back()->withFlashWarning("Invalid action!");
+
+        }
+
         return view('frontend.user.subscribe.qr', compact('sub'));
     }
 
