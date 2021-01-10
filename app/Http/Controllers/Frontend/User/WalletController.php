@@ -20,7 +20,7 @@ class WalletController extends Controller{
     public function toppup(){
 
         if(paymentEnabled() == false){
-            return redirect()->back()->withFlashError('Invalid action.');
+            return redirect()->back()->withErrors('Invalid action.');
         }
         $min = getMinTopUp();
 
@@ -31,7 +31,7 @@ class WalletController extends Controller{
     public function insert(TopupRequest $request){
 
         if(paymentEnabled() == false){
-            return redirect()->back()->withFlashError('Invalid action.');
+            return redirect()->back()->withErrors('Invalid action.');
         }
 
         $collection_id = getOption('payment_collection_id', '');
@@ -102,7 +102,7 @@ class WalletController extends Controller{
     public function confirm(Request $request){
 
         if(paymentEnabled() == false){
-            return redirect()->back()->withFlashError('Invalid action.');
+            return redirect()->back()->withErrors('Invalid action.');
         }
 
         $some_data = array('billCode' => $request->billcode);
@@ -138,21 +138,21 @@ class WalletController extends Controller{
 
             } elseif ($data->billpaymentStatus == 2) {
 
-                return redirect()->route('frontend.user.wallet.index')->withFlashError('Payment failed. Status : Pending transaction');
+                return redirect()->route('frontend.user.wallet.index')->withErrors('Payment failed. Status : Pending transaction');
             } elseif ($data->billpaymentStatus == 3) {
 
-                return redirect()->route('frontend.user.wallet.index')->withFlashError('Unsuccessful transaction');
+                return redirect()->route('frontend.user.wallet.index')->withErrors('Unsuccessful transaction');
             } elseif ($data->billpaymentStatus == 4) {
 
-                return redirect()->route('frontend.user.wallet.index')->withFlashError('Payment failed. Status : Pending transaction');
+                return redirect()->route('frontend.user.wallet.index')->withErrors('Payment failed. Status : Pending transaction');
             } else {
 
-                return redirect()->route('frontend.user.wallet.index')->withFlashError('Payment failed');
+                return redirect()->route('frontend.user.wallet.index')->withErrors('Payment failed');
             }
 
         } catch (\Exception $e) {
 
-            return redirect()->route('frontend.user.wallet.index')->withFlashError('Invalid payment.');
+            return redirect()->route('frontend.user.wallet.index')->withErrors('Invalid payment.');
         }
     }
 
