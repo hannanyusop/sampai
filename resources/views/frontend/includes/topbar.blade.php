@@ -12,8 +12,8 @@
                     <li class="dropdown user-dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <div class="user-toggle">
-                                <div class="user-avatar sm">
-                                    <em class="icon ni ni-user-alt"></em>
+                                <div class="user-avatar">
+                                    <img src="{{ auth()->user()->avatar }}" alt="">
                                 </div>
                                 <div class="user-info d-none d-md-block">
                                     <div class="user-status user-status-unverified">Account Type :User</div>
@@ -25,7 +25,7 @@
                             <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
                                 <div class="user-card">
                                     <div class="user-avatar">
-                                        <span>AB</span>
+                                        <img src="{{ auth()->user()->avatar }}" alt="">
                                     </div>
                                     <div class="user-info">
                                         <span class="lead-text">{{ auth()->user()->name }}</span>

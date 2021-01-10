@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend\User;
 
+use App\Domains\Auth\Http\Requests\Frontend\Auth\UpdateImageRequest;
 use App\Domains\Auth\Http\Requests\Frontend\Auth\UpdatePasswordRequest;
 use App\Domains\Auth\Models\User;
 use App\Domains\Auth\Services\UserService;
@@ -9,6 +10,7 @@ use App\Exceptions\GeneralException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Frontend\User\UpdateProfileRequest;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Class ProfileController.
@@ -46,5 +48,25 @@ class ProfileController extends Controller
         $user->save();
 
         return redirect()->back()->withFlashSuccess('Password updated!');
+    }
+
+    public function image(UpdateImageRequest $request){
+
+        $user = auth()->user();
+        Storage::disk('public')->delete($user->image);
+        $image = $request->file('image');
+        $name = time().".".$image->getClientOriginalExtension();
+        $folder = '/uploads/images/';
+        $filePath = $folder . $name;
+        $image->storeAs($folder, $name, 'public');
+
+        $user->image = $filePath;
+        $user->save();
+
+        return redirect()->back()->withFlashSuccess('Profile image updated!');
+
+
+
+
     }
 }

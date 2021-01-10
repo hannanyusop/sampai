@@ -27,6 +27,8 @@ Route::group(['as' => 'user.', 'middleware' => ['auth', 'password.expires', conf
 
     Route::patch('profile/update', [ProfileController::class, 'update'])->name('profile.update');
     Route::patch('profile/password-change', [ProfileController::class, 'password'])->name('profile.password');
+    Route::patch('profile/image', [ProfileController::class, 'image'])->name('profile.image');
+
 
     Route::group([
         'prefix' => 'parcel/',

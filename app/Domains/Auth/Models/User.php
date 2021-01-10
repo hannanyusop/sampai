@@ -94,9 +94,9 @@ class User extends Authenticatable implements MustVerifyEmail, TwoFactorAuthenti
     /**
      * @var array
      */
-    protected $appends = [
-        'avatar',
-    ];
+//    protected $appends = [
+//        'avatar',
+//    ];
 
     /**
      * @var string[]

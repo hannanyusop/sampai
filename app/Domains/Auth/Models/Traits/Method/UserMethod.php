@@ -3,6 +3,7 @@
 namespace App\Domains\Auth\Models\Traits\Method;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Trait UserMethod.
@@ -99,6 +100,12 @@ trait UserMethod
      */
     public function getAvatar($size = null)
     {
-        return 'https://gravatar.com/avatar/'.md5(strtolower(trim($this->email))).'?s='.config('boilerplate.avatar.size', $size).'&d=mp';
+        if($this->image == '' || $this->image == null){
+
+            return 'https://gravatar.com/avatar/'.md5(strtolower(trim($this->email))).'?s='.config('boilerplate.avatar.size', $size).'&d=mp';
+        }else{
+
+            return asset($this->image);
+        }
     }
 }

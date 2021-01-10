@@ -27,11 +27,11 @@
                 </div><!-- .nk-block-head -->
                 <div class="card card-bordered">
                     <div class="nk-data data-list">
-                        <div class="data-item" data-toggle="modal" data-target="#profile-edit">
+                        <div class="data-item" data-toggle="modal" data-target="#update-image">
                             <div class="data-col">
                                 <span class="data-label">Profile Image</span>
                                 <span class="data-value">
-                                    <img src="{{ $logged_in_user->avatar }}" class="user-profile-image" />
+                                    <img src="{{ $logged_in_user->avatar }}" class="user-profile-image" style="width: 100px; height: auto;">
                                 </span>
                             </div>
                             <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
@@ -260,16 +260,63 @@
         </div><!-- .modal-dialog -->
     </div><!-- .modal -->
 
+    <div class="modal fade" tabindex="-1" role="dialog" id="update-image">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <a href="#" class="close" data-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
+                <div class="modal-body modal-body-lg">
+                    <h5 class="title">Update Profile Image</h5>
+
+                    <div class="tab-pane active" id="personal">
+                        <x-forms.patch :action="route('frontend.user.profile.image')" class="row gy-4" enctype="multipart/form-data">
+
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="fileinput-new thumbnail h-150">
+                                    <img src="{{ asset($logged_in_user->avatar) }}" alt="" style="width: 100px; height: auto;">
+                                </div>
+                                <div class="fileinput-preview fileinput-exists thumbnail thumbnail-h3"></div>
+                                <div>
+                                    <span class="btn btn-primary btn-file">
+                                        <input type="file" name="image" id="image">
+                                    </span>
+                                    @error('image')
+                                        <span id="address" class="invalid">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-12 m-2">
+                                <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
+                                    <li>
+                                        <button class="btn btn-sm btn-primary float-right" type="submit">@lang('Update Profile')</button>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-dismiss="modal" class="link link-light">Cancel</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </x-forms.patch>
+                    </div><!-- .tab-pane -->
+
+                </div><!-- .modal-body -->
+            </div><!-- .modal-content -->
+        </div><!-- .modal-dialog -->
+    </div>
+
 @endsection
 @push('after-scripts')
     <script type="text/javascript">
         $(function (){
             @if($errors->has('name') || $errors->has('email') || $errors->has('phone_number') || $errors->has('identification') || $errors->has('address'))
-            $("#profile-edit").modal('show');
+                $("#profile-edit").modal('show');
             @endif
 
             @if($errors->has('current_password') || $errors->has('password') || $errors->has('password_confirmation'))
-            $("#update-password").modal('show');
+                $("#update-password").modal('show');
+            @endif
+
+            @if($errors->has('image'))
+                $("#update-image").modal('show');
             @endif
         });
     </script>
