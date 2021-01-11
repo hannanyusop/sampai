@@ -12,9 +12,9 @@
                     <div class="card card-bordered">
                         <div class="card-inner">
                             <div class="card-head">
-                                <h5 class="card-title">Trip List (Ajax search)</h5>
+                                <h5 class="card-title">Trip List</h5>
                             </div>
-                            <form action="#">
+                            <form action="#" id="trip">
                                 <div class="row g-4">
                                     <div class="col-lg-6">
                                         <div class="form-group">
@@ -31,7 +31,7 @@
                                                 @foreach(getTripStatus() as $key => $status)
                                                     <li>
                                                         <div class="custom-control custom-control-sm custom-checkbox">
-                                                            <input type="checkbox" class="custom-control-input" name="status" value="{{ $key }}" id="status_{{ $key }}">
+                                                            <input type="checkbox" class="custom-control-input" name="status[]" value="{{ $key }}" id="status_{{ $key }}">
                                                             <label class="custom-control-label" for="status_{{ $key }}">{{ $status }}</label>
                                                         </div>
                                                     </li>
@@ -39,20 +39,26 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
                                         <div class="form-group">
                                             <label class="form-label">Drop Point</label>
                                             <ul class="custom-control-group g-3 align-center">
                                                 @foreach($dps as $dp)
                                                 <li>
                                                     <div class="custom-control custom-control-sm custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" name="office_id" id="dp_{{ $dp->id }}" checked>
+                                                        <input type="checkbox" class="custom-control-input" name="office_id[]" value="{{ $dp->id }}" id="dp_{{ $dp->id }}" checked>
                                                         <label class="custom-control-label" for="dp_{{ $dp->id }}">{{ $dp->code }}</label>
                                                     </div>
                                                 </li>
                                                 @endforeach
 
                                             </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-lg btn-primary">Search</button>
                                         </div>
                                     </div>
                                 </div>
@@ -98,11 +104,11 @@
 
             function getTrip(){
 
-                var query = $('#code').val();
+                var form = $("#trip");
                 $.ajax({
                     url:"{{ route('admin.trip.search') }}",
                     type:"GET",
-                    data:{'code':query},
+                    data: form.serialize(),
                     success:function (data) {
                         $('#data').html(data);
                     }
@@ -111,8 +117,9 @@
 
             getTrip();
 
-            $('#code').on('keyup',function() {
+            $("#trip").submit(function( event ) {
                 getTrip();
+                event.preventDefault();
             });
 
 

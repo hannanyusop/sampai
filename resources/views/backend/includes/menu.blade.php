@@ -47,7 +47,7 @@
 
                     <li class="nk-menu-item">
                         <a href="{{ route('admin.parcel.scan') }}" class="nk-menu-link">
-                            <span class="nk-menu-text">Scan QR</span>
+                            <span class="nk-menu-text">Scan User QRCode</span>
                         </a>
                     </li>
                 @endif

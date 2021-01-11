@@ -14,7 +14,7 @@
                 @if ($logged_in_user->can('staff.inhouse'))
                     <div class="row text-right">
                         <div class="m-2 float-right">
-                            <a href="{{ route('admin.parcel.scan') }}" class="btn btn-primary">Scan</a>
+                            <a href="{{ route('admin.parcel.scan') }}" class="btn btn-primary"><span>Scan User QRCode</span><em class="icon ni ni-qr"></em></a>
                         </div>
                     </div>
                 @endif

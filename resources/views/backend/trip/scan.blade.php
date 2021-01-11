@@ -8,7 +8,7 @@
             <div class="col-md-6 offset-md-3">
                 <div class="card">
                     <div class="card-body text-center">
-                        <h6>SCAN QR</h6>
+                        <h6>SCAN TRIP QRCODE</h6>
                         <div>
                             <b>Device has camera: </b>
                             <span id="cam-has-camera"></span>
@@ -39,7 +39,7 @@
                         <span id="cam-qr-result-timestamp"></span>
                         <hr>
 
-                        <a href="{{ route('admin.parcel.index') }}" class="btn btn-primary">
+                        <a href="{{ route('admin.trip.receive') }}" class="btn btn-primary">
                             <i class="fas fa-home"></i> Back
                         </a>
                     </div>

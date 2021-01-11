@@ -11,9 +11,7 @@ use App\Http\Controllers\Controller;
  */
 class DashboardController extends Controller
 {
-    /**
-     * @return \Illuminate\View\View
-     */
+
     public function index()
     {
         if(auth()->user()->can('admin.access.user')){
@@ -45,9 +43,15 @@ class DashboardController extends Controller
 
         }elseif (auth()->user()->can('staff.runner')){
 
-            $trips = Trip::whereIn('status', [1,2])->get();     
+            $picks  = Trip::whereIn('status', [1])->get();
+            $transfers = Trip::whereIn('status', [2])->get();
 
-            return view('backend.dashboard-runner', compact('trips'));
+            $total = [
+                'current' => Trip::whereYear('created_at', date('Y'))->count(),
+                'prev' => Trip::whereYear('created_at', date('Y')-1)->count()
+            ];
+
+            return view('backend.dashboard-runner', compact('picks', 'transfers', 'total'));
         }elseif ('staff.inhouse'){
 
             $data =  [

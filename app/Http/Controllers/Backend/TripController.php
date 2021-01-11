@@ -24,8 +24,17 @@ class TripController extends Controller
 
     public function search(Request $request){
 
-        $trips = Trip::where('code', 'LIKE', '%'.$request->code.'%')->get();
+        $query = Trip::where('code', 'LIKE', '%'.$request->code.'%');
 
+        $status = ($request->status)? $request->status : [];
+        $destination_id = ($request->office_id)? $request->office_id : "";
+
+
+        $query->whereIn('status', $status)
+            ->whereIn('destination_id', $destination_id);
+
+
+        $trips = $query->get();
         $output = "";
 
         foreach ($trips as $trip){
