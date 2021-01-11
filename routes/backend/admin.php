@@ -44,7 +44,7 @@ Route::group(['prefix' => 'trip/', 'as' => 'trip.'], function (){
     Route::get('scan/', [TripController::class, 'scan'])->name('scan')->middleware('permission:staff.inhouse');;
 
     Route::post('receive/', [TripController::class, 'receiveSave'])->name('receiveSave')->middleware('permission:staff.inhouse');
-    Route::get('receiveQR', [TripController::class, 'receiveQR'])->name('receiveQR')->middleware('permission:staff.inhouse');
+    Route::get('receiveQR', [TripController::class, 'receiveSave'])->name('receiveQR')->middleware('permission:staff.inhouse');
 
 });
 

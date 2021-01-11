@@ -271,8 +271,6 @@ class TripController extends Controller
         }
     }
 
-
-
     public function receiveSave(Request $request){
 
         $trip = Trip::where('receive_code', $request->code)
