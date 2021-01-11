@@ -20,15 +20,6 @@
                     <div class="nk-block-head-content">
                         <ul class="nk-block-tools gx-3">
                             <li><a href="{{ route('admin.trip.create') }}" class="btn btn-primary"><span>Create Trip</span> <em class="icon ni ni-arrow-long-right"></em></a></li>
-                            <li class="opt-menu-md dropdown">
-                                <a href="#" class="btn btn-white btn-light btn-icon" data-toggle="dropdown"><em class="icon ni ni-setting"></em></a>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <ul class="link-list-opt no-bdr">
-                                        <li><a href="#"><em class="icon ni ni-coin-alt"></em><span>Curreny Settings</span></a></li>
-                                        <li><a href="#"><em class="icon ni ni-notify"></em><span>Push Notification</span></a></li>
-                                    </ul>
-                                </div>
-                            </li>
                         </ul>
                     </div><!-- .nk-block-head-content -->
                 </div><!-- .nk-block-between -->

@@ -159,24 +159,15 @@
                 <a href="#" class="close" data-dismiss="modal" aria-label="Close"><em class="icon ni ni-cross"></em></a>
                 <div class="modal-body modal-body-md">
                     <h4 class="nk-modal-title title">Close Trip</h4>
-                    <p><strong>Are you sure you want to cancel your subscription?</strong></p>
-                    <p>If you cancel, you'll lose your all demand. But you can re-subscription your favourite plan any time.</p>
+                    <p><strong>Are you sure you want to close this trip?</strong></p>
+                    <p>Notes : You cannot add/update/delete parcel after the trip close.</p>
                     <div class="form">
-                        <div class="form-group">
-                            <label class="form-label">Enter your password to confirm cancellation</label>
-                            <div class="form-control-wrap">
-                                <input type="password" class="form-control" placeholder="*********">
-                            </div>
-                            <div class="form-note">
-                                <span>You'll receieve confirmation email once successfully cancel your plan.</span>
-                            </div>
-                        </div>
                         <ul class="align-center flex-wrap g-3">
                             <li>
-                                <button class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#subscription-cancel-confirmed">Cancel Subscription</button>
+                                <a href="{{ route('admin.trip.close', $trip->id) }}" class="btn btn-light" data-dismiss="modal">Sure, Close This Trip</a>
                             </li>
                             <li>
-                                <a href="#" class="btn btn-light" data-dismiss="modal">Never mind, don't cancel</a>
+                                <button class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#subscription-cancel-confirmed">Cancel</button>
                             </li>
                         </ul>
                     </div>
