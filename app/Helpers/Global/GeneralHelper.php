@@ -226,6 +226,17 @@ if(!function_exists('getQr')){
     }
 }
 
+if(!function_exists('getReceiveTripQr')){
+
+    function getReceiveTripQr($code){
+
+        return QRCode::url(route('admin.trip.receiveQR',  ['code' => $code]))
+            ->setSize(5)
+            ->setMargin(2)
+            ->svg();
+    }
+}
+
 if(!function_exists('dropPoints')){
 
     function dropPoints(){

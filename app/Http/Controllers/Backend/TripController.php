@@ -259,6 +259,20 @@ class TripController extends Controller
         }
     }
 
+    public function scan(){
+
+        #anyone can receive trip as long he assign on that particular office
+        if(auth()->user()->office_id != 0){
+
+            return view('backend.trip.scan');
+        }else{
+
+            return redirect()->back()->withFlashWarning('Permission denied! (You\'re not belong to any drop point office.)');
+        }
+    }
+
+
+
     public function receiveSave(Request $request){
 
         $trip = Trip::where('receive_code', $request->code)
@@ -273,6 +287,18 @@ class TripController extends Controller
 
             return redirect()->back()->withFlashWarning('This trip is not belong to yor office.');
         }
+
+        $this->updateReceive($trip->id);
+
+        return redirect()->back()->withFlashSuccess('Code accepted.');
+    }
+
+
+    private function updateReceive($trip_id){
+
+        $trip = Trip::where('id', $trip_id)
+            ->where('status', 2)
+            ->first();
 
         foreach ($trip->parcels as $parcel){
 
@@ -294,8 +320,6 @@ class TripController extends Controller
 
         $trip->status = 3;
         $trip->save();
-
-        return redirect()->back()->withFlashSuccess('Code accepted.');
     }
 
     public function transferCode($id){

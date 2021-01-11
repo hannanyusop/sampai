@@ -30,6 +30,8 @@
                                     </dl>
                                 </div>
                                 <div class="col-sm-12">
+
+                                    <p class="text-center">{!! getReceiveTripQr($trip->receive_code) !!}</p>
                                     <h6 class="text-center text-primary"><small class="font-weight-bold">One Time Password</small></h6>
                                     <h3 class="text-center text-success mb-5">{{ $trip->receive_code }}</h3>
 

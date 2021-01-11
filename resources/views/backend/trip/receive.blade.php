@@ -21,6 +21,7 @@
 
                                     <div class="form-group text-center">
                                         <button type="submit" class="btn btn-lg btn-primary">Receive Trip</button>
+                                        <a href="{{ route('admin.trip.scan') }}" class="btn btn-lg btn-primary">Scan</a>
                                     </div>
                                 </div>
                             </div>

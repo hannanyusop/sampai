@@ -41,7 +41,11 @@ Route::group(['prefix' => 'trip/', 'as' => 'trip.'], function (){
     Route::get('picked/{id}', [TripController::class, 'picked'])->name('picked');
 
     Route::get('receive/', [TripController::class, 'receive'])->name('receive')->middleware('permission:staff.inhouse');;
+    Route::get('scan/', [TripController::class, 'scan'])->name('scan')->middleware('permission:staff.inhouse');;
+
     Route::post('receive/', [TripController::class, 'receiveSave'])->name('receiveSave')->middleware('permission:staff.inhouse');
+    Route::get('receiveQR', [TripController::class, 'receiveQR'])->name('receiveQR')->middleware('permission:staff.inhouse');
+
 });
 
 Route::group(['prefix' => 'trip-remark/', 'as' => 'trip-remark.'], function (){
