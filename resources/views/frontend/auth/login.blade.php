@@ -58,10 +58,6 @@
                                     <a class="link link-primary link-sm" tabindex="-1" href="{{ route('frontend.auth.password.request') }}">Forgot Password?</a>
                                 </div>
                                 <div class="form-control-wrap">
-                                    <a tabindex="-1" href="#" class="form-icon form-icon-right passcode-switch" data-target="password">
-                                        <em class="passcode-icon icon-show icon ni ni-eye"></em>
-                                        <em class="passcode-icon icon-hide icon ni ni-eye-off"></em>
-                                    </a>
                                     <input type="password" name="password" class="form-control form-control-lg" id="password" placeholder="Password">
                                     @error('password')
                                     <span id="fv-password-error" class="invalid">{{ $message }}</span>
