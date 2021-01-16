@@ -81,7 +81,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="footer-col first">
-                    <h6>About SAMPAI.MY</h6>
+                    <h6>About SAMPAI.COM</h6>
                     <p class="p-small">Sampai.com is a service to check the arrival of parcel at the UTeM Mel units. The system is create for students and staff</p>
                 </div> <!-- end of footer-col -->
                 <div class="footer-col second">
@@ -104,7 +104,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <p class="p-small">Copyright © <a href="#">Sampai Team</a></p>
+                <p class="p-small">Copyright @ sampai.com  Sdn Bhd</p>
             </div> <!-- end of col -->
         </div> <!-- enf of row -->
     </div> <!-- end of container -->

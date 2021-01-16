@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="text-container">
-                        <h1>SAMPAI <br>FOR <span id="js-rotating">TRUST, FAST, SATISFIED</span></h1>
+                        <h1>SAMPAI <br>FOR <span id="js-rotating">TRUST, FAST, SIMPLIFIED</span></h1>
                         <p class="p-large">Sampai.com is a service to check the arrival of parcel at the UTeM Mel units. The system is create for students and staff.</p>
                         <a class="btn-solid-lg" href="{{ route('frontend.auth.login') }}"><i class="fa fa-sign-in-alt"></i> Login</a>
                         @if(registrationEnabled())
@@ -363,7 +363,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h2 class="h2-heading">SCREENS</h2>
+                    <h2 class="h2-heading">Featured Highlights</h2>
                     <hr class="hr-heading">
                 </div> <!-- end of col -->
             </div> <!-- end of row -->

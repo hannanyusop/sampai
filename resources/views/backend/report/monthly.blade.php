@@ -30,8 +30,8 @@ if(request('office_id')){
                                             <label class="form-label" for="year">Year</label>
                                             <div class="form-control-wrap">
                                                 <select id="year" name="year" class="form-select">
-                                                    @foreach(getYear() as $year)
-                                                        <option value="{{ $year }}" {{ (request('year') == $year)? "selected" : "" }}>{{ $year }}</option>
+                                                    @foreach(getYear() as $y)
+                                                        <option value="{{ $y }}" {{ (request('year') == $y)? "selected" : "" }}>{{ $y }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
