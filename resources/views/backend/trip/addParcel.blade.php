@@ -164,7 +164,7 @@
                     <div class="form">
                         <ul class="align-center flex-wrap g-3">
                             <li>
-                                <a href="{{ route('admin.trip.close', $trip->id) }}" class="btn btn-light" data-dismiss="modal">Sure, Close This Trip</a>
+                                <a href="{{ route('admin.trip.close', $trip->id) }}" class="btn btn-light">Sure, Close This Trip</a>
                             </li>
                             <li>
                                 <button class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#subscription-cancel-confirmed">Cancel</button>

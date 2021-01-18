@@ -64,7 +64,7 @@
                             <div class="form-group">
                                 <div class="custom-control-wrap">
                                     <div class="custom-control custom-switch">
-                                        <input type="checkbox" name="is_drop_point" class="custom-control-input" value="1"  {{ (old('is_drop_point'))? "checked" : "" }} id="is_drop_point">
+                                        <input type="checkbox" name="is_drop_point" class="custom-control-input" value="1"  {{ (old('is_drop_point')? "checked" : ($office->is_drop_point == 1))? "checked" : "" }} id="is_drop_point">
                                         <label class="custom-control-label" for="is_drop_point">Yes</label>
                                     </div>
                                     @error('is_drop_point')

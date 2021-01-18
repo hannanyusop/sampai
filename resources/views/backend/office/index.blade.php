@@ -51,7 +51,7 @@
                                     @endif
                                 </div>
                                 <div class="nk-tb-col">
-                                    <span class="tb-sub tb-amount">XXX</span>
+                                    <span class="tb-sub tb-amount">{{ $office->manager() }}</span>
                                 </div>
                                 <div class="nk-tb-col nk-tb-col-action">
                                     <div class="dropdown">

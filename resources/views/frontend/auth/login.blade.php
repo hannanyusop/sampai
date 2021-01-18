@@ -93,9 +93,11 @@
                     </div>
                 </div>
 
-                <div class="text-center mt-5">
-                    <span class="fw-500 text-white">Don't have an account yet? <a class="text-success" href="{{ route('frontend.auth.register') }}">Sign up Here</a></span>
-                </div>
+                @if(registrationEnabled())
+                    <div class="text-center mt-5">
+                        <span class="fw-500 text-white">Don't have an account yet? <a class="text-success" href="{{ route('frontend.auth.register') }}">Sign up Here</a></span>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

@@ -12,4 +12,20 @@ class Office extends Model{
         'is_drop_point',
         'address',
     ];
+
+    public function manager(){
+
+
+
+        $permissions = Permission::with('users')->where('name', 'staff.manager')->first();
+
+        $str = "";
+        foreach ($permissions->users as $user){
+
+            if($user->office_id == $this->id){
+                $str.= $user->name." ,";
+            }
+        }
+        return $str;
+    }
 }

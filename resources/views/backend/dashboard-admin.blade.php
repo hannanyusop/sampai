@@ -135,7 +135,7 @@
                                         <div class="nk-wgw sm">
                                             <a class="nk-wgw-inner" href="#">
                                                 <div class="nk-wgw-name">
-                                                    <h5 class="nk-wgw-title title">Runner</h5>
+                                                    <h5 class="nk-wgw-title title">In Progress</h5>
                                                 </div>
                                                 <div class="nk-wgw-balance">
                                                     <div class="amount">{{ $data['runner'] }}</div>

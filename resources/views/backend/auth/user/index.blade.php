@@ -149,7 +149,11 @@
 
                                                             @if ($user->id !== $logged_in_user->id && !$user->isMasterAdmin())
 
-                                                                <li><a href="{{ route('admin.auth.user.clear-session', $user) }}"><em class="icon ni ni-regen"></em><span>@lang('Clear Session')</span></a></li>
+                                                                <li>
+                                                                    <x-forms.post :action="route('admin.auth.user.clear-session', $user)" class="form-validate gy-3">
+                                                                        <button type="submit"><em class="icon ni ni-regen"></em><span>@lang('Clear Session')</span></button>
+                                                                    </x-forms.post>
+                                                                </li>
 
                                                                 <li><a href="{{ route('admin.auth.user.mark', [$user, 0]) }}"><em class="icon ni ni-user-cross"></em><span>@lang('Deactivate')</span></a></li>
                                                             @endif

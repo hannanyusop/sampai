@@ -68,7 +68,7 @@ class TripController extends Controller
 
                                                         if($trip->status == 0){
                                                             $output .= '<li><a href="' . route('admin.trip.addParcel', $trip->id) . '">Add Parcel</a></li>';
-                                                            $output .= '<li><a href="'.route('admin.trip.close', $trip->id).'" onclick="return confirm(\'Are you sure want to close this trip?\')">Close Parcel</a></li>';
+                                                            $output .= '<li><a href="'.route('admin.trip.close', $trip->id).'" onclick="return confirm(\'Are you sure want to close this trip?\')">Close Trip</a></li>';
                                                         }
                                                     }
                                                     if (auth()->user()->can('staff.runner')){
@@ -220,7 +220,7 @@ class TripController extends Controller
         $trip->status = 1;
         $trip->save();
 
-        return redirect()->back()->withFlashSuccess('Trip closed.');
+        return redirect()->route('admin.trip.index')->withFlashSuccess('Trip closed.');
     }
 
     public function picked($id){

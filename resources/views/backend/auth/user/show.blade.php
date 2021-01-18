@@ -181,27 +181,11 @@
                                     <span class="lead-text">{{ $user->name }}</span>
                                     <span class="sub-text">{{ $user->email }}</span>
                                 </div>
-                                <div class="user-action">
-                                    <div class="dropdown">
-                                        <a class="btn btn-icon btn-trigger mr-n2" data-toggle="dropdown" href="#"><em class="icon ni ni-more-v"></em></a>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <ul class="link-list-opt no-bdr">
-                                                <li><a href="#"><em class="icon ni ni-camera-fill"></em><span>Change Photo</span></a></li>
-                                                <li><a href="#"><em class="icon ni ni-edit-fill"></em><span>Update Profile</span></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
                             </div><!-- .user-card -->
                         </div><!-- .card-inner -->
                         <div class="card-inner p-0">
                             <ul class="link-list-menu">
                                 <li><a class="active" href="#"><em class="icon ni ni-user-fill-c"></em><span>Personal Infomation</span></a></li>
-                                <li><a href="#"><em class="icon ni ni-bell-fill"></em><span>Notifications</span></a></li>
-                                <li><a href="#"><em class="icon ni ni-activity-round-fill"></em><span>Account Activity</span></a></li>
-                                <li><a href="#"><em class="icon ni ni-lock-alt-fill"></em><span>Security Settings</span></a></li>
-                                <li><a href="#"><em class="icon ni ni-shield-star-fill"></em><span>Password Change</span></a></li>
-                                <li><a href="#"><em class="icon ni ni-grid-add-fill-c"></em><span>Connected with Social</span></a></li>
                             </ul>
                         </div><!-- .card-inner -->
                     </div><!-- .card-inner-group -->

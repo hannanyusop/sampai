@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\Auth\Http\Requests\Backend\User;
+namespace App\Domains\Auth\Http\Requests\Backend\Office;
 
 use App\Domains\Auth\Models\User;
 use Illuminate\Foundation\Http\FormRequest;

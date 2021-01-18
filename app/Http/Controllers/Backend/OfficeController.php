@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Domains\Auth\Http\Requests\Backend\Office\InsertOfficeRequest;
+use App\Domains\Auth\Http\Requests\Backend\Office\UpdateOfficeRequest;
 use App\Domains\Auth\Models\Office;
 use App\Domains\Auth\Models\User;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Frontend\User\Subscribe\UpdateRequest;
 
 class OfficeController extends Controller
 {
@@ -41,25 +41,40 @@ class OfficeController extends Controller
 
     public function edit($id = null){
 
-        if(auth()->user()->can('staff.manager')){
+        if (auth()->user()->can('admin.access.user')){
+
+            $office = Office::findOrFail($id);
+            return view('backend.office.edit', compact('office'));
+
+        }else if(auth()->user()->can('staff.manager')){
 
             $office = Office::findOrFail(auth()->user()->office_id);
             return view('backend.office.manager-edit', compact('office'));
 
-        }elseif (auth()->user()->can('admin.access.user')){
-
-            $office = Office::findOrFail($id);
-            return view('backend.office.edit', compact('office'));
         }else{
             return  redirect()->back()->withFlashError('Permission Denied');
         }
 
+
     }
 
-    public function update(UpdateRequest $request, $id = null){
+    public function update(UpdateOfficeRequest $request, $id = null){
 
+        if (auth()->user()->can('admin.access.user')){
 
-        if(auth()->user()->can('staff.manager')){
+            $office = Office::findOrFail($id);
+
+            $office->code = strtoupper($request->code);
+            $office->name = strtoupper($request->name);
+            $office->is_drop_point = ($request->is_drop_point)? 1 : 0;
+            $office->address = $request->address;
+            $office->location = $request->location;
+            $office->operation_day = $request->operation_day;
+
+            $office->save();
+            return redirect()->back()->withFlashSuccess('Office updated.');
+
+        } elseif(auth()->user()->can('staff.manager')){
 
             $office = Office::findOrFail(auth()->user()->office_id);
 
@@ -73,19 +88,6 @@ class OfficeController extends Controller
             $office->save();
             return redirect()->back()->withFlashSuccess('Office updated.');
 
-        }elseif (auth()->user()->can('admin.access.user')){
-
-            $office = Office::findOrFail($id);
-
-            $office->code = strtoupper($request->code);
-            $office->name = strtoupper($request->name);
-            $office->is_drop_point = ($request->is_drop_point)? 1 : 0;
-            $office->address = $request->address;
-            $office->location = $request->location;
-            $office->operation_day = $request->operation_day;
-
-            $office->save();
-            return redirect()->back()->withFlashSuccess('Office updated.');
         }else{
             return  redirect()->back()->withFlashError('Permission Denied');
         }

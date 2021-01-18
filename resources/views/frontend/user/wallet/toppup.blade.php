@@ -53,7 +53,7 @@
                 <div class="buysell-field form-action">
                     <button type="submit" class="btn btn-lg btn-block btn-primary">Continue to Payment Site</button>
                 </div><!-- .buysell-field -->
-                <div class="form-note text-base text-center">Note: {{ displayPriceFormat(1) }} will be charge for every transaction, <a href="#">see our fees</a>.</div>
+                <div class="form-note text-base text-center">Note: {{ displayPriceFormat(1) }} will be charged for every transaction, <a href="#">see our fees</a>.</div>
             </x-forms.post><!-- .buysell-form -->
         </div><!-- .buysell-block -->
     </div><!-- .buysell -->
