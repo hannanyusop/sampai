@@ -1,7 +1,7 @@
 <div class="nk-footer">
     <div class="container wide-xl">
         <div class="nk-footer-wrap g-2">
-            <div class="nk-footer-copyright"> &copy; Copyright @ sampai.com Sdn Bhd
+            <div class="nk-footer-copyright"> &copy; Copyright @ Norizaman Usaha Jaya
             </div>
             <div class="nk-footer-links">
             </div>

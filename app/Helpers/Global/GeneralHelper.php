@@ -291,7 +291,7 @@ if(!function_exists('sendEmail')){
                 $mgClient = Mailgun::create(env('MAILGUN_API'), 'https://api.mailgun.net');
                 $domain = env('MAILGUN_API_URL');
                 $params = array(
-                    'from'    => 'no-reply@sampai.my',
+                    'from'    => 'no-reply@nuj.my',
                     'to'      => $to,
                     'subject' => $subject,
                     'text'    => $content

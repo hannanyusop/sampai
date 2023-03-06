@@ -82,7 +82,7 @@
             <div class="col-lg-12">
                 <div class="footer-col first">
                     <h6>About SAMPAI.COM</h6>
-                    <p class="p-small">Sampai.com is a service to check the arrival of parcel at the UTeM Mel units. The system is create for students and staff</p>
+                    <p class="p-small">Norizaman Usaha Jaya is a service runner service for parcel</p>
                 </div> <!-- end of footer-col -->
                 <div class="footer-col second">
                     <h6>Links</h6>
@@ -90,7 +90,25 @@
                     </ul>
                 </div> <!-- end of footer-col -->
                 <div class="footer-col third">
-                    <p class="p-small">We would love to hear from you <a href="mailto:admin@sampai.com"><strong>admin@sampai.com</strong></a></p>
+
+                    <div class="p-small">
+                        <p class="font-weight-bold">Any questions contact: </p>
+
+                        <div class="my-2">
+                            <b>Lambak</b>
+                            <ul>
+                               <li><a href="https://wa.me/673892145">https://wa.me/673892145</a></li>
+                                <li><a href="https://wa.me/6738677698">https://wa.me/6738677698</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="my-2">
+                            <b>Kilanas</b>
+                            <ul>
+                                <li><a href="https://wa.me/6738815404">https://wa.me/6738815404</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div> <!-- end of footer-col -->
             </div> <!-- end of col -->
         </div> <!-- end of row -->
@@ -104,7 +122,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <p class="p-small">Copyright @ sampai.com  Sdn Bhd</p>
+                <p class="p-small">Copyright @ Norizaman Usaha Jaya. All Right Reserve</p>
             </div> <!-- end of col -->
         </div> <!-- enf of row -->
     </div> <!-- end of container -->
