@@ -23,18 +23,34 @@ class UserSeeder extends Seeder
 
         Office::create([
             'id' => 1,
-            'code' => 'UMEL',
-            'name' => 'PUSAT UTeM-MEL',
+            'code' => 'LMN',
+            'name' => 'PUSAT LIMBANG',
             'is_drop_point' => 0,
-            'address' => 'Jalan TU 43 75450 Ayer Keroh, Malacca, Malaysia',
+            'address' => 'Limbang, Sarawak',
         ]);
 
         Office::create([
             'id' => 2,
-            'code' => 'LEST',
-            'name' => 'LESTARI',
+            'code' => 'MYY',
+            'name' => 'PUSAT MIRI',
+            'is_drop_point' => 0,
+            'address' => 'Miri Sarawak',
+        ]);
+
+        Office::create([
+            'id' => 3,
+            'code' => 'LBK',
+            'name' => 'PUSAT PUNGUTAN LAMBAK',
             'is_drop_point' => 1,
-            'address' => 'Kolej Kediaman Lestari, UTeM Kampus Induk',
+            'address' => 'Lambak, Brunei',
+        ]);
+
+        Office::create([
+            'id' => 4,
+            'code' => 'KLN',
+            'name' => 'PUSAT PUNGUTAN KILANAS',
+            'is_drop_point' => 1,
+            'address' => 'Kilanas, Brunei',
         ]);
 
         // Add the master administrator, user id of 1
@@ -44,7 +60,7 @@ class UserSeeder extends Seeder
             'email' => 'admin@mail.com',
             'password' => 'secret',
             'email_verified_at' => now(),
-            'identification' => '96020213'.rand(1000,9999),
+            'default_drop_point' => Office::where('is_drop_point', 1)->first()->id,
             'phone_number' => '010'.rand(1000000,9999999),
             'active' => true,
         ]);
@@ -57,7 +73,7 @@ class UserSeeder extends Seeder
                 'email' => 'mel@mail.com',
                 'password' => 'secret',
                 'email_verified_at' => now(),
-                'identification' => '96020213'.rand(1000,9999),
+                'default_drop_point' => Office::where('is_drop_point', 1)->first()->id,
                 'phone_number' => '010'.rand(1000000,9999999),
                 'active' => true,
             ]);
@@ -69,7 +85,7 @@ class UserSeeder extends Seeder
                 'email' => 'lestari@mail.com',
                 'password' => 'secret',
                 'email_verified_at' => now(),
-                'identification' => '96020213'.rand(1000,9999),
+                'default_drop_point' => Office::where('is_drop_point', 1)->first()->id,
                 'phone_number' => '010'.rand(1000000,9999999),
                 'active' => true,
             ]);
@@ -81,7 +97,7 @@ class UserSeeder extends Seeder
                 'email' => 'runner@mail.com',
                 'password' => 'secret',
                 'email_verified_at' => now(),
-                'identification' => '96020213'.rand(1000,9999),
+                'default_drop_point' => Office::where('is_drop_point', 1)->first()->id,
                 'phone_number' => '010'.rand(1000000,9999999),
                 'active' => true,
             ]);
@@ -93,7 +109,7 @@ class UserSeeder extends Seeder
                 'email' => 'student@mail.com',
                 'password' => 'secret',
                 'email_verified_at' => now(),
-                'identification' => '96020213'.rand(1000,9999),
+                'default_drop_point' => Office::where('is_drop_point', 1)->first()->id,
                 'phone_number' => '010'.rand(1000000,9999999),
                 'active' => true,
             ]);

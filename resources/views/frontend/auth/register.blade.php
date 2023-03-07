@@ -62,22 +62,28 @@
 
                             <div class="form-group">
                                 <div class="form-label-group">
-                                    <label class="form-label" for="identification">Student/Staff ID</label>
+                                    <label class="form-label" for="identification">Preferred Collection point</label>
                                 </div>
-                                <input type="text" name="identification" id="identification" class="form-control form-control-lg text-uppercase" value="{{ old('identification') }}" maxlength="20" required autofocus placeholder="EX: 960516011234" />
-                                @error('identification')
-                                <span id="fv-name-error" class="invalid">{{ $message }}</span>
-                                @enderror
-                            </div><!-- .foem-group -->
+
+                                <div class="mb-3">
+                                    @foreach($drop_points as $drop_point)
+                                        <div class="form-check">
+                                            <input type="radio" name="default_drop_point" id="drop_point_{{ $drop_point->id }}" value="{{ $drop_point->id }}" class="form-check-input">
+                                            <lable class="form-check-label">{{ $drop_point->code." - ".$drop_point->name }}</lable>
+                                        </div>
+                                    @endforeach
+                                </select>
+                            </div>
 
                             <div class="form-group">
                                 <div class="form-label-group">
-                                    <label class="form-label" for="phone_number">Phone Number</label>
+                                    <label class="form-label" for="phone_number">Phone Number (WhatsApp)</label>
                                 </div>
                                 <input type="text" name="phone_number" id="phone_number" class="form-control form-control-lg text-uppercase" value="{{ old('phone_number') }}" maxlength="15" required>
                                 @error('phone_number')
                                     <span id="fv-name-error" class="invalid">{{ $message }}</span>
                                 @enderror
+                                <br><small class="text-info font-weight-bold">*Contact number only with country code without '+'</small>
                             </div><!-- .foem-group -->
 
                             <div class="form-group">
@@ -122,6 +128,7 @@
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-lg btn-success btn-block btn-round">Create Account</button>
                                 </div>
+                            </div>
                         </x-forms.post>
                     </div>
                 </div>

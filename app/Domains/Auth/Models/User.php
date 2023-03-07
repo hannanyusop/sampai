@@ -62,7 +62,7 @@ class User extends Authenticatable implements MustVerifyEmail, TwoFactorAuthenti
         'provider_id',
         'wallet',
         'wallet_total',
-        'identification',
+        'default_drop_point',
         'phone_number'
     ];
 

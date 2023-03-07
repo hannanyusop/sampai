@@ -26,24 +26,30 @@
                 </a>
                 <ul class="nk-menu-sub">
                     <li class="nk-menu-item">
+                        <a href="{{ route('frontend.user.parcel.create') }}" class="nk-menu-link">
+                            <span class="nk-menu-text">Add Parcel</span>
+                        </a>
                         <a href="{{ route('frontend.user.parcel.search') }}" class="nk-menu-link">
                             <span class="nk-menu-text">Track Parcel</span>
                         </a>
-                        <a href="{{ route('frontend.user.subscribe.create') }}" class="nk-menu-link">
-                            <span class="nk-menu-text">Subscribe</span>
+                        <a href="{{ route('frontend.user.parcel.index') }}" class="nk-menu-link">
+                            <span class="nk-menu-text">Parcel List</span>
                         </a>
-                        <a href="{{ route('frontend.user.subscribe.index') }}" class="nk-menu-link">
-                            <span class="nk-menu-text">Subscription List</span>
-                        </a>
+{{--                        <a href="{{ route('frontend.user.subscribe.create') }}" class="nk-menu-link">--}}
+{{--                            <span class="nk-menu-text">Subscribe</span>--}}
+{{--                        </a>--}}
+{{--                        <a href="{{ route('frontend.user.subscribe.index') }}" class="nk-menu-link">--}}
+{{--                            <span class="nk-menu-text">Subscription List</span>--}}
+{{--                        </a>--}}
                     </li>
                 </ul>
             </li>
-            <li class="nk-menu-item">
-                <a href="{{ route('frontend.user.wallet.index') }}" class="nk-menu-link">
-                    <span class="nk-menu-icon"><em class="icon ni ni-wallet"></em></span>
-                    <span class="nk-menu-text">Wallet</span>
-                </a>
-            </li>
+{{--            <li class="nk-menu-item">--}}
+{{--                <a href="{{ route('frontend.user.wallet.index') }}" class="nk-menu-link">--}}
+{{--                    <span class="nk-menu-icon"><em class="icon ni ni-wallet"></em></span>--}}
+{{--                    <span class="nk-menu-text">Wallet</span>--}}
+{{--                </a>--}}
+{{--            </li>--}}
         </ul>
     </div>
     <div class="nk-aside-close">

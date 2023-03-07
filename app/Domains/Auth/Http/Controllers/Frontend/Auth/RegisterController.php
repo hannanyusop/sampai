@@ -3,6 +3,7 @@
 namespace App\Domains\Auth\Http\Controllers\Frontend\Auth;
 
 use App\Domains\Auth\Events\User\UserCreated;
+use App\Domains\Auth\Models\Office;
 use App\Domains\Auth\Models\User;
 use App\Domains\Auth\Services\UserService;
 use App\Exceptions\GeneralException;
@@ -33,7 +34,10 @@ class RegisterController extends Controller
             return  redirect()->route('frontend.index')->withErrors('Action Not Allowed!');
         }
 
-        return view('frontend.auth.register');
+        $drop_points = Office::where('is_drop_point', 1)->get();
+
+
+        return view('frontend.auth.register', compact('drop_points'));
     }
 
     protected function validator(array $data)
@@ -49,12 +53,10 @@ class RegisterController extends Controller
 
     public function register(Request $request){
 
-//        array_merge(['max:100'], PasswordRules::register($data['email'] ?? null))
-
          $request->validate([
             'name' => ['required', 'string', 'max:100'],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')],
-            'identification' => ['required', 'string','min:5', 'max:20', Rule::unique('users')],
+            'default_drop_point' => 'required|exists:offices,id',
             'phone_number' => ['required', 'string','min:9', 'max:15', Rule::unique('users')],
             'password' => ['required', 'confirmed', 'min:5'],
             'terms' => ['required', 'in:1'],
@@ -71,7 +73,7 @@ class RegisterController extends Controller
             $user =  User::create([
                 'type' => 'user',
                 'name' => strtoupper($request->name),
-                'identification' => strtoupper($request->identification),
+                'default_drop_point' => $request->default_drop_point,
                 'phone_number' => strtoupper($request->phone_number),
                 'email' => $request->email,
                 'password' => $request->password,
@@ -80,6 +82,8 @@ class RegisterController extends Controller
             ]);
 
         } catch (\Exception $e) {
+
+            dd($e->getMessage());
             DB::rollBack();
 
             return redirect()->route('frontend.auth.register')->with('error', __('Sila hubungi pihak pengrusan untuk bantuan'));

@@ -125,16 +125,24 @@ CREATE TABLE `parcel_transactions` (
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `parcels` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `trip_id` int(10) unsigned NOT NULL,
+  `trip_id` int(10) unsigned DEFAULT NULL,
+  `user_id` int(10) unsigned DEFAULT NULL,
+  `office_id` int(10) DEFAULT NULL,
   `status` int(10) NOT NULL DEFAULT '0',
   `tracking_no` varchar(100) NOT NULL,
   `receiver_name` varchar(255) DEFAULT NULL,
-  `receiver_info` varchar(255) DEFAULT NULL,
+  `phone_number` varchar(255) DEFAULT NULL,
   `pickup_name` varchar(255) DEFAULT NULL,
   `pickup_info` varchar(255) DEFAULT NULL,
   `pickup_id` bigint(20) DEFAULT NULL,
   `serve_by` bigint(20) DEFAULT NULL,
   `pickup_datetime` datetime DEFAULT NULL,
+  `order_origin` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `quantity` int(100) DEFAULT NULL,
+  `price` bigint(100) DEFAULT NULL,
+  `tax` bigint(100) DEFAULT NULL,
+  `invoice_url` varchar(255) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -301,7 +309,7 @@ CREATE TABLE `users` (
   `office_id` int(11) NOT NULL DEFAULT '0',
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `identification` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `default_drop_point` int(10) unsigned COLLATE utf8mb4_unicode_ci NOT NULL,
   `phone_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
@@ -322,7 +330,6 @@ CREATE TABLE `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `identification` (`identification`),
   UNIQUE KEY `users_email_unique` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
