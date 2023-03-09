@@ -36,7 +36,7 @@
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark">
     <div class="container">
 
-        <a class="navbar-brand logo-image" href="{{ route('frontend.index') }}"><img src="{{ asset('images/logo-dark.png') }}" style="height:40px;width: auto" alt="alternative"></a>
+        <a class="navbar-brand logo-image" href="{{ route('frontend.index') }}"><img src="{{ asset('images/logo.png') }}" style="height:50px;width: auto" alt="alternative"></a>
 
         <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
             <span class="navbar-toggler-icon"></span>
