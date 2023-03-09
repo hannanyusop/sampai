@@ -142,12 +142,21 @@ class TripController extends Controller
         return view('backend.trip.view', compact('trip', 'parcels'));
     }
 
-    public function addParcel($id){
+    public function addParcel(Request $request, $id){
 
         $trip = Trip::findOrFail($id);
 
+        $pending_parcels = Parcels::where([
+            'office_id' => $trip->destination_id,
+            'trip_id'  => null
+        ])
+            ->when($request->tracking_no, function ($q) use ($request){
+                $q->where('tracking_no', 'LIKE',  '%'.$request->tracking_no.'%');
+            })
+            ->get();
+
         $sName = Parcels::select([ \DB::raw('DISTINCT receiver_name')])->get()->toArray();
-        $sInfo = Parcels::select([ \DB::raw('DISTINCT receiver_info')])->get()->toArray();
+//        $sInfo = Parcels::select([ \DB::raw('DISTINCT receiver_info')])->get()->toArray();
 
         if($trip->status != 0){
             return redirect()->back()->withFlashWarning('Trip has been closed.');
@@ -155,7 +164,18 @@ class TripController extends Controller
 
         $parcels = Parcels::where('trip_id', $trip->id)->orderBy('id', 'DESC')->limit(3)->get();
 
-        return view('backend.trip.addParcel', compact('trip', 'parcels', 'sInfo', 'sName'));
+        return view('backend.trip.addParcel', compact('trip', 'parcels', 'sName', 'pending_parcels'));
+    }
+
+    public function assignParcel(Trip $trip, Parcels $parcel){
+
+        $parcel->update([
+            'trip_id' => $trip->id
+        ]);
+
+        addParcelTransaction($parcel->id, "Parcel assigned to trip $trip->code");
+
+        return redirect()->back()->with('success', __("Successfully inserted to trip"));
     }
 
     public function insertParcel(InsertParcelRequest $request, $id){
@@ -192,10 +212,13 @@ class TripController extends Controller
 
         if($parcel->status == 0){
 
-            $parcel->transactions()->delete();
-            $parcel->delete();
+//            $parcel->transactions()->delete();
+//            $parcel->delete();
 
-            return redirect()->back()->withFlashSuccess('Parcel deleted');
+            $parcel->update([
+                'trip_id' => null
+            ]);
+            return redirect()->back()->withFlashSuccess('Parcel unassigned');
         }else{
             return redirect()->back()->withFlashError('Parcel cannot be deleted! Reason : Status in '.getParcelStatus($parcel->status));
         }

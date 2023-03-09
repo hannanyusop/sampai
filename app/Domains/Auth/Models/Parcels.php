@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Parcels extends Model{
 
-    protected $fillable = [];
+    protected $fillable = ['trip_id'];
 
     public function trip(){
         return $this->hasOne(Trip::class, 'id', 'trip_id');
@@ -18,5 +18,10 @@ class Parcels extends Model{
 
     public function lastTransaction(){
         return $this->hasOne(ParcelTransaction::class, 'parcel_id', 'id')->orderBy('id', 'DESC');
+    }
+
+    public function dropPoint(){
+
+        return $this->belongsTo(Office::class, 'office_id', 'id');
     }
 }

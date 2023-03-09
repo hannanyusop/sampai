@@ -24,6 +24,7 @@ Route::group(['prefix' => 'trip/', 'as' => 'trip.'], function (){
 
     Route::get('', [TripController::class, 'index'])->name('index');
     Route::get('search/', [TripController::class, 'search'])->name('search');
+    Route::get('assignParcel/{trip}/{parcel}', [TripController::class, 'assignParcel'])->name('assignParcel')->middleware('permission:staff.distributor');
 
 
     Route::get('create/', [TripController::class, 'create'])->name('create')->middleware('permission:staff.distributor');

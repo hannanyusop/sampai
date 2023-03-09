@@ -28,4 +28,8 @@ class Office extends Model{
         }
         return $str;
     }
+
+    public function parcels(){
+        return $this->hasMany(Office::class);
+    }
 }
