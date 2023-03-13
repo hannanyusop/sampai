@@ -7,7 +7,7 @@ use App\Domains\Auth\Models\Subscribe;
 use App\Domains\Auth\Models\TrackHistories;
 use App\Domains\Auth\Models\User;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\frontend\parcel\StoreParcelRequest;
+use App\Http\Requests\Frontend\Parcel\StoreParcelRequest;
 use App\Http\Services\Parcel\ParcelHelperService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
