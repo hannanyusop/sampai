@@ -46,7 +46,7 @@
                                     </li>
                                     <li class="col-sm-4">
                                         <p><span class="text-soft">Destination</span>
-                                            {{ $parcel->trip->destination->name }}
+                                            {{ $parcel?->trip?->destination?->name }}
                                         </p>
                                     </li>
                                 </ul>
