@@ -142,6 +142,13 @@ class TripController extends Controller
         return view('backend.trip.view', compact('trip', 'parcels'));
     }
 
+    public function masterList($id){
+
+            $trip = Trip::findOrFail($id);
+
+            return view('backend.trip.master-list', compact('trip'));
+    }
+
     public function addParcel(Request $request, $id){
 
         $trip = Trip::findOrFail($id);

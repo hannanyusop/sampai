@@ -7,7 +7,7 @@
 
         <div class="nk-block">
             <div class="row g-gs">
-                <div class="col-xxl-8">
+                <div class="col-md-12">
 
                     <div class="card card-bordered">
                         <div class="card-inner">

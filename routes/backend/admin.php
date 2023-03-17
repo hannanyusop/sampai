@@ -38,6 +38,8 @@ Route::group(['prefix' => 'trip/', 'as' => 'trip.'], function (){
     Route::post('insertParcel/{id}', [TripController::class, 'insertParcel'])->name('insertParcel')->middleware('permission:staff.distributor');
     Route::get('deleteParcel/{parcel_id}', [TripController::class, 'deleteParcel'])->name('deleteParcel')->middleware('permission:staff.distributor');
 
+    Route::get('master-list/{id}', [TripController::class, 'masterList'])->name('masterList')->middleware('permission:staff.distributor');
+
     Route::get('close/{id}', [TripController::class, 'close'])->name('close');
     Route::get('picked/{id}', [TripController::class, 'picked'])->name('picked');
 

@@ -401,9 +401,9 @@ if(!function_exists('getCost')){
 
 if(!function_exists('displayPriceFormat')){
 
-    function displayPriceFormat($price){
+    function displayPriceFormat($price, $currency = 'RM'){
 
-        return 'RM '.number_format($price, 2, '.', '');
+        return $currency.' '.number_format($price, 2, '.', '');
     }
 }
 

@@ -10,5 +10,6 @@
     @stack('before-styles')
     <link rel="stylesheet" href={{ asset('assets/css/dashlite.css') }}?ver=1.4.0">
     <link id="skin-default" rel="stylesheet" href="{{ asset('assets/css/theme.css') }}?ver=1.4.0">
+    @livewireStyles
     @stack('after-styles')
 </head>

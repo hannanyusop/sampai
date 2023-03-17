@@ -11,4 +11,5 @@
 
 <script src="{{ asset('assets/js/bundle.js') }}?ver=1.4.0"></script>
 <script src="{{ asset('assets/js/scripts.js') }}?ver=1.4.0"></script>
+@livewireScripts
 @stack('after-scripts')
