@@ -169,7 +169,18 @@
                     </ul>
                 </div>
             </div>
+
+            <div id="as-root"></div><script>(function(e,t,n){var r,i=e.getElementsByTagName(t)[0];if(e.getElementById(n))return;r=e.createElement(t);r.id=n;r.src="//s.trackingmore.com/button/getbutton.js";i.parentNode.insertBefore(r,i)})(document,"script","trackingmore-jssdk")</script>
         </div>
 
     </div>
+
+    <div id="embedTrack"></div>
+    <script src="//www.tracking.my/track-button.js"></script>
+    <script>
+        TrackButton.embed({
+            selector: "#embedTrack",
+            tracking_no: "{{ $parcel->tracking_no }}",
+        });
+    </script>
 @endsection
