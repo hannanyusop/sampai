@@ -16,6 +16,10 @@ class Parcels extends Model{
         return $this->hasMany(ParcelTransaction::class, 'parcel_id', 'id')->orderBy('id', 'DESC');
     }
 
+    public function user(){
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
     public function lastTransaction(){
         return $this->hasOne(ParcelTransaction::class, 'parcel_id', 'id')->orderBy('id', 'DESC');
     }
@@ -23,5 +27,9 @@ class Parcels extends Model{
     public function dropPoint(){
 
         return $this->belongsTo(Office::class, 'office_id', 'id');
+    }
+
+    public function getStatusLabelAttribute(){
+        return getParcelStatus($this->status);
     }
 }

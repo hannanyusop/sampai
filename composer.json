@@ -13,6 +13,7 @@
         "arcanedev/log-viewer": "8.*",
         "darkghosthunter/laraguard": "^4.0",
         "fideloper/proxy": "^4.2",
+        "fragkp/laravel-route-breadcrumb": "^4.0",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "illuminate/config": "^8.12",

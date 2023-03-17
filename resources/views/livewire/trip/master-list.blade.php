@@ -5,14 +5,14 @@
             <div class="nk-block-head nk-block-head-sm">
                 <div class="nk-block-between g-3">
                     <div class="nk-block-head-content">
-                        <h3 class="nk-block-title page-title">Trip View</h3>
+                        <h3 class="nk-block-title page-title">Master List</h3>
                         <div class="nk-block-des text-soft">
                             <p>Trip : <span class="text-base">#{{ $trip->code }}</span></p>
                         </div>
                     </div>
                     <div class="nk-block-head-content">
                         <a href="{{ route('admin.trip.index') }}" class="btn btn-outline-light bg-warning d-none d-sm-inline-flex"><em class="icon ni ni-back-alt"></em><span>Back</span></a>
-                        <a href="{{ route('admin.trip.addParcel', $trip->id) }}" class="btn btn-success d-none d-sm-inline-flex"><em class="icon ni ni-download-cloud"></em><span>Export</span></a>
+                        <a href="#" wire:click="export()" class="btn btn-success d-none d-sm-inline-flex"><em class="icon ni ni-download-cloud"></em><span>Export</span></a>
                     @if(auth()->user()->can('staff.distributor') && $trip->status == 0)
                             <a href="{{ route('admin.trip.addParcel', $trip->id) }}" class="btn btn-success d-none d-sm-inline-flex"><em class="icon ni ni-plus"></em><span>Add Parcel</span></a>
                             <a href="{{ route('admin.trip.close', $trip->id) }}" onclick="return confirm('Are you sure want to close this trip?')" class="btn btn-light d-none d-sm-inline-flex"><em class="icon ni ni-clock"></em><span>Close Trip</span></a>
@@ -51,7 +51,7 @@
                                     <div class="profile-ud-item">
                                         <div class="profile-ud wider">
                                             <span class="profile-ud-label">Destination Code</span>
-                                            <span class="profile-ud-value">{{ $trip->destination->coded }}</span>
+                                            <span class="profile-ud-value">{{ $trip->destination->code }}</span>
                                         </div>
                                     </div>
                                 </div><!-- .profile-ud-list -->

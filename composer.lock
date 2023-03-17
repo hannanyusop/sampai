@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4af855af1f3b56b0123318fdbd05c8da",
+    "content-hash": "648d08421824933da98e5c7d218b6067",
     "packages": [
         {
             "name": "arcanedev/log-viewer",
@@ -1080,6 +1080,66 @@
                 "source": "https://github.com/fideloper/TrustedProxy/tree/4.4.2"
             },
             "time": "2022-02-09T13:33:34+00:00"
+        },
+        {
+            "name": "fragkp/laravel-route-breadcrumb",
+            "version": "4.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fragkp/laravel-route-breadcrumb.git",
+                "reference": "bc27e72a91e7e3f7632e3202fdc92e75369c1b21"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fragkp/laravel-route-breadcrumb/zipball/bc27e72a91e7e3f7632e3202fdc92e75369c1b21",
+                "reference": "bc27e72a91e7e3f7632e3202fdc92e75369c1b21",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^8.0",
+                "php": "^7.4|^8.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.4",
+                "orchestra/database": "^6.0",
+                "orchestra/testbench": "^6.0",
+                "phpunit/phpunit": "^9.4"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Fragkp\\LaravelRouteBreadcrumb\\BreadcrumbServiceProvider"
+                    ],
+                    "aliases": {
+                        "Breadcrumb": "Fragkp\\LaravelRouteBreadcrumb\\Facades\\Breadcrumb"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Fragkp\\LaravelRouteBreadcrumb\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Pohl"
+                }
+            ],
+            "keywords": [
+                "breadcrumb",
+                "laravel",
+                "route"
+            ],
+            "support": {
+                "issues": "https://github.com/fragkp/laravel-route-breadcrumb/issues",
+                "source": "https://github.com/fragkp/laravel-route-breadcrumb/tree/4.0.0"
+            },
+            "time": "2020-11-27T20:19:46+00:00"
         },
         {
             "name": "fruitcake/laravel-cors",

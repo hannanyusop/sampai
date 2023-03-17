@@ -63,6 +63,6 @@ class MasterList extends Component
     }
 
     public function export(){
-        return Excel::download(new MasterListExport(), 'users.xlsx');
+        return Excel::download(new MasterListExport($this->trip), time()."_".$this->trip->destination->code.'.xlsx');
     }
 }
