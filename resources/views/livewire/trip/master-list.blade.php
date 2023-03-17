@@ -12,7 +12,8 @@
                     </div>
                     <div class="nk-block-head-content">
                         <a href="{{ route('admin.trip.index') }}" class="btn btn-outline-light bg-warning d-none d-sm-inline-flex"><em class="icon ni ni-back-alt"></em><span>Back</span></a>
-                        @if(auth()->user()->can('staff.distributor') && $trip->status == 0)
+                        <a href="{{ route('admin.trip.addParcel', $trip->id) }}" class="btn btn-success d-none d-sm-inline-flex"><em class="icon ni ni-download-cloud"></em><span>Export</span></a>
+                    @if(auth()->user()->can('staff.distributor') && $trip->status == 0)
                             <a href="{{ route('admin.trip.addParcel', $trip->id) }}" class="btn btn-success d-none d-sm-inline-flex"><em class="icon ni ni-plus"></em><span>Add Parcel</span></a>
                             <a href="{{ route('admin.trip.close', $trip->id) }}" onclick="return confirm('Are you sure want to close this trip?')" class="btn btn-light d-none d-sm-inline-flex"><em class="icon ni ni-clock"></em><span>Close Trip</span></a>
                         @endif

@@ -182,6 +182,8 @@ return [
         LaravelQRCode\Providers\QRCodeServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
 
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+
 
     ],
 
@@ -236,6 +238,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'QRCode' => LaravelQRCode\Facades\QRCode::class,
         'Debugbar' => Barryvdh\Debugbar\Facades\Debugbar::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 

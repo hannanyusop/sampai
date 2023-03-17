@@ -4,7 +4,9 @@ namespace App\Http\Livewire\Trip;
 
 use App\Domains\Auth\Models\Parcels;
 use App\Domains\Auth\Models\Trip;
+use App\Exports\Trip\MasterListExport;
 use Livewire\Component;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MasterList extends Component
 {
@@ -58,5 +60,9 @@ class MasterList extends Component
         $this->tax = null;
 
         return session()->flash('success', 'Tax updated successfully.');
+    }
+
+    public function export(){
+        return Excel::download(new MasterListExport(), 'users.xlsx');
     }
 }
