@@ -25,7 +25,7 @@ class CreatePickupsTable extends Migration
         });
 
         Schema::table('parcels', function (Blueprint $table){
-            $table->integer('pickup_id')->unsigned()->after('user_id');
+//            $table->integer('pickup_id')->unsigned()->after('user_id');
 
             $table->dropColumn('trip_id');
             $table->dropColumn('pickup_datetime');
