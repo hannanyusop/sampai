@@ -20,7 +20,7 @@ class MasterList extends Component
 
     public function render()
     {
-        $parcels = Parcels::when($this->tracking_no, function ($query) {
+        $parcels = $this->trip->parcels()->when($this->tracking_no, function ($query) {
             $query->where('tracking_no', 'like', '%' . $this->tracking_no . '%');
         })->where('trip_id', $this->trip->id)
             ->get();
@@ -29,7 +29,7 @@ class MasterList extends Component
 
     public function changeEditedId($id)
     {
-        $parcel = $this->trip->parcels()->where('id', $id)->first();
+        $parcel = $this->trip->parcels()->where('parcels.id', $id)->first();
 
         if(!$parcel){
             return session()->flash('error', 'Parcel not found.');
@@ -47,7 +47,7 @@ class MasterList extends Component
         ]);
 
 
-        $parcel = $this->trip->parcels()->where('id', $this->edited_id)->first();
+        $parcel = $this->trip->parcels()->where('parcels.id', $this->edited_id)->first();
 
         if(!$parcel){
             return session()->flash('error', 'Parcel not found.');

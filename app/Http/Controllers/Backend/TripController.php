@@ -10,6 +10,8 @@ use App\Domains\Auth\Models\ParcelTransaction;
 use App\Domains\Auth\Models\Subscribe;
 use App\Domains\Auth\Models\Trip;
 use App\Http\Controllers\Controller;
+use App\Services\General\GeneralHelperService;
+use App\Services\Parcel\ParcelGeneralService;
 use Illuminate\Http\Request;
 
 class TripController extends Controller
@@ -135,9 +137,9 @@ class TripController extends Controller
 
     public function view($id){
 
-        $trip = Trip::findOrFail($id);
+        $trip = Trip::with('parcels')->findOrFail($id);
 
-        $parcels = Parcels::where('trip_id', $trip->id)->paginate(20);
+        $parcels = $trip->parcels;
 
         return view('backend.trip.view', compact('trip', 'parcels'));
     }
@@ -155,7 +157,7 @@ class TripController extends Controller
 
         $pending_parcels = Parcels::where([
             'office_id' => $trip->destination_id,
-            'trip_id'  => null
+            'pickup_id'  => null
         ])
             ->when($request->tracking_no, function ($q) use ($request){
                 $q->where('tracking_no', 'LIKE',  '%'.$request->tracking_no.'%');
@@ -169,20 +171,16 @@ class TripController extends Controller
             return redirect()->back()->withFlashWarning('Trip has been closed.');
         }
 
-        $parcels = Parcels::where('trip_id', $trip->id)->orderBy('id', 'DESC')->limit(3)->get();
+        $parcels = $trip->parcels()->orderBy('id', 'DESC')->limit(3)->get();
 
         return view('backend.trip.addParcel', compact('trip', 'parcels', 'sName', 'pending_parcels'));
     }
 
     public function assignParcel(Trip $trip, Parcels $parcel){
 
-        $parcel->update([
-            'trip_id' => $trip->id
-        ]);
+        $service = ParcelGeneralService::assignToPickup($parcel, $trip, $trip->office);
 
-        addParcelTransaction($parcel->id, "Parcel assigned to trip $trip->code");
-
-        return redirect()->back()->with('success', __("Successfully inserted to trip"));
+        return redirect()->back()->with($service[GeneralHelperService::KEY_STATUS], GeneralHelperService::KEY_MESSAGE);
     }
 
     public function insertParcel(InsertParcelRequest $request, $id){

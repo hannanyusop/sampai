@@ -21,9 +21,11 @@ class ParcelGeneralService
         $parcel->pickup_id = $pickup->id;
         $parcel->save();
 
-        $pickup->update([
-            'total_tax' => $pickup->parcels()->sum('tax')
-        ]);
+//        $pickup->update([
+//            'total_tax' => $pickup->parcels()->sum('tax')
+//        ]);
+
+        addParcelTransaction($parcel->id, "Parcel assigned to trip $trip->code");
 
         return [
             GeneralHelperService::KEY_STATUS  => GeneralHelperService::STATUS_SUCCESS,

@@ -23,18 +23,18 @@ class MasterListExport implements FromArray, ShouldAutoSize, WithStyles
 
         $trip = $this->trip;
 
+
         $array[] = ['Trip ID', __("#:code", ['code' => $trip->code]), ' ', 'Destination', $trip->destination->name];
         $array[] = ['Date', reformatDatetime($trip->date, 'd M, Y'), '', 'Destination Code', $trip->destination->code];
         $array[] = [''];
         $array[] = [''];
-        $parcels = Parcels::where('trip_id', $this->trip->id)
-            ->get();
+        $parcels = $trip->parcels;
 
         $array[] = ['No.','User ID', 'Tracking No','Receiver Name', 'Phone Number', 'Description', 'Price (RM)', 'Tax (BND $)', 'Status', 'Remark'];
 
         $ttl_tax = 0;
         $ttl_parcel = count($parcels);
-        foreach ($parcels as $key => $parcel){
+        foreach ($trip->parcels as $key => $parcel){
             $array[] = [
                 $key+1,
                 $parcel->user->id,
