@@ -1,14 +1,15 @@
 <?php
 namespace App\Domains\Auth\Models;
 
+use App\Models\Pickup;
 use Illuminate\Database\Eloquent\Model;
 
 class Parcels extends Model{
 
-    protected $fillable = ['trip_id'];
+    protected $fillable = ['pickup_id', 'status'];
 
     public function trip(){
-        return $this->hasOne(Trip::class, 'id', 'trip_id');
+        return $this->hasOneThrough(Trip::class, Pickup::class, 'id', 'trip_id', 'pickup_id');
     }
 
     public function transactions(){
@@ -27,6 +28,10 @@ class Parcels extends Model{
     public function dropPoint(){
 
         return $this->belongsTo(Office::class, 'office_id', 'id');
+    }
+
+    public function pickup(){
+        return $this->hasOne(Pickup::class, 'id', 'pickup_id');
     }
 
     public function getStatusLabelAttribute(){
