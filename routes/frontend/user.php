@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Frontend\User\PickupController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\User\AccountController;
 use App\Http\Controllers\Frontend\User\DashboardController;
@@ -31,6 +32,13 @@ Route::group(['as' => 'user.', 'middleware' => ['auth', 'password.expires', conf
         Route::get('create', [ParcelController::class, 'create'])->name('create');
         Route::post('store', [ParcelController::class, 'store'])->name('store');
 
+    });
+    Route::group([
+        'prefix' => 'pickup/',
+        'as' => 'pickup.'
+    ],function (){
+        Route::get('', [PickupController::class, 'index'])->name('index');
+        Route::get('show/{id}', [PickupController::class, 'view'])->name('show');
     });
     Route::group([
         'prefix' => 'subscribe/',

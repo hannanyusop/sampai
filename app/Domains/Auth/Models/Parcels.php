@@ -26,7 +26,6 @@ class Parcels extends Model{
     }
 
     public function dropPoint(){
-
         return $this->belongsTo(Office::class, 'office_id', 'id');
     }
 

@@ -33,13 +33,13 @@
                                     </div>
                                 </div>
                             </div>
-                            @if(paymentEnabled())
-                                <div class="dropdown-inner user-account-info">
-                                    <h6 class="overline-title-alt">Wallet Account</h6>
-                                    <div class="user-balance">{{ displayPriceFormat(auth()->user()->wallet) }}</div>
-                                    <a href="{{ route('frontend.user.wallet.toppup') }}" class="link"><span>Top-up Wallet</span> <em class="icon ni ni-wallet-in"></em></a>
-                                </div>
-                            @endif
+{{--                            @if(paymentEnabled())--}}
+{{--                                <div class="dropdown-inner user-account-info">--}}
+{{--                                    <h6 class="overline-title-alt">Wallet Account</h6>--}}
+{{--                                    <div class="user-balance">{{ displayPriceFormat(auth()->user()->wallet) }}</div>--}}
+{{--                                    <a href="{{ route('frontend.user.wallet.toppup') }}" class="link"><span>Top-up Wallet</span> <em class="icon ni ni-wallet-in"></em></a>--}}
+{{--                                </div>--}}
+{{--                            @endif--}}
                             <div class="dropdown-inner">
                                 <ul class="link-list">
                                     <li><a href="{{ route('frontend.user.account') }}"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>

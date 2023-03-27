@@ -32,4 +32,8 @@ class Office extends Model{
     public function parcels(){
         return $this->hasMany(Office::class);
     }
+
+    public function pickups(){
+        return $this->hasMany(Office::class);
+    }
 }

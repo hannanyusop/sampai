@@ -35,6 +35,9 @@
                         <a href="{{ route('frontend.user.parcel.index') }}" class="nk-menu-link">
                             <span class="nk-menu-text">Parcel List</span>
                         </a>
+                        <a href="{{ route('frontend.user.pickup.index') }}" class="nk-menu-link">
+                            <span class="nk-menu-text">Pickup List</span>
+                        </a>
 {{--                        <a href="{{ route('frontend.user.subscribe.create') }}" class="nk-menu-link">--}}
 {{--                            <span class="nk-menu-text">Subscribe</span>--}}
 {{--                        </a>--}}
