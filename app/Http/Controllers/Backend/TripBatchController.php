@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 
-class TripBatch extends Controller
+class TripBatchController extends Controller
 {
-    //
+    //table
 }

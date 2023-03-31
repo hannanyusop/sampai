@@ -2,11 +2,16 @@
 namespace App\Domains\Auth\Models;
 
 use App\Models\Pickup;
+use App\Models\TripBatch;
 use Illuminate\Database\Eloquent\Model;
 
 class Trip extends Model{
 
     protected $fillable = [];
+
+    public function batch(){
+        return $this->hasOne(TripBatch::class, 'id', 'trip_batch_id');
+    }
 
     public function destination(){
         return $this->hasOne(Office::class, 'id', 'destination_id');
