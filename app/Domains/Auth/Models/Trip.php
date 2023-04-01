@@ -13,6 +13,10 @@ class Trip extends Model{
         return $this->hasOne(TripBatch::class, 'id', 'trip_batch_id');
     }
 
+    public function getStatusAttribute(){
+        return $this->batch->status;
+    }
+
     public function destination(){
         return $this->hasOne(Office::class, 'id', 'destination_id');
     }

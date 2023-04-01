@@ -52,7 +52,7 @@ class DashboardController extends Controller
                 ->get();
 
             $transfers = Trip::wherehas('batch',
-                fn ($q) => $q->whereIn('status', [TripBatchHelperService::STATUS_TRANSFERED]))
+                fn ($q) => $q->whereIn('status', [TripBatchHelperService::STATUS_CLOSED]))
                 ->get();
 
             $total = [
@@ -71,9 +71,8 @@ class DashboardController extends Controller
                 'otw' => Parcels::leftJoin('trips', 'trips.id', '=', 'parcels.trip_id')->whereIn('parcels.status', [1,2])->count(),
             ];
 
-            //status in 3,4
             $trips = Trip::wherehas('batch',
-                fn ($q) => $q->where('status', TripBatchHelperService::STATUS_PENDING))
+                fn ($q) => $q->whereIn('status', [ TripBatchHelperService::STATUS_IN_TRANSIT, TripBatchHelperService::STATUS_ARRIVED]))
                 ->get()->where('destination_id', auth()->user()->office_id)->get();
 
             return view('backend.dashboard', compact('trips', 'data'));

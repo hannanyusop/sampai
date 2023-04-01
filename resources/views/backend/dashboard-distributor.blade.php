@@ -14,12 +14,12 @@
                     <div class="nk-block-head-content">
                         <h2 class="nk-block-title fw-normal">{{ auth()->user()->name }}</h2>
                         <div class="nk-block-des">
-                            <p>Utem-mel Dashboard</p>
+                            <p>Pusat Terimaan</p>
                         </div>
                     </div><!-- .nk-block-head-content -->
                     <div class="nk-block-head-content">
                         <ul class="nk-block-tools gx-3">
-                            <li><a href="{{ route('admin.trip.create') }}" class="btn btn-primary"><span>Create Trip</span> <em class="icon ni ni-arrow-long-right"></em></a></li>
+                            <li><a href="{{ route('admin.tripBatch.create') }}" class="btn btn-primary"><span>Create Trip</span> <em class="icon ni ni-arrow-long-right"></em></a></li>
                         </ul>
                     </div><!-- .nk-block-head-content -->
                 </div><!-- .nk-block-between -->

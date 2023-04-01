@@ -9,7 +9,7 @@ class Parcels extends Model{
     protected $fillable = ['pickup_id', 'status'];
 
     public function trip(){
-        return $this->hasOneThrough(Trip::class, Pickup::class, 'id', 'trip_id', 'pickup_id');
+        return $this->hasOneThrough(Trip::class, Pickup::class, 'trip_id', 'id', 'pickup_id');
     }
 
     public function transactions(){

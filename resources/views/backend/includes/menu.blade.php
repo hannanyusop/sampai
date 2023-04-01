@@ -27,13 +27,13 @@
             </a>
             <ul class="nk-menu-sub">
                 <li class="nk-menu-item">
-                    <a href="{{ route('admin.trip.index') }}" class="nk-menu-link">
+                    <a href="{{ route('admin.tripBatch.index') }}" class="nk-menu-link">
                         <span class="nk-menu-text">Trip List</span>
                     </a>
                 </li>
                 @if($logged_in_user->can('staff.distributor'))
                     <li class="nk-menu-item">
-                        <a href="{{ route('admin.trip.create') }}" class="nk-menu-link">
+                        <a href="{{ route('admin.tripBatch.create') }}" class="nk-menu-link">
                             <span class="nk-menu-text">Create Trip</span>
                         </a>
                     </li>

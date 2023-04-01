@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\ParcelController;
 use App\Http\Controllers\Backend\TripRemarkController;
 use App\Http\Controllers\Backend\ReportController;
 use App\Http\Controllers\Backend\SettingController;
+use App\Http\Controllers\Backend\TripBatchController;
 
 // All route names are prefixed with 'admin.'.
 Route::redirect('/', '/admin/dashboard', 301);
@@ -15,6 +16,8 @@ Route::get('dashboard', [DashboardController::class, 'index'])
     ->name('dashboard');
 
 
+
+Route::resource('tripBatch', TripBatchController::class);
 
 Route::group(['prefix' => 'trip/', 'as' => 'trip.'], function (){
 
