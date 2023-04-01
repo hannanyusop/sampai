@@ -191,11 +191,8 @@
                                         </div>
                                     </th>
                                     <th class="nk-tb-col"><span class="sub-text">Tracking No</span></th>
-                                    <th class="nk-tb-col tb-col-mb"><span class="sub-text">Last Transaction</span></th>
-                                    <th class="nk-tb-col tb-col-md"><span class="sub-text">Created At</span></th>
                                     <th class="nk-tb-col tb-col-lg"><span class="sub-text">Status</span></th>
                                     <th class="nk-tb-col nk-tb-col-tools text-right">
-
                                     </th>
                                 </tr>
                                 </thead>
@@ -215,12 +212,6 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="nk-tb-col tb-col-mb">
-                                            <span class="tb-amount">{{ $parcel?->lastTransaction?->remark }}</span>
-                                        </td>
-                                        <td class="nk-tb-col tb-col-md">
-                                            <span>{{ reformatDatetime($parcel->created_at, 'd-m H:i A') }}</span>
-                                        </td>
                                         <td class="nk-tb-col tb-col-lg">
                                             <span>{!! getTripStatusBadge($parcel->status) !!}</span>
                                         </td>
@@ -231,7 +222,13 @@
                                                         <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                                         <div class="dropdown-menu dropdown-menu-right">
                                                             <ul class="link-list-opt no-bdr">
-                                                                <li><a href="{{ route('admin.trip.deleteParcel', $parcel->id) }}" onclick="return confirm('Are you sure want to remove this parcel ({{ $parcel->tracking_no }})?')"><em class="icon ni ni-trash"></em><span>Remove</span></a></li>
+                                                                <a href="#" wire:click.prevent="deleteParcel({{ $parcel->id }})"
+                                                                   onclick="return confirm('Are you sure want to remove this parcel ({{ $parcel->tracking_no }})?')">
+                                                                    <em class="icon ni ni-trash"></em>
+                                                                    <span>Remove</span>
+                                                                </a>
+
+{{--                                                                <li><a href="{{ route('admin.trip.deleteParcel', $parcel->id) }}" onclick="return confirm('Are you sure want to remove this parcel ({{ $parcel->tracking_no }})?')"><em class="icon ni ni-trash"></em><span>Remove</span></a></li>--}}
                                                             </ul>
                                                         </div>
                                                     </div>

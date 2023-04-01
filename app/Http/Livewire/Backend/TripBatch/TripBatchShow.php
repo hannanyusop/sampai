@@ -38,6 +38,17 @@ class TripBatchShow extends Component
         session()->flash('insert_'.$service[GeneralHelperService::KEY_STATUS],$service[GeneralHelperService::KEY_MESSAGE]);
     }
 
+    public function deleteParcel($id){
+
+        $service = ParcelGeneralService::undoTripBatch($this->tripBatch, $id);
+
+        if ($service[GeneralHelperService::KEY_STATUS] == GeneralHelperService::STATUS_SUCCESS) $this->last_parcel = null;
+
+        session()->flash('insert_'.$service[GeneralHelperService::KEY_STATUS],$service[GeneralHelperService::KEY_MESSAGE]);
+    }
+
+
+
     public function undo(){
 
         if (!$this->last_parcel) return;

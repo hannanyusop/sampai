@@ -7,16 +7,17 @@ use Livewire\Component;
 
 class TripBatchIndex extends Component
 {
-    public $status = null;
+    public $statuses = [], $tripBatchId = null;
     public function mount(){
 
     }
 
     public function render()
     {
-        $batches = TripBatch::when($this->status, function($query){
-            return $query->where('status', $this->status);
-        })->get();
+        $batches = TripBatch
+            ::when(count($this->statuses) > 0, fn($query) => $query->whereIn('status', $this->statuses))
+            ->when($this->tripBatchId, fn($query) => $query->where('id', $this->id))
+            ->get();
 
         return view('livewire.backend.trip-batch.trip-batch-index', compact('batches'));
     }

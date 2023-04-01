@@ -3,33 +3,42 @@
 namespace App\Http\Livewire\Trip;
 
 use App\Domains\Auth\Models\Parcels;
-use App\Domains\Auth\Models\Trip;
 use App\Exports\Trip\MasterListExport;
+use App\Models\TripBatch;
+use Cknow\Money\Money;
 use Livewire\Component;
 use Maatwebsite\Excel\Facades\Excel;
 
+
 class MasterList extends Component
 {
+    public $trip_batch, $trip_ids = [];
     public $trip, $tax;
     public $tracking_no, $edited_id = null;
 
     public function mount($trip_id)
     {
-        $this->trip = Trip::findOrFail($trip_id);
+        $this->trip_batch = TripBatch::with('trips')->findOrFail($trip_id);
+        $this->trip_ids = $this->trip_batch->trips()->pluck('id');
     }
 
     public function render()
     {
-        $parcels = $this->trip->parcels()->when($this->tracking_no, function ($query) {
+        $parcels = Parcels::whereHas('pickup', function($query){
+            $query->whereIn('trip_id', $this->trip_ids);
+        })->when($this->tracking_no, function ($query) {
             $query->where('tracking_no', 'like', '%' . $this->tracking_no . '%');
-        })->where('trip_id', $this->trip->id)
-            ->get();
+        })->get();
+
         return view('livewire.trip.master-list', compact('parcels'));
     }
 
     public function changeEditedId($id)
     {
-        $parcel = $this->trip->parcels()->where('parcels.id', $id)->first();
+
+        $parcel = Parcels::whereHas('pickup', function($query){
+            $query->whereIn('trip_id', $this->trip_ids);
+        })->find($id);
 
         if(!$parcel){
             return session()->flash('error', 'Parcel not found.');
@@ -41,13 +50,13 @@ class MasterList extends Component
 
     public function updateTax()
     {
-        //validate
         $this->validate([
             'tax' => 'required|numeric|min:0.01'
         ]);
 
-
-        $parcel = $this->trip->parcels()->where('parcels.id', $this->edited_id)->first();
+        $parcel = Parcels::whereHas('pickup', function($query){
+            $query->whereIn('trip_id', $this->trip_ids);
+        })->find($this->edited_id);
 
         if(!$parcel){
             return session()->flash('error', 'Parcel not found.');
@@ -63,6 +72,6 @@ class MasterList extends Component
     }
 
     public function export(){
-        return Excel::download(new MasterListExport($this->trip), time()."_".$this->trip->destination->code.'.xlsx');
+        return Excel::download(new MasterListExport($this->trip_batch), time()."_".$this->trip_batch->number.'.xlsx');
     }
 }

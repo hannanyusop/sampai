@@ -7,115 +7,115 @@
                     <div class="nk-block-head-content">
                         <h3 class="nk-block-title page-title">Master List</h3>
                         <div class="nk-block-des text-soft">
-                            <p>Trip : <span class="text-base">#{{ $trip->code }}</span></p>
+                            <p>Trip : <span class="text-base">{{ $trip_batch->number }}</span></p>
                         </div>
                     </div>
                     <div class="nk-block-head-content">
-                        <a href="{{ route('admin.trip.index') }}" class="btn btn-outline-light bg-warning d-none d-sm-inline-flex"><em class="icon ni ni-back-alt"></em><span>Back</span></a>
+                        <a href="{{ route('admin.tripBatch.show', $trip_batch) }}" class="btn btn-outline-light bg-warning d-none d-sm-inline-flex"><em class="icon ni ni-back-alt"></em><span>Back</span></a>
                         <a href="#" wire:click="export()" class="btn btn-success d-none d-sm-inline-flex"><em class="icon ni ni-download-cloud"></em><span>Export</span></a>
-                    @if(auth()->user()->can('staff.distributor') && $trip->status == 0)
-                            <a href="{{ route('admin.trip.addParcel', $trip->id) }}" class="btn btn-success d-none d-sm-inline-flex"><em class="icon ni ni-plus"></em><span>Add Parcel</span></a>
-                            <a href="{{ route('admin.trip.close', $trip->id) }}" onclick="return confirm('Are you sure want to close this trip?')" class="btn btn-light d-none d-sm-inline-flex"><em class="icon ni ni-clock"></em><span>Close Trip</span></a>
-                        @endif
+{{--                        @if(auth()->user()->can('staff.distributor') && $trip_batch->status == 0)--}}
+{{--                            <a href="{{ route('admin.trip.addParcel', $trip_batch->id) }}" class="btn btn-success d-none d-sm-inline-flex"><em class="icon ni ni-plus"></em><span>Add Parcel</span></a>--}}
+{{--                            <a href="{{ route('admin.trip.close', $trip_batch->id) }}" onclick="return confirm('Are you sure want to close this trip?')" class="btn btn-light d-none d-sm-inline-flex"><em class="icon ni ni-clock"></em><span>Close Trip</span></a>--}}
+{{--                        @endif--}}
                     </div>
                 </div>
             </div>
 
-            <div class="card card-bordered">
-                <div class="card-aside-wrap">
-                    <div class="card-content">
-                        <div class="card-inner">
-                            <div class="nk-block">
-                                <div class="nk-block-head">
-                                    <h5 class="title">Trip Information</h5>
-                                </div><!-- .nk-block-head -->
-                                <div class="profile-ud-list">
-                                    <div class="profile-ud-item">
-                                        <div class="profile-ud wider">
-                                            <span class="profile-ud-label">Trip ID.</span>
-                                            <span class="profile-ud-value">#{{ $trip->code }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="profile-ud-item">
-                                        <div class="profile-ud wider">
-                                            <span class="profile-ud-label">Destination</span>
-                                            <span class="profile-ud-value">{{ $trip->destination->name }} </span>
-                                        </div>
-                                    </div>
-                                    <div class="profile-ud-item">
-                                        <div class="profile-ud wider">
-                                            <span class="profile-ud-label">Date</span>
-                                            <span class="profile-ud-value">{{ reformatDatetime($trip->date, 'd M, Y') }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="profile-ud-item">
-                                        <div class="profile-ud wider">
-                                            <span class="profile-ud-label">Destination Code</span>
-                                            <span class="profile-ud-value">{{ $trip->destination->code }}</span>
-                                        </div>
-                                    </div>
-                                </div><!-- .profile-ud-list -->
-                            </div><!-- .nk-block -->
-                            <div class="nk-block">
-                                <div class="nk-block-head nk-block-head-line">
-                                    <h6 class="title overline-title text-base">Parcel Information</h6>
-                                </div><!-- .nk-block-head -->
-                                <div class="profile-ud-list">
-                                    <div class="profile-ud-item">
-                                        <div class="profile-ud wider">
-                                            <span class="profile-ud-label">Total</span>
-                                            <span class="profile-ud-value">1</span>
-                                        </div>
-                                    </div>
-                                    <div class="profile-ud-item">
-                                        <div class="profile-ud wider">
-                                            <span class="profile-ud-label">Pending</span>
-                                            <span class="profile-ud-value">1</span>
-                                        </div>
-                                    </div>
-                                    <div class="profile-ud-item">
-                                        <div class="profile-ud wider">
-                                            <span class="profile-ud-label">Received</span>
-                                            <span class="profile-ud-value">0</span>
-                                        </div>
-                                    </div>
-                                    <div class="profile-ud-item">
-                                        <div class="profile-ud wider">
-                                            <span class="profile-ud-label">Return</span>
-                                            <span class="profile-ud-value">0</span>
-                                        </div>
-                                    </div>
-                                </div><!-- .profile-ud-list -->
-                            </div><!-- .nk-block -->
-                            <div class="nk-divider divider md"></div>
-                            <div class="nk-block">
-                                <div class="nk-block-head nk-block-head-sm nk-block-between">
-                                    <h5 class="title">Admin Note</h5>
-                                    <a href="#" data-toggle="modal" data-target="#add-remark" class="link link-sm">+ Add Note</a>
-                                </div><!-- .nk-block-head -->
+{{--            <div class="card card-bordered">--}}
+{{--                <div class="card-aside-wrap">--}}
+{{--                    <div class="card-content">--}}
+{{--                        <div class="card-inner">--}}
+{{--                            <div class="nk-block">--}}
+{{--                                <div class="nk-block-head">--}}
+{{--                                    <h5 class="title">Trip Information</h5>--}}
+{{--                                </div><!-- .nk-block-head -->--}}
+{{--                                <div class="profile-ud-list">--}}
+{{--                                    <div class="profile-ud-item">--}}
+{{--                                        <div class="profile-ud wider">--}}
+{{--                                            <span class="profile-ud-label">Trip ID.</span>--}}
+{{--                                            <span class="profile-ud-value">#{{ $trip->code }}</span>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="profile-ud-item">--}}
+{{--                                        <div class="profile-ud wider">--}}
+{{--                                            <span class="profile-ud-label">Destination</span>--}}
+{{--                                            <span class="profile-ud-value">{{ $trip->destination->name }} </span>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="profile-ud-item">--}}
+{{--                                        <div class="profile-ud wider">--}}
+{{--                                            <span class="profile-ud-label">Date</span>--}}
+{{--                                            <span class="profile-ud-value">{{ reformatDatetime($trip->date, 'd M, Y') }}</span>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="profile-ud-item">--}}
+{{--                                        <div class="profile-ud wider">--}}
+{{--                                            <span class="profile-ud-label">Destination Code</span>--}}
+{{--                                            <span class="profile-ud-value">{{ $trip->destination->code }}</span>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div><!-- .profile-ud-list -->--}}
+{{--                            </div><!-- .nk-block -->--}}
+{{--                            <div class="nk-block">--}}
+{{--                                <div class="nk-block-head nk-block-head-line">--}}
+{{--                                    <h6 class="title overline-title text-base">Parcel Information</h6>--}}
+{{--                                </div><!-- .nk-block-head -->--}}
+{{--                                <div class="profile-ud-list">--}}
+{{--                                    <div class="profile-ud-item">--}}
+{{--                                        <div class="profile-ud wider">--}}
+{{--                                            <span class="profile-ud-label">Total</span>--}}
+{{--                                            <span class="profile-ud-value">1</span>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="profile-ud-item">--}}
+{{--                                        <div class="profile-ud wider">--}}
+{{--                                            <span class="profile-ud-label">Pending</span>--}}
+{{--                                            <span class="profile-ud-value">1</span>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="profile-ud-item">--}}
+{{--                                        <div class="profile-ud wider">--}}
+{{--                                            <span class="profile-ud-label">Received</span>--}}
+{{--                                            <span class="profile-ud-value">0</span>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="profile-ud-item">--}}
+{{--                                        <div class="profile-ud wider">--}}
+{{--                                            <span class="profile-ud-label">Return</span>--}}
+{{--                                            <span class="profile-ud-value">0</span>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div><!-- .profile-ud-list -->--}}
+{{--                            </div><!-- .nk-block -->--}}
+{{--                            <div class="nk-divider divider md"></div>--}}
+{{--                            <div class="nk-block">--}}
+{{--                                <div class="nk-block-head nk-block-head-sm nk-block-between">--}}
+{{--                                    <h5 class="title">Admin Note</h5>--}}
+{{--                                    <a href="#" data-toggle="modal" data-target="#add-remark" class="link link-sm">+ Add Note</a>--}}
+{{--                                </div><!-- .nk-block-head -->--}}
 
-                                @foreach($trip->remarks as $remark)
-                                    <div class="bq-note">
-                                        <div class="bq-note-item">
-                                            <div class="bq-note-text">
-                                                <p>{{ $remark->text }}</p>
-                                            </div>
-                                            <div class="bq-note-meta">
-                                                <span class="bq-note-added">Added on <span class="date">{{ reformatDatetime($remark->created_at, 'd M,Y') }}</span> at <span class="time">{{ reformatDatetime($remark->created_at, 'H:i A') }}</span></span>
-                                                <span class="bq-note-sep sep">|</span>
-                                                <span class="bq-note-by">By <span>{{ $remark->user->name }}</span></span>
-                                                @if(auth()->user()->id == $remark->user_id)
-                                                    <a href="{{ route('admin.trip-remark.delete', $remark->id) }}" onclick="return confirm('Are you sure want to delete this notes?')" class="link link-sm link-danger">Delete Note</a>
-                                                @endif
-                                            </div>
-                                        </div><!-- .bq-note-item -->
-                                    </div><!-- .bq-note -->
-                                @endforeach
-                            </div><!-- .nk-block -->
-                        </div><!-- .card-inner -->
-                    </div><!-- .card-content -->
-                </div><!-- .card-aside-wrap -->
-            </div>
+{{--                                @foreach($trip->remarks as $remark)--}}
+{{--                                    <div class="bq-note">--}}
+{{--                                        <div class="bq-note-item">--}}
+{{--                                            <div class="bq-note-text">--}}
+{{--                                                <p>{{ $remark->text }}</p>--}}
+{{--                                            </div>--}}
+{{--                                            <div class="bq-note-meta">--}}
+{{--                                                <span class="bq-note-added">Added on <span class="date">{{ reformatDatetime($remark->created_at, 'd M,Y') }}</span> at <span class="time">{{ reformatDatetime($remark->created_at, 'H:i A') }}</span></span>--}}
+{{--                                                <span class="bq-note-sep sep">|</span>--}}
+{{--                                                <span class="bq-note-by">By <span>{{ $remark->user->name }}</span></span>--}}
+{{--                                                @if(auth()->user()->id == $remark->user_id)--}}
+{{--                                                    <a href="{{ route('admin.trip-remark.delete', $remark->id) }}" onclick="return confirm('Are you sure want to delete this notes?')" class="link link-sm link-danger">Delete Note</a>--}}
+{{--                                                @endif--}}
+{{--                                            </div>--}}
+{{--                                        </div><!-- .bq-note-item -->--}}
+{{--                                    </div><!-- .bq-note -->--}}
+{{--                                @endforeach--}}
+{{--                            </div><!-- .nk-block -->--}}
+{{--                        </div><!-- .card-inner -->--}}
+{{--                    </div><!-- .card-content -->--}}
+{{--                </div><!-- .card-aside-wrap -->--}}
+{{--            </div>--}}
         </div>
     </div>
 

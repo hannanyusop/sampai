@@ -4,6 +4,7 @@ namespace App\Exports\Trip;
 
 use App\Domains\Auth\Models\Parcels;
 use App\Domains\Auth\Models\Trip;
+use App\Models\TripBatch;
 use Maatwebsite\Excel\Concerns\FromArray;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
@@ -11,30 +12,38 @@ use Maatwebsite\Excel\Concerns\WithStyles;
 
 class MasterListExport implements FromArray, ShouldAutoSize, WithStyles
 {
-    public $trip;
+    public $trip_batch;
 
-    public function __construct(Trip $trip){
-        $this->trip = $trip;
+    public function __construct(TripBatch $trip_batch){
+        $this->trip_batch = $trip_batch;
     }
 
     public function array() : array
     {
         $array = [];
 
-        $trip = $this->trip;
+        $trip_batch = $this->trip_batch;
+
+        $trip_ids = $this->trip_batch->trips()->pluck('id');
+
+        $parcels = Parcels::whereHas('pickup', function($query) use ($trip_ids){
+            $query->whereIn('trip_id', $trip_ids);
+        })->get();
 
 
-        $array[] = ['Trip ID', __("#:code", ['code' => $trip->code]), ' ', 'Destination', $trip->destination->name];
-        $array[] = ['Date', reformatDatetime($trip->date, 'd M, Y'), '', 'Destination Code', $trip->destination->code];
+
+        $array[] = ['Trip ID', __("#:code", ['code' => $trip_batch->number])];
+        $array[] = ['Date', reformatDatetime($trip_batch->date, 'd M, Y')];
         $array[] = [''];
         $array[] = [''];
-        $parcels = $trip->parcels;
 
-        $array[] = ['No.','User ID', 'Tracking No','Receiver Name', 'Phone Number', 'Description', 'Price (RM)', 'Tax (BND $)', 'Status', 'Remark'];
+
+
+        $array[] = ['No.','User ID', 'Tracking No','Receiver Name', 'Phone Number', 'Description','Destination', 'Price (RM)', 'Tax (BND $)', 'Status', 'Remark'];
 
         $ttl_tax = 0;
         $ttl_parcel = count($parcels);
-        foreach ($trip->parcels as $key => $parcel){
+        foreach ($parcels as $key => $parcel){
             $array[] = [
                 $key+1,
                 $parcel->user->id,
@@ -42,6 +51,7 @@ class MasterListExport implements FromArray, ShouldAutoSize, WithStyles
                 $parcel->receiver_name,
                 $parcel->phone_number,
                 $parcel->description,
+                $parcel?->dropPoint?->name,
                 $parcel->price ? number_format($parcel->price, '2', '.') : '0.00',
                 $parcel->tax ? number_format($parcel->tax, '2', '.') : '0.00',
                 $parcel->status_label,
