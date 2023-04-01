@@ -7,7 +7,13 @@
     <title>{{ appName() }} | @yield('title')</title>
     <meta name="author" content="@yield('meta_author', 'Hannan Yusop')">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="@@page-discription">
+    <meta name="description" content="Courier service for parcel forwarding from Malaysia to Brunei.
+     Fast, secure, and affordable shipping for individuals and businesses. Flexible shipping options with online tracking and insurance. Exceptional customer service. Start shipping today!">
+    <meta property="og:image" content="{{ asset('images/cover.png') }}" />
+    <meta property="og:image:secure_url" content="{{ asset('images/cover.png') }}" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}">
     @yield('meta')
     @stack('before-styles')
