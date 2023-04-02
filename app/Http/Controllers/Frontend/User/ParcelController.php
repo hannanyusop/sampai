@@ -7,6 +7,8 @@ use App\Domains\Auth\Models\TrackHistories;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Frontend\Parcel\StoreParcelRequest;
 use App\Services\Parcel\ParcelHelperService;
+use App\Http\Requests\Frontend\Parcel\UpdateParcelRequest;
+//use App\Http\Services\Parcel\ParcelHelperService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -34,6 +36,38 @@ class ParcelController extends Controller{
         $receiver = null;
 
         return view('frontend.user.parcel.view', compact('parcel', 'receiver'));
+    }
+
+    public function edit($id){
+        $drop_points = Office::where('is_drop_point', 1)->get();
+
+        $parcel = Parcels::with('dropPoint')->where([
+            'user_id' => auth()->user()->id
+        ])->find(decrypt($id));
+
+
+        if(!$parcel){
+            return redirect()->back()->with('warning', 'Parcel not found!');
+        }
+
+        $receiver = null;
+
+        return view('frontend.user.parcel.edit', compact('parcel', 'drop_points', 'receiver'));
+    }
+
+    public function update(UpdateParcelRequest $request, $id){
+
+        $parcel = Parcels::findOrFail($id);
+
+        $parcel->tracking_no = strtoupper($request->tracking_no);
+        $parcel->description = strtoupper($request->description);
+        $parcel->quantity = $request->quantity;
+        $parcel->price = $request->price;
+        $parcel->tax = $request->tax;
+        $parcel->save();
+
+        return redirect()->back()->withFlashSuccess('Parcel Updated');
+
     }
 
 

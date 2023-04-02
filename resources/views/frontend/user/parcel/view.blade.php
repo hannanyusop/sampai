@@ -13,6 +13,9 @@
                         <div class="card-inner">
                             <div class="sp-plan-head">
                                 <h6 class="title">Parcel Details</h6>
+                                <div class="text-right mt-n5 mr-n2">
+                                    <a href="{{ route('frontend.user.parcel.edit',encrypt($parcel->id)) }}" class="btn btn-md btn-primary">Edit Parcel</a>
+                                </div>
                             </div>
                             <div class="sp-plan-desc sp-plan-desc-mb">
                                 <ul class="row gx-1">

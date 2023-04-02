@@ -3,6 +3,7 @@ namespace App\Domains\Auth\Models;
 
 use App\Models\Pickup;
 use App\Services\Trip\TripHelperService;
+use App\Models\UnregisteredParcel;
 use Illuminate\Database\Eloquent\Model;
 
 class Parcels extends Model{
@@ -32,6 +33,10 @@ class Parcels extends Model{
 
     public function pickup(){
         return $this->hasOne(Pickup::class, 'id', 'pickup_id');
+    }
+
+    public function unregisteredParcel(){
+        return $this->hasOne(UnregisteredParcel::class, 'id', 'parcel_id');
     }
 
     public function getStatusLabelAttribute(){

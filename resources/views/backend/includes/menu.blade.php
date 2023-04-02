@@ -59,6 +59,11 @@
                         <span class="nk-menu-text">Parcel List</span>
                     </a>
                 </li>
+                <li class="nk-menu-item">
+                    <a href="{{ route('admin.unregisteredParcel.index') }}" class="nk-menu-link">
+                        <span class="nk-menu-text">Unregistered Parcel List</span>
+                    </a>
+                </li>
             </ul>
         </li>
         @endif

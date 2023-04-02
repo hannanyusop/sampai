@@ -28,6 +28,8 @@ Route::group(['as' => 'user.', 'middleware' => ['auth', 'password.expires', conf
     ],function (){
         Route::get('', [ParcelController::class, 'index'])->name('index');
         Route::get('show/{id}', [ParcelController::class, 'view'])->name('show');
+        Route::get('edit/{id}', [ParcelController::class, 'edit'])->name('edit');
+        Route::post('show/{id}', [ParcelController::class, 'update'])->name('update');
         Route::get('search', [ParcelController::class, 'search'])->name('search');
         Route::get('create', [ParcelController::class, 'create'])->name('create');
         Route::post('store', [ParcelController::class, 'store'])->name('store');

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\UnregisteredParcelController;
+use App\Models\UnregisteredParcel;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\TripController;
 use App\Http\Controllers\Backend\OfficeController;
@@ -66,6 +68,16 @@ Route::group(['prefix' => 'parcel/', 'as' => 'parcel.'], function (){
     Route::get('scan/', [ParcelController::class, 'scan'])->name('scan')->middleware('permission:staff.inhouse');;
     Route::post('deliver/{tracking_no}', [ParcelController::class, 'deliver'])->name('deliver')->middleware('permission:staff.inhouse');;
 
+});
+
+Route::group(['prefix' => 'unregisteredParcel/', 'as' => 'unregisteredParcel.'], function (){
+
+    Route::get('', [UnregisteredParcelController::class, 'index'])->name('index');
+    Route::get('create/', [UnregisteredParcelController::class, 'create'])->name('create');
+    Route::get('view/{id}', [UnregisteredParcelController::class, 'view'])->name('view');
+    Route::post('store', [UnregisteredParcelController::class, 'store'])->name('store');
+    Route::get('edit/{id}', [UnregisteredParcelController::class, 'edit'])->name('edit');
+    Route::POST('edit/{id}', [UnregisteredParcelController::class, 'update'])->name('update');
 });
 
 Route::group(['prefix' => 'office/', 'as' => 'office.'], function (){
