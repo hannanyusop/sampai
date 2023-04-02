@@ -93,8 +93,8 @@ class UserSeeder extends Seeder
             User::create([
                 'type' => User::TYPE_ADMIN,
                 'office_id' => $lambak->id,
-                'name' => 'STAFF KINLANAS ',
-                'email' => 'lamabak@mail.com',
+                'name' => 'STAFF LAMBAK ',
+                'email' => 'lambak@mail.com',
                 'password' => 'secret',
                 'email_verified_at' => now(),
                 'default_drop_point' => Office::where('is_drop_point', 1)->first()->id,
