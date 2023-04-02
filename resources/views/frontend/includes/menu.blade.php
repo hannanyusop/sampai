@@ -29,21 +29,12 @@
                         <a href="{{ route('frontend.user.parcel.create') }}" class="nk-menu-link">
                             <span class="nk-menu-text">Add Parcel</span>
                         </a>
-                        <a href="{{ route('frontend.user.parcel.search') }}" class="nk-menu-link">
-                            <span class="nk-menu-text">Track Parcel</span>
-                        </a>
                         <a href="{{ route('frontend.user.parcel.index') }}" class="nk-menu-link">
                             <span class="nk-menu-text">Parcel List</span>
                         </a>
                         <a href="{{ route('frontend.user.pickup.index') }}" class="nk-menu-link">
                             <span class="nk-menu-text">Pickup List</span>
                         </a>
-{{--                        <a href="{{ route('frontend.user.subscribe.create') }}" class="nk-menu-link">--}}
-{{--                            <span class="nk-menu-text">Subscribe</span>--}}
-{{--                        </a>--}}
-{{--                        <a href="{{ route('frontend.user.subscribe.index') }}" class="nk-menu-link">--}}
-{{--                            <span class="nk-menu-text">Subscription List</span>--}}
-{{--                        </a>--}}
                     </li>
                 </ul>
             </li>

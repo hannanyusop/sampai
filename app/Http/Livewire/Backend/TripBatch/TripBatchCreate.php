@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Backend\TripBatch;
 use App\Domains\Auth\Models\Office;
 use App\Domains\Auth\Models\Trip;
 use App\Models\TripBatch;
+use App\Services\Trip\TripHelperService;
 use App\Services\TripBatch\TripBatchHelperService;
 use Livewire\Component;
 
@@ -18,15 +19,15 @@ class TripBatchCreate extends Component
 
     public function store(){
 
-        $pendingBatch = TripBatch::where('status', TripBatchHelperService::STATUS_PENDING)->first();
+//        $pendingBatch = TripBatch::where('status', TripBatchHelperService::STATUS_PENDING)->first();
+//
+//        if($pendingBatch){
+//            $this->addError('remark', 'Please close the pending batch first.');
+//        }
 
-        if($pendingBatch){
-            $this->addError('remark', 'Please close the pending batch first.');
-        }
-
-        $this->validate([
-            'remark' => 'max:255',
-        ]);
+//        $this->validate([
+//            'remark' => 'max:255',
+//        ]);
 
         $date = date('Y-m-d');
 
@@ -40,6 +41,7 @@ class TripBatchCreate extends Component
         foreach ($dp as $office){
 
             $trip = new Trip();
+            $trip->status        = TripHelperService::STATUS_PENDING;
             $trip->trip_batch_id = $tripBatch->id;
             $trip->user_id = auth()->user()->id;
             $trip->code = generateTripCode($office->id, $tripBatch->date);

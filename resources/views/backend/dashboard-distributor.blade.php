@@ -80,7 +80,7 @@
                                         <div class="tranx-data">
                                             <div class="tranx-label">{{ $trip->code }} <em class="tranx-icon sm icon ni ni-sign-btc"></em></div>
                                             <div class="tranx-date">{{ reformatDatetime($trip->date, 'M d, Y h:i A') }}
-                                                <span><br>Status : {!! getTripStatusBadge($trip->status) !!}</span>
+                                                <span><br>Status : {{ $trip->status_label }}</span>
                                                 <br>Total : {{ $trip->parcels->count() }}<span class="currency currency-usd"> Parcel(s) </span>
                                             </div>
                                         </div>

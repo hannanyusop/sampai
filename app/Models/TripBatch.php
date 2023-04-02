@@ -27,6 +27,10 @@ class TripBatch extends Model
         return $this->hasManyThrough(Parcels::class, Trip::class, 'trip_batch_id', 'pickup_id', 'id', 'id');
     }
 
+    public function getStatusAttribute(){
+        return  $this->trips()->first()->status;
+    }
+
     public function getNumberAttribute(){
         return "#".str_pad($this->id, 4, '0', STR_PAD_LEFT);
     }

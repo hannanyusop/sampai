@@ -10,8 +10,11 @@ use App\Domains\Auth\Models\ParcelTransaction;
 use App\Domains\Auth\Models\Subscribe;
 use App\Domains\Auth\Models\Trip;
 use App\Http\Controllers\Controller;
+use App\Models\TripBatch;
 use App\Services\General\GeneralHelperService;
 use App\Services\Parcel\ParcelGeneralService;
+use App\Services\Parcel\ParcelHelperService;
+use App\Services\Trip\TripHelperService;
 use Illuminate\Http\Request;
 
 class TripController extends Controller
@@ -201,45 +204,48 @@ class TripController extends Controller
         return redirect()->back()->withFlashSuccess('Parcel inserted');
     }
 
-    public function deleteParcel($parcel_id){
-        #check either trip open or not
+//    public function deleteParcel($parcel_id){
+//        #check either trip open or not
+//
+//
+//        $parcel = Parcels::findOrFail($parcel_id);
+//
+//
+//        if($parcel->status == ParcelHelperService::STATUS_RECEIVED){
+//
+//            $parcel->update([
+//                'pickup_id' => null,
+//                'status'    => ParcelHelperService::STATUS_REGISTERED
+//            ]);
+//            return redirect()->back()->withFlashSuccess('Parcel unassigned');
+//        }else{
+//            return redirect()->back()->withFlashError('Parcel cannot be deleted! Reason : Status in '.getParcelStatus($parcel->status));
+//        }
+//
+//
+//    }
 
-        $parcel = Parcels::findOrFail($parcel_id);
+    public function close($trip_batch_id){
 
-        if($parcel->status == 0){
+        $batch = TripBatch::whereHas('trips', function ($q) use ($trip_batch_id){
+            $q->where('status', TripHelperService::STATUS_PENDING);
+        })->findOrFail($trip_batch_id);
 
-//            $parcel->transactions()->delete();
-//            $parcel->delete();
-
-            $parcel->update([
-                'trip_id' => null
-            ]);
-            return redirect()->back()->withFlashSuccess('Parcel unassigned');
-        }else{
-            return redirect()->back()->withFlashError('Parcel cannot be deleted! Reason : Status in '.getParcelStatus($parcel->status));
+        if($batch->parcels->count() == 0){
+            return redirect()->back()->with('flash_danger', 'Trip cannot be closed. Reason : There are no parcel inserted.');
         }
 
-
-    }
-
-    public function close($id){
-
-        $trip = Trip::where('status', 0)->findOrFail($id);
-
-        foreach ($trip->parcels as $parcel){
-
-            $remark = "Preparing for outbound.";
-
-            addParcelTransaction($parcel->id, $remark);
-
-            $parcel->status = 1;
+        foreach ($batch->parcels as $parcel){
+            addParcelTransaction($parcel->id, ParcelHelperService::statuses(ParcelHelperService::STATUS_OUTBOUND_TO_DROP_POINT));
+            $parcel->status = ParcelHelperService::STATUS_OUTBOUND_TO_DROP_POINT;
             $parcel->save();
         }
 
-        $trip->status = 1;
-        $trip->save();
+        $batch->trips()->update([
+            'status' => TripHelperService::STATUS_CLOSED
+        ]);
 
-        return redirect()->route('admin.trip.index')->withFlashSuccess('Trip closed.');
+        return redirect()->back()->withFlashSuccess('Trip closed.');
     }
 
     public function picked($id){

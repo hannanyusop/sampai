@@ -16,12 +16,20 @@ class ParcelGeneralService
 
     public static function assignToTripBatch($trackin_no,TripBatch $tripBatch){
 
-        $parcel = Parcels::where('tracking_no', $trackin_no)->first();
+        $parcel = Parcels::where('tracking_no', $trackin_no)
+            ->first();
 
         if (!$parcel) {
             return [
                 GeneralHelperService::KEY_STATUS  => GeneralHelperService::STATUS_ERROR,
                 GeneralHelperService::KEY_MESSAGE => __('No parcel found for :tracking_no', ['tracking_no' => $trackin_no])
+            ];
+        }
+
+        if($parcel->status != ParcelHelperService::STATUS_REGISTERED){
+            return [
+                GeneralHelperService::KEY_STATUS  => GeneralHelperService::STATUS_ERROR,
+                GeneralHelperService::KEY_MESSAGE => __('Faild to assign parcel with status :  :status', ['status' => ParcelHelperService::statuses($parcel->status)])
             ];
         }
 
@@ -99,7 +107,7 @@ class ParcelGeneralService
         $parcel->lastTransaction()->delete();
 
         $parcel->update([
-            'status' => ParcelHelperService::STATUS_RECEIVED,
+            'status'    => ParcelHelperService::STATUS_REGISTERED,
             'pickup_id' => null
         ]);
 

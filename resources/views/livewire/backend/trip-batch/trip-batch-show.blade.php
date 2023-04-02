@@ -15,8 +15,7 @@
                         @can('staff.distributor')
                             <a href="{{ route('admin.trip.masterList', $tripBatch->id) }}" class="btn btn-success d-none d-sm-inline-flex"><em class="icon ni ni-list-check"></em><span>Master List</span></a>
                         @endcan
-                        @if(auth()->user()->can('staff.distributor') && $tripBatch->status == 0)
-                            <a href="{{ route('admin.trip.addParcel', $tripBatch->id) }}" class="btn btn-success d-none d-sm-inline-flex"><em class="icon ni ni-plus"></em><span>Add Parcel</span></a>
+                        @if(auth()->user()->can('staff.distributor') && $tripBatch->status == \App\Services\Trip\TripHelperService::STATUS_PENDING)
                             <a href="{{ route('admin.trip.close', $tripBatch->id) }}" onclick="return confirm('Are you sure want to close this trip?')" class="btn btn-light d-none d-sm-inline-flex"><em class="icon ni ni-clock"></em><span>Close Trip</span></a>
                         @endif
                     </div>
@@ -35,13 +34,7 @@
                                     <div class="profile-ud-item">
                                         <div class="profile-ud wider">
                                             <span class="profile-ud-label">Trip ID.</span>
-                                            <span class="profile-ud-value">#{{ $tripBatch->code }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="profile-ud-item">
-                                        <div class="profile-ud wider">
-                                            <span class="profile-ud-label">Destination</span>
-{{--                                            <span class="profile-ud-value">{{ $tripBatch->destination->name }} </span>--}}
+                                            <span class="profile-ud-value">{{ $tripBatch->number }}</span>
                                         </div>
                                     </div>
                                     <div class="profile-ud-item">
@@ -50,54 +43,13 @@
                                             <span class="profile-ud-value">{{ reformatDatetime($tripBatch->date, 'd M, Y') }}</span>
                                         </div>
                                     </div>
-                                    <div class="profile-ud-item">
-                                        <div class="profile-ud wider">
-                                            <span class="profile-ud-label">Destination Code</span>
-{{--                                            <span class="profile-ud-value">{{ $tripBatch->destination->coded }}</span>--}}
-                                        </div>
-                                    </div>
-                                </div><!-- .profile-ud-list -->
-                            </div><!-- .nk-block -->
-                            <div class="nk-block">
-                                <div class="nk-block-head nk-block-head-line">
-                                    <h6 class="title overline-title text-base">Parcel Information</h6>
-                                </div><!-- .nk-block-head -->
-                                <div class="profile-ud-list">
-                                    <div class="profile-ud-item">
-                                        <div class="profile-ud wider">
-                                            <span class="profile-ud-label">Total</span>
-                                            <span class="profile-ud-value">1</span>
-                                        </div>
-                                    </div>
-                                    <div class="profile-ud-item">
-                                        <div class="profile-ud wider">
-                                            <span class="profile-ud-label">Pending</span>
-                                            <span class="profile-ud-value">1</span>
-                                        </div>
-                                    </div>
-                                    <div class="profile-ud-item">
-                                        <div class="profile-ud wider">
-                                            <span class="profile-ud-label">Received</span>
-                                            <span class="profile-ud-value">0</span>
-                                        </div>
-                                    </div>
-                                    <div class="profile-ud-item">
-                                        <div class="profile-ud wider">
-                                            <span class="profile-ud-label">Return</span>
-                                            <span class="profile-ud-value">0</span>
-                                        </div>
-                                    </div>
                                 </div><!-- .profile-ud-list -->
                             </div><!-- .nk-block -->
                             <div class="nk-divider divider md"></div>
                             <div class="nk-block">
-
                                 <div  class="nk-refwg-invite card-inner">
-                                    <div class="nk-refwg-head g-3">
-                                        <div class="nk-refwg-title">
-                                            <h5 class="title">Add Parcel</h5>
-                                            <div class="title-sub">Only Registered Parcel Will be ~.</div>
-                                        </div>
+                                    <div class="nk-refwg-title">
+                                        <div class="title-sub">Add Parcel</div>
                                     </div>
                                     <div class="nk-refwg-url">
                                         <div class="form-control-wrap">

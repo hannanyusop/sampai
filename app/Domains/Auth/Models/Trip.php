@@ -3,18 +3,19 @@ namespace App\Domains\Auth\Models;
 
 use App\Models\Pickup;
 use App\Models\TripBatch;
+use App\Services\Trip\TripHelperService;
 use Illuminate\Database\Eloquent\Model;
 
 class Trip extends Model{
 
-    protected $fillable = [];
+    protected $fillable = ['status'];
 
     public function batch(){
         return $this->hasOne(TripBatch::class, 'id', 'trip_batch_id');
     }
 
-    public function getStatusAttribute(){
-        return $this->batch->status;
+    public function getStatusLabelAttribute(){
+        return TripHelperService::getStatuses($this->status);
     }
 
     public function destination(){

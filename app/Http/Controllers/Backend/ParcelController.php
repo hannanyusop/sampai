@@ -13,8 +13,7 @@ class ParcelController extends Controller{
 
         if(auth()->user()->can('staff.distributor') || auth()->user()->can('staff.runner')){
 
-            $parcels = Parcels::leftJoin('trips', 'trips.id', 'parcels.trip_id')
-                ->get();
+            $parcels = Parcels::get();
 
         }else{
 

@@ -17,7 +17,6 @@ class TripBatchShow extends Component
     {
         $this->tripBatch = $tripBatch;
 
-//        dd($tripBatch);
     }
 
     public function render()
