@@ -3,12 +3,10 @@ namespace App\Http\Controllers\Frontend\User;
 
 use App\Domains\Auth\Models\Office;
 use App\Domains\Auth\Models\Parcels;
-use App\Domains\Auth\Models\Subscribe;
 use App\Domains\Auth\Models\TrackHistories;
-use App\Domains\Auth\Models\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Frontend\Parcel\StoreParcelRequest;
-use App\Http\Services\Parcel\ParcelHelperService;
+use App\Services\Parcel\ParcelHelperService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -81,22 +79,21 @@ class ParcelController extends Controller{
 
 
         $parcel = new Parcels();
-        $parcel->user_id     = auth()->user()->id;
-        $parcel->tracking_no = strtoupper($request->tracking_no);
-        $parcel->status = ParcelHelperService::STATUS_CREATED;
+        $parcel->user_id       = auth()->user()->id;
+        $parcel->tracking_no   = strtoupper($request->tracking_no);
+        $parcel->status        = ParcelHelperService::STATUS_REGISTERED;
         $parcel->receiver_name = strtoupper($request->receiver_name);
-        $parcel->phone_number = $request->phone_number;
+        $parcel->phone_number  = $request->phone_number;
         $parcel->description   = $request->description;
-        $parcel->price       = $request->price;
-        $parcel->quantity     = $request->quantity;
-        $parcel->order_origin = $request->order_origin;
-        $parcel->office_id    = $request->office_id;
-        $file = Storage::put('invoice', $request->file('invoice_url'));
-        $parcel->invoice_url  = $file;
+        $parcel->price         = $request->price;
+        $parcel->quantity      = $request->quantity;
+        $parcel->order_origin  = $request->order_origin;
+        $parcel->office_id     = $request->office_id;
+        $file                  = Storage::put('invoice', $request->file('invoice_url'));
+        $parcel->invoice_url   = $file;
         $parcel->save();
 
-
-        addParcelTransaction($parcel->id, "Parcel registered by customer.");
+        addParcelTransaction($parcel->id, ParcelHelperService::statuses(ParcelHelperService::STATUS_REGISTERED));
         return redirect()->back()->withFlashSuccess('Parcel inserted');
     }
 }

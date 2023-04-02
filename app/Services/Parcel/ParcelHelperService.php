@@ -16,7 +16,7 @@ class ParcelHelperService
     const STATUS_READY_TO_COLLECT = 5, STATUS_DELIVERED = 6, STATUS_RETURN = 7;
 
 
-    public function statuses($status = null){
+    public static function statuses($status = null){
 
         $statuses = [
             self::STATUS_REGISTERED => __('Parcel registered into NUJ System'),

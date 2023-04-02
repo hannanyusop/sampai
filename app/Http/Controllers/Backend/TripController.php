@@ -193,18 +193,9 @@ class TripController extends Controller
         $parcel->tracking_no = strtoupper($request->tracking_no);
         $parcel->receiver_name = strtoupper($request->receiver_name);
         $parcel->receiver_info = $request->receiver_info;
-
         $parcel->save();
 
-        $remark = "Parcel received by UTeM-mel";
-
-        $emails = Subscribe::leftJoin('users', 'users.id', '=', 'subscribes.user_id')
-            ->where('subscribes.is_notify', 1)
-            ->where('tracking_no', $parcel->tracking_no)->pluck('email');
-
-        if($emails->count() > 0){
-            sendEmail($emails->toArray(), "Parcel #$parcel->tracking_no", "Parcel #$parcel->tracking_no received by UTeM-mel. Please login to the dashboard to get more details.");
-        }
+        $remark = "Parcel received by our staff.";
 
         addParcelTransaction($parcel->id, $remark);
         return redirect()->back()->withFlashSuccess('Parcel inserted');
@@ -237,7 +228,7 @@ class TripController extends Controller
 
         foreach ($trip->parcels as $parcel){
 
-            $remark = "Ready to pickup from UTeM-mel";
+            $remark = "Preparing for outbound.";
 
             addParcelTransaction($parcel->id, $remark);
 
@@ -327,7 +318,6 @@ class TripController extends Controller
 
         return redirect()->back()->withFlashSuccess('Code accepted.');
     }
-
 
     private function updateReceive($trip_id){
 
