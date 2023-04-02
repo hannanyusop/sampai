@@ -167,7 +167,9 @@
                                             </td>
                                             <td class="tb-odr-amount">
                                          <span class="tb-odr-total">
-                                            <span class="amount">Runner</span>
+                                            <span class="amount">
+
+                                            </span>
                                         </span>
                                                 <span class="tb-odr-status">{{ $trip->parcels->count() }} Parcel(s)
                                         </span>
@@ -179,19 +181,6 @@
                                                         <ul class="link-list-plain">
                                                             <li><a href="{{ route('admin.trip.view', $trip->id) }}">View</a></li>
 
-                                                            @if(auth()->user()->can('staff.distributor'))
-                                                                @if($trip->status == 0)
-                                                                    <li><a href="{{ route('admin.trip.addParcel', $trip->id)  }}">Add Parcel</a></li>
-                                                                    <li><a href="{{ route('admin.trip.close', $trip->id) }}" onclick="return confirm('Are you sure want to close this trip?')">Closed</a></li>
-                                                                @endif
-                                                            @endif
-                                                            @if(auth()->user()->can('staff.runner'))
-                                                                @if($trip->status == 1)
-                                                                    <li><a href="{{ route('admin.trip.picked', $trip->id) }}">Pick</a></li>
-                                                                @elseif($trip->status == 2 && $trip->runner_id == auth()->user()->id)
-                                                                    <li><a href="{{ route('admin.trip.transferCode', $trip->id) }}">Transfer Trip</a></li>
-                                                                @endif
-                                                            @endif
                                                         </ul>
                                                     </div>
                                                 </div>

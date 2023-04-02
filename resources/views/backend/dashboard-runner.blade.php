@@ -118,15 +118,15 @@
                                                             <li><a href="{{ route('admin.trip.view', $trip->id) }}">View</a></li>
 
                                                             @if(auth()->user()->can('staff.distributor'))
-                                                                @if($trip->status == 0)
+                                                                @if($trip->status == \App\Services\Trip\TripHelperService::STATUS_PENDING)
                                                                     <li><a href="{{ route('admin.trip.addParcel', $trip->id)  }}">Add Parcel</a></li>
                                                                     <li><a href="{{ route('admin.trip.close', $trip->id) }}" onclick="return confirm('Are you sure want to close this trip?')">Closed</a></li>
                                                                 @endif
                                                             @endif
                                                             @if(auth()->user()->can('staff.runner'))
-                                                                @if($trip->status == 1)
+                                                                @if($trip->status == \App\Services\Trip\TripHelperService::STATUS_CLOSED)
                                                                     <li><a href="{{ route('admin.trip.picked', $trip->id) }}">Pick</a></li>
-                                                                @elseif($trip->status == 2 && $trip->runner_id == auth()->user()->id)
+                                                                @elseif($trip->status == \App\Services\Trip\TripHelperService::STATUS_IN_TRANSIT && $trip->runner_id == auth()->user()->id)
                                                                     <li><a href="{{ route('admin.trip.transferCode', $trip->id) }}">Transfer Trip</a></li>
                                                                 @endif
                                                             @endif
@@ -185,15 +185,15 @@
                                                             <li><a href="{{ route('admin.trip.view', $trip->id) }}">View</a></li>
 
                                                             @if(auth()->user()->can('staff.distributor'))
-                                                                @if($trip->status == 0)
+                                                                @if($trip->status == \App\Services\Trip\TripHelperService::STATUS_PENDING)
                                                                     <li><a href="{{ route('admin.trip.addParcel', $trip->id)  }}">Add Parcel</a></li>
                                                                     <li><a href="{{ route('admin.trip.close', $trip->id) }}" onclick="return confirm('Are you sure want to close this trip?')">Closed</a></li>
                                                                 @endif
                                                             @endif
                                                             @if(auth()->user()->can('staff.runner'))
-                                                                @if($trip->status == 1)
+                                                                @if($trip->status == \App\Services\Trip\TripHelperService::STATUS_CLOSED)
                                                                     <li><a href="{{ route('admin.trip.picked', $trip->id) }}">Pick</a></li>
-                                                                @elseif($trip->status == 2 && $trip->runner_id == auth()->user()->id)
+                                                                @elseif($trip->status == \App\Services\Trip\TripHelperService::STATUS_IN_TRANSIT && $trip->runner_id == auth()->user()->id)
                                                                     <li><a href="{{ route('admin.trip.transferCode', $trip->id) }}">Transfer Trip</a></li>
                                                                 @endif
                                                             @endif

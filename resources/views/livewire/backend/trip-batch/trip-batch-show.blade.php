@@ -165,7 +165,7 @@
                                             </div>
                                         </td>
                                         <td class="nk-tb-col tb-col-lg">
-                                            <span>{!! getTripStatusBadge($parcel->status) !!}</span>
+                                            <span>{!! $parcel->status_label !!}</span>
                                         </td>
                                         <td class="nk-tb-col nk-tb-col-tools">
                                             <ul class="nk-tb-actions gx-1">

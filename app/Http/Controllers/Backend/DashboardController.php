@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Backend;
 use App\Domains\Auth\Models\Parcels;
 use App\Domains\Auth\Models\Trip;
 use App\Http\Controllers\Controller;
+use App\Services\Parcel\ParcelHelperService;
+use App\Services\Trip\TripHelperService;
 use App\Services\TripBatch\TripBatchHelperService;
 
 /**
@@ -48,11 +50,11 @@ class DashboardController extends Controller
         }elseif (auth()->user()->can('staff.runner')){
 
             $picks  = Trip::wherehas('batch',
-                fn ($q) => $q->where('status', TripBatchHelperService::STATUS_PENDING))
+                fn ($q) => $q->where('status', TripHelperService::STATUS_CLOSED))
                 ->get();
 
             $transfers = Trip::wherehas('batch',
-                fn ($q) => $q->whereIn('status', [TripBatchHelperService::STATUS_CLOSED]))
+                fn ($q) => $q->whereIn('status', [TripBatchHelperService::STATUS_IN_TRANSIT]))
                 ->get();
 
             $total = [
@@ -64,16 +66,16 @@ class DashboardController extends Controller
         }elseif ('staff.inhouse'){
 
             $data =  [
-                'all' => Parcels::leftJoin('trips', 'trips.id', '=', 'parcels.trip_id')->whereNotIn('parcels.status', [0])->count(),
-                'delivered' => Parcels::leftJoin('trips', 'trips.id', '=', 'parcels.trip_id')->where('parcels.status', 4)->count(),
-                'ready' => Parcels::leftJoin('trips', 'trips.id', '=', 'parcels.trip_id')->where('parcels.status', 3)->count(),
-                'return' => Parcels::leftJoin('trips', 'trips.id', '=', 'parcels.trip_id')->where('parcels.status', 5)->count(),
-                'otw' => Parcels::leftJoin('trips', 'trips.id', '=', 'parcels.trip_id')->whereIn('parcels.status', [1,2])->count(),
+                'all' => Parcels::whereNotIn('status', [ParcelHelperService::STATUS_REGISTERED])->count(),
+                'delivered' => Parcels::where('status', ParcelHelperService::STATUS_DELIVERED)->count(),
+                'ready' => Parcels::where('status', ParcelHelperService::STATUS_READY_TO_COLLECT)->count(),
+                'return' => Parcels::where('parcels.status', ParcelHelperService::STATUS_RETURN)->count(),
+                'otw' => Parcels::whereIn('parcels.status', [ParcelHelperService::STATUS_RECEIVED,ParcelHelperService::STATUS_OUTBOUND_TO_DROP_POINT])->count(),
             ];
 
-            $trips = Trip::wherehas('batch',
-                fn ($q) => $q->whereIn('status', [ TripBatchHelperService::STATUS_IN_TRANSIT, TripBatchHelperService::STATUS_ARRIVED]))
-                ->get()->where('destination_id', auth()->user()->office_id)->get();
+            $trips = Trip::whereIn('status', [TripBatchHelperService::STATUS_IN_TRANSIT, TripBatchHelperService::STATUS_ARRIVED])
+                ->where('destination_id', auth()->user()->office_id)
+                ->get();
 
             return view('backend.dashboard', compact('trips', 'data'));
 

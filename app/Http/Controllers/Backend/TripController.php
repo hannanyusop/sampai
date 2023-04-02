@@ -251,7 +251,7 @@ class TripController extends Controller
     public function picked($id){
 
         if(auth()->user()->can('staff.runner')){
-            $trip = Trip::where('status', 1)->findOrFail($id);
+            $trip = Trip::where('status', TripHelperService::STATUS_CLOSED)->findOrFail($id);
 
             foreach ($trip->parcels as $parcel){
 
@@ -259,12 +259,12 @@ class TripController extends Controller
 
                 addParcelTransaction($parcel->id, $remark);
 
-                $parcel->status = 2;
+                $parcel->status = ParcelHelperService::STATUS_OUTBOUND_TO_DROP_POINT;
                 $parcel->save();
             }
 
             $trip->runner_id = auth()->user()->id;
-            $trip->status = 2;
+            $trip->status = TripHelperService::STATUS_IN_TRANSIT;
             $trip->save();
 
             return redirect()->back()->withFlashSuccess('Trip picked.');
@@ -308,7 +308,7 @@ class TripController extends Controller
     public function receiveSave(Request $request){
 
         $trip = Trip::where('receive_code', $request->code)
-            ->where('status', 2)
+            ->where('status', TripHelperService::STATUS_IN_TRANSIT)
             ->first();
 
         if(!$trip){
@@ -328,7 +328,7 @@ class TripController extends Controller
     private function updateReceive($trip_id){
 
         $trip = Trip::where('id', $trip_id)
-            ->where('status', 2)
+            ->where('status', ParcelHelperService::STATUS_OUTBOUND_TO_DROP_POINT)
             ->first();
 
         foreach ($trip->parcels as $parcel){
@@ -337,19 +337,11 @@ class TripController extends Controller
 
             addParcelTransaction($parcel->id, $remark);
 
-            $parcel->status = 3;
+            $parcel->status = ParcelHelperService::STATUS_INBOUND_TO_DROP_POINT;
             $parcel->save();
-
-            $emails = Subscribe::leftJoin('users', 'users.id', '=', 'subscribes.user_id')
-                ->where('subscribes.is_notify', 1)
-                ->where('tracking_no', $parcel->tracking_no)->pluck('email');
-
-            if($emails->count() > 0){
-                sendEmail($emails->toArray(), "Parcel #$parcel->tracking_no", "Parcel #$parcel->tracking_no $remark. Please login to the dashboard to get more details.");
-            }
         }
 
-        $trip->status = 3;
+        $trip->status = TripHelperService::STATUS_ARRIVED;
         $trip->save();
     }
 

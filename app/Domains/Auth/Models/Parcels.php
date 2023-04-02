@@ -2,6 +2,7 @@
 namespace App\Domains\Auth\Models;
 
 use App\Models\Pickup;
+use App\Services\Trip\TripHelperService;
 use Illuminate\Database\Eloquent\Model;
 
 class Parcels extends Model{
@@ -34,6 +35,7 @@ class Parcels extends Model{
     }
 
     public function getStatusLabelAttribute(){
-        return getParcelStatus($this->status);
+
+        return TripHelperService::getStatuses($this->status);
     }
 }
