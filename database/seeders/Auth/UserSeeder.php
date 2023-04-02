@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
     {
         $this->disableForeignKeys();
 
-        Office::create([
+        $limbang = Office::create([
             'id' => 1,
             'code' => 'LMN',
             'name' => 'PUSAT LIMBANG',
@@ -29,7 +29,7 @@ class UserSeeder extends Seeder
             'address' => 'Limbang, Sarawak',
         ]);
 
-        Office::create([
+        $miri = Office::create([
             'id' => 2,
             'code' => 'MYY',
             'name' => 'PUSAT MIRI',
@@ -37,7 +37,7 @@ class UserSeeder extends Seeder
             'address' => 'Miri Sarawak',
         ]);
 
-        Office::create([
+        $lambak = Office::create([
             'id' => 3,
             'code' => 'LBK',
             'name' => 'PUSAT PUNGUTAN LAMBAK',
@@ -45,7 +45,7 @@ class UserSeeder extends Seeder
             'address' => 'Lambak, Brunei',
         ]);
 
-        Office::create([
+        $kilanas = Office::create([
             'id' => 4,
             'code' => 'KLN',
             'name' => 'PUSAT PUNGUTAN KILANAS',
@@ -68,9 +68,9 @@ class UserSeeder extends Seeder
         if (app()->environment(['local', 'testing'])) {
             User::create([
                 'type' => User::TYPE_ADMIN,
-                'office_id' => 1,
-                'name' => 'UTeM-MEL STAFF',
-                'email' => 'mel@mail.com',
+                'office_id' => $limbang->id,
+                'name' => 'STAFF LIMBANG',
+                'email' => 'limbang@mail.com',
                 'password' => 'secret',
                 'email_verified_at' => now(),
                 'default_drop_point' => Office::where('is_drop_point', 1)->first()->id,
@@ -80,9 +80,33 @@ class UserSeeder extends Seeder
 
             User::create([
                 'type' => User::TYPE_ADMIN,
-                'office_id' => 2,
-                'name' => 'LESTARI',
-                'email' => 'lestari@mail.com',
+                'office_id' => $miri->id,
+                'name' => 'STAFF MIRI',
+                'email' => 'miri@mail.com',
+                'password' => 'secret',
+                'email_verified_at' => now(),
+                'default_drop_point' => Office::where('is_drop_point', 1)->first()->id,
+                'phone_number' => '010'.rand(1000000,9999999),
+                'active' => true,
+            ]);
+
+            User::create([
+                'type' => User::TYPE_ADMIN,
+                'office_id' => $lambak->id,
+                'name' => 'STAFF KINLANAS ',
+                'email' => 'lamabak@mail.com',
+                'password' => 'secret',
+                'email_verified_at' => now(),
+                'default_drop_point' => Office::where('is_drop_point', 1)->first()->id,
+                'phone_number' => '010'.rand(1000000,9999999),
+                'active' => true,
+            ]);
+
+            User::create([
+                'type' => User::TYPE_ADMIN,
+                'office_id' => $kilanas->id,
+                'name' => 'STAFF KINLANAS ',
+                'email' => 'kilanas@mail.com',
                 'password' => 'secret',
                 'email_verified_at' => now(),
                 'default_drop_point' => Office::where('is_drop_point', 1)->first()->id,

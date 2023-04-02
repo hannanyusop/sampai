@@ -28,15 +28,23 @@ class UserRoleSeeder extends Seeder
         $officer = Permission::where('name', 'staff.inhouse')->first()->id;
         $distributor = Permission::where('name', 'staff.distributor')->first()->id;
 
-        $mel = User::find(2);
-        $mel->assignRole(2);
-        $mel->syncPermissions([$distributor]);
+        $limbang = User::find(2);
+        $limbang->assignRole(2);
+        $limbang->syncPermissions([$distributor]);
 
-        $les = User::find(3);
-        $les->assignRole(2);
-        $les->syncPermissions([$manager, $officer]);
+        $miri = User::find(3);
+        $miri->assignRole(2);
+        $miri->syncPermissions([$distributor]);
 
-        $run = User::find(4);
+        $lambak = User::find(4);
+        $lambak->assignRole(2);
+        $lambak->syncPermissions([$manager, $officer]);
+
+        $kilanas = User::find(5);
+        $kilanas->assignRole(2);
+        $kilanas->syncPermissions([$manager, $officer]);
+
+        $run = User::find(6);
         $run->assignRole(2);
         $run->syncPermissions([$runner]);
 

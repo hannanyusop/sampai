@@ -28,9 +28,16 @@ class AnnouncementSeeder extends Seeder
              * Note: There is currently no UI for this feature. If you are going to build a UI, and if you are going to use a WYSIWYG editor for the message (because it supports HTML on the frontend) that you properly sanitize the input before it is stored in the database.
              */
             Announcement::create([
-                'area' => null,
+                'area' => 'frontend',
                 'type' => 'info',
-                'message' => 'Welcome to UTeM Express by UTem-mel',
+                'message' => 'Hi NUJ customer, Welcome to NUJ Courier Management System.',
+                'enabled' => true,
+            ]);
+
+            Announcement::create([
+                'area' => 'backend',
+                'type' => 'warning',
+                'message' => 'Hi NUJ Staff, please make sure your password is strong enough. Recommended to change password monthly.',
                 'enabled' => true,
             ]);
 
