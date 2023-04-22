@@ -36,6 +36,7 @@
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Address</span></th>
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Order Origin</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Created At</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Assigned</span></th>
                         <th class="nk-tb-col nk-tb-col-tools text-right">
                         </th>
                     </tr>
@@ -66,6 +67,13 @@
                             </td>
                             <td class="nk-tb-col tb-col-md">
                                 <span class="tb-status text-success">{{ reformatDatetime($unregisteredParcel->created_at, 'd-m H:i A') }}</span>
+                            </td>
+                            <td class="nk-tb-col tb-col-lg">
+                                @if($unregisteredParcel->parcel_id)
+                                    <a href="{{ route('admin.parcel.view', ['tracking_no' => $unregisteredParcel->tracking_no]) }}" class="tb-status">Link</a>
+                                @else
+                                    <span class="tb-status text-danger">No</span>
+                                @endif
                             </td>
                             <td class="nk-tb-col nk-tb-col-tools">
                                 <ul class="nk-tb-actions gx-1">

@@ -6,6 +6,7 @@ use App\Domains\Auth\Models\Parcels;
 use App\Domains\Auth\Models\TrackHistories;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Frontend\Parcel\StoreParcelRequest;
+use App\Models\UnregisteredParcel;
 use App\Services\Parcel\ParcelHelperService;
 use App\Http\Requests\Frontend\Parcel\UpdateParcelRequest;
 //use App\Http\Services\Parcel\ParcelHelperService;
@@ -126,6 +127,16 @@ class ParcelController extends Controller{
         $file                  = Storage::put('invoice', $request->file('invoice_url'));
         $parcel->invoice_url   = $file;
         $parcel->save();
+
+        $unregistered = UnregisteredParcel::where([
+            'tracking_no' => $request->tracking_no,
+            'parcel_id' => null
+        ])->first();
+
+        if($unregistered){
+            $unregistered->parcel_id = $parcel->id;
+            $unregistered->save();
+        }
 
         addParcelTransaction($parcel->id, ParcelHelperService::statuses(ParcelHelperService::STATUS_REGISTERED));
         return redirect()->back()->withFlashSuccess('Parcel inserted');
