@@ -5,13 +5,22 @@ namespace App\Exports\Trip;
 use App\Domains\Auth\Models\Parcels;
 use App\Domains\Auth\Models\Trip;
 use App\Models\TripBatch;
+use App\Services\Parcel\ParcelHelperService;
 use Maatwebsite\Excel\Concerns\FromArray;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithStyles;
+use Maatwebsite\Excel\Concerns\WithColumnWidths;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\Exportable;
 
-class MasterListExport implements FromArray, ShouldAutoSize, WithStyles
+class MasterListExport implements FromArray, ShouldAutoSize, WithStyles, WithColumnWidths, WithEvents
 {
+    use Exportable;
+
     public $trip_batch;
 
     public function __construct(TripBatch $trip_batch){
@@ -26,9 +35,10 @@ class MasterListExport implements FromArray, ShouldAutoSize, WithStyles
 
         $trip_ids = $this->trip_batch->trips()->pluck('id');
 
-        $parcels = Parcels::whereHas('pickup', function($query) use ($trip_ids){
-            $query->whereIn('trip_id', $trip_ids);
-        })->get();
+        $parcels = Parcels::with(['user', 'pickup', 'pickup.dropPoint'])
+            ->whereHas('pickup', function($query) use ($trip_ids){
+                $query->whereIn('trip_id', $trip_ids);
+            })->get();
 
 
 
@@ -39,23 +49,25 @@ class MasterListExport implements FromArray, ShouldAutoSize, WithStyles
 
 
 
-        $array[] = ['No.','User ID', 'Tracking No','Receiver Name', 'Phone Number', 'Description','Destination', 'Price (RM)', 'Tax (BND $)', 'Status', 'Remark'];
+        $array[] = ['No.','User ID', 'Tracking No','Receiver Name', 'Phone Number', 'Description','Destination', 'Price (RM)', 'Tax (BND $)', 'Status', 'Remark', 'Phone Number', 'Message'];
 
         $ttl_tax = 0;
         $ttl_parcel = count($parcels);
         foreach ($parcels as $key => $parcel){
             $array[] = [
                 $key+1,
-                $parcel->user->id,
-                $parcel->tracking_no,
-                $parcel->receiver_name,
-                $parcel->phone_number,
-                $parcel->description,
+                $parcel?->user->id,
+                $parcel?->tracking_no,
+                $parcel?->receiver_name,
+                $parcel?->phone_number,
+                $parcel?->description,
                 $parcel?->dropPoint?->name,
                 $parcel->price ? number_format($parcel->price, '2', '.') : '0.00',
                 $parcel->tax ? number_format($parcel->tax, '2', '.') : '0.00',
                 $parcel->status_label,
-                ''
+                '',
+                $parcel?->user?->phone_number,
+                ParcelHelperService::whatappText($parcel)
             ];
 
             $ttl_tax+=$parcel->tax;
@@ -68,6 +80,13 @@ class MasterListExport implements FromArray, ShouldAutoSize, WithStyles
         return $array;
     }
 
+    public function columnWidths(): array
+    {
+        return [
+            'M' => 40,
+        ];
+    }
+
     public function styles(Worksheet $sheet)
     {
         return [
@@ -75,6 +94,15 @@ class MasterListExport implements FromArray, ShouldAutoSize, WithStyles
             'D1'    => ['font' => ['bold' => true]],
             'A2'    => ['font' => ['bold' => true]],
             'D2'    => ['font' => ['bold' => true]],
+        ];
+    }
+
+    public function registerEvents(): array
+    {
+        return [
+            AfterSheet::class => function(AfterSheet $event) {
+                $event->sheet->getStyle('M')->getAlignment()->setWrapText(true);
+            },
         ];
     }
 }

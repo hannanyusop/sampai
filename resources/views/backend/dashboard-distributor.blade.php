@@ -19,7 +19,8 @@
                     </div><!-- .nk-block-head-content -->
                     <div class="nk-block-head-content">
                         <ul class="nk-block-tools gx-3">
-                            <li><a href="{{ route('admin.tripBatch.create') }}" class="btn btn-primary"><span>Create Trip</span> <em class="icon ni ni-arrow-long-right"></em></a></li>
+                            <li><a href="{{ route('admin.tripBatch.create') }}" class="btn btn-primary"><span>Create Trip</span>
+                                    <em class="icon ni ni-arrow-long-right"></em></a></li>
                         </ul>
                     </div><!-- .nk-block-head-content -->
                 </div><!-- .nk-block-between -->
@@ -38,10 +39,12 @@
                                                 <p>Parcel received for this year.</p>
                                             </div>
                                             <div class="card-tools">
-                                                <em class="card-hint icon ni ni-help-fill" data-toggle="tooltip" data-placement="left" title="Revenue from subscription"></em>
+                                                <em class="card-hint icon ni ni-help-fill" data-toggle="tooltip"
+                                                    data-placement="left" title="Revenue from subscription"></em>
                                             </div>
                                         </div>
-                                        <div class="align-end gy-3 gx-5 flex-wrap flex-md-nowrap flex-lg-wrap flex-xxl-nowrap">
+                                        <div
+                                            class="align-end gy-3 gx-5 flex-wrap flex-md-nowrap flex-lg-wrap flex-xxl-nowrap">
                                             <div class="nk-sale-data-group flex-md-nowrap g-4">
                                                 <div class="nk-sale-data">
                                                     <span class="amount">{{ $total_current_month }} </span>
@@ -73,49 +76,33 @@
                             </div>
                         </div><!-- .card-head -->
                         <div class="tranx-list card card-bordered">
-                            @foreach($trips as $trip)
+                            @foreach($trip_batches as $trip_batch)
                                 <div class="tranx-item">
-                                <div class="tranx-col">
-                                    <div class="tranx-info">
-                                        <div class="tranx-data">
-                                            <div class="tranx-label">{{ $trip->code }} <em class="tranx-icon sm icon ni ni-sign-btc"></em></div>
-                                            <div class="tranx-date">{{ reformatDatetime($trip->date, 'M d, Y h:i A') }}
-                                                <span><br>Status : {{ $trip->status_label }}</span>
-                                                <br>Total : {{ $trip->parcels->count() }}<span class="currency currency-usd"> Parcel(s) </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tranx-col">
-                                    <div class="tranx-amount">
-                                        <div class="number">{{ $trip->destination->name }} </div>
-                                        <div class="number-sm">
-                                            <div class="dropdown">
-                                                <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-md">
-                                                    <ul class="link-list-plain">
-                                                        <li><a href="{{ route('admin.trip.view', $trip->id) }}">View</a></li>
-
-                                                        @if(auth()->user()->can('staff.distributor'))
-                                                            @if($trip->status == 0)
-                                                                <li><a href="{{ route('admin.trip.addParcel', $trip->id)  }}">Add Parcel</a></li>
-                                                                <li><a href="{{ route('admin.trip.close', $trip->id) }}" onclick="return confirm('Are you sure want to close this trip?')">Closed</a></li>
-                                                            @endif
-                                                        @endif
-                                                        @if(auth()->user()->can('staff.runner'))
-                                                            @if($trip->status == 1)
-                                                                <li><a href="{{ route('admin.trip.picked', $trip->id) }}">Pick</a></li>
-                                                            @elseif($trip->status == 2 && $trip->runner_id == auth()->user()->id)
-                                                                <li><a href="{{ route('admin.trip.transferCode', $trip->id) }}">Transfer Trip</a></li>
-                                                            @endif
-                                                        @endif
-                                                    </ul>
+                                    <div class="tranx-col">
+                                        <div class="tranx-info">
+                                            <div class="tranx-data">
+                                                <div class="tranx-label">
+                                                    {{ $trip_batch->number }}
+                                                </div>
+                                                <div class="tranx-date">
+                                                    @foreach($trip_batch->trips as $trip)
+                                                        <span class="badge badge-info">{{ $trip->destination->name }}</span>
+                                                    @endforeach
+                                                    <br>Total : {{ $trip_batch->parcels->count() }}<span
+                                                        class="currency currency-usd"> Parcel(s) </span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="tranx-col">
+                                        <div class="tranx-amount">
+                                            <div class="number">{{ reformatDatetime($trip_batch->date, 'M d, Y h:i A') }} </div>
+                                            <div class="number-sm">
+                                                <a class="btn btn-success btn-sm" href="{{ route('admin.tripBatch.show', $trip_batch->id) }}">View </a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
                             @endforeach
                         </div><!-- .tranx-list -->
                     </div><!-- .col -->
@@ -941,5 +928,5 @@
             });
         }(NioApp, jQuery);
     </script>
-{{--    <script src="{{ asset('assets/js/charts/gd-general.js') }}?ver=1.4.0"></script>--}}
+    {{--    <script src="{{ asset('assets/js/charts/gd-general.js') }}?ver=1.4.0"></script>--}}
 @endpush

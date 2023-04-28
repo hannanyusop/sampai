@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Parcels extends Model{
 
-    protected $fillable = ['pickup_id', 'status'];
+    protected $fillable = ['pickup_id', 'status', 'checked'];
 
     public function trip(){
         return $this->hasOneThrough(Trip::class, Pickup::class, 'trip_id', 'id', 'pickup_id');

@@ -351,4 +351,8 @@ class TripController extends Controller
 
         return view('backend.trip.transferCode', compact('trip'));
     }
+
+    public function checklist(Trip $trip){
+        return view('backend.trip.checklist', compact('trip'));
+    }
 }

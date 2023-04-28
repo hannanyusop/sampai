@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Domains\Auth\Models\Parcels;
 use App\Domains\Auth\Models\Trip;
 use App\Http\Controllers\Controller;
+use App\Models\TripBatch;
 use App\Services\Parcel\ParcelHelperService;
 use App\Services\Trip\TripHelperService;
 use App\Services\TripBatch\TripBatchHelperService;
@@ -22,11 +23,10 @@ class DashboardController extends Controller
             return view('backend.dashboard-admin');
         }elseif (auth()->user()->can('staff.distributor')){
 
-            //status 0,1
-            $trips = Trip::wherehas('batch',
-                fn ($q) => $q->whereIn('status', [TripBatchHelperService::STATUS_PENDING]))
-            ->get();
 
+            $trip_batches = TripBatch::wherehas('trips',
+                fn ($q) => $q->whereIn('status', [TripBatchHelperService::STATUS_PENDING]))
+                ->get();
             $total_current_month = 0;
             $month = 1;
             $pr = array();
@@ -45,7 +45,7 @@ class DashboardController extends Controller
 
             $avg = (int)(array_sum($pr)/12);
 
-            return view('backend.dashboard-distributor', compact('trips', 'pr', 'total_current_month', 'avg'));
+            return view('backend.dashboard-distributor', compact('trip_batches', 'pr', 'total_current_month', 'avg'));
 
         }elseif (auth()->user()->can('staff.runner')){
 

@@ -5,9 +5,9 @@
             <div class="nk-block-head nk-block-head-sm">
                 <div class="nk-block-between g-3">
                     <div class="nk-block-head-content">
-                        <h3 class="nk-block-title page-title">Trip View</h3>
+                        <h3 class="nk-block-title page-title">Trip Batch View</h3>
                         <div class="nk-block-des text-soft">
-                            <p>Trip : <span class="text-base">#{{ $tripBatch->number }}</span></p>
+                            <p>Trip : <span class="text-base">{{ $tripBatch->number }}</span></p>
                         </div>
                     </div>
                     <div class="nk-block-head-content">
@@ -130,7 +130,11 @@
                 <div class="nk-block nk-block-lg">
                     <div class="card card-bordered card-preview">
 
-                        <p class="m-3">Destination : {{ $trip->destination->coded }} - {{ $trip->destination->name }} </p>
+                        <p class="mx-3 mt-2">Destination : {{ $trip->destination->coded }} - {{ $trip->destination->name }} </p>
+
+                        <div class="mx-2">
+                            <a class="btn btn-info btn-sm float-right" href="{{ route('admin.trip.checklist', $trip) }}"><i class="fa fa-check"></i> Checklist</a>
+                        </div>
 
                         <div class="card-inner">
                             <table class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="false">

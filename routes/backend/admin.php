@@ -24,6 +24,7 @@ Route::resource('tripBatch', TripBatchController::class);
 Route::group(['prefix' => 'trip/', 'as' => 'trip.'], function (){
 
     Route::get('', [TripController::class, 'index'])->name('index');
+    Route::get('checklist/{trip}', [TripController::class, 'checklist'])->name('checklist');
     Route::get('search/', [TripController::class, 'search'])->name('search');
     Route::get('assignParcel/{trip}/{parcel}', [TripController::class, 'assignParcel'])->name('assignParcel')->middleware('permission:staff.distributor');
 
