@@ -15,6 +15,7 @@ use App\Services\General\GeneralHelperService;
 use App\Services\Parcel\ParcelGeneralService;
 use App\Services\Parcel\ParcelHelperService;
 use App\Services\Trip\TripHelperService;
+use App\Services\TripBatch\TripBatchGeneralService;
 use Illuminate\Http\Request;
 
 class TripController extends Controller
@@ -250,28 +251,8 @@ class TripController extends Controller
 
     public function picked($id){
 
-        if(auth()->user()->can('staff.runner')){
-            $trip = Trip::where('status', TripHelperService::STATUS_CLOSED)->findOrFail($id);
-
-            foreach ($trip->parcels as $parcel){
-
-                $remark = "In transit to ".$trip->destination->name.". RIDER:".auth()->user()->name;
-
-                addParcelTransaction($parcel->id, $remark);
-
-                $parcel->status = ParcelHelperService::STATUS_OUTBOUND_TO_DROP_POINT;
-                $parcel->save();
-            }
-
-            $trip->runner_id = auth()->user()->id;
-            $trip->status = TripHelperService::STATUS_IN_TRANSIT;
-            $trip->save();
-
-            return redirect()->back()->withFlashSuccess('Trip picked.');
-        }else{
-            return redirect()->back()->withFlashWarning('Permission denied!');
-        }
-
+        $result = TripBatchGeneralService::pick($id);
+        return redirect()->back()->withFlashSuccess($result['message']);
     }
 
     public function receive(){

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Trip extends Model{
 
-    protected $fillable = ['status'];
+    protected $fillable = ['status', 'runner_id'];
 
     public function batch(){
         return $this->hasOne(TripBatch::class, 'id', 'trip_batch_id');

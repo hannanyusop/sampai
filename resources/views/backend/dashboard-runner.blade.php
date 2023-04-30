@@ -38,11 +38,11 @@
                                                 </div>
                                                 <div class="nk-cov-data">
                                                     <h6 class="overline-title">Picked</h6>
-                                                    <div class="amount amount-sm text-info">{{ $picks->count() }}</div>
+                                                    <div class="amount amount-sm text-info">{{ $closed_trips->count() }}</div>
                                                 </div>
                                                 <div class="nk-cov-data">
                                                     <h6 class="overline-title">Total</h6>
-                                                    <div class="amount amount-sm text-success">{{ $transfers->count()+$picks->count() }}</div>
+                                                    <div class="amount amount-sm text-success">{{ $transfers->count()+$closed_trips->count() }}</div>
                                                 </div>
                                             </div>
                                             <div class="nk-cov-wg2-group">
@@ -85,22 +85,18 @@
                             <div class="nk-tb-list is-loose traffic-channel-table">
                                 <div class="nk-tb-item nk-tb-head">
                                     <div class="nk-tb-col nk-tb-channel"><span>Code</span></div>
-                                    <div class="nk-tb-col nk-tb-sessions"><span>Destination</span></div>
                                     <div class="nk-tb-col nk-tb-prev-sessions"><span>Create At</span></div>
                                     <div class="nk-tb-col nk-tb-change"><span>Total Parcel(s)</span></div>
                                     <div class="nk-tb-col nk-tb-change tb-col-sm text-right"><span></span></div>
                                 </div><!-- .nk-tb-head -->
 
-                                @if($picks->count() == 0)
+                                @if($closed_trips->count() == 0)
                                     <div class="nk-tb-col nk-tb-covid tb-col-sm text-right"><span>No Closed Trip Found</span></div>
                                 @else
-                                    @foreach($picks as $trip)
+                                    @foreach($closed_trips as $trip)
                                         <div class="nk-tb-item">
                                             <div class="nk-tb-col nk-tb-channel">
-                                                <span class="tb-lead">{{ $trip->code }}</span>
-                                            </div>
-                                            <div class="nk-tb-col nk-tb-sessions">
-                                                <span class="tb-sub tb-amount"><span>{{ $trip->destination->name }}</span></span>
+                                                <span class="tb-lead">{{ $trip->number }}</span>
                                             </div>
                                             <div class="nk-tb-col nk-tb-prev-sessions">
                                                 <span class="tb-sub tb-amount"><span>{{ reformatDatetime($trip->date, 'M d, Y h:i A') }}</span></span>
@@ -115,20 +111,11 @@
                                                     <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-md">
                                                         <ul class="link-list-plain">
-                                                            <li><a href="{{ route('admin.trip.view', $trip->id) }}">View</a></li>
-
-                                                            @if(auth()->user()->can('staff.distributor'))
-                                                                @if($trip->status == \App\Services\Trip\TripHelperService::STATUS_PENDING)
-                                                                    <li><a href="{{ route('admin.trip.addParcel', $trip->id)  }}">Add Parcel</a></li>
-                                                                    <li><a href="{{ route('admin.trip.close', $trip->id) }}" onclick="return confirm('Are you sure want to close this trip?')">Closed</a></li>
-                                                                @endif
-                                                            @endif
-                                                            @if(auth()->user()->can('staff.runner'))
-                                                                @if($trip->status == \App\Services\Trip\TripHelperService::STATUS_CLOSED)
-                                                                    <li><a href="{{ route('admin.trip.picked', $trip->id) }}">Pick</a></li>
-                                                                @elseif($trip->status == \App\Services\Trip\TripHelperService::STATUS_IN_TRANSIT && $trip->runner_id == auth()->user()->id)
-                                                                    <li><a href="{{ route('admin.trip.transferCode', $trip->id) }}">Transfer Trip</a></li>
-                                                                @endif
+                                                            <li><a href="{{ route('admin.tripBatch.show', $trip->id) }}">View</a></li>
+                                                            @if($trip->status == \App\Services\Trip\TripHelperService::STATUS_CLOSED)
+                                                                <li><a href="{{ route('admin.trip.picked', $trip->id) }}">Pick</a></li>
+                                                            @elseif($trip->status == \App\Services\Trip\TripHelperService::STATUS_IN_TRANSIT && $trip->runner_id == auth()->user()->id)
+                                                                <li><a href="{{ route('admin.trip.transferCode', $trip->id) }}">Transfer Trip</a></li>
                                                             @endif
                                                         </ul>
                                                     </div>

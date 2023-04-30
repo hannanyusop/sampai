@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\TripBatch;
 use App\Services\Parcel\ParcelHelperService;
 use App\Services\Trip\TripHelperService;
+use App\Services\TripBatch\TripBatchGeneralService;
 use App\Services\TripBatch\TripBatchHelperService;
 
 /**
@@ -49,9 +50,7 @@ class DashboardController extends Controller
 
         }elseif (auth()->user()->can('staff.runner')){
 
-            $picks  = Trip::wherehas('batch',
-                fn ($q) => $q->where('status', TripHelperService::STATUS_CLOSED))
-                ->get();
+            $closed_trips = TripBatchGeneralService::getByStatus([TripHelperService::STATUS_CLOSED])->get();
 
             $transfers = Trip::wherehas('batch',
                 fn ($q) => $q->whereIn('status', [TripBatchHelperService::STATUS_IN_TRANSIT]))
@@ -62,7 +61,7 @@ class DashboardController extends Controller
                 'prev' => Trip::whereYear('created_at', date('Y')-1)->count()
             ];
 
-            return view('backend.dashboard-runner', compact('picks', 'transfers', 'total'));
+            return view('backend.dashboard-runner', compact('closed_trips', 'transfers', 'total'));
         }elseif ('staff.inhouse'){
 
             $data =  [
