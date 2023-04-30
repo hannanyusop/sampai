@@ -52,8 +52,7 @@ class DashboardController extends Controller
 
             $closed_trips = TripBatchGeneralService::getByStatus([TripHelperService::STATUS_CLOSED])->get();
 
-            $transfers = Trip::wherehas('batch',
-                fn ($q) => $q->whereIn('status', [TripBatchHelperService::STATUS_IN_TRANSIT]))
+            $picked_trips = TripBatchGeneralService::getByStatus([TripBatchHelperService::STATUS_IN_TRANSIT])
                 ->get();
 
             $total = [
@@ -61,7 +60,7 @@ class DashboardController extends Controller
                 'prev' => Trip::whereYear('created_at', date('Y')-1)->count()
             ];
 
-            return view('backend.dashboard-runner', compact('closed_trips', 'transfers', 'total'));
+            return view('backend.dashboard-runner', compact('closed_trips', 'picked_trips', 'total'));
         }elseif ('staff.inhouse'){
 
             $data =  [
