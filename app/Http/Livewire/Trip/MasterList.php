@@ -12,14 +12,20 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class MasterList extends Component
 {
-    public $trip_batch, $trip_ids = [];
-    public $trip, $tax;
+    public TripBatch $trip_batch;
+    public $trip, $tax,$trip_ids = [];
     public $tracking_no, $edited_id = null;
+
+    public bool $edit_rate = false;
+    public $tax_rate = 0.00, $pos_rate = 0.00;
 
     public function mount($trip_id)
     {
         $this->trip_batch = TripBatch::with('trips')->findOrFail($trip_id);
         $this->trip_ids = $this->trip_batch->trips()->pluck('id');
+
+        $this->tax_rate = $this->trip_batch->tax_rate;
+        $this->pos_rate = $this->trip_batch->pos_rate;
     }
 
     public function render()
@@ -73,5 +79,20 @@ class MasterList extends Component
 
     public function export(){
         return Excel::download(new MasterListExport($this->trip_batch), time()."_".$this->trip_batch->number.'.xlsx');
+    }
+
+    public function editRate(){
+        $this->edit_rate = true;
+    }
+
+    public function saveRate(){
+
+        $this->trip_batch->update([
+            'tax_rate' => $this->tax_rate,
+            'pos_rate' => $this->pos_rate
+        ]);
+
+        session()->flash("success", "Data updated!");
+        $this->edit_rate = false;
     }
 }

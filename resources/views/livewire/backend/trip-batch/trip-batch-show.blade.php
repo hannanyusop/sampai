@@ -43,7 +43,21 @@
                                             <span class="profile-ud-value">{{ reformatDatetime($tripBatch->date, 'd M, Y') }}</span>
                                         </div>
                                     </div>
-                                </div><!-- .profile-ud-list -->
+                                </div>
+                                <div class="profile-ud-list">
+                                    <div class="profile-ud-item">
+                                        <div class="profile-ud wider">
+                                            <span class="profile-ud-label">Tax Rate</span>
+                                            <span class="profile-ud-value">{{ money($tripBatch->tax_rate, "BND") }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="profile-ud-item">
+                                        <div class="profile-ud wider">
+                                            <span class="profile-ud-label">Pos Rate</span>
+                                            <span class="profile-ud-value">{{ money($tripBatch->pos_rate, "BND") }}</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div><!-- .nk-block -->
                             <div class="nk-divider divider md"></div>
                             <div class="nk-block">

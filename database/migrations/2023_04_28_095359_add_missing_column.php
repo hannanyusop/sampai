@@ -14,13 +14,15 @@ class AddMissingColumn extends Migration
     public function up()
     {
         Schema::table('parcels', function (Blueprint $table){
-            $table->integer('permit')->after('tax')->default(0);
+            $table->decimal('price', 10,4)->default(0.0000)->change();
+            $table->decimal('permit', 10, 4)->after('tax')->default(0.0000);
+            $table->decimal('tax', 10,4)->change();
             $table->boolean('checked')->after('permit')->default(0);
         });
 
         Schema::table('trip_batches', function (Blueprint $table){
-            $table->integer('tax_rate')->after('date')->default(0);
-            $table->integer('pos_rate')->after('tax_rate')->default(0);
+            $table->decimal('tax_rate', 10,4)->after('date')->default(0.3017);
+            $table->decimal('pos_rate', 10, 4)->after('tax_rate')->default(2.8000);
         });
     }
 

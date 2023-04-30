@@ -13,6 +13,7 @@ class TripBatch extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['tax_rate', 'pos_rate'];
 
     public function trips(){
         return $this->hasMany(Trip::class, 'trip_batch_id', 'id');

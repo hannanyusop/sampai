@@ -34,6 +34,8 @@ class TripBatchCreate extends Component
         $tripBatch = new TripBatch();
         $tripBatch->created_by = auth()->user()->id;
         $tripBatch->date = $date;
+        $tripBatch->tax_rate = getOption('tax_rate', 0.307);
+        $tripBatch->pos_rate = getOption('pos_rate', 2.800);
         $tripBatch->save();
 
         $dp = Office::where('is_drop_point', 1)->get();

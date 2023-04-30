@@ -11,12 +11,15 @@ use Livewire\Component;
 
 class TripBatchShow extends Component
 {
-    public $tripBatch, $tracking_no, $last_parcel;
+    public TripBatch $tripBatch, $tracking_no, $last_parcel;
+    public bool $edit_rate = false;
+    public float $tax_rate = 0.00, $pos_rate = 0.00;
 
     public function mount(TripBatch $tripBatch)
     {
         $this->tripBatch = $tripBatch;
-
+        $this->tax_rate = $tripBatch->tax_rate;
+        $this->pos_rate = $tripBatch->pos_rate;
     }
 
     public function render()
@@ -59,4 +62,5 @@ class TripBatchShow extends Component
 
         session()->flash('insert_'.$service[GeneralHelperService::KEY_STATUS],$service[GeneralHelperService::KEY_MESSAGE]);
     }
+
 }
