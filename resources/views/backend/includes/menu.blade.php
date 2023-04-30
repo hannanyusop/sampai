@@ -67,27 +67,27 @@
             </ul>
         </li>
         @endif
-        @if($logged_in_user->can('staff.distributor'))
-            <li class="nk-menu-item has-sub">
-                <a href="#" class="nk-menu-link nk-menu-toggle">
-                    <span class="nk-menu-text">Report</span>
-                </a>
-                <ul class="nk-menu-sub">
-                    <li class="nk-menu-item">
-                        <a href="{{ route('admin.report.monthly') }}" class="nk-menu-link">
-                            <span class="nk-menu-text">Parcel Report</span>
-                        </a>
-                    </li>
-                    @if ($logged_in_user->hasAllAccess())
-                        <li class="nk-menu-item">
-                            <a href="{{ route('admin.report.income') }}" class="nk-menu-link">
-                                <span class="nk-menu-text">Sales Report</span>
-                            </a>
-                        </li>
-                    @endif
-                </ul>
-            </li>
-        @endif
+{{--        @if($logged_in_user->can('staff.distributor'))--}}
+{{--            <li class="nk-menu-item has-sub">--}}
+{{--                <a href="#" class="nk-menu-link nk-menu-toggle">--}}
+{{--                    <span class="nk-menu-text">Report</span>--}}
+{{--                </a>--}}
+{{--                <ul class="nk-menu-sub">--}}
+{{--                    <li class="nk-menu-item">--}}
+{{--                        <a href="{{ route('admin.report.monthly') }}" class="nk-menu-link">--}}
+{{--                            <span class="nk-menu-text">Parcel Report</span>--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
+{{--                    @if ($logged_in_user->hasAllAccess())--}}
+{{--                        <li class="nk-menu-item">--}}
+{{--                            <a href="{{ route('admin.report.income') }}" class="nk-menu-link">--}}
+{{--                                <span class="nk-menu-text">Sales Report</span>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                    @endif--}}
+{{--                </ul>--}}
+{{--            </li>--}}
+{{--        @endif--}}
 
         @if ($logged_in_user->hasAllAccess() ||(
             $logged_in_user->can('admin.access.user.list') ||
@@ -109,11 +109,11 @@
                         </a>
                     </li>
 
-                    <li class="nk-menu-item">
-                        <a href="{{ route('admin.setting.payment') }}" class="nk-menu-link">
-                            <span class="nk-menu-text">{{ __('Payment Setting') }}</span>
-                        </a>
-                    </li>
+{{--                    <li class="nk-menu-item">--}}
+{{--                        <a href="{{ route('admin.setting.payment') }}" class="nk-menu-link">--}}
+{{--                            <span class="nk-menu-text">{{ __('Payment Setting') }}</span>--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
 
                     @if ($logged_in_user->hasAllAccess() ||(
                            $logged_in_user->can('admin.access.user.list') ||

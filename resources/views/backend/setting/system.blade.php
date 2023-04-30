@@ -45,7 +45,43 @@
                         </div>
                     </div>
 
+                    <div class="row g-3 align-center">
+                        <div class="col-lg-5">
+                            <div class="form-group">
+                                <label class="form-label" for="tax_rate">Tax Rate (RM)</label>
+                                <span class="form-note">Min: 0.01</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="form-group">
+                                <div class="form-control-wrap">
+                                    <input type="number" class="form-control text-uppercase" id="tax_rate" name="tax_rate" value="{{ old('tax_rate')? old('tax_rate') : getOption('tax_rate', 0.3017) }}">
+                                    @error('tax_rate')
+                                    <span id="fv-tax_rate-error" class="invalid">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="row g-3 align-center">
+                        <div class="col-lg-5">
+                            <div class="form-group">
+                                <label class="form-label" for="pos_rate">Pos Rate</label>
+                                <span class="form-note">Min: 0.01</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="form-group">
+                                <div class="form-control-wrap">
+                                    <input type="number" class="form-control text-uppercase" id="pos_rate" name="pos_rate" value="{{ old('pos_rate')? old('pos_rate') : getOption('pos_rate', 2.80) }}">
+                                    @error('pos_rate')
+                                    <span id="fv-tax_rate-error" class="invalid">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="row g-3">
                         <div class="col-lg-7 offset-lg-5">

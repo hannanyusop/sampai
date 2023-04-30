@@ -61,7 +61,14 @@ class SettingController extends Controller{
             'value' => ($request->show_tracking)? true : false
         ]);
 
-
+        $options = ['tax_rate', 'pos_rate'];
+        foreach ($options as $name){
+            getOption($name, 'null');
+            $option = Option::where('name', $name)->first();
+            $option->update([
+                'value' => request($name)
+            ]);
+        }
 
         return redirect()->back()->withFlashSuccess('Payment setting updated!');
     }
