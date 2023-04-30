@@ -48,13 +48,13 @@
                                     <div class="profile-ud-item">
                                         <div class="profile-ud wider">
                                             <span class="profile-ud-label">Tax Rate</span>
-                                            <span class="profile-ud-value">{{ money($tripBatch->tax_rate, "BND") }}</span>
+                                            <span class="profile-ud-value">{{ $tripBatch->tax_rate_currency }}</span>
                                         </div>
                                     </div>
                                     <div class="profile-ud-item">
                                         <div class="profile-ud wider">
                                             <span class="profile-ud-label">Pos Rate</span>
-                                            <span class="profile-ud-value">{{ money($tripBatch->pos_rate, "BND") }}</span>
+                                            <span class="profile-ud-value">{{ $tripBatch->pos_rate_currency }}</span>
                                         </div>
                                     </div>
                                 </div>

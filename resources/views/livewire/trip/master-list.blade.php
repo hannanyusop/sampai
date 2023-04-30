@@ -48,7 +48,7 @@
                                         <div class="profile-ud wider">
                                             <span class="profile-ud-label">Tax Rate</span>
                                             @if(!$edit_rate)
-                                                <span class="profile-ud-value">{{ money($trip_batch->tax_rate, "BND") }}</span>
+                                                <span class="profile-ud-value">{{ $trip_batch->tax_rate_currency }}</span>
                                             @else
                                                 <input type="number" class="form-control" wire:model="tax_rate">
                                             @endif
@@ -58,7 +58,7 @@
                                         <div class="profile-ud wider">
                                             <span class="profile-ud-label">Pos Rate</span>
                                             @if(!$edit_rate)
-                                                <span class="profile-ud-value">{{ money($trip_batch->pos_rate, "BND") }}</span>
+                                                <span class="profile-ud-value">{{ $trip_batch->pos_rate_currency }}</span>
                                             @else
                                                 <input type="number" class="form-control" wire:model="pos_rate">
                                             @endif

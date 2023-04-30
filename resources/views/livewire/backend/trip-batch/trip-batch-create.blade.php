@@ -11,7 +11,7 @@
                     <div class="row m-4">
                         <div class="col-md-12">
                             <a href="#" wire:click="store()" class="btn btn-lg btn-primary">Add New Trip</a>
-                            <a href="{{ route('admin.trip.index') }}" class="btn btn-lg btn-warning">Cancel</a>
+                            <a href="{{ route('admin.tripBatch.index') }}" class="btn btn-lg btn-warning">Cancel</a>
                         </div>
                     </div>
                 </div>

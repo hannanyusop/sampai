@@ -39,4 +39,12 @@ class TripBatch extends Model
     public function getStatusNameAttribute(){
         return TripBatchHelperService::getStatuses($this->status);
     }
+
+    public function getTaxRateCurrencyAttribute(){
+        return "B$ " . $this->tax_rate;
+    }
+
+    public function getPosRateCurrencyAttribute(){
+        return "B$ " . $this->pos_rate;
+    }
 }
