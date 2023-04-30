@@ -11,7 +11,7 @@
                         </div>
                     </div>
                     <div class="nk-block-head-content">
-                        <a href="{{ route('admin.trip.index') }}" class="btn btn-outline-light bg-warning d-none d-sm-inline-flex"><em class="icon ni ni-back-alt"></em><span>Back</span></a>
+                        <a href="{{ route('admin.tripBatch.index') }}" class="btn btn-outline-light bg-warning d-none d-sm-inline-flex"><em class="icon ni ni-back-alt"></em><span>Back</span></a>
                         @can('staff.distributor')
                             <a href="{{ route('admin.trip.masterList', $tripBatch->id) }}" class="btn btn-success d-none d-sm-inline-flex"><em class="icon ni ni-list-check"></em><span>Master List</span></a>
                         @endcan
