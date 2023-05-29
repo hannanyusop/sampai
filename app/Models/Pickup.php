@@ -6,6 +6,7 @@ use App\Domains\Auth\Models\Office;
 use App\Domains\Auth\Models\Parcels;
 use App\Domains\Auth\Models\Trip;
 use App\Domains\Auth\Models\User;
+use App\Services\Pickup\PickupHelperService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -31,6 +32,14 @@ class Pickup extends Model
 
     public function user(){
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function pic(){
+        return $this->belongsTo(User::class, 'serve_by', 'id');
+    }
+
+    public function getStatusBadgeAttribute(){
+        return PickupHelperService::statuseBadge()[$this->status] ?? __("Unknown Status");
     }
 
 }
