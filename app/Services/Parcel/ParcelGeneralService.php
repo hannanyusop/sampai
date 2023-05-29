@@ -2,6 +2,7 @@
 
 namespace App\Services\Parcel;
 
+use App\Domains\Auth\Http\Requests\Backend\Parcel\CompleteRequest;
 use App\Domains\Auth\Models\Office;
 use App\Domains\Auth\Models\Parcels;
 use App\Domains\Auth\Models\Trip;
@@ -115,5 +116,19 @@ class ParcelGeneralService
             GeneralHelperService::KEY_STATUS  => GeneralHelperService::STATUS_SUCCESS,
             GeneralHelperService::KEY_MESSAGE => __('Successfully removed')
         ];
+    }
+
+    public static function deliver(Parcels $parcel,$pickup_name){
+
+
+        $parcel->receiver_name = $pickup_name;
+        $parcel->pickup_info = "";
+        $parcel->status = ParcelHelperService::STATUS_DELIVERED;
+        $parcel->save();
+
+        $remark = "Parcel delivered to ".$parcel->pickup_name;
+
+        addParcelTransaction($parcel->id, $remark);
+        return true;
     }
 }

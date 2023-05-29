@@ -15,7 +15,7 @@ class Pickup extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['total_tax', 'status'];
+    protected $fillable = ['total_tax', 'status', 'pickup_name', 'pickup_datetime', 'serve_by'];
 
     public function parcels(){
         return $this->hasMany(Parcels::class, 'pickup_id', 'id');

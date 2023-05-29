@@ -5,7 +5,7 @@ namespace App\Services\Pickup;
 class PickupHelperService
 {
 
-    const STATUS_PENDING = 1, STATUS_DELIVERED = 2;
+    const STATUS_PENDING = 1, STATUS_READY_TO_DELIVER = 2, STATUS_DELIVERED = 3;
 
     public function statuses(){
 

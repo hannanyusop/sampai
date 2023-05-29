@@ -136,55 +136,60 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="nk-tb-list is-loose traffic-channel-table">
-                                <div class="nk-tb-item nk-tb-head">
-                                    <div class="nk-tb-col nk-tb-channel"><span>Code</span></div>
-{{--                                    <div class="nk-tb-col nk-tb-sessions"><span>Destination</span></div>--}}
-                                    <div class="nk-tb-col nk-tb-prev-sessions"><span>Create At</span></div>
-                                    <div class="nk-tb-col nk-tb-change"><span>Total Parcel(s)</span></div>
-                                    <div class="nk-tb-col nk-tb-change tb-col-sm text-right"><span></span></div>
-                                </div><!-- .nk-tb-head -->
 
-                                @if($picked_trips->count() == 0)
-                                    <div class="nk-tb-col nk-tb-covid tb-col-sm text-right"><span>No Picked Trip Found</span></div>
-                                @else
-                                    @foreach($picked_trips as $trip)
-                                        <div class="nk-tb-item">
-                                            <div class="nk-tb-col nk-tb-channel">
-                                                <span class="tb-lead">{{ $trip->number }}</span>
-                                            </div>
-{{--                                            <div class="nk-tb-col nk-tb-sessions">--}}
-{{--                                                <span class="tb-sub tb-amount"><span>{{ $trip->destination->name }}</span></span>--}}
-{{--                                            </div>--}}
-                                            <div class="nk-tb-col nk-tb-prev-sessions">
-                                                <span class="tb-sub tb-amount"><span>{{ reformatDatetime($trip->date, 'M d, Y h:i A') }}</span></span>
-                                            </div>
-                                            <div class="nk-tb-col nk-tb-change">
-                                        <span class="tb-sub">
-                                            {{ $trip->parcels->count() }}<span class="currency currency-usd"> Parcel(s) </span>
-                                        </span>
-                                            </div>
-                                            <div class="nk-tb-col nk-tb-trend text-right">
-                                                <div class="dropdown">
-                                                    <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-md">
-                                                        <ul class="link-list-plain">
-                                                            <li><a href="{{ route('admin.tripBatch.show', $trip->id) }}">View</a></li>
-                                                            @if(auth()->user()->can('staff.runner'))
-                                                                @if($trip->status == \App\Services\Trip\TripHelperService::STATUS_CLOSED)
-                                                                    <li><a href="{{ route('admin.trip.picked', $trip->id) }}">Pick</a></li>
-                                                                @elseif($trip->status == \App\Services\Trip\TripHelperService::STATUS_IN_TRANSIT && $trip->runner_id == auth()->user()->id)
-                                                                    <li><a href="{{ route('admin.trip.transferCode', $trip->id) }}">Transfer Trip</a></li>
-                                                                @endif
-                                                            @endif
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                @endif
-                            </div><!-- .nk-tb-list -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <tr class="bg-dark text-white">
+                                                <th>Code</th>
+                                                <th>Created At</th>
+                                                <th>Total Parcel</th>
+                                                <th>Destination</th>
+                                            </tr>
+                                            <tbody>
+                                            @forelse($picked_trips as $tripBatch)
+                                                <tr>
+                                                    <td>{{ $tripBatch->number }}</td>
+                                                    <td>{{ reformatDatetime($tripBatch->date, 'M d, Y h:i A') }}</td>
+                                                    <td>
+                                                        {{ $tripBatch->parcels->count() }}<span class="currency currency-usd"> Parcel(s) </span>
+                                                    </td>
+                                                    <td>
+                                                        <table>
+                                                            <tr>
+                                                                <th>Destination</th>
+                                                                <th>Parcel(s)</th>
+                                                                <th></th>
+                                                            </tr>
+                                                            @foreach($tripBatch->trips as $trip)
+                                                                <tr>
+                                                                    <td>{{ $trip->destination->name }}</td>
+                                                                    <td>{{ $trip->parcels->count() }}</td>
+                                                                    <td>
+                                                                        @if(auth()->user()->can('staff.runner'))
+                                                                            @if($trip->status == \App\Services\Trip\TripHelperService::STATUS_IN_TRANSIT && $trip->runner_id == auth()->user()->id)
+                                                                                <a class="btn btn-info btn-sm" href="{{ route('admin.trip.transferCode', $trip->id) }}">Transfer</a>
+                                                                            @endif
+                                                                        @endif
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td colspan="3">
+                                                        <div class="nk-tb-col nk-tb-covid tb-col-sm text-right"><span>No Picked Trip Found</span></div>
+                                                    </td>
+                                                </tr>
+
+                                            @endforelse
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                         </div><!-- .card -->
                     </div>
                 </div><!-- .row -->

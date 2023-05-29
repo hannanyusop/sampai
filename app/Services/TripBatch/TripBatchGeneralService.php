@@ -17,6 +17,7 @@ class TripBatchGeneralService
 
     public static function getByStatus($statuses = []){
         return self::query()
+            ->with('trips')
             ->whereHas('trips', fn($q) => $q->whereIn('status', $statuses));
     }
 

@@ -1,10 +1,10 @@
 @extends('backend.layouts.app')
 
-@section('title', __('Scan'))
+@section('title', __('Search'))
 
 @section('content')
     <div class="nk-content-wrap">
-        @livewire('backend.parcel.parcel-pickup')
+        @livewire('backend.pickup.pickup-search')
     </div>
 @endsection
 @push('after-scripts')

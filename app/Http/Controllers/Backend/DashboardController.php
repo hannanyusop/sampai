@@ -55,6 +55,8 @@ class DashboardController extends Controller
             $picked_trips = TripBatchGeneralService::getByStatus([TripBatchHelperService::STATUS_IN_TRANSIT])
                 ->get();
 
+//            dd($picked_trips);
+
             $total = [
                 'current' => Trip::whereYear('created_at', date('Y'))->count(),
                 'prev' => Trip::whereYear('created_at', date('Y')-1)->count()

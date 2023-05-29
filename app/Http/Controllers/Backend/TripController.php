@@ -10,10 +10,12 @@ use App\Domains\Auth\Models\ParcelTransaction;
 use App\Domains\Auth\Models\Subscribe;
 use App\Domains\Auth\Models\Trip;
 use App\Http\Controllers\Controller;
+use App\Models\Pickup;
 use App\Models\TripBatch;
 use App\Services\General\GeneralHelperService;
 use App\Services\Parcel\ParcelGeneralService;
 use App\Services\Parcel\ParcelHelperService;
+use App\Services\Pickup\PickupHelperService;
 use App\Services\Trip\TripHelperService;
 use App\Services\TripBatch\TripBatchGeneralService;
 use Illuminate\Http\Request;
@@ -311,6 +313,10 @@ class TripController extends Controller
         $trip = Trip::where('id', $trip_id)
             ->where('status', ParcelHelperService::STATUS_OUTBOUND_TO_DROP_POINT)
             ->first();
+
+       Pickup::where('trip_id', $trip_id)->update([
+            'status' => PickupHelperService::STATUS_READY_TO_DELIVER
+        ]);
 
         foreach ($trip->parcels as $parcel){
 

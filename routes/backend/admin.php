@@ -11,6 +11,7 @@ use App\Http\Controllers\Backend\TripRemarkController;
 use App\Http\Controllers\Backend\ReportController;
 use App\Http\Controllers\Backend\SettingController;
 use App\Http\Controllers\Backend\TripBatchController;
+use App\Http\Controllers\Backend\PickupController;
 
 // All route names are prefixed with 'admin.'.
 Route::redirect('/', '/admin/dashboard', 301);
@@ -79,6 +80,13 @@ Route::group(['prefix' => 'unregisteredParcel/', 'as' => 'unregisteredParcel.'],
     Route::post('store', [UnregisteredParcelController::class, 'store'])->name('store');
     Route::get('edit/{id}', [UnregisteredParcelController::class, 'edit'])->name('edit');
     Route::POST('edit/{id}', [UnregisteredParcelController::class, 'update'])->name('update');
+});
+
+Route::group([
+    'prefix' => 'pickup/',
+    'as' => 'pickup.',
+], function (){
+    Route::get('search', [PickupController::class, 'search'])->name('search');
 });
 
 Route::group(['prefix' => 'office/', 'as' => 'office.'], function (){
