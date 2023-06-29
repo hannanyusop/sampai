@@ -67,6 +67,7 @@ Route::group(['prefix' => 'parcel/', 'as' => 'parcel.'], function (){
     Route::get('search/', [ParcelController::class, 'search'])->name('search');
 
     Route::get('view', [ParcelController::class, 'view'])->name('view');
+    Route::get('download/{id}', [ParcelController::class, 'download'])->name('download');
     Route::get('scan/', [ParcelController::class, 'scan'])->name('scan')->middleware('permission:staff.inhouse');;
     Route::post('deliver/{tracking_no}', [ParcelController::class, 'deliver'])->name('deliver')->middleware('permission:staff.inhouse');;
 

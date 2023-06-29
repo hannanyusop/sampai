@@ -46,7 +46,43 @@
                                     </li>
                                     <li class="col-sm-4">
                                         <p><span class="text-soft">Destination</span>
-                                            {{ $parcel?->trip?->destination?->name }}
+                                            {{ $parcel?->dropPoint?->name }}
+                                        </p>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="sp-plan-desc sp-plan-desc-mb">
+                                <ul class="row gx-1">
+                                    <li class="col-sm-4">
+                                        <p><span class="text-soft">Quantity</span>
+                                            {{ $parcel->quantity }}
+                                        </p>
+                                    </li>
+
+                                    <li class="col-sm-4">
+                                        <p><span class="text-soft">Price</span>
+                                            {{ $parcel->price_formated }}
+                                        </p>
+                                    </li>
+
+                                    <li class="col-sm-4">
+                                        <p><span class="text-soft">Tax</span>
+                                            {{ $parcel->tax_formated }}
+                                        </p>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="sp-plan-desc sp-plan-desc-mb">
+                                <ul class="row gx-1">
+                                    <li class="col-sm-8">
+                                        <p><span class="text-soft">Item Description (Keterangan barang)</span>
+                                            {{ $parcel->description }}
+                                        </p>
+                                    </li>
+
+                                    <li class="col-sm-4">
+                                        <p><span class="text-soft">Invoice</span>
+                                            <a href="{{ route('admin.parcel.download',encrypt($parcel->id)) }}" download><i class="fa fa-download me-2"></i> Download</a>
                                         </p>
                                     </li>
                                 </ul>

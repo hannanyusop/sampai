@@ -16,4 +16,13 @@ class PickupHelperService
         ];
     }
 
+    public static function statusLabel(){
+
+        return [
+            self::STATUS_PENDING   => 'Pending',
+            self::STATUS_READY_TO_DELIVER => 'Ready to Deliver',
+            self::STATUS_DELIVERED => 'Delivered'
+        ];
+    }
+
 }

@@ -43,4 +43,12 @@ class Parcels extends Model{
 
         return TripHelperService::getStatuses($this->status);
     }
+
+    public function getPriceFormatedAttribute(){
+        return displayPriceFormat($this->price, 'RM');
+    }
+
+    public function getTaxFormatedAttribute(){
+        return displayPriceFormat($this->tax, 'B$');
+    }
 }

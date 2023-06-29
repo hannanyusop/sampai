@@ -56,7 +56,7 @@ class TripController extends Controller
                                         <span class="tb-odr-total">
                                             <span class="amount">'.$trip->destination->code.'</span>
                                         </span>
-                                        <span class="tb-odr-status">'.getTripStatusBadge($trip->status).'</span>
+                                        <span class="tb-odr-status">'.$trip->status_badge.'</span>
                                     </td>
                                     <td class="tb-odr-amount">
                                          <span class="tb-odr-total">
@@ -234,9 +234,9 @@ class TripController extends Controller
             $q->where('status', TripHelperService::STATUS_PENDING);
         })->findOrFail($trip_batch_id);
 
-        if($batch->parcels->count() == 0){
-            return redirect()->back()->with('flash_danger', 'Trip cannot be closed. Reason : There are no parcel inserted.');
-        }
+//        if($batch->parcels->count() == 0){
+//            return redirect()->back()->with('flash_danger', 'Trip cannot be closed. Reason : There are no parcel inserted.');
+//        }
 
         foreach ($batch->parcels as $parcel){
             addParcelTransaction($parcel->id, ParcelHelperService::statuses(ParcelHelperService::STATUS_OUTBOUND_TO_DROP_POINT));

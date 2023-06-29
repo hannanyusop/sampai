@@ -73,7 +73,7 @@
                                 <span>{{ (!is_null($pickup->pickup_name))? $pickup->pickup_datetime : "" }}</span>
                             </td>
                             <td class="nk-tb-col tb-col-md">
-                                <span class="tb-status text-success">{{ getTripStatus($pickup->status) }}</span>
+                                <span class="tb-status text-success">{{ $pickup->status_label }}</span>
                             </td>
                             <td class="nk-tb-col nk-tb-col-tools">
                                 <ul class="nk-tb-actions gx-1">

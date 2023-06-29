@@ -142,41 +142,6 @@ if(!function_exists('addParcelTransaction')){
 
 }
 
-if(!function_exists('getTripStatusBadge')){
-
-    function getTripStatusBadge($status = null){
-
-        $statuses = [
-            0 => '<span class="badge badge-dot badge-dot-xs badge-secondary">Open</span>',
-            1 => '<span class="badge badge-dot badge-dot-xs badge-success" > Closed </span>',
-            2 => '<span class="badge badge-dot badge-dot-xs badge-success" > In Transit </span>',
-            3 => '<span class="badge badge-dot badge-dot-xs badge-success" > Arrived </span>',
-            4 => '<span class="badge badge-dot badge-dot-xs badge-success" > Delivered </span>'
-        ];
-
-        return (is_null($status))? $statuses : $statuses[$status];
-
-    }
-}
-
-if(!function_exists('getTripStatus')){
-
-    function getTripStatus($status = null){
-
-        #open -> close (ready to pick by runner) -> in transit -> arrive -> delivered
-        $statuses = [
-            0 => 'Open',
-            1 => 'Closed',
-            2 => 'In Transit',
-            3 => 'Arrived',
-            4 => 'Delivered'
-        ];
-
-        return (is_null($status))? $statuses : $statuses[$status];
-
-    }
-}
-
 if(!function_exists('getParcelStatus')){
 
     function getParcelStatus($status = null){

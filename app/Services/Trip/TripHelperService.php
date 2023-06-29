@@ -23,4 +23,18 @@ class TripHelperService
         return $status ? $statuses[$status] ?? "invalid status" : $statuses;
     }
 
+    public static function getTripStatusBadge($status = null){
+
+        $statuses = [
+            self::STATUS_PENDING => '<span class="badge badge-dot badge-dot-xs badge-secondary">Open</span>',
+            self::STATUS_CLOSED=> '<span class="badge badge-dot badge-dot-xs badge-success" > Closed </span>',
+            self::STATUS_IN_TRANSIT => '<span class="badge badge-dot badge-dot-xs badge-success" > In Transit </span>',
+            self::STATUS_ARRIVED => '<span class="badge badge-dot badge-dot-xs badge-success" > Arrived </span>',
+            self::STATUS_DELIVERED => '<span class="badge badge-dot badge-dot-xs badge-success" > Delivered </span>'
+        ];
+
+        return (is_null($status))? $statuses : $statuses[$status];
+
+    }
+
 }

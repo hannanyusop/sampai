@@ -33,6 +33,7 @@ Route::group(['as' => 'user.', 'middleware' => ['auth', 'password.expires', conf
         Route::get('search', [ParcelController::class, 'search'])->name('search');
         Route::get('create', [ParcelController::class, 'create'])->name('create');
         Route::post('store', [ParcelController::class, 'store'])->name('store');
+        Route::get('download/{id}', [ParcelController::class, 'download'])->name('download');
 
     });
     Route::group([

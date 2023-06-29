@@ -28,7 +28,7 @@
                                         <div class="form-group">
                                             <label class="form-label">Status</label>
                                             <ul class="custom-control-group g-3 align-center">
-                                                @foreach(getTripStatus() as $key => $status)
+                                                @foreach(\App\Services\Trip\TripHelperService::getStatuses() as $key => $status)
                                                     <li>
                                                         <div class="custom-control custom-control-sm custom-checkbox">
                                                             <input type="checkbox" class="custom-control-input" name="status[]" value="{{ $key }}" id="status_{{ $key }}">

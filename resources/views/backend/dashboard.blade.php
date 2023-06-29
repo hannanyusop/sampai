@@ -164,7 +164,7 @@
                                         <span class="tb-odr-total">
                                             <span class="amount">{{ $trip->destination->code }}</span>
                                         </span>
-                                                <span class="tb-odr-status">{!! getTripStatusBadge($trip->status) !!}</span>
+                                                <span class="tb-odr-status">{!! $trip->status_badge !!}</span>
                                             </td>
                                             <td class="tb-odr-amount">
                                          <span class="tb-odr-total">

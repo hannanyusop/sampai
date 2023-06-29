@@ -7,6 +7,7 @@ use App\Domains\Auth\Models\TrackHistories;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Frontend\Parcel\StoreParcelRequest;
 use App\Models\UnregisteredParcel;
+use App\Services\Parcel\ParcelGeneralService;
 use App\Services\Parcel\ParcelHelperService;
 use App\Http\Requests\Frontend\Parcel\UpdateParcelRequest;
 //use App\Http\Services\Parcel\ParcelHelperService;
@@ -17,9 +18,7 @@ class ParcelController extends Controller{
 
     public function index(){
 
-        $parcels = Parcels::where('user_id', auth()->user()->id)
-            ->get();
-
+        $parcels = ParcelGeneralService::query()->get();
         return view('frontend.user.parcel.index', compact('parcels'));
     }
 
@@ -70,7 +69,6 @@ class ParcelController extends Controller{
         return redirect()->back()->withFlashSuccess('Parcel Updated');
 
     }
-
 
     public function search(Request $request){
         $parcel = null;
@@ -140,5 +138,18 @@ class ParcelController extends Controller{
 
         addParcelTransaction($parcel->id, ParcelHelperService::statuses(ParcelHelperService::STATUS_REGISTERED));
         return redirect()->back()->withFlashSuccess('Parcel inserted');
+    }
+
+    public function download($parcel_id)
+    {
+
+        $parcel = ParcelGeneralService::query()->find(decrypt($parcel_id));
+
+        if (!$parcel) {
+            return redirect()->back()->with('error', 'Parcel not found!');
+        }
+
+        $path = Storage::path($parcel->invoice_url);
+        return response()->download($path);
     }
 }

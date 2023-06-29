@@ -11,17 +11,10 @@
         </nav>
         <div class="card card-bordered card-preview">
             <div class="card-inner">
-                @if ($logged_in_user->can('staff.inhouse'))
-                    <div class="row text-right">
-                        <div class="m-2 float-right">
-                            <a href="{{ route('admin.parcel.scan') }}" class="btn btn-primary"><span>Scan User QRCode</span><em class="icon ni ni-qr"></em></a>
-                        </div>
-                    </div>
-                @endif
-                    <div class="form-group">
-                        <a href="{{ route('admin.unregisteredParcel.create') }}" class="btn btn-lg btn-primary">Add Parcel</a>
-                    </div>
-                    <table class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+                <div class="form-group">
+                    <a href="{{ route('admin.unregisteredParcel.create') }}" class="btn btn-lg btn-primary">Add Parcel</a>
+                </div>
+                <table class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="false">
                     <thead>
                     <tr class="nk-tb-item nk-tb-head">
                         <th class="nk-tb-col nk-tb-col-check">

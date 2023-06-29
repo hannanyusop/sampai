@@ -42,4 +42,8 @@ class Pickup extends Model
         return PickupHelperService::statuseBadge()[$this->status] ?? __("Unknown Status");
     }
 
+    public function getStatusLabelAttribute(){
+        return PickupHelperService::StatusLabel()[$this->status] ?? __("Unknown Status");
+    }
+
 }

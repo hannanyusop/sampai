@@ -15,7 +15,7 @@
                         </div>
                     </div>
                     <div class="nk-block-head-content">
-                        <a href="{{ route('admin.trip.index') }}" class="btn btn-outline-light bg-warning d-none d-sm-inline-flex"><em class="icon ni ni-back-alt"></em><span>Back</span></a>
+                        <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-light bg-warning d-none d-sm-inline-flex"><em class="icon ni ni-back-alt"></em><span>Back</span></a>
                         @can('staff.distributor')
                             <a href="{{ route('admin.trip.masterList', $trip->id) }}" class="btn btn-success d-none d-sm-inline-flex"><em class="icon ni ni-list-check"></em><span>Master List</span></a>
                         @endcan
@@ -167,6 +167,7 @@
                             <div class="user-card">
                                 <div class="user-info">
                                     <span class="tb-lead">{{ $parcel->tracking_no }} <span class="dot dot-success d-md-none ml-1"></span></span>
+                                    <small class="">Pickup Code: {{ $parcel?->pickup?->code }}</small>
                                 </div>
                             </div>
                         </td>
@@ -177,7 +178,7 @@
                             <span>{{ reformatDatetime($parcel->created_at, 'd-m H:i A') }}</span>
                         </td>
                         <td class="nk-tb-col tb-col-lg">
-                            <span>{!! getTripStatusBadge($parcel->status) !!}</span>
+                            <span>{!! $parcel->status_badge !!}</span>
                         </td>
                         <td class="nk-tb-col nk-tb-col-tools">
                             <ul class="nk-tb-actions gx-1">

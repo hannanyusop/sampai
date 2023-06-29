@@ -5,26 +5,18 @@ use App\Domains\Auth\Http\Requests\Backend\Parcel\CompleteRequest;
 use App\Domains\Auth\Models\Parcels;
 use App\Domains\Auth\Models\User;
 use App\Http\Controllers\Controller;
+use App\Services\Parcel\ParcelGeneralService;
+use App\Services\Parcel\ParcelHelperService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ParcelController extends Controller{
 
     public function index(){
 
-        if(auth()->user()->can('staff.distributor') || auth()->user()->can('staff.runner')){
-
-            $parcels = Parcels::get();
-
-        }else{
-
-            $parcels = Parcels::leftJoin('trips', 'trips.id', 'parcels.trip_id')
-                ->where('trips.destination_id', auth()->user()->office_id)
-                ->whereIn('parcels.status', [3,4,5])
-                ->get();
-        }
+        $parcels = ParcelGeneralService::query()->get();
 
         return view('backend.parcel.index', compact('parcels'));
-
     }
 
     public function scan(){
@@ -34,44 +26,29 @@ class ParcelController extends Controller{
 
     public function view(Request $request){
 
-        if($request->tracking_no){
-
-            $receiver = null;
-
-            $parcel = Parcels::where('tracking_no', $request->tracking_no)->first();
-
-            if(auth()->user()->can('staff.distributor') || auth()->user()->can('staff.runner')){
-
-
-            }else{
-
-                if($parcel->trip->destination_id != auth()->user()->office_id){
-
-                    return redirect()->back()->withFlashWarning('Parcel not found!');
-                }
-
-            }
-
-            if(!$parcel){
-                return redirect()->back()->withFlashWarning('Parcel not found!');
-            }
-
-            if($request->uid){
-                $receiver = User::find($request->uid);
-
-                if(!$receiver){
-                    return redirect()->back()->withFlashWarning('Invalid user!');
-                }
-            }
-
-            return view('backend.parcel.view', compact('parcel', 'receiver'));
-
-        }else{
+        if(!$request->tracking_no){
             return redirect()->back()->withFlashWarning('Invalid parameter!');
         }
 
+        $receiver = null;
 
+        $parcel = ParcelGeneralService::query()
+            ->where('tracking_no', $request->tracking_no)
+            ->first();
 
+        if(!$parcel){
+            return redirect()->back()->withFlashWarning('Parcel not found!');
+        }
+
+        if($request->uid){
+            $receiver = User::find($request->uid);
+
+            if(!$receiver){
+                return redirect()->back()->withFlashWarning('Invalid user!');
+            }
+        }
+
+        return view('backend.parcel.view', compact('parcel', 'receiver'));
     }
 
     public function deliver(CompleteRequest $request, $tracking_no){
@@ -82,7 +59,7 @@ class ParcelController extends Controller{
         $parcel->pickup_info = $request->pickup_info;
         $parcel->serve_by = auth()->user()->id;
         $parcel->pickup_datetime = now();
-        $parcel->status = 4;
+        $parcel->status = ParcelHelperService::STATUS_DELIVERED;
         $parcel->save();
 
         $remark = "Parcel delivered to ".$parcel->pickup_name;
@@ -90,5 +67,18 @@ class ParcelController extends Controller{
         addParcelTransaction($parcel->id, $remark);
 
         return redirect()->back()->withFlashSuccess('Parcel marked as received');
+    }
+
+    public function download($parcel_id)
+    {
+
+        $parcel = ParcelGeneralService::query()->find(decrypt($parcel_id));
+
+        if (!$parcel) {
+            return redirect()->back()->with('error', 'Parcel not found!');
+        }
+
+        $path = Storage::path($parcel->invoice_url);
+        return response()->download($path);
     }
 }

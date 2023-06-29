@@ -10,9 +10,21 @@ use App\Models\Pickup;
 use App\Models\TripBatch;
 use App\Services\General\GeneralHelperService;
 use App\Services\Pickup\PickupGeneralService;
+use App\Services\Role\RoleHelperService;
 
 class ParcelGeneralService
 {
+
+    public static function query()
+    {
+        return Parcels::when(!auth()->user()->can('staff.distributor') || !auth()->user()->can('staff.runner'), function ($q){
+//            $q->where('office_id', auth()->user()->office_id);
+//                ->whereIn('parcels.status', [3,4,5]);
+
+        })->when(!auth()->user()->hasAnyRole([RoleHelperService::ROLE_ADMIN, RoleHelperService::ROLE_STAFF]), function ($q){
+                $q->where('user_id', auth()->user()->id);
+        });
+    }
 
 
     public static function assignToTripBatch($trackin_no,TripBatch $tripBatch){

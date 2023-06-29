@@ -14,10 +14,6 @@ class Trip extends Model{
         return $this->hasOne(TripBatch::class, 'id', 'trip_batch_id');
     }
 
-    public function getStatusLabelAttribute(){
-        return TripHelperService::getStatuses($this->status);
-    }
-
     public function destination(){
         return $this->hasOne(Office::class, 'id', 'destination_id');
     }
@@ -37,5 +33,15 @@ class Trip extends Model{
 
     public function office(){
         return $this->hasOne(Office::class, 'id', 'destination_id');
+    }
+
+
+    //attributes
+    public function getStatusLabelAttribute(){
+        return TripHelperService::getStatuses($this->status);
+    }
+
+    public function getStatusBadgeAttribute(){
+        return TripHelperService::getTripStatusBadge($this->status);
     }
 }

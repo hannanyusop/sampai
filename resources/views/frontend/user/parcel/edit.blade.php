@@ -80,7 +80,7 @@
                                         <p><span class="text-soft">Invoice</span>
                                             <input type="file" id="invoice_url" name="invoice_url" class="mb-1" value="{{ old('invoice_url') }}">
 
-                                            <a href="{{ \asset($parcel->invoice_url) }}" download><i class="fa fa-download me-2"></i> Download</a>
+                                            <a href="{{ route('frontend.user.parcel.download',encrypt($parcel->id)) }}" download><i class="fa fa-download me-2"></i> Download</a>
                                         </p>
                                     </li>
                                 </ul>

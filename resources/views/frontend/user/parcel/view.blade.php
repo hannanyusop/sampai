@@ -47,13 +47,13 @@
 
                                     <li class="col-sm-4">
                                         <p><span class="text-soft">Price</span>
-                                            {{ $parcel->price }}
+                                            {{ $parcel->price_formated }}
                                         </p>
                                     </li>
 
                                     <li class="col-sm-4">
                                         <p><span class="text-soft">Tax</span>
-                                            {{ $parcel->tax }}
+                                            {{ $parcel->tax_formated }}
                                         </p>
                                     </li>
                                 </ul>
@@ -68,7 +68,7 @@
 
                                     <li class="col-sm-4">
                                         <p><span class="text-soft">Invoice</span>
-                                            <a href="{{ \asset($parcel->invoice_url) }}" download><i class="fa fa-download me-2"></i> Download</a>
+                                            <a href="{{ route('frontend.user.parcel.download',encrypt($parcel->id)) }}" download><i class="fa fa-download me-2"></i> Download</a>
                                         </p>
                                     </li>
                                 </ul>
