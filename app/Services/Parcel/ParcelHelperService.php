@@ -68,4 +68,11 @@ class ParcelHelperService
         return $text;
     }
 
+    public static function CalculateTax(float $price,float $currency_exchange,int $percent){
+
+        $tax = $price  * $currency_exchange * $percent / 100;
+
+        return ($tax - floor($tax) > 0)? floor($tax) + 1 : floor($tax);
+    }
+
 }

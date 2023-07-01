@@ -20,8 +20,7 @@
                 <span class="nk-menu-text">Dashboard</span>
             </a>
         </li>
-        @if(!$logged_in_user->can('admin.access.user'))
-            <li class="nk-menu-item has-sub">
+        <li class="nk-menu-item has-sub">
             <a href="#" class="nk-menu-link nk-menu-toggle">
                 <span class="nk-menu-text">Trip Management</span>
             </a>
@@ -66,7 +65,7 @@
                 </li>
             </ul>
         </li>
-        @endif
+
 {{--        @if($logged_in_user->can('staff.distributor'))--}}
 {{--            <li class="nk-menu-item has-sub">--}}
 {{--                <a href="#" class="nk-menu-link nk-menu-toggle">--}}

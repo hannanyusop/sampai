@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Trip;
 use App\Domains\Auth\Models\Parcels;
 use App\Exports\Trip\MasterListExport;
 use App\Models\TripBatch;
+use App\Services\Parcel\ParcelHelperService;
 use Cknow\Money\Money;
 use Livewire\Component;
 use Maatwebsite\Excel\Facades\Excel;
@@ -13,7 +14,7 @@ use Maatwebsite\Excel\Facades\Excel;
 class MasterList extends Component
 {
     public TripBatch $trip_batch;
-    public $trip, $tax,$trip_ids = [];
+    public $trip, $tax, $trip_ids = [], $service_charge = 0.00, $percent = 0.00, $price = 0.00, $currency_exchange = 0.00;
     public $tracking_no, $edited_id = null;
 
     public bool $edit_rate = false;
@@ -22,6 +23,9 @@ class MasterList extends Component
     public function mount($trip_id)
     {
         $this->trip_batch = TripBatch::with('trips')->findOrFail($trip_id);
+
+        $this->currency_exchange = $this->trip_batch->tax_rate;
+
         $this->trip_ids = $this->trip_batch->trips()->pluck('id');
 
         $this->tax_rate = $this->trip_batch->tax_rate;
@@ -52,12 +56,19 @@ class MasterList extends Component
 
         $this->edited_id = $id;
         $this->tax = $parcel->tax;
+        $this->price = $parcel->price;
+        $this->percent = $parcel->percent;
+        $this->service_charge = $parcel->service_charge;
+
+
     }
 
     public function updateTax()
     {
         $this->validate([
-            'tax' => 'required|numeric|min:0.01'
+            'price' => 'required|numeric|min:0.01',
+            'percent' => 'required|numeric|min:0|max:100',
+            'service_charge' => 'required|numeric|min:0.01',
         ]);
 
         $parcel = Parcels::whereHas('pickup', function($query){
@@ -65,16 +76,25 @@ class MasterList extends Component
         })->find($this->edited_id);
 
         if(!$parcel){
-            return session()->flash('error', 'Parcel not found.');
+             session()->flash('error', 'Parcel not found.');
+             return;
         }
 
-        $parcel->tax = $this->tax;
+        $parcel->tax = ParcelHelperService::CalculateTax($this->price,$this->currency_exchange, $this->percent);
+        $parcel->price = $this->price;
+        $parcel->percent = $this->percent;
+        $parcel->service_charge = $this->service_charge;
         $parcel->save();
 
         $this->edited_id = null;
         $this->tax = null;
 
-        return session()->flash('success', 'Tax updated successfully.');
+        session()->flash('success', 'Tax updated successfully.');
+        return;
+    }
+
+    public function updateTaxValue(){
+        $this->tax = ParcelHelperService::CalculateTax($this->price,$this->currency_exchange, $this->percent);
     }
 
     public function export(){

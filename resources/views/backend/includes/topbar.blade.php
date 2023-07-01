@@ -27,7 +27,7 @@
                     </div>
                 </div>
             </a>
-            <div class="dropdown-menu dropdown-menu-md dropdown-menu-right dropdown-menu-s1 is-light">
+            <div class="dropdown-menu dropdown-menu-md dropd🥺own-menu-right dropdown-menu-s1 is-light">
                 <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
                     <div class="user-card">
                         <div class="user-avatar">

@@ -49,7 +49,7 @@ class MasterListExport implements FromArray, ShouldAutoSize, WithStyles, WithCol
 
 
 
-        $array[] = ['No.','User ID', 'Tracking No','Receiver Name', 'Phone Number', 'Description','Destination', 'Price (RM)', 'Tax (BND $)', 'Status', 'Remark', 'Phone Number', 'Message'];
+        $array[] = ['No.','User ID', 'Tracking No','Receiver Name', 'Phone Number', 'Description','Destination', 'Price (RM)','Percentage (%)', 'Tax (BND $)', 'Service Charge ($)', 'Status', 'Remark', 'Phone Number', 'Message'];
 
         $ttl_tax = 0;
         $ttl_parcel = count($parcels);
@@ -63,7 +63,9 @@ class MasterListExport implements FromArray, ShouldAutoSize, WithStyles, WithCol
                 $parcel?->description,
                 $parcel?->dropPoint?->name,
                 $parcel->price ? number_format($parcel->price, '2', '.') : '0.00',
+                $parcel->percentage ? number_format($parcel->percentage, '2', '.') : '0.00',
                 $parcel->tax ? number_format($parcel->tax, '2', '.') : '0.00',
+                $parcel->service_charge ? number_format($parcel->service_charge, '2', '.') : '0.00',
                 $parcel->status_label,
                 '',
                 $parcel?->user?->phone_number,

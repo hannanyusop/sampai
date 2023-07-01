@@ -121,8 +121,12 @@
                             <th class="nk-tb-col"><span class="sub-text">Tracking No</span></th>
                             <th class="nk-tb-col tb-col-mb"><span class="sub-text">Order Origin</span></th>
                             <th class="nk-tb-col tb-col-md"><span class="sub-text">Description</span></th>
-                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">Price</span></th>
-                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">Tax</span></th>
+                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">Parcel Price (RM)</span></th>
+                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">Parcel Price / {{ ($currency_exchange) }} ($)</span></th>
+                            <th class="nk-tb-col tb-col-md"><span class="sub-text">Percentage (%)</span></th>
+                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">Tax ($)</span></th>
+                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">Service Charge ($)</span></th>
+                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">Action</span></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -141,31 +145,49 @@
                                 <td class="nk-tb-col tb-col-md">
                                     <span>{{ $parcel->description }}</span>
                                 </td>
-                                <td class="nk-tb-col tb-col-lg">
-                                    <span>{{ displayPriceFormat($parcel->price) }}</span>
-                                </td>
-                                <td class="nk-tb-col tb-col-lg">
 
-
-                                @can('staff.distributor')
-                                    @if($edited_id != $parcel->id)
-                                            <span>{{ displayPriceFormat($parcel->tax, '$') }} <em wire:click="changeEditedId({{ $parcel->id }})" class="icon ni ni-edit"></em></span>
-                                    @else
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">BND ($)</span>
-                                            </div>
-                                            <input type="text" class="form-control" value="{{ $parcel->tax }}" min="0.00" placeholder="Tax" wire:model="tax">
-                                            <div class="input-group-append">
-                                                <button class="btn btn-success" wire:click="updateTax()"><em class="icon ni ni-check"></em></button>
-                                            </div>
-                                        </div>
-                                        @error('tax')<small class="text-danger">{{ $message }}</small>@enderror
-                                    @endif
+                                @if($edited_id != $parcel->id)
+                                    <td class="nk-tb-col tb-col-lg">
+                                        <span>{{ displayPriceFormat($parcel->price) }}</span>
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        <span>{{ displayPriceFormat($parcel->price/$trip_batch->pos_rate, '$') }}</span>
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        <span>{{ $parcel->percent }}%</span>
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        <span>{{ displayPriceFormat($parcel->tax, '$') }}</span>
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        <span>{{ displayPriceFormat($parcel->service_charge, '$') }}</span>
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        <button class="btn btn-info"><em wire:click="changeEditedId({{ $parcel->id }})" class="icon ni ni-edit"></em></button>
+                                    </td>
                                 @else
-                                    <span>{{ displayPriceFormat($parcel->tax, '$') }}</span>
-                                @endcan
-                                </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        <input type="number" class="form-control" value="{{ $parcel->price }}" wire:change="updateTaxValue()" min="0.00" placeholder="Price (RM)" wire:model="price">
+                                        @error('price') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        <span>{{ displayPriceFormat($parcel->price/$trip_batch->pos_rate, '$') }}</span>
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        <input type="number" class="form-control" value="{{ $parcel->percent }}" wire:change="updateTaxValue()" min="0.00" placeholder="Percent (%)" wire:model="percent">
+                                        @error('percent') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        <span>{{ displayPriceFormat($parcel->tax, '$') }}</span>
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        <input type="number" class="form-control" value="{{ $parcel->service_charge }}" min="0.00" placeholder="Service Charge ($)" wire:model="service_charge">
+                                        @error('service_charge') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        <button class="btn btn-success"><em wire:click="updateTax()" class="icon ni ni-check"></em></button>
+                                    </td>
+                                @endif
                             </tr>
                         @endforeach
                         </tbody>
