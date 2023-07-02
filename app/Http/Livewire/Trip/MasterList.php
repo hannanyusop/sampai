@@ -14,7 +14,8 @@ use Maatwebsite\Excel\Facades\Excel;
 class MasterList extends Component
 {
     public TripBatch $trip_batch;
-    public $trip, $tax, $trip_ids = [], $service_charge = 0.00, $percent = 0.00, $price = 0.00, $currency_exchange = 0.00;
+    public $trip, $tax, $trip_ids = [], $service_charge = 0.00, $percent = 0.00, $price = 0.00, $currency_exchange = 0.00, $permit = 0.00;
+    public $cod_fee_ori;
     public $tracking_no, $edited_id = null;
 
     public bool $edit_rate = false;
@@ -38,7 +39,9 @@ class MasterList extends Component
             $query->whereIn('trip_id', $this->trip_ids);
         })->when($this->tracking_no, function ($query) {
             $query->where('tracking_no', 'like', '%' . $this->tracking_no . '%');
-        })->get();
+        })
+            ->orderBy('user_id', 'asc')
+            ->get();
 
         return view('livewire.trip.master-list', compact('parcels'));
     }
@@ -59,6 +62,8 @@ class MasterList extends Component
         $this->price = $parcel->price;
         $this->percent = $parcel->percent;
         $this->service_charge = $parcel->service_charge;
+        $this->permit = $parcel->permit;
+        $this->cod_fee_ori = $parcel->cod_fee_ori;
 
 
     }
@@ -66,9 +71,11 @@ class MasterList extends Component
     public function updateTax()
     {
         $this->validate([
-            'price' => 'required|numeric|min:0.01',
-            'percent' => 'required|numeric|min:0|max:100',
+            'price'          => 'required|numeric|min:0.01',
+            'percent'        => 'required|numeric|min:0|max:100',
             'service_charge' => 'required|numeric|min:0.01',
+            'permit'         => 'required|numeric|min:0.01',
+            'cod_fee_ori'    => 'required|numeric|min:0.00',
         ]);
 
         $parcel = Parcels::whereHas('pickup', function($query){
@@ -84,6 +91,9 @@ class MasterList extends Component
         $parcel->price = $this->price;
         $parcel->percent = $this->percent;
         $parcel->service_charge = $this->service_charge;
+        $parcel->permit = $this->permit;
+        $parcel->cod_fee_ori = $this->cod_fee_ori;
+        $parcel->cod_fee = ParcelHelperService::ConvertToBND($this->cod_fee_ori, $this->pos_rate);
         $parcel->save();
 
         $this->edited_id = null;

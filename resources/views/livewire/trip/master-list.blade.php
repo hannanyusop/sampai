@@ -118,32 +118,34 @@
                     <table class="nk-tb-list nk-tb-ulist" data-auto-responsive="false">
                         <thead>
                         <tr class="nk-tb-item nk-tb-head">
-                            <th class="nk-tb-col"><span class="sub-text">Tracking No</span></th>
-                            <th class="nk-tb-col tb-col-mb"><span class="sub-text">Order Origin</span></th>
+                            <th class="nk-tb-col"><span class="sub-text">Name</span></th>
+                            <th class="nk-tb-col"><span class="sub-text">Pickup Code</span></th>
                             <th class="nk-tb-col tb-col-md"><span class="sub-text">Description</span></th>
                             <th class="nk-tb-col tb-col-lg"><span class="sub-text">Parcel Price (RM)</span></th>
                             <th class="nk-tb-col tb-col-lg"><span class="sub-text">Parcel Price / {{ ($currency_exchange) }} ($)</span></th>
-                            <th class="nk-tb-col tb-col-md"><span class="sub-text">Percentage (%)</span></th>
+                            <th class="nk-tb-col tb-col-md"><span class="sub-text">Tax Percentage (%)</span></th>
                             <th class="nk-tb-col tb-col-lg"><span class="sub-text">Tax ($)</span></th>
+                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">COD (RM)</span></th>
+                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">COD Converted ($)</span></th>
                             <th class="nk-tb-col tb-col-lg"><span class="sub-text">Service Charge ($)</span></th>
+                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">Permit ($)</span></th>
                             <th class="nk-tb-col tb-col-lg"><span class="sub-text">Action</span></th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($parcels as $parcel)
                             <tr class="nk-tb-item">
-                                <td class="nk-tb-col">
-                                    <div class="user-card">
-                                        <div class="user-info">
-                                            <span class="tb-lead">{{ $parcel->tracking_no }} <span class="dot dot-success d-md-none ml-1"></span></span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="nk-tb-col tb-col-mb">
-                                    <span class="tb-amount">{{ $parcel->order_origin }}</span>
-                                </td>
                                 <td class="nk-tb-col tb-col-md">
-                                    <span>{{ $parcel->description }}</span>
+                                    <span>{{ $parcel?->user?->name }}</span>
+                                </td>
+
+                                <td class="nk-tb-col tb-col-md">
+                                    <span>{{ $parcel?->pickup->code }}</span>
+                                </td>
+
+                                <td class="nk-tb-col">
+                                    <b class="tb-lead">{{ $parcel->tracking_no }}</span></b>
+                                    <small>{{ $parcel->description }}</small>
                                 </td>
 
                                 @if($edited_id != $parcel->id)
@@ -160,7 +162,16 @@
                                         <span>{{ displayPriceFormat($parcel->tax, '$') }}</span>
                                     </td>
                                     <td class="nk-tb-col tb-col-lg">
+                                        <span>{{ displayPriceFormat($parcel->cod_fee_ori, 'RM') }}</span>
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        <span>{{ displayPriceFormat($parcel->cod_fee, '$') }}</span>
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
                                         <span>{{ displayPriceFormat($parcel->service_charge, '$') }}</span>
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        <span>{{ displayPriceFormat($parcel->permit, '$') }}</span>
                                     </td>
                                     <td class="nk-tb-col tb-col-lg">
                                         <button class="btn btn-info"><em wire:click="changeEditedId({{ $parcel->id }})" class="icon ni ni-edit"></em></button>
@@ -181,7 +192,16 @@
                                         <span>{{ displayPriceFormat($parcel->tax, '$') }}</span>
                                     </td>
                                     <td class="nk-tb-col tb-col-lg">
-                                        <input type="number" class="form-control" value="{{ $parcel->service_charge }}" min="0.00" placeholder="Service Charge ($)" wire:model="service_charge">
+                                        <input type="number" class="form-control" value="{{ $parcel->cod_fee_ori }}" min="0.00" placeholder="COD Fee ($)" wire:model="cod_fee_ori">
+                                        @error('cod_fee_ori') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </td>
+                                    <td> - </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        <input type="number" class="form-control" value="{{ $parcel->cod_fee }}" min="0.00" placeholder="COD ($)" wire:model="service_charge">
+                                        @error('service_charge') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        <input type="number" class="form-control" value="{{ $parcel->permit }}" min="0.00" placeholder="Service Charge ($)" wire:model="permit">
                                         @error('service_charge') <span class="text-danger">{{ $message }}</span> @enderror
                                     </td>
                                     <td class="nk-tb-col tb-col-lg">

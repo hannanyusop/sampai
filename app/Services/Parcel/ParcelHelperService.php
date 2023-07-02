@@ -75,4 +75,13 @@ class ParcelHelperService
         return ($tax - floor($tax) > 0)? floor($tax) + 1 : floor($tax);
     }
 
+    public static function ConvertToBND(float $price, float $currency_exchange){
+
+        //round up to nearest cent
+        $converted =  $price / $currency_exchange;
+
+        return ceil($converted * 10) / 10;
+
+    }
+
 }
