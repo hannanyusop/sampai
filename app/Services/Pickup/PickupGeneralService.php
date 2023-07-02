@@ -41,6 +41,7 @@ class PickupGeneralService
         $pickup->trip_id   = $trip->id;
         $pickup->office_id = $office->id;
         $pickup->code      = $office->code."-".$next_id;
+
         $pickup->save();
 
         return [

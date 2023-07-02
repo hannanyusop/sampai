@@ -119,7 +119,6 @@
                         <thead>
                         <tr class="nk-tb-item nk-tb-head">
                             <th class="nk-tb-col"><span class="sub-text">Name</span></th>
-                            <th class="nk-tb-col"><span class="sub-text">Pickup Code</span></th>
                             <th class="nk-tb-col tb-col-md"><span class="sub-text">Description</span></th>
                             <th class="nk-tb-col tb-col-lg"><span class="sub-text">Parcel Price (RM)</span></th>
                             <th class="nk-tb-col tb-col-lg"><span class="sub-text">Parcel Price / {{ ($currency_exchange) }} ($)</span></th>
@@ -136,11 +135,8 @@
                         @foreach($parcels as $parcel)
                             <tr class="nk-tb-item">
                                 <td class="nk-tb-col tb-col-md">
-                                    <span>{{ $parcel?->user?->name }}</span>
-                                </td>
-
-                                <td class="nk-tb-col tb-col-md">
-                                    <span>{{ $parcel?->pickup->code }}</span>
+                                    <span>{{ $parcel?->user?->name }}</span><br>
+                                    <small>{{ $parcel?->pickup->code }}</small>
                                 </td>
 
                                 <td class="nk-tb-col">

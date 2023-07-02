@@ -14,7 +14,9 @@ class ParcelController extends Controller{
 
     public function index(){
 
-        $parcels = ParcelGeneralService::query()->get();
+        $parcels = ParcelGeneralService::query()
+            ->orderBy('id', 'desc')
+            ->get();
 
         return view('backend.parcel.index', compact('parcels'));
     }

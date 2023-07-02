@@ -13,7 +13,8 @@ class TripBatchShow extends Component
 {
     public $tripBatch, $tracking_no, $last_parcel;
     public bool $edit_rate = false;
-    public float $tax_rate = 0.00, $pos_rate = 0.00;
+    public string $guni;
+    public $tax_rate = 0.00, $pos_rate = 0.00,  $service_charge = 0.00;
 
     public function mount($tripBatch)
     {
@@ -29,11 +30,35 @@ class TripBatchShow extends Component
         return view('livewire.backend.trip-batch.trip-batch-show', compact('tripBatch'));
     }
 
-    public function insert(){
+    public function search(){
+
+        $service = ParcelGeneralService::insertableParcel($this->tracking_no, $this->tripBatch);
+
+
+        if ($service[GeneralHelperService::KEY_STATUS] == GeneralHelperService::STATUS_ERROR) {
+            return session()->flash('insert_'.GeneralHelperService::STATUS_ERROR, $service[GeneralHelperService::KEY_MESSAGE]);
+        }
+
+        if ($service[GeneralHelperService::KEY_STATUS] == GeneralHelperService::STATUS_SUCCESS) $this->last_parcel = $service[GeneralHelperService::KEY_DATA];
+
+    }
+
+    public function save(){
 
         $tracking_no = Str::upper($this->tracking_no);
 
+        $parcel = Parcels::where('tracking_no', $tracking_no)->first();
+
+        if (!$parcel) {
+            return session()->flash('insert_'.GeneralHelperService::STATUS_ERROR, __('No parcel found for :tracking_no', ['tracking_no' => $tracking_no]));
+        }
+
         $service = ParcelGeneralService::assignToTripBatch($tracking_no, $this->tripBatch);
+
+        $parcel->update([
+            'service_charge' => $this->service_charge,
+            'guni'           => $this->guni,
+        ]);
 
         if ($service[GeneralHelperService::KEY_STATUS] == GeneralHelperService::STATUS_SUCCESS) $this->last_parcel = Parcels::where('tracking_no', $tracking_no)->first();
 
@@ -49,8 +74,6 @@ class TripBatchShow extends Component
         session()->flash('insert_'.$service[GeneralHelperService::KEY_STATUS],$service[GeneralHelperService::KEY_MESSAGE]);
     }
 
-
-
     public function undo(){
 
         if (!$this->last_parcel) return;
@@ -61,6 +84,12 @@ class TripBatchShow extends Component
         if ($service[GeneralHelperService::KEY_STATUS] == GeneralHelperService::STATUS_SUCCESS) $this->last_parcel = null;
 
         session()->flash('insert_'.$service[GeneralHelperService::KEY_STATUS],$service[GeneralHelperService::KEY_MESSAGE]);
+    }
+
+    public function cancel(){
+
+        $this->tracking_no = null;
+        $this->last_parcel = null;
     }
 
 }

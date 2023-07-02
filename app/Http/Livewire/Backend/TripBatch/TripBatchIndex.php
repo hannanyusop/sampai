@@ -17,6 +17,7 @@ class TripBatchIndex extends Component
         $batches = TripBatch
             ::when(count($this->statuses) > 0, fn($query) => $query->whereIn('status', $this->statuses))
             ->when($this->tripBatchId, fn($query) => $query->where('id', $this->id))
+            ->orderBy('id', 'desc')
             ->get();
 
         return view('livewire.backend.trip-batch.trip-batch-index', compact('batches'));

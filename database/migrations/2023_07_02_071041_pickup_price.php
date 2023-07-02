@@ -14,12 +14,13 @@ class PickupPrice extends Migration
     public function up()
     {
         Schema::table('pickups', function (Blueprint $table){
-            $table->integer('total_price')->after('pickup_name');
+            $table->integer('total_price')->after('pickup_name')->default(0.00);
         });
 
         Schema::table('parcels', function (Blueprint $table){
-            $table->integer('code')->after('tracking_no');
-            $table->decimal('cod_fee')->after('price')->default(0.00);
+            $table->integer('code')->after('tracking_no')->nullable();
+            $table->float('cod_fee')->after('price')->default(0.00);
+            $table->string('guni')->after('order_origin')->nullable();
         });
     }
 
@@ -37,6 +38,7 @@ class PickupPrice extends Migration
         Schema::table('parcels', function (Blueprint $table){
             $table->dropColumn('code');
             $table->dropColumn('cod_fee');
+            $table->dropColumn('guni');
         });
     }
 }

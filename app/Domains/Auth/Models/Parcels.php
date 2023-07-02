@@ -51,4 +51,9 @@ class Parcels extends Model{
     public function getTaxFormatedAttribute(){
         return displayPriceFormat($this->tax, 'B$');
     }
+
+    public function getCodingAttribute(){
+
+        return ($this->pickup) ?  __(":pickup_code / :code", ['code' => $this->code, 'pickup_code' => $this?->pickup?->code]) : __("No Code");
+    }
 }

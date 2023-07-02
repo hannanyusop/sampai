@@ -67,7 +67,7 @@
                                     </div>
                                     <div class="nk-refwg-url">
                                         <div class="form-control-wrap">
-                                            <div class="form-clip clipboard-init"><button wire:click="insert()" class="btn"><em class="clipboard-icon icon ni ni-search"></em> <span class="clipboard-text"> Search</span></button></div>
+                                            <div class="form-clip clipboard-init"><button wire:click="search()" class="btn"><em class="clipboard-icon icon ni ni-search"></em> <span class="clipboard-text"> Search</span></button></div>
                                             <div class="form-icon">
                                                 <em class="icon ni ni-tag-alt"></em>
                                             </div>
@@ -111,14 +111,43 @@
                                                                 </li>
                                                                 <li class="col-sm-4">
                                                                     <p><span class="text-soft">Destination</span>
-                                                                        {{ $last_parcel?->trip?->destination?->name }}
+                                                                        {{ $last_parcel->dropPoint?->name }}
                                                                     </p>
                                                                 </li>
                                                             </ul>
                                                         </div>
 
+                                                        <div class="sp-plan-desc sp-plan-desc-mb">
+                                                            <ul class="row gx-1">
+                                                                <li class="col-sm-4">
+                                                                    <p><span class="text-soft">Service Charge ($)</span>
+                                                                        <input type="number" class="form-control" wire:model="service_charge">
+                                                                    </p>
+                                                                </li>
+                                                                <li class="col-sm-4">
+                                                                    <p><span class="text-soft">Bakul</span>
+                                                                        <input type="text" class="form-control" wire:model="guni">
+                                                                    </p>
+                                                                </li>
+                                                                <li class="col-sm-4">
+                                                                    <p><span class="text-soft">Parcel Code</span>
+                                                                        {{ $last_parcel->coding }}
+                                                                    </p>
+                                                                </li>
+{{--                                                                <li class="col-sm-4">--}}
+{{--                                                                    <p><span class="text-soft">Destination</span>--}}
+{{--                                                                        <input type="number" class="form-control" wire:model="guni">--}}
+{{--                                                                    </p>--}}
+{{--                                                                </li>--}}
+                                                            </ul>
+                                                        </div>
+
                                                         <div class="text-center my-2">
-                                                            <button wire:click="undo()" class="btn btn-warning"><i class="icon ni ni-redo"></i>Undo</button>
+                                                            <button wire:click="save()" class="btn btn-success me-2"><i class="icon ni ni-check"></i>Save</button>
+                                                            @if($last_parcel->pickup_id)
+                                                                <button wire:click="undo()" class="btn btn-danger me-2"><i class="icon ni ni-times"></i>Remove</button>
+                                                            @endif
+                                                            <button wire:click="cancel()" class="btn btn-warning me-2"><i class="icon ni ni-redo"></i>Cancel</button>
                                                         </div>
 
                                                     </div><!-- .card-inner -->

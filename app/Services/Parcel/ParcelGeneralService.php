@@ -26,6 +26,33 @@ class ParcelGeneralService
         });
     }
 
+    public static function insertableParcel($tracking_no, TripBatch $tripBatch){
+
+        $parcel =  self::query()->where([
+            'tracking_no' => $tracking_no,
+            'status' => ParcelHelperService::STATUS_REGISTERED,
+        ])->first();
+
+        if (!$parcel) {
+            return [
+                GeneralHelperService::KEY_STATUS  => GeneralHelperService::STATUS_ERROR,
+                GeneralHelperService::KEY_MESSAGE => __('No parcel found for :tracking_no', ['tracking_no' => $tracking_no])
+            ];
+        }
+
+        if ($parcel->pickup_id != null) {
+            return [
+                GeneralHelperService::KEY_STATUS  => GeneralHelperService::STATUS_ERROR,
+                GeneralHelperService::KEY_MESSAGE => __('Parcel already assigned to Trip : :pickup_id', ['pickup_id' => $parcel?->trip->batch->number])
+            ];
+        }
+
+        return [
+            GeneralHelperService::KEY_STATUS  => GeneralHelperService::STATUS_SUCCESS,
+            GeneralHelperService::KEY_MESSAGE => __(''),
+            GeneralHelperService::KEY_DATA => $parcel
+        ];
+    }
 
     public static function assignToTripBatch($trackin_no,TripBatch $tripBatch){
 
@@ -62,6 +89,7 @@ class ParcelGeneralService
 
         $pickup = $servicePickup[GeneralHelperService::KEY_DATA];
 
+        $parcel->code = self::GenerateCode($pickup, $parcel);
         $parcel->pickup_id = $pickup->id;
         $parcel->save();
 
@@ -74,9 +102,29 @@ class ParcelGeneralService
         ];
     }
 
+    public static function GenerateCode(Pickup $pickup, Parcels $parcel){
+
+        $start = 0;
+        do{
+
+            $start++;
+            $parcel = Parcels::where([
+                'code'      => $start,
+                'pickup_id' => $pickup->id,
+                'status'    => ParcelHelperService::STATUS_REGISTERED,
+            ])
+                ->first();
+
+        }while($parcel);
+
+        return $start;
+    }
+
     public static function undoTripBatch(TripBatch $tripBatch, $parcel_id){
 
-        $parcel = Parcels::find($parcel_id);
+        $parcel = Parcels::where([
+            'id' => $parcel_id,
+        ])->first();
 
         if (!$parcel || $parcel->pickup_id == null) {
             return [
@@ -121,7 +169,8 @@ class ParcelGeneralService
 
         $parcel->update([
             'status'    => ParcelHelperService::STATUS_REGISTERED,
-            'pickup_id' => null
+            'pickup_id' => null,
+            'code'      => null
         ]);
 
         return [
