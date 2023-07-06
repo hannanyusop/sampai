@@ -16,6 +16,11 @@ class TripBatchController extends Controller
     }
 
     public function create(){
+
+        if (!auth()->user()->can('admin.trip.open')){
+            return redirect()->back()->withFlashWarning('You don\'t have permission to open trip.');
+        }
+
         return view('backend.trip_batch.create');
     }
 

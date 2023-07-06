@@ -5,10 +5,12 @@
 @section('content')
 
     <div class="nk-block-head nk-block-head-lg wide-sm">
+        @can('admin.trip.open')
         <div class="nk-block-head-content">
             <div class="nk-block-head-sub"><a class="back-to" href="{{ route('admin.trip.index') }}"><em class="icon ni ni-arrow-left"></em><span>Trip List</span></a></div>
             <h2 class="nk-block-title fw-normal">Create Trip</h2>
         </div>
+        @endcan
     </div>
 
     <div class="nk-content-wrap">

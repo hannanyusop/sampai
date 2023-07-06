@@ -30,7 +30,7 @@
                         <span class="nk-menu-text">Trip List</span>
                     </a>
                 </li>
-                @if($logged_in_user->can('staff.distributor'))
+                @if($logged_in_user->can('admin.trip.open'))
                     <li class="nk-menu-item">
                         <a href="{{ route('admin.tripBatch.create') }}" class="nk-menu-link">
                             <span class="nk-menu-text">Create Trip</span>

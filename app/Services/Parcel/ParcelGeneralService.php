@@ -43,7 +43,7 @@ class ParcelGeneralService
         if ($parcel->pickup_id != null) {
             return [
                 GeneralHelperService::KEY_STATUS  => GeneralHelperService::STATUS_ERROR,
-                GeneralHelperService::KEY_MESSAGE => __('Parcel already assigned to Trip : :pickup_id', ['pickup_id' => $parcel?->trip->batch->number])
+                GeneralHelperService::KEY_MESSAGE => __('Parcel already assigned to Trip : :pickup_id', ['pickup_id' => $parcel->trip?->batch?->number])
             ];
         }
 

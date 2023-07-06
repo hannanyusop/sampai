@@ -27,6 +27,7 @@ class DashboardController extends Controller
 
             $trip_batches = TripBatch::wherehas('trips',
                 fn ($q) => $q->whereIn('status', [TripBatchHelperService::STATUS_PENDING]))
+                ->orderBy('id', 'desc')
                 ->get();
             $total_current_month = 0;
             $month = 1;

@@ -37,6 +37,10 @@ class Parcels extends Model{
         return $this->hasOne(Pickup::class, 'id', 'pickup_id');
     }
 
+    public function getGrossPriceAttribute(){
+        return $this->cod_fee + $this->service_charge;
+    }
+
     public function getTotalBillingAttribute(){
         return $this->cod_fee + $this->service_charge + $this->tax + $this->permit;
     }

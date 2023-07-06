@@ -13,12 +13,16 @@
                     <div class="nk-block-head-content">
 
                         <a href="{{ route('admin.tripBatch.index') }}" class="btn btn-outline-light bg-warning d-none d-sm-inline-flex"><em class="icon ni ni-back-alt"></em><span>Back</span></a>
-                        @can('staff.distributor')
+                        @can('admin.trip.master')
                             <a href="{{ route('admin.trip.masterList', $tripBatch->id) }}" class="btn btn-success d-none d-sm-inline-flex"><em class="icon ni ni-list-check"></em><span>Master List</span></a>
+                        @endcan
+                        @can('admin.trip.billing')
+                            <a href="{{ route('admin.billing.view', $tripBatch) }}" class="btn btn-primary d-none d-sm-inline-flex"><em class="icon ni ni-money"></em>Billing</a>
+                        @endcan
+                        @can('admin.trip.close')
                             @if($tripBatch->status == \App\Services\Trip\TripHelperService::STATUS_PENDING)
                                 <a href="{{ route('admin.trip.close', $tripBatch->id) }}" onclick="return confirm('Are you sure want to close this trip?')" class="btn btn-light d-none d-sm-inline-flex"><em class="icon ni ni-clock"></em><span>Close Trip</span></a>
                             @endif
-                            <a href="{{ route('admin.billing.view', $tripBatch) }}" class="btn btn-light d-none d-sm-inline-flex">Billing</a>
                         @endcan
                     </div>
                 </div>

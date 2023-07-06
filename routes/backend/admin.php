@@ -42,9 +42,9 @@ Route::group(['prefix' => 'trip/', 'as' => 'trip.'], function (){
     Route::post('insertParcel/{id}', [TripController::class, 'insertParcel'])->name('insertParcel')->middleware('permission:staff.distributor');
     Route::get('deleteParcel/{parcel_id}', [TripController::class, 'deleteParcel'])->name('deleteParcel')->middleware('permission:staff.distributor');
 
-    Route::get('master-list/{id}', [TripController::class, 'masterList'])->name('masterList')->middleware('permission:staff.distributor');
+    Route::get('master-list/{id}', [TripController::class, 'masterList'])->name('masterList')->middleware('permission:admin.trip.master');
 
-    Route::get('close/{id}', [TripController::class, 'close'])->name('close');
+    Route::get('close/{id}', [TripController::class, 'close'])->name('close')->middleware('permission:admin.trip.close');
     Route::get('picked/{id}', [TripController::class, 'picked'])->name('picked');
 
     Route::get('receive/', [TripController::class, 'receive'])->name('receive')->middleware('permission:staff.inhouse');;
@@ -59,8 +59,10 @@ Route::group(['prefix' => 'trip/', 'as' => 'trip.'], function (){
 Route::group([
     'prefix' => 'billing/',
     'as' => 'billing.',
+    'middleware' => 'permission:admin.billing',
 ], function (){
     Route::get('view/{tripBatch}', [BillingController::class, 'view'])->name('view');
+    Route::get('export/{tripBatch}', [BillingController::class, 'export'])->name('export');
 });
 
 Route::group(['prefix' => 'trip-remark/', 'as' => 'trip-remark.'], function (){

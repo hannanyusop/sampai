@@ -38,8 +38,24 @@ class Pickup extends Model
         return $this->belongsTo(User::class, 'serve_by', 'id');
     }
 
-    public function getTotalPaymentAttribute(){
+    public function getTotalAttribute(){
         return $this->parcels()->sum('cod_fee') + $this->parcels()->sum('service_charge') + $this->parcels()->sum('tax') + $this->parcels()->sum('permit');
+    }
+
+    public function getGrossPriceAttribute(){
+        return $this->parcels()->sum('cod_fee') + $this->parcels()->sum('service_charge');
+    }
+
+    public function getPermitAttribute(){
+        return $this->parcels()->sum('permit');
+    }
+
+    public function getTaxAttribute(){
+        return $this->parcels()->sum('tax');
+    }
+
+    public function getServiceChargeAttribute(){
+        return $this->parcels()->sum('service_charge');
     }
 
     public function getStatusBadgeAttribute(){

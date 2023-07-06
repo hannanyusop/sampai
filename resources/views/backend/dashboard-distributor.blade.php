@@ -18,10 +18,12 @@
                         </div>
                     </div><!-- .nk-block-head-content -->
                     <div class="nk-block-head-content">
+                        @can('admin.trip.open')
                         <ul class="nk-block-tools gx-3">
                             <li><a href="{{ route('admin.tripBatch.create') }}" class="btn btn-primary"><span>Create Trip</span>
                                     <em class="icon ni ni-arrow-long-right"></em></a></li>
                         </ul>
+                        @endcan
                     </div><!-- .nk-block-head-content -->
                 </div><!-- .nk-block-between -->
             </div><!-- .nk-block-head -->
