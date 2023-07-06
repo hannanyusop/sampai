@@ -26,17 +26,9 @@
             </div><!-- .container-fliud -->
         </div>
         <div class="nk-content nk-content-lg nk-content-fluid">
-            <div class="container-xl wide-lg">
-                <div class="nk-content-inner">
-                    <div class="nk-content-body">
-
-                        @include('includes.partials.messages')
-                        @include('includes.partials.logged-in-as')
-                        @yield('content')
-
-                    </div>
-                </div>
-            </div>
+            @include('includes.partials.messages')
+            @include('includes.partials.logged-in-as')
+            @yield('content')
         </div>
         @include('backend.includes.footer')
     </div>

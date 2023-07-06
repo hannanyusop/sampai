@@ -38,6 +38,10 @@ class Pickup extends Model
         return $this->belongsTo(User::class, 'serve_by', 'id');
     }
 
+    public function getTotalPaymentAttribute(){
+        return $this->parcels()->sum('cod_fee') + $this->parcels()->sum('service_charge') + $this->parcels()->sum('tax') + $this->parcels()->sum('permit');
+    }
+
     public function getStatusBadgeAttribute(){
         return PickupHelperService::statuseBadge()[$this->status] ?? __("Unknown Status");
     }

@@ -10,6 +10,8 @@ class Parcels extends Model{
 
     protected $fillable = ['pickup_id', 'status', 'checked'];
 
+    protected $appends = ['total_billing'];
+
     public function trip(){
         return $this->hasOneThrough(Trip::class, Pickup::class, 'trip_id', 'id', 'pickup_id');
     }
@@ -33,6 +35,10 @@ class Parcels extends Model{
 
     public function pickup(){
         return $this->hasOne(Pickup::class, 'id', 'pickup_id');
+    }
+
+    public function getTotalBillingAttribute(){
+        return $this->cod_fee + $this->service_charge + $this->tax + $this->permit;
     }
 
     public function unregisteredParcel(){

@@ -11,13 +11,15 @@
                         </div>
                     </div>
                     <div class="nk-block-head-content">
+
                         <a href="{{ route('admin.tripBatch.index') }}" class="btn btn-outline-light bg-warning d-none d-sm-inline-flex"><em class="icon ni ni-back-alt"></em><span>Back</span></a>
                         @can('staff.distributor')
                             <a href="{{ route('admin.trip.masterList', $tripBatch->id) }}" class="btn btn-success d-none d-sm-inline-flex"><em class="icon ni ni-list-check"></em><span>Master List</span></a>
+                            @if($tripBatch->status == \App\Services\Trip\TripHelperService::STATUS_PENDING)
+                                <a href="{{ route('admin.trip.close', $tripBatch->id) }}" onclick="return confirm('Are you sure want to close this trip?')" class="btn btn-light d-none d-sm-inline-flex"><em class="icon ni ni-clock"></em><span>Close Trip</span></a>
+                            @endif
+                            <a href="{{ route('admin.billing.view', $tripBatch) }}" class="btn btn-light d-none d-sm-inline-flex">Billing</a>
                         @endcan
-                        @if(auth()->user()->can('staff.distributor') && $tripBatch->status == \App\Services\Trip\TripHelperService::STATUS_PENDING)
-                            <a href="{{ route('admin.trip.close', $tripBatch->id) }}" onclick="return confirm('Are you sure want to close this trip?')" class="btn btn-light d-none d-sm-inline-flex"><em class="icon ni ni-clock"></em><span>Close Trip</span></a>
-                        @endif
                     </div>
                 </div>
             </div>

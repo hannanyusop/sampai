@@ -19,6 +19,10 @@ class TripBatch extends Model
         return $this->hasMany(Trip::class, 'trip_batch_id', 'id');
     }
 
+    public function pickups(){
+        return $this->hasManyThrough(Pickup::class, Trip::class, 'trip_batch_id', 'trip_id', 'id', 'id');
+    }
+
     public function creator(){
         return $this->belongsTo(User::class, 'created_by', 'id');
     }

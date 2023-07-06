@@ -12,6 +12,7 @@ use App\Http\Controllers\Backend\ReportController;
 use App\Http\Controllers\Backend\SettingController;
 use App\Http\Controllers\Backend\TripBatchController;
 use App\Http\Controllers\Backend\PickupController;
+use App\Http\Controllers\Backend\BillingController;
 
 // All route names are prefixed with 'admin.'.
 Route::redirect('/', '/admin/dashboard', 301);
@@ -52,6 +53,14 @@ Route::group(['prefix' => 'trip/', 'as' => 'trip.'], function (){
     Route::post('receive/', [TripController::class, 'receiveSave'])->name('receiveSave')->middleware('permission:staff.inhouse');
     Route::get('receiveQR', [TripController::class, 'receiveSave'])->name('receiveQR')->middleware('permission:staff.inhouse');
 
+});
+
+
+Route::group([
+    'prefix' => 'billing/',
+    'as' => 'billing.',
+], function (){
+    Route::get('view/{tripBatch}', [BillingController::class, 'view'])->name('view');
 });
 
 Route::group(['prefix' => 'trip-remark/', 'as' => 'trip-remark.'], function (){
