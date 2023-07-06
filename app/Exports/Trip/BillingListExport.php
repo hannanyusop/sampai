@@ -47,7 +47,7 @@ class BillingListExport implements FromArray, ShouldAutoSize, WithStyles, WithCo
                 $key+1,
                 $pickup->user->name,
                 $pickup->user->phone_number,
-                $pickup->user->code,
+                $pickup->code,
                 $coding,
                 $pickup->parcels->count(),
                 displayPriceFormat($pickup->gross_price, '$'),
