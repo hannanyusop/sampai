@@ -16,6 +16,7 @@ use App\Services\General\GeneralHelperService;
 use App\Services\Parcel\ParcelGeneralService;
 use App\Services\Parcel\ParcelHelperService;
 use App\Services\Pickup\PickupHelperService;
+use App\Services\Trip\TripGeneralService;
 use App\Services\Trip\TripHelperService;
 use App\Services\TripBatch\TripBatchGeneralService;
 use Illuminate\Http\Request;
@@ -299,37 +300,24 @@ class TripController extends Controller
         }
 
         if($trip->destination_id != auth()->user()->office_id){
-
-            return redirect()->back()->withFlashWarning('This trip is not belong to yor office.');
+            return redirect()->back()->withFlashWarning('Permission denied! (You\'re not belong to this drop point office.)');
         }
 
-        $this->updateReceive($trip->id);
+        $result = TripGeneralService::ReceiveTrip($trip->id);
 
-        return redirect()->back()->withFlashSuccess('Code accepted.');
+        return redirect()->back()->with($result['status'], $result['message']);
+
     }
 
-    private function updateReceive($trip_id){
+    public function release(Trip $trip){
 
-        $trip = Trip::where('id', $trip_id)
-            ->where('status', ParcelHelperService::STATUS_OUTBOUND_TO_DROP_POINT)
-            ->first();
-
-       Pickup::where('trip_id', $trip_id)->update([
-            'status' => PickupHelperService::STATUS_READY_TO_DELIVER
-        ]);
-
-        foreach ($trip->parcels as $parcel){
-
-            $remark = "Ready to collect at ".$trip->destination->name;
-
-            addParcelTransaction($parcel->id, $remark);
-
-            $parcel->status = ParcelHelperService::STATUS_INBOUND_TO_DROP_POINT;
-            $parcel->save();
+        if (!auth()->user()->can('admin.parcel.billing')){
+            return redirect()->back()->withFlashWarning('Permission denied!');
         }
 
-        $trip->status = TripHelperService::STATUS_ARRIVED;
-        $trip->save();
+        $result = TripGeneralService::ReleaseTrip($trip->id);
+
+        return redirect()->back()->with($result['status'], $result['message']);
     }
 
     public function transferCode($id){

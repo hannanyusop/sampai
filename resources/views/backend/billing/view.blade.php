@@ -29,6 +29,51 @@
     </div>
 
     <div class="nk-content-wrap">
+
+        <div class="row my-2">
+            <div class="col-md-6">
+                <div class="card card-bordered">
+                    <div class="card-inner-group">
+                        <div class="card-inner">
+                            <div class="">
+                                <p class="font-weight-bold">Release Trip<br>
+                                    <small class="font-italic">
+                                        This action cannot be undone.
+                                        Make sure you've completed update all parcel billing before you release the trip.<br>
+                                        Only status <span class="badge badge-success mx-1">{{\App\Services\Trip\TripHelperService::getStatuses(\App\Services\Trip\TripHelperService::STATUS_PICKUP_POINT_PROCESS) }}</span>  can be released.
+                                    </small>
+                                </p>
+
+                                <table class="table table-borderless">
+                                    <thead>
+                                    <tr>
+                                        <th>Destination</th>
+                                        <th>Status</th>
+                                        <th>Release Trip</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($tripBatch->trips as $trip)
+                                        <tr>
+                                            <td>{{ $trip->destination->code }}</td>
+                                            <td>{!! $trip->status_badge !!}</td>
+                                            <td>
+                                                @if($trip->status == \App\Services\Trip\TripHelperService::STATUS_PICKUP_POINT_PROCESS)
+                                                    <a onclick="return confirm('Are you sure want to release this trip?')"  href="{{ route('admin.trip.release', $trip) }}" class="btn btn-primary">Release</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-xl-12">
                 <div class="card card-bordered">
