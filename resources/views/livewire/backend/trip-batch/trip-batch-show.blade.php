@@ -125,6 +125,21 @@
 
                                                         <div class="sp-plan-desc sp-plan-desc-mb">
                                                             <ul class="row gx-1">
+                                                                <li class="col-sm-8">
+                                                                    <p><span class="text-soft">Description</span>
+                                                                       <small> {{ $last_parcel->description }}</small>
+                                                                    </p>
+                                                                </li>
+                                                                <li class="col-sm-4 text-success">
+                                                                    <p><span class="text-soft text-success">Parcel Code</span>
+                                                                        {{ $last_parcel->coding }}
+                                                                    </p>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+
+                                                        <div class="sp-plan-desc sp-plan-desc-mb">
+                                                            <ul class="row gx-1">
                                                                 <li class="col-sm-4">
                                                                     <p><span class="text-soft">Service Charge ($)</span>
                                                                         <input type="number" class="form-control" wire:model="service_charge">
@@ -135,11 +150,7 @@
                                                                         <input type="text" class="form-control" wire:model="guni">
                                                                     </p>
                                                                 </li>
-                                                                <li class="col-sm-4">
-                                                                    <p><span class="text-soft">Parcel Code</span>
-                                                                        {{ $last_parcel->coding }}
-                                                                    </p>
-                                                                </li>
+
 {{--                                                                <li class="col-sm-4">--}}
 {{--                                                                    <p><span class="text-soft">Destination</span>--}}
 {{--                                                                        <input type="number" class="form-control" wire:model="guni">--}}
