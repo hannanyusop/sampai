@@ -60,7 +60,8 @@
                                 <small>{{ $parcel?->user->phone_number }}</small>
                             </td>
                             <td class="nk-tb-col tb-col-md">
-                                <small>{{ displayPriceFormat($parcel->price) }}</small><br>
+                                <small>{{ displayPriceFormat($parcel->price) }} <a href="{{ route('admin.parcel.download',encrypt($parcel->id)) }}" download><em class="icon ni ni-download"></em> Invoice</a>
+                                </small><br>
                                 <small>{{ $parcel->description }}</small>
                             </td>
                             <td class="nk-tb-col tb-col-lg">
