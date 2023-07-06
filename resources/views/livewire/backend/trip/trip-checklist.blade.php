@@ -120,6 +120,7 @@
                                         <tr class="bg-dark text-white">
                                             <th>Tracking No.</th>
                                             <th>Pickup Code</th>
+                                            <th>Guni</th>
                                             <th>Receiver Name</th>
                                             <th>Description</th>
                                             <th>Origin</th>
@@ -135,6 +136,7 @@
                                             <tr>
                                                 <td>{{ $parcel->tracking_no }}</td>
                                                 <td>{{ $parcel->pickup->code }}</td>
+                                                <td>{{ $parcel->guni }}</td>
                                                 <td>{{ $parcel->receiver_name }}</td>
                                                 <td>{{ $parcel->description }}</td>
                                                 <td>{{ $parcel->order_origin }}</td>

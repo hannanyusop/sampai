@@ -33,6 +33,7 @@
         "rappasoft/laravel-livewire-tables": "^0.3",
         "rappasoft/lockout": "^v3.0.1",
         "spatie/laravel-activitylog": "3.17.0",
+        "spatie/laravel-backup": "^7.0.0",
         "spatie/laravel-permission": "3.*",
         "werneckbh/laravel-qr-code": "^0.1.3"
     },
