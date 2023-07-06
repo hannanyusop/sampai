@@ -11,13 +11,6 @@
     <div class="nk-block nk-block-lg">
         <div class="card card-bordered card-preview">
             <div class="card-inner">
-                @if ($logged_in_user->can('staff.inhouse'))
-                    <div class="row text-right">
-                        <div class="m-2 float-right">
-                            <a href="{{ route('admin.parcel.scan') }}" class="btn btn-primary"><span>Scan User QRCode</span><em class="icon ni ni-qr"></em></a>
-                        </div>
-                    </div>
-                @endif
                 <table class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="false">
                     <thead>
                     <tr class="nk-tb-item nk-tb-head">
@@ -27,12 +20,12 @@
                                 <label class="custom-control-label" for="uid"></label>
                             </div>
                         </th>
-                        <th class="nk-tb-col"><span class="sub-text">Tracking No</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Receiver Name</span></th>
-                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Receiver Info</span></th>
-                        <th class="nk-tb-col tb-col-lg"><span class="sub-text">Pickup By</span></th>
-                        <th class="nk-tb-col tb-col-lg"><span class="sub-text">Pickup Datetime</span></th>
+                        <th class="nk-tb-col"><span class="sub-text">Tracking No / roF</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Owner</span></th>
+                        <th class="nk-tb-col tb-col-lg"><span class="sub-text">Item Description</span></th>
+                        <th class="nk-tb-col tb-col-lg"><span class="sub-text">Delivery Information</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Status</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Collection Point</span></th>
                         <th class="nk-tb-col nk-tb-col-tools text-right">
                         </th>
                     </tr>
@@ -50,24 +43,29 @@
                                 <div class="user-card">
                                     <div class="user-info">
                                         <span class="tb-lead">{{ $parcel->tracking_no }} <span class="dot dot-success d-md-none ml-1"></span></span>
-{{--                                        <span>{{ $user->email }}</span>--}}
+                                        <span>{{  reformatDatetime($parcel->created_at)  }}</span>
                                     </div>
                                 </div>
                             </td>
                             <td class="nk-tb-col tb-col-mb">
-                                <span class="tb-amount">{{ $parcel->receiver_name }}</span>
+                                <span class="tb-lead">{{ $parcel?->user->name }} <span class="dot dot-success d-md-none ml-1"></span></span>
+                                <small>{{ $parcel?->user->phone_number }}</small>
                             </td>
                             <td class="nk-tb-col tb-col-md">
-                                <span>{{ $parcel->receiver_info }}</span>
+                                <small>{{ displayPriceFormat($parcel->price) }}</small><br>
+                                <small>{{ $parcel->description }}</small>
                             </td>
                             <td class="nk-tb-col tb-col-lg">
-                                <span>{{ (!is_null($parcel->pickup_name))? $parcel->pickup_name : "" }}</span>
-                            </td>
-                            <td class="nk-tb-col tb-col-lg">
-                                <span>{{ (!is_null($parcel->pickup_name))? $parcel->pickup_datetime : "" }}</span>
+                                @if((!is_null($parcel->pickup_name)))
+                                    <span class="tb-sub">{{ $parcel->pickup_name }}</span>
+                                    <span>{{ $parcel->pickup_datetime }}</span>
+                                @endif
                             </td>
                             <td class="nk-tb-col tb-col-md">
-{{--                                <span class="tb-status text-success">{{ $parcel->status_label }}</span>--}}
+                                {!! $parcel->status_label !!}
+                            </td>
+                            <td class="nk-tb-col tb-col-md">
+                                {!! $parcel->dropPoint->code !!}
                             </td>
                             <td class="nk-tb-col nk-tb-col-tools">
                                 <ul class="nk-tb-actions gx-1">
