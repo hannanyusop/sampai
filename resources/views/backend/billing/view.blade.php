@@ -40,7 +40,8 @@
                                     <small class="font-italic">
                                         This action cannot be undone.
                                         Make sure you've completed update all parcel billing before you release the trip.<br>
-                                        Only status <span class="badge badge-success mx-1">{{\App\Services\Trip\TripHelperService::getStatuses(\App\Services\Trip\TripHelperService::STATUS_PICKUP_POINT_PROCESS) }}</span>  can be released.
+                                        Only status <span class="badge badge-success mx-1">{{\App\Services\Trip\TripHelperService::getStatuses(\App\Services\Trip\TripHelperService::STATUS_PICKUP_POINT_PROCESS) }}</span>  can be released.<br>
+                                        Customer only can pickup parcel once you release the trip.
                                     </small>
                                 </p>
 
@@ -60,6 +61,10 @@
                                             <td>
                                                 @if($trip->status == \App\Services\Trip\TripHelperService::STATUS_PICKUP_POINT_PROCESS)
                                                     <a onclick="return confirm('Are you sure want to release this trip?')"  href="{{ route('admin.trip.release', $trip) }}" class="btn btn-primary">Release</a>
+                                                @endif
+
+                                                @if($trip->status == \App\Services\Trip\TripHelperService::STATUS_ARRIVED)
+                                                    <span class="">{{ __("Released") }}</span>
                                                 @endif
                                             </td>
                                         </tr>
