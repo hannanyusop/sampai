@@ -149,15 +149,6 @@
                                     </div>
                                 @endif
 
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label class="form-label" for="identification">@lang('Student/Staff ID')</label>
-                                    <input type="text" name="identification" id="identification" class="form-control text-uppercase"  value="{{ old('identification') ?? $logged_in_user->identification }}" required autofocus>
-                                    @error('identification')
-                                    <span id="identification" class="invalid">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
 
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -165,16 +156,6 @@
                                     <input type="text" name="phone_number" id="phone_number" class="form-control text-uppercase"  value="{{ old('phone_number') ?? $logged_in_user->phone_number }}" required autofocus>
                                     @error('phone_number')
                                         <span id="phone_number" class="invalid">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label class="form-label" for="address">@lang('Address')</label>
-                                    <textarea name="address" id="address" class="form-control text-uppercase" required>{{ old('address') ?? $logged_in_user->address }}</textarea>
-                                    @error('address')
-                                        <span id="address" class="invalid">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>

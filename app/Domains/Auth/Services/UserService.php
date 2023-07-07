@@ -197,17 +197,17 @@ class UserService extends BaseService
     public function updateProfile(User $user, array $data = []): User
     {
         $user->name = strtoupper($data['name']) ?? null;
-        $user->address = $data['address'];
-        $user->identification = $data['identification'];
+//        $user->address = $data['address'];
+//        $user->identification = $data['identification'];
         $user->phone_number = $data['phone_number'];
 
 
 
         if ($user->canChangeEmail() && $user->email !== $data['email']) {
             $user->email = $data['email'];
-            $user->email_verified_at = null;
-            $user->sendEmailVerificationNotification();
-            session()->flash('resent', true);
+//            $user->email_verified_at = null;
+//            $user->sendEmailVerificationNotification();
+//            session()->flash('resent', true);
         }
 
         return tap($user)->save();
