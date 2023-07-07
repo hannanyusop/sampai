@@ -132,11 +132,11 @@
                     @if ($logged_in_user->hasAllAccess())
                     @endif
 
-{{--                    <li class="nk-menu-item">--}}
-{{--                        <a href="{{ route('admin.auth.role.index') }}" class="nk-menu-link">--}}
-{{--                            <span class="nk-menu-text">{{ __('Role Management') }}</span>--}}
-{{--                        </a>--}}
-{{--                    </li>--}}
+                    <li class="nk-menu-item">
+                        <a href="{{ route('admin.auth.role.index') }}" class="nk-menu-link">
+                            <span class="nk-menu-text">{{ __('Role Management') }}</span>
+                        </a>
+                    </li>
                     <li class="nk-menu-item">
                         <a href="{{ route('admin.office.index') }}" class="nk-menu-link">
                             <span class="nk-menu-text">{{ __('Office Management') }}</span>
