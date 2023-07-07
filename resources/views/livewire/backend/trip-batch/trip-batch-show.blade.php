@@ -146,7 +146,7 @@
                                                                     </p>
                                                                 </li>
                                                                 <li class="col-sm-4">
-                                                                    <p><span class="text-soft">Bakul</span>
+                                                                    <p><span class="text-soft">Guni</span>
                                                                         <input type="text" class="form-control" wire:model="guni">
                                                                     </p>
                                                                 </li>

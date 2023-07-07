@@ -53,7 +53,7 @@ class TripBatchShow extends Component
             return session()->flash('insert_'.GeneralHelperService::STATUS_ERROR, __('No parcel found for :tracking_no', ['tracking_no' => $tracking_no]));
         }
 
-        if (auth()->user()->office_id == 0 || !auth()->user()->office->is_drop_point) {
+        if (in_array(auth()->user()->office_id, [3,4])) {
             return session()->flash('insert_'.GeneralHelperService::STATUS_ERROR, __('You are not authorized to add parcel.'));
         }
 

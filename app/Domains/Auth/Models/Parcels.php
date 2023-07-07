@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Parcels extends Model{
 
-    protected $fillable = ['pickup_id', 'status', 'checked'];
+    protected $fillable = ['pickup_id', 'status', 'checked', 'service_charge', 'guni'];
 
     protected $appends = ['total_billing'];
 
