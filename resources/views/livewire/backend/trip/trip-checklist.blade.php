@@ -126,6 +126,7 @@
                                             <th>Origin</th>
                                             <th>Quantity</th>
                                             <th>Price</th>
+                                            <th>Service Charge</th>
                                             <th>Tax</th>
                                             <th>Permit</th>
                                             <th>Checked</th>
@@ -142,6 +143,7 @@
                                                 <td>{{ $parcel->order_origin }}</td>
                                                 <td>{{ $parcel->quantity }}</td>
                                                 <td>{{ money($parcel->price) }}</td>
+                                                <td>{{ money($parcel->service_charge) }}</td>
                                                 <td>{{ money($parcel->tax) }}</td>
                                                 <td>{{ money($parcel->permit) }}</td>
                                                 <td>
