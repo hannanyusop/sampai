@@ -30,7 +30,7 @@ class ParcelHelperService
             self::STATUS_RETURN => __('Returned')
         ];
 
-        return (is_null($status))? $status : $statuses[$status] ?? __('Invalid status');
+        return (is_null($status))? $statuses : $statuses[$status] ?? __('Invalid status');
     }
 
     public static function whatappText(Parcels $parcel) :string{

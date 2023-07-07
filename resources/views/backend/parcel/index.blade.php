@@ -8,11 +8,66 @@
 
 @section('content')
 
-    <div class="nk-block-head nk-block-head-sm">
-        <div class="nk-block-between g-3">
-            <div class="nk-block-head-content">
-                <h3 class="nk-block-title page-title">Parcel List / Form Response</h3>
+    <div class="nk-block-head">
+        <div class="nk-block-head-content">
+            <h4 class="title nk-block-title">Parcel List / Form Response</h4>
+            <div class="nk-block-des">
+                <p>Parcel List/Form Response where you can search all registered parcel by customer.</p>
             </div>
+        </div>
+    </div>
+
+    <div class="card card-bordered my-2">
+        <div class="card-inner">
+            <form class="preview-block" method="get">
+                <span class="preview-title-lg overline-title">Size Preview </span>
+                <div class="row gy-4 align-center">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div class="form-control-wrap">
+                                <select class="form-select js-select2 form-control-sm" name="status">
+                                    <option value="0" selected>{{ __('All Status') }}</option>
+                                    @foreach(\App\Services\Parcel\ParcelHelperService::statuses() as $key => $status)
+                                        <option value="{{ $key }}" {{ request()->status == $key ? "selected"  : "" }}>{{ $status }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div class="form-control-wrap">
+                                <input type="text" class="form-control" placeholder="Tracking No" value="{{ request()->tracking_no }}" name="tracking_no">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div class="form-control-wrap">
+                                <input type="text" class="form-control" placeholder="Owner Name/Phone Number" value="{{ request()->owner }}"  name="owner">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div class="form-control-wrap">
+                                <select class="form-select js-select2 form-control-sm" name="office">
+                                    <option value="0" selected>{{ __('All Office') }}</option>
+                                    @foreach($pickup_offices as $office)
+                                        <option value="{{ $office->id }}" {{ request()->office == $office->id ? "selected" : "" }}>{{ __(':code - :name ', ['code' => $office->code, 'name' => $office->name]) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg"><span class="ni ni-search"></span> </button>
+                            <a href="{{ route('admin.parcel.index') }}" class="btn btn-warning btn-lg"><span class="ni ni-redo"></span> </a>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 
