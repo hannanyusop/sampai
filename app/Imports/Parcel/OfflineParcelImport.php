@@ -28,7 +28,7 @@ class OfflineParcelImport implements ToCollection, WithHeadingRow
         //get total data
         $total_data = $collection->count();
 
-        $required_header = ['no_item', 'nama', 'tracking_no', 'harga', 'destinasi'];
+        $required_header = ['no_item', 'nama', 'tracking_no', 'harga'];
 
         if (count(array_diff($required_header, $header)) > 0) {
 
