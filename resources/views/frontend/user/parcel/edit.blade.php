@@ -26,48 +26,60 @@
                                         </p>
                                     </li>
                                     <li class="col-sm-6">
-                                        <p><span class="text-soft">Date Received</span>
+                                        <p><span class="text-soft">Date Created</span>
                                             <span class="font-weight-bold mt-1">{{ $parcel->created_at }}</span>
                                         </p>
                                     </li>
                                 </ul>
                             </div>
-                            <div class="sp-plan-desc sp-plan-desc-mb my-2">
+                            <div class="sp-plan-desc sp-plan-desc-mb my-1">
                                 <ul class="row gx-4">
                                     <li class="col-sm-6">
-                                        <p><span class="text-soft">Item Description (Keterangan barang)</span>
-                                            <input type="text" name="description" id="description" class="form-control" value="{{ old('description')? old('description') : $parcel->description }}" required>
+                                        <p><span class="text-soft">Recipient Name (On Parcel)</span>
+                                            <input type="text" name="receiver_name" id="receiver_name" class="form-control text-uppercase" value="{{ old('receiver_name')? old('receiver_name') : $parcel->receiver_name }}" required>
                                         </p>
                                     </li>
+                                    <li class="col-sm-6">
+                                        <p><span class="text-soft">Recipient Phone Number</span>
+                                            <input type="text" name="phone_number" id="phone_number" class="form-control" value="{{ old('phone_number')? old('phone_number') : $parcel->phone_number }}" required>
+                                        </p>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="sp-plan-desc sp-plan-desc-mb my-1">
+                                <ul class="row gx-4">
+                                    <li class="col-sm-12">
+                                        <p><span class="text-soft">Item Description (Keterangan barang)</span>
+                                            <textarea type="text" name="description" id="description" class="form-control">{{ old('description')? old('description') : $parcel->description }}</textarea>
+                                        </p>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="sp-plan-desc sp-plan-desc-mb my-1">
+                                <ul class="row gx-4">
                                     <li class="col-sm-6">
                                         <p><span class="text-soft mb-n3">Destination</span>
                                         @foreach($drop_points as $drop_point)
                                             <div class="form-check mt-n1">
-                                                <input type="radio" name="office_id" id="office_id" value="{{ $parcel->office_id }}" class="form-check-input" {{ old('office_id') == $drop_point->id ?? "checked" }}>
+                                                <input type="radio" name="office_id" id="office_id" value="{{ $drop_point->id }}" class="form-check-input" {{ $parcel->office_id == $drop_point->id ? "checked" : ""  }}>
                                                 <lable class="form-check-label">{{ $drop_point->code." - ".$drop_point->name }}</lable>
                                             </div>
-                                        @endforeach
-                                        </p>
+                                            @endforeach
+                                            </p>
                                     </li>
                                 </ul>
                             </div>
                             <div class="sp-plan-desc sp-plan-desc-mb">
                                 <ul class="row gx-4">
-                                    <li class="col-sm-4">
+                                    <li class="col-sm-6">
                                         <p><span class="text-soft">Quantity</span>
                                             <input type="number" name="quantity" id="quantity" class="form-control" value="{{ old('quantity')? old('quantity') : $parcel->quantity }}" required>
                                         </p>
                                     </li>
 
-                                    <li class="col-sm-4">
+                                    <li class="col-sm-6">
                                         <p><span class="text-soft">Price</span>
                                             <input type="number" name="price" id="price" class="form-control" value="{{ old('price')? old('price') : $parcel->price }}" required>
-                                        </p>
-                                    </li>
-
-                                    <li class="col-sm-4">
-                                        <p><span class="text-soft">Tax</span>
-                                            <input type="number" name="tax" id="tax" class="form-control" value="{{ old('tax')? old('tax') : $parcel->tax }}" required>
                                         </p>
                                     </li>
                                 </ul>
@@ -75,11 +87,9 @@
                             <div class="sp-plan-desc sp-plan-desc-mb">
                                 <ul class="row gx-1">
 
-
                                     <li class="col-sm-4">
                                         <p><span class="text-soft">Invoice</span>
                                             <input type="file" id="invoice_url" name="invoice_url" class="mb-1" value="{{ old('invoice_url') }}">
-
                                             <a href="{{ route('frontend.user.parcel.download',encrypt($parcel->id)) }}" download><i class="fa fa-download me-2"></i> Download</a>
                                         </p>
                                     </li>

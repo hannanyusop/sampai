@@ -10,17 +10,15 @@
         <!-- wrap @s -->
         <div class="nk-wrap ">
             @include('frontend.includes.topbar')
-            <div class="nk-content ">
-                <div class="container wide-xl">
-                    <div class="nk-content-inner">
-                        @include('frontend.includes.menu')
-                        <div class="nk-content-body">
-                            @include('includes.partials.messages')
-                            @include('includes.partials.logged-in-as')
-                            @yield('content')
+            <div class="nk-content">
+                <div class="nk-content-inner">
+                    @include('frontend.includes.menu')
+                    <div class="nk-content-body">
+                        @include('includes.partials.messages')
+                        @include('includes.partials.logged-in-as')
+                        @yield('content')
 
-                            @include('frontend.includes.footer')
-                        </div>
+                        @include('frontend.includes.footer')
                     </div>
                 </div>
             </div>

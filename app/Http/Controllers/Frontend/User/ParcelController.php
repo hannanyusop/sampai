@@ -45,12 +45,16 @@ class ParcelController extends Controller{
         $drop_points = Office::where('is_drop_point', 1)->get();
 
         $parcel = Parcels::with('dropPoint')->where([
-            'user_id' => auth()->user()->id
+            'user_id' => auth()->user()->id,
         ])->find(decrypt($id));
 
 
         if(!$parcel){
             return redirect()->back()->with('warning', 'Parcel not found!');
+        }
+
+        if ($parcel->status != ParcelHelperService::STATUS_REGISTERED) {
+            return redirect()->back()->with('warning', 'Please contact admin to edit this parcel.');
         }
 
         $receiver = null;
@@ -60,13 +64,18 @@ class ParcelController extends Controller{
 
     public function update(UpdateParcelRequest $request, $id){
 
-        $parcel = Parcels::findOrFail($id);
+        $parcel = Parcels::where([
+            'user_id' => auth()->user()->id,
+            'status' => ParcelHelperService::STATUS_REGISTERED
+        ])->findOrFail($id);
 
+        $parcel->receiver_name = strtoupper($request->receiver_name);
+        $parcel->phone_number = $request->phone_number;
         $parcel->tracking_no = strtoupper($request->tracking_no);
         $parcel->description = strtoupper($request->description);
         $parcel->quantity = $request->quantity;
         $parcel->price = $request->price;
-        $parcel->tax = $request->tax;
+        $parcel->office_id  = $request->office_id;
         $parcel->save();
 
         return redirect()->back()->withFlashSuccess('Parcel Updated');

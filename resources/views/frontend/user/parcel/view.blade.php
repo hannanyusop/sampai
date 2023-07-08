@@ -14,7 +14,9 @@
                             <div class="sp-plan-head">
                                 <h6 class="title">Parcel Details</h6>
                                 <div class="text-right mt-n5 mr-n2">
-                                    <a href="{{ route('frontend.user.parcel.edit',encrypt($parcel->id)) }}" class="btn btn-md btn-primary">Edit Parcel</a>
+                                    @if($parcel->status == \App\Services\Parcel\ParcelHelperService::STATUS_REGISTERED)
+                                        <a href="{{ route('frontend.user.parcel.edit',encrypt($parcel->id)) }}" class="btn btn-md btn-primary">Edit Parcel</a>
+                                    @endif
                                 </div>
                             </div>
                             <div class="sp-plan-desc sp-plan-desc-mb">
@@ -85,8 +87,12 @@
                 <div class="nk-iv-scheme-item">
                     <div class="nk-iv-scheme-term">
                         <div class="nk-iv-scheme-start nk-iv-scheme-order">
+                            <span class="nk-iv-scheme-value date">Register Parcel</span>
+                            <span class="nk-iv-scheme-label text-soft">Customer</span>
+                        </div>
+                        <div class="nk-iv-scheme-start nk-iv-scheme-order">
                             <span class="nk-iv-scheme-value date">Received From Curier</span>
-                            <span class="nk-iv-scheme-label text-soft">HQ Office</span>
+                            <span class="nk-iv-scheme-label text-soft">Limbang / Miri Office</span>
                         </div>
                         <div class="nk-iv-scheme-start nk-iv-scheme-order">
                             <span class="nk-iv-scheme-value date">Outbound To Drop Point</span>
@@ -96,9 +102,13 @@
                             <span class="nk-iv-scheme-value date">Inbound To Drop Point</span>
                             <span class="nk-iv-scheme-label text-soft">Runner</span>
                         </div>
+                        <div class="nk-iv-scheme-start nk-iv-scheme-order">
+                            <span class="nk-iv-scheme-value date">Sorting Process </span>
+                            <span class="nk-iv-scheme-label text-soft">Lambak /Kilanas office</span>
+                        </div>
                         <div class="nk-iv-scheme-end nk-iv-scheme-order">
                             <span class="nk-iv-scheme-value date">Ready To Collect</span>
-                            <span class="nk-iv-scheme-label text-soft">Drop Point Office</span>
+                            <span class="nk-iv-scheme-label text-soft">Lambak /Kilanas office</span>
                         </div>
                     </div>
                 </div><!-- .nk-iv-scheme-item -->
