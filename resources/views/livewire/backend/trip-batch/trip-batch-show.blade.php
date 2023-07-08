@@ -182,7 +182,7 @@
                                 @else
                                     <div  class="nk-refwg-invite card-inner">
 
-                                        <div class="alert alert-info"><span class="ni ni-info"></span> Excel header must have <b class="font-italic">No Item,Name, Tracking No, Harga, Destinasi</b> </div>
+                                        <div class="alert alert-info"><span class="ni ni-info"></span> Excel header must have <b class="font-italic">No Item,Name, Tracking No, Harga</b> </div>
                                         <div class="nk-refwg-title">
                                             <div class="title-sub">Upload Offline Parcel</div>
                                         </div>
