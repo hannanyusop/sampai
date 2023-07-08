@@ -43,7 +43,7 @@ class ParcelGeneralService
         if ($parcel->pickup_id != null) {
             return [
                 GeneralHelperService::KEY_STATUS  => GeneralHelperService::STATUS_ERROR,
-                GeneralHelperService::KEY_MESSAGE => __('Parcel already assigned to Trip : :pickup_id', ['pickup_id' => $parcel->trip?->batch?->number])
+                GeneralHelperService::KEY_MESSAGE => __('Parcel :tracking_no already assigned to Trip : :pickup_id', ['pickup_id' => $parcel->trip?->batch?->number, 'tracking_no' => $tracking_no])
             ];
         }
 
@@ -69,7 +69,7 @@ class ParcelGeneralService
         if($parcel->status != ParcelHelperService::STATUS_REGISTERED){
             return [
                 GeneralHelperService::KEY_STATUS  => GeneralHelperService::STATUS_ERROR,
-                GeneralHelperService::KEY_MESSAGE => __('Faild to assign parcel with status :  :status', ['status' => ParcelHelperService::statuses($parcel->status)])
+                GeneralHelperService::KEY_MESSAGE => __('Fail to assign parcel with status :  :status', ['status' => ParcelHelperService::statuses($parcel->status)])
             ];
         }
 
@@ -98,7 +98,8 @@ class ParcelGeneralService
 
         return [
             GeneralHelperService::KEY_STATUS  => GeneralHelperService::STATUS_SUCCESS,
-            GeneralHelperService::KEY_MESSAGE => __('Successfully Assign')
+            GeneralHelperService::KEY_MESSAGE => __('Successfully Assign'),
+            GeneralHelperService::KEY_DATA => $parcel
         ];
     }
 

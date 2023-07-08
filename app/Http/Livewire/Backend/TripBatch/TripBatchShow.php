@@ -3,18 +3,25 @@
 namespace App\Http\Livewire\Backend\TripBatch;
 
 use App\Domains\Auth\Models\Parcels;
+use App\Imports\Parcel\OfflineParcelImport;
 use App\Models\TripBatch;
 use App\Services\General\GeneralHelperService;
 use App\Services\Parcel\ParcelGeneralService;
 use Illuminate\Support\Str;
 use Livewire\Component;
+use Livewire\WithFileUploads;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TripBatchShow extends Component
 {
     public $tripBatch, $tracking_no, $last_parcel;
-    public bool $edit_rate = false;
+    public bool $edit_rate = false, $showUploadForm = false;
+    public $excel;
     public string $guni;
     public $tax_rate = 0.00, $pos_rate = 0.00,  $service_charge = 0.00;
+
+    use WithFileUploads;
+
 
     public function mount($tripBatch)
     {
@@ -96,4 +103,22 @@ class TripBatchShow extends Component
         $this->last_parcel = null;
     }
 
+    //upload excel
+
+    public function upload()
+    {
+        $this->validate([
+            'excel' => 'required|file|mimes:xlsx',
+        ]);
+
+        Excel::import(new OfflineParcelImport($this->tripBatch), $this->excel);
+    }
+
+    public function showUploadForm(){
+        $this->showUploadForm = true;
+    }
+
+    public function hideUploadForm(){
+        $this->showUploadForm = false;
+    }
 }
