@@ -120,6 +120,7 @@
                         <tr class="nk-tb-item nk-tb-head">
                             <th class="nk-tb-col"><span class="sub-text">Name</span></th>
                             <th class="nk-tb-col tb-col-md"><span class="sub-text">Description</span></th>
+                            <th class="nk-tb-col tb-col-md"><span class="sub-text">Koding/Guni</span></th>
                             <th class="nk-tb-col tb-col-lg"><span class="sub-text">Parcel Price (RM)</span></th>
                             <th class="nk-tb-col tb-col-lg"><span class="sub-text">Parcel Price / {{ ($currency_exchange) }} ($)</span></th>
                             <th class="nk-tb-col tb-col-md"><span class="sub-text">Tax Percentage (%)</span></th>
@@ -136,12 +137,16 @@
                             <tr class="nk-tb-item">
                                 <td class="nk-tb-col tb-col-md">
                                     <span>{{ $parcel?->user?->name }}</span><br>
-                                    <small>{{ $parcel?->pickup->code }}</small>
+                                    <small>{{ $parcel?->user?->phone_number }}</small>
                                 </td>
 
                                 <td class="nk-tb-col">
                                     <b class="tb-lead">{{ $parcel->tracking_no }}</span></b>
                                     <small>{{ $parcel->description }}</small>
+                                </td>
+                                <td class="nk-tb-col tb-col-md">
+                                    <span>{{ $parcel?->coding }}</span><br>
+                                    <small>{{ $parcel?->pickup->code }}</small>
                                 </td>
 
                                 @if($edited_id != $parcel->id)

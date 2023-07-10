@@ -65,6 +65,6 @@ class Parcels extends Model{
 
     public function getCodingAttribute(){
 
-        return ($this->pickup) ?  __(":pickup_code / :code", ['code' => $this->code, 'pickup_code' => $this?->pickup?->code]) : __("No Code");
+        return ($this->pickup) ?  __(":pickup_code/:code", ['code' => $this->code, 'pickup_code' => $this?->pickup?->code]) : __("No Code");
     }
 }
