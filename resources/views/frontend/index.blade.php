@@ -9,9 +9,13 @@
                     <div class="text-container">
                         <h2>Norizman Usaha Jaya Express <br>FOR <span id="js-rotating">TRUST, FAST, SIMPLIFIED</span></h2>
                         <p class="p-large">NUJ EXPRESS is a service to check the arrival of parcel at the UTeM Mel units. The system is create for students and staff.</p>
-                        <a class="btn-solid-lg" href="{{ route('frontend.auth.login') }}"><i class="fa fa-sign-in-alt"></i> Login</a>
-                        @if(registrationEnabled())
-                            <a class="btn-solid-lg" href="{{ route('frontend.auth.register') }}"><i class="fa fa-user-friends"></i> Sign Up</a>
+                        @if(!auth()->user())
+                            <a class="btn-solid-lg" href="{{ route('frontend.auth.login') }}"><i class="fa fa-sign-in-alt"></i> Login</a>
+                            @if(registrationEnabled())
+                                <a class="btn-solid-lg" href="{{ route('frontend.auth.register') }}"><i class="fa fa-user-friends"></i> Sign Up</a>
+                            @endif
+                        @else
+                            <a class="btn-solid-lg" href="{{ route(homeRoute()) }}"><i class="fa fa-home"></i> Go To Dashboard</a>
                         @endif
                     </div> <!-- end of text-container -->
                 </div> <!-- end of col -->
@@ -359,44 +363,44 @@
         </div> <!-- end of row -->
     </div>
 
-    <div class="slider-2">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h2 class="h2-heading">Featured Highlights</h2>
-                    <hr class="hr-heading">
-                </div> <!-- end of col -->
-            </div> <!-- end of row -->
-            <div class="row">
-                <div class="col-lg-12">
+{{--    <div class="slider-2">--}}
+{{--        <div class="container">--}}
+{{--            <div class="row">--}}
+{{--                <div class="col-lg-12">--}}
+{{--                    <h2 class="h2-heading">Featured Highlights</h2>--}}
+{{--                    <hr class="hr-heading">--}}
+{{--                </div> <!-- end of col -->--}}
+{{--            </div> <!-- end of row -->--}}
+{{--            <div class="row">--}}
+{{--                <div class="col-lg-12">--}}
 
-                    <!-- Image Slider -->
-                    <div class="slider-container">
-                        <div class="swiper-container image-slider">
-                            <div class="swiper-wrapper">
+{{--                    <!-- Image Slider -->--}}
+{{--                    <div class="slider-container">--}}
+{{--                        <div class="swiper-container image-slider">--}}
+{{--                            <div class="swiper-wrapper">--}}
 
-                                <!-- Slide -->
-                                <div class="swiper-slide">
-                                    <a href="{{ asset('images/logo.png') }}" class="popup-link" data-effect="fadeIn">
-                                        <img class="img-fluid" src="{{ asset('landing/images/1.png') }}" alt="alternative">
-                                    </a>
-                                </div>
-                                <!-- end of slide -->
+{{--                                <!-- Slide -->--}}
+{{--                                <div class="swiper-slide">--}}
+{{--                                    <a href="{{ asset('images/logo.png') }}" class="popup-link" data-effect="fadeIn">--}}
+{{--                                        <img class="img-fluid" src="{{ asset('landing/images/1.png') }}" alt="alternative">--}}
+{{--                                    </a>--}}
+{{--                                </div>--}}
+{{--                                <!-- end of slide -->--}}
 
-                                <!-- end of slide -->
-                            </div> <!-- end of swiper-wrapper -->
+{{--                                <!-- end of slide -->--}}
+{{--                            </div> <!-- end of swiper-wrapper -->--}}
 
-                            <!-- Add Arrows -->
-                            <div class="swiper-button-next"></div>
-                            <div class="swiper-button-prev"></div>
-                            <!-- end of add arrows -->
+{{--                            <!-- Add Arrows -->--}}
+{{--                            <div class="swiper-button-next"></div>--}}
+{{--                            <div class="swiper-button-prev"></div>--}}
+{{--                            <!-- end of add arrows -->--}}
 
-                        </div> <!-- end of swiper-container -->
-                    </div> <!-- end of slider-container -->
-                    <!-- end of image slider -->
+{{--                        </div> <!-- end of swiper-container -->--}}
+{{--                    </div> <!-- end of slider-container -->--}}
+{{--                    <!-- end of image slider -->--}}
 
-                </div> <!-- end of col -->
-            </div> <!-- end of row -->
-        </div> <!-- end of container -->
-    </div>
+{{--                </div> <!-- end of col -->--}}
+{{--            </div> <!-- end of row -->--}}
+{{--        </div> <!-- end of container -->--}}
+{{--    </div>--}}
 @endsection
