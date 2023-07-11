@@ -108,7 +108,7 @@
                                         <div class="form-control-wrap">
                                             <input type="file" id="invoice" name="invoice_url" value="{{ old('invoice_url') }}">
                                             @error('invoice_url')
-                                                <br><span id="fv-invoice-error" class="invalid text-danger">{{ $message }}</span>
+                                                <br><small id="fv-invoice-error" class="invalid text-danger font-weight-bold"><span class="ni ni-alert-circle"></span>{{ $message }}</small>
                                             @enderror
                                         </div>
                                     </div>
