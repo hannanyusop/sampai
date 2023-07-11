@@ -26,4 +26,15 @@ class StoreParcelRequest extends FormRequest
             "office_id"     => "required|exists:offices,id",
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'invoice_url.max' => 'The invoice may not be greater than 20 MB.',
+            'invoice_url.file' => 'The invoice must be a file.',
+            'invoice_url.required' => 'Please upload invoice.',
+
+            'office_id.required' => 'Please select drop point.'
+        ];
+    }
 }
