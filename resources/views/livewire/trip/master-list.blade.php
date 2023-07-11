@@ -75,29 +75,15 @@
                             <div class="nk-block">
                                 <div  class="nk-refwg-invite card-inner">
                                     <div class="nk-refwg-title">
-                                        <div class="title-sub">Add Parcel</div>
+                                        <div class="title-sub">Search Parcel</div>
                                     </div>
                                     <div class="nk-refwg-url">
                                         <div class="form-control-wrap">
-                                            <div class="form-clip clipboard-init"><button wire:click="insert()" class="btn"><em class="clipboard-icon icon ni ni-search"></em> <span class="clipboard-text"> Search</span></button></div>
                                             <div class="form-icon">
                                                 <em class="icon ni ni-tag-alt"></em>
                                             </div>
                                             <input type="text" class="form-control copy-text text-uppercase" id="tracking_no" name="tracking_no" placeholder="ER123456MY" wire:model="tracking_no">
                                         </div>
-                                    </div>
-
-                                    <div class="my-2">
-                                        @if(session()->get('insert_success'))
-                                            <div class="alert alert-success">
-                                                <i class="icon ni ni-check me-2"></i> {{ session()->get('insert_success') }}
-                                            </div>
-                                        @endif
-                                        @if(session()->get('insert_error'))
-                                            <div class="alert alert-danger">
-                                                <i class="icon ni ni-bell me-2"></i> {{ session()->get('insert_error') }}
-                                            </div>
-                                        @endif
                                     </div>
                                 </div>
 
@@ -109,11 +95,20 @@
             <div class="card card-bordered card-preview">
                 <div class="card-inner">
 
-                    <form class="form-inline">
-                        <div class="form-group mb-2">
-                            <input type="text" class="form-control" placeholder="Tracking No." wire:model="tracking_no">
-                        </div>
-                    </form>
+                    <div class="my-2">
+                        @if(session()->get('success'))
+                            <div class="alert alert-success">
+                                <i class="icon ni ni-check me-2"></i> {{ session()->get('success') }}
+                            </div>
+                        @endif
+                        @if(session()->get('error'))
+                            <div class="alert alert-danger">
+                                <i class="icon ni ni-bell me-2"></i> {{ session()->get('error') }}
+                            </div>
+                        @endif
+                    </div>
+
+                    Selected Parcel : {{ $selected_parcel?->tracking_no ?? __("No Parcel Selected") }}
 
                     <table class="nk-tb-list nk-tb-ulist" data-auto-responsive="false">
                         <thead>
@@ -175,7 +170,7 @@
                                         <span>{{ displayPriceFormat($parcel->permit, '$') }}</span>
                                     </td>
                                     <td class="nk-tb-col tb-col-lg">
-                                        <button class="btn btn-info"><em wire:click="changeEditedId({{ $parcel->id }})" class="icon ni ni-edit"></em></button>
+                                        <button class="btn btn-info" wire:click="changeEditedId({{ $parcel->id }})"><em class="icon ni ni-edit"></em></button>
                                     </td>
                                 @else
                                     <td class="nk-tb-col tb-col-lg">
@@ -206,7 +201,9 @@
                                         @error('service_charge') <span class="text-danger">{{ $message }}</span> @enderror
                                     </td>
                                     <td class="nk-tb-col tb-col-lg">
-                                        <button class="btn btn-success"><em wire:click="updateTax()" class="icon ni ni-check"></em></button>
+                                        <button class="btn btn-success" wire:click="updateTax()">
+                                            <em class="icon ni ni-check"  ></em>
+                                        </button>
                                     </td>
                                 @endif
                             </tr>

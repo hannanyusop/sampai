@@ -13,10 +13,11 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class MasterList extends Component
 {
-    public TripBatch $trip_batch;
+    public $selected_parcel;
+    public $trip_batch;
     public $trip, $tax, $trip_ids = [], $service_charge = 0.00, $percent = 0.00, $price = 0.00, $currency_exchange = 0.00, $permit = 0.00;
     public $cod_fee_ori;
-    public $tracking_no, $edited_id = null;
+    public $tracking_no, $edited_id = 0;
 
     public bool $edit_rate = false;
     public $tax_rate = 0.00, $pos_rate = 0.00;
@@ -24,6 +25,7 @@ class MasterList extends Component
     public function mount($trip_id)
     {
         $this->trip_batch = TripBatch::with('trips')->findOrFail($trip_id);
+
 
         $this->currency_exchange = $this->trip_batch->tax_rate;
 
@@ -54,29 +56,31 @@ class MasterList extends Component
         })->find($id);
 
         if(!$parcel){
-            return session()->flash('error', 'Parcel not found.');
+            session()->flash('error', 'Parcel not found.');
+            return;
         }
 
-        $this->edited_id = $id;
+        $this->selected_parcel = $parcel;
+
+        $this->edited_id = $parcel->id;
         $this->tax = $parcel->tax;
         $this->price = $parcel->price;
         $this->percent = $parcel->percent;
         $this->service_charge = $parcel->service_charge;
         $this->permit = $parcel->permit;
         $this->cod_fee_ori = $parcel->cod_fee_ori;
-
-
     }
 
     public function updateTax()
     {
         $this->validate([
-            'price'          => 'required|numeric|min:0.01',
+            'price'          => 'required|numeric|min:0.00',
             'percent'        => 'required|numeric|min:0|max:100',
-            'service_charge' => 'required|numeric|min:0.01',
-            'permit'         => 'required|numeric|min:0.01',
+            'service_charge' => 'required|numeric|min:0.00',
+            'permit'         => 'required|numeric|min:0.00',
             'cod_fee_ori'    => 'required|numeric|min:0.00',
         ]);
+
 
         $parcel = Parcels::whereHas('pickup', function($query){
             $query->whereIn('trip_id', $this->trip_ids);
@@ -97,10 +101,15 @@ class MasterList extends Component
         $parcel->save();
 
         $this->edited_id = null;
+        $this->selected_parcel = null;
         $this->tax = null;
+        $this->service_charge = 0.00;
+        $this->percent = 0.00;
+        $this->price = 0.00;
+        $this->permit = 0.00;
+        $this->cod_fee_ori = 0.00;
 
-        session()->flash('success', 'Tax updated successfully.');
-        return;
+        session()->flash('success', __('Billing For :tracking_no updated!', ['tracking_no' => $parcel->tracking_no]));
     }
 
     public function updateTaxValue(){
