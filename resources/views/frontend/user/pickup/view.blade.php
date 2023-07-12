@@ -49,36 +49,49 @@
                             <div class="sp-plan-desc sp-plan-desc-mb">
                                 <ul class="row gx-1">
                                     <li class="col-sm-4">
-                                        <p><span class="text-soft">Quantity</span>
-                                            {{ $parcel->quantity }}
+                                        <p><span class="text-soft">Invoice</span>
+                                            <a href="{{ route('frontend.user.parcel.download',encrypt($parcel->id)) }}" download><i class="fa fa-download me-2"></i> Download</a>
+                                        </p>
+                                    </li>
+                                </ul>
+                            </div>
+                            <hr>
+                            <div class="sp-plan-desc sp-plan-desc-mb">
+                                <ul class="row gx-1">
+                                    <li class="col-sm-3">
+                                        <p><span class="text-soft">Service Charge</span>
+                                            {{ displayPriceFormat($parcel->service_charge, '$') }}
                                         </p>
                                     </li>
 
-                                    <li class="col-sm-4">
-                                        <p><span class="text-soft">Price</span>
-                                            {{ $parcel->price }}
-                                        </p>
-                                    </li>
-
-                                    <li class="col-sm-4">
+                                    <li class="col-sm-3">
                                         <p><span class="text-soft">Tax</span>
-                                            {{ $parcel->tax }}
+                                            {{ displayPriceFormat($parcel->tax, '$') }}
+                                        </p>
+                                    </li>
+
+                                    <li class="col-sm-3">
+                                        <p><span class="text-soft">Permit</span>
+                                            {{  displayPriceFormat($parcel->permit, '$') }}
+                                        </p>
+                                    </li>
+
+                                    <li class="col-sm-3">
+                                        <p><span class="text-soft">Cod Fee <small><i>(For COD Only)</i></small></span>
+                                            {{ $parcel->cod_fee > 0 ? displayPriceFormat($parcel->cod_fee, '$') : __('-NA-') }}
                                         </p>
                                     </li>
                                 </ul>
                             </div>
                             <div class="sp-plan-desc sp-plan-desc-mb">
                                 <ul class="row gx-1">
-                                    <li class="col-sm-8">
-                                        <p><span class="text-soft">Item Description (Keterangan barang)</span>
-                                            {{ $parcel->description }}
-                                        </p>
-                                    </li>
 
                                     <li class="col-sm-4">
-                                        <p><span class="text-soft">Invoice</span>
-                                            <a href="" download><i class="fa fa-download me-2"></i> Download</a>
-                                        </p>
+                                        <div class="text-success font-weight-bold"><span>Total Billing </span>
+                                            <h4 class="text-success">
+                                                {{ displayPriceFormat($parcel->total_billing, '$') }}
+                                            </h4>
+                                        </div>
                                     </li>
                                 </ul>
                             </div>
