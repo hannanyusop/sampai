@@ -211,7 +211,9 @@
                         </tbody>
                     </table>
 
-                    {{ $parcels->links() }}
+                    <div class="mt-2">
+                        {{ $parcels->links() }}
+                    </div>
                 </div>
             </div>
         </div>

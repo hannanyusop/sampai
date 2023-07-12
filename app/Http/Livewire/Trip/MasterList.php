@@ -16,6 +16,7 @@ class MasterList extends Component
 {
     //use bootstrap template for pagination
 
+    protected $paginationTheme = 'bootstrap';
 
     use WithPagination;
     public $selected_parcel;
