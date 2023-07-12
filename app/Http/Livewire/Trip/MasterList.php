@@ -48,7 +48,7 @@ class MasterList extends Component
             $query->where('tracking_no', 'like', '%' . $this->tracking_no . '%');
         })
             ->orderBy('user_id', 'asc')
-            ->paginate(50);
+            ->paginate(20);
 
         return view('livewire.trip.master-list', compact('parcels'));
     }
