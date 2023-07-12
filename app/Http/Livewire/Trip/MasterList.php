@@ -8,11 +8,16 @@ use App\Models\TripBatch;
 use App\Services\Parcel\ParcelHelperService;
 use Cknow\Money\Money;
 use Livewire\Component;
+use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
 
 
 class MasterList extends Component
 {
+    //use bootstrap template for pagination
+
+
+    use WithPagination;
     public $selected_parcel;
     public $trip_batch;
     public $trip, $tax, $trip_ids = [], $service_charge = 0.00, $percent = 0.00, $price = 0.00, $currency_exchange = 0.00, $permit = 0.00;
@@ -43,7 +48,7 @@ class MasterList extends Component
             $query->where('tracking_no', 'like', '%' . $this->tracking_no . '%');
         })
             ->orderBy('user_id', 'asc')
-            ->get();
+            ->paginate(50);
 
         return view('livewire.trip.master-list', compact('parcels'));
     }
