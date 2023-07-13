@@ -13,6 +13,7 @@
                     <div class="nk-block-head-content">
                         <a href="{{ route('admin.tripBatch.show', $trip_batch) }}" class="btn btn-outline-light bg-warning d-none d-sm-inline-flex"><em class="icon ni ni-back-alt"></em><span>Back</span></a>
                         <a href="#" wire:click="export()" class="btn btn-success d-none d-sm-inline-flex"><em class="icon ni ni-download-cloud"></em><span>Export</span></a>
+                        <a href="#" wire:click="exportWhatsappBot()" class="btn btn-success d-none d-sm-inline-flex"><em class="icon ni ni-download-cloud"></em><span>Whatsapp Bot Export</span></a>
                     </div>
                 </div>
             </div>

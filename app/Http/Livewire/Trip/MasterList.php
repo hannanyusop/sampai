@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Trip;
 
 use App\Domains\Auth\Models\Parcels;
 use App\Exports\Trip\MasterListExport;
+use App\Exports\Trip\WhatsappBotExport;
 use App\Models\TripBatch;
 use App\Services\Parcel\ParcelHelperService;
 use Cknow\Money\Money;
@@ -124,6 +125,10 @@ class MasterList extends Component
 
     public function export(){
         return Excel::download(new MasterListExport($this->trip_batch), time()."_".$this->trip_batch->number.'.xlsx');
+    }
+
+    public function exportWhatsappBot(){
+        return Excel::download(new WhatsappBotExport($this->trip_batch), time()."_".$this->trip_batch->number.'.xlsx');
     }
 
     public function editRate(){

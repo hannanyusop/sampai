@@ -17,7 +17,7 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\Exportable;
 
-class MasterListExport implements FromArray, ShouldAutoSize, WithStyles, WithColumnWidths, WithEvents
+class WhatsappBotExport implements FromArray, ShouldAutoSize, WithStyles, WithColumnWidths, WithEvents
 {
     use Exportable;
 
@@ -33,14 +33,7 @@ class MasterListExport implements FromArray, ShouldAutoSize, WithStyles, WithCol
 
         $trip_batch = $this->trip_batch;
 
-        $trip_ids = $this->trip_batch->trips()->pluck('id');
-
-        $parcels = Parcels::with(['user', 'pickup', 'pickup.dropPoint'])
-            ->whereHas('pickup', function($query) use ($trip_ids){
-                $query->whereIn('trip_id', $trip_ids);
-            })->get();
-
-
+        $trip_batch = TripBatch::with(['pickups'])->find($trip_batch->id);
 
         $array[] = ['Trip ID', __("#:code", ['code' => $trip_batch->number])];
         $array[] = ['Date', reformatDatetime($trip_batch->date, 'd M, Y')];
@@ -49,37 +42,26 @@ class MasterListExport implements FromArray, ShouldAutoSize, WithStyles, WithCol
 
 
 
-        $array[] = ['No.','User ID', 'Tracking No', 'Code', 'Guni', 'Receiver Name', 'Phone Number', 'Description','Destination', 'Price (RM)','Percentage (%)', 'Tax (BND $)', 'Service Charge ($)', 'Status', 'Remark', 'Phone Number', 'Message'];
+        $array[] = ['No.','User ID','Name', 'Code','Destination', 'Price ($)','Status', 'Remark', 'Phone Number', 'Message'];
 
         $ttl_tax = 0;
-        $ttl_parcel = count($parcels);
-        foreach ($parcels as $key => $parcel){
+        foreach ($trip_batch->pickups as $key => $pickup){
             $array[] = [
                 $key+1,
-                $parcel?->user->id,
-                $parcel?->tracking_no,
-                $parcel?->coding,
-                $parcel?->guni,
-                $parcel?->receiver_name,
-                $parcel?->phone_number,
-                $parcel?->description,
-                $parcel?->dropPoint?->name,
-                $parcel->price ? number_format($parcel->price, '2', '.') : '0.00',
-                $parcel->percentage ? number_format($parcel->percentage, '2', '.') : '0.00',
-                $parcel->tax ? number_format($parcel->tax, '2', '.') : '0.00',
-                $parcel->service_charge ? number_format($parcel->service_charge, '2', '.') : '0.00',
-                $parcel->status_label,
+                $pickup?->user->id,
+                $pickup?->user->name,
+                $pickup?->code,
+                $pickup?->dropPoint?->name,
+                displayPriceFormat($pickup->total, '$'),
+                $pickup->status_label,
                 '',
-                $parcel?->user?->phone_number,
-                ($parcel->dropPoint->code == "LBK") ? ParcelHelperService::LBKWhatsappText($parcel) : ParcelHelperService::KLNWhatsappText($parcel)
+                $pickup?->user?->phone_number,
+                ($pickup->dropPoint->code == "LBK") ? ParcelHelperService::LBKWhatsappText($pickup) : ParcelHelperService::KLNWhatsappText($pickup)
             ];
 
-            $ttl_tax+=$parcel->tax;
+            $ttl_tax+=$pickup->tax;
 
         }
-
-        $array[] = ['', '', '', '', '','','',__('Total Tax::amount', ['amount' => displayPriceFormat($ttl_tax, '$')])];
-
 
         return $array;
     }

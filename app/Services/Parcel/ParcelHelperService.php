@@ -2,7 +2,7 @@
 
 namespace App\Services\Parcel;
 
-use App\Domains\Auth\Models\Parcels;
+use App\Models\Pickup;
 
 class ParcelHelperService
 {
@@ -33,14 +33,13 @@ class ParcelHelperService
         return (is_null($status))? $statuses : $statuses[$status] ?? __('Invalid status');
     }
 
-    public static function whatappText(Parcels $parcel) :string{
+    public static function LBKWhatsappText(Pickup $pickup) :string{
 
         $text = __("Hello :name, your total bill for code:
         | *:pickup_code* |
-        |*Price: :price*
-        |*Qty: 1*
-        |*Total Tax: :tax*
-        |*Permit: B$:permit* |
+        |*Price: :total_billing*
+        |*Total Tax::tax*
+        |*Permit::permit* |
         |Amount need to pay total= *:tax* |
         |Salam/Hi your parcel ready to be collected at *:pickup_point.* |
         |►*Ramadhan Business Hour*◄
@@ -56,17 +55,69 @@ class ParcelHelperService
         |Pasir Berakas Address:
         |No.13 Spg 311 , Kpg Lambak |Jln Pasir Berakas.
         |Sama simpang dengan Mudaseri Showroom ||Terima Kasih ☺", [
-            'name' => $parcel?->user?->name,
-            'pickup_code' => $parcel->pickup?->code,
-            'price' => money_parse($parcel->price, 'BND'),
-            'tax' => money_parse($parcel->tax, 'BND'),
-            'permit' => money_parse($parcel->permit, 'BND'),
-            'pickup_point' => $parcel->pickup?->dropPoint?->name,
+            'name' => $pickup?->user?->name,
+            'pickup_code' => $pickup->pickup?->code,
+            'total_billing' => displayPriceFormat($pickup->total, '$'),
+            'price' => displayPriceFormat($pickup->price, '$'),
+            'pickup_point' => $pickup->pickup?->dropPoint?->name,
+            'tax' => displayPriceFormat($pickup->tax, '$'),
+            'permit' => displayPriceFormat($pickup->permit, '$'),
 
         ]);
 
         return $text;
     }
+
+    public static function KLNWhatsappText(Pickup $pickup) :string{
+
+        $text = __("Asalamualaikum..item abiskita bro/sis boleh sudah di collect di alamat ni
+No.115A kg. kilanas, jln tutong.
+Belakang restaurant belakang rumah buat kaca
+https://www.google.com/maps/place/4%C2%B052'42.9%22N+114%C2%B051'29.7%22E
+
+For assitant pls text
++6738868109/8815404
+-Business hour
+*Monday n Thursday CLOSE
+
+OPEN:
+• Tuesday n wednesday 10.30am-6pm
+• Friday 10.30am-12pm & 2pm-6pm
+• Sat n Sun 10.30am-6pm
+
+Pp/s plz recheck Nama n Tracking No yang betul sblum sign dan meninggalkn kaunter.
+
+Bagi yang mengambil parcel , diminta untuk FOWARD CODE yang diberikan terlebih awal sebelum mengambil :
+
+CODE: :pickup_code :tracking_no :total_billing
+
+NAMA: :name
+PRICE: :total_billing
+
+• Parcel akan disediakan di kaunter luar.
+• Pastikan biskita SIGN bagi pengesahan
+Abiskita pastikan AMOUNT yg diberikan.
+
+►PARCEL & BOOKING COLLECTION◄
+
+►Sebarang Transaksi BIBD/BAIDURI hendaklah $10.00 ke atas .
+
+►Kerjasama abiskita untuk memaklumkan resit pembayaran, hendaklah dimaklumkan kpd staff utk d skrinShot
+Bibd Acc 00001010104774
+Vcard No 8815404
+
+Terima kasih
+
+Terima kasih di atas kerjasama abiskita", [
+            'name' => $pickup?->user?->name,
+            'pickup_code' => $pickup->pickup?->code,
+            'total_billing' => money_parse($pickup->total, 'BND'),
+            'pickup_point' => $pickup?->dropPoint?->name,
+        ]);
+
+        return $text;
+    }
+
 
     public static function CalculateTax(float $price,float $currency_exchange,int $percent){
 
