@@ -37,11 +37,10 @@ class ParcelHelperService
 
         $text = __("Hello :name, your total bill for code:
         | *:pickup_code* |
-        |*Price: :total_billing*
-        |*Total Tax::tax*
-        |*Permit::permit* |
-        |Amount need to pay total= *:tax* |
+        |*Total Parcel: :total_parcel*
+        |Amount need to pay total= *:total_billing* |
         |Salam/Hi your parcel ready to be collected at *:pickup_point.* |
+        For more detail please visit :link
         |►*Ramadhan Business Hour*◄
         |♥ *Monday-Thursday & Saturday*
         |☼ 9.00 am - 5.30 pm |
@@ -62,13 +61,21 @@ class ParcelHelperService
             'pickup_point' => $pickup->pickup?->dropPoint?->name,
             'tax' => displayPriceFormat($pickup->tax, '$'),
             'permit' => displayPriceFormat($pickup->permit, '$'),
-
+            'total_parcel' => $pickup->parcels->count(),
+            'link' => route('frontend.user.pickup.show', encrypt($pickup->id))
         ]);
 
         return $text;
     }
 
     public static function KLNWhatsappText(Pickup $pickup) :string{
+
+
+//        $parcel_text = "";
+//
+//        foreach ($pickup->parcels as $parcel) {
+//            $parcel_text .= "|*".$parcel->tracking_no."*|*".displayPriceFormat($parcel->total_billing, '$')."*|*".$parcel->tax."*|*".$parcel->permit."*|*".$parcel->total."*|";
+//        }
 
         $text = __("Asalamualaikum..item abiskita bro/sis boleh sudah di collect di alamat ni
 No.115A kg. kilanas, jln tutong.
@@ -89,10 +96,11 @@ Pp/s plz recheck Nama n Tracking No yang betul sblum sign dan meninggalkn kaunte
 
 Bagi yang mengambil parcel , diminta untuk FOWARD CODE yang diberikan terlebih awal sebelum mengambil :
 
-CODE: :pickup_code :tracking_no :total_billing
-
+CODE: :pickup_code  :total_billing
+TOTAL PARCEL: :total_parcel
 NAMA: :name
 PRICE: :total_billing
+For more detail please visit :link
 
 • Parcel akan disediakan di kaunter luar.
 • Pastikan biskita SIGN bagi pengesahan
@@ -113,6 +121,8 @@ Terima kasih di atas kerjasama abiskita", [
             'pickup_code' => $pickup->pickup?->code,
             'total_billing' => money_parse($pickup->total, 'BND'),
             'pickup_point' => $pickup?->dropPoint?->name,
+            'total_parcel' => $pickup->parcels->count(),
+            'link' => route('frontend.user.pickup.show', encrypt($pickup->id))
         ]);
 
         return $text;
