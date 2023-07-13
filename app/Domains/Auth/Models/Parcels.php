@@ -65,6 +65,11 @@ class Parcels extends Model{
 
     public function getCodingAttribute(){
 
+
+        if(auth()->user->type == User::TYPE_USER && !in_array($this->status, [ParcelHelperService::STATUS_READY_TO_COLLECT, ParcelHelperService::STATUS_DELIVERED])){
+            return __("-");
+        }
+
         return ($this->pickup) ?  __(":pickup_code/:code", ['code' => $this->code, 'pickup_code' => $this?->pickup?->code]) : __("No Code");
     }
 }
