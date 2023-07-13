@@ -35,7 +35,7 @@ class UpdateUserPasswordRequest extends FormRequest
                     'max:100',
                     new UnusedPassword((int) $this->segment(4)),
                 ],
-                PasswordRules::changePassword($this->email)
+//                PasswordRules::changePassword($this->email)
             ),
         ];
     }
