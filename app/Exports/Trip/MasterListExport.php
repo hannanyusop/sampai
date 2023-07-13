@@ -71,7 +71,7 @@ class MasterListExport implements FromArray, ShouldAutoSize, WithStyles, WithCol
                 $parcel->status_label,
                 '',
                 $parcel?->user?->phone_number,
-                ($parcel->dropPoint->code == "LBK") ? ParcelHelperService::LBKWhatsappText($parcel) : ParcelHelperService::KLNWhatsappText($parcel)
+                ""
             ];
 
             $ttl_tax+=$parcel->tax;
