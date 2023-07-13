@@ -66,7 +66,7 @@ class Parcels extends Model{
     public function getCodingAttribute(){
 
 
-        if(auth()->user->type == User::TYPE_USER && !in_array($this->status, [ParcelHelperService::STATUS_READY_TO_COLLECT, ParcelHelperService::STATUS_DELIVERED])){
+        if(auth()->user()->type == User::TYPE_USER && !in_array($this->status, [ParcelHelperService::STATUS_READY_TO_COLLECT, ParcelHelperService::STATUS_DELIVERED])){
             return __("-");
         }
 
