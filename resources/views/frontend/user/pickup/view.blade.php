@@ -29,13 +29,13 @@
                             <div class="sp-plan-desc sp-plan-desc-mb">
                                 <ul class="row gx-1">
                                     <li class="col-sm-4">
-                                        <p><span class="text-soft">Tracking No.</span>
+                                        <p><span class="text-soft">Tracking No .</span>
                                             {{ $parcel->tracking_no }}
                                         </p>
                                     </li>
                                     <li class="col-sm-4">
-                                        <p><span class="text-soft">Date Received</span>
-                                            {{ $parcel->created_at }}
+                                        <p><span class="text-soft">Coding</span>
+                                            {{ $parcel->coding }}
                                         </p>
                                     </li>
 
