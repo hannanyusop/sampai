@@ -188,7 +188,7 @@ class ParcelGeneralService
         $parcel->status = ParcelHelperService::STATUS_DELIVERED;
         $parcel->save();
 
-        $remark = "Parcel delivered to ".$parcel->pickup_name;
+        $remark = "Parcel delivered to ".$pickup_name;
 
         addParcelTransaction($parcel->id, $remark);
         return true;
