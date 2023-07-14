@@ -7,12 +7,17 @@ use App\Services\Parcel\ParcelGeneralService;
 use App\Services\Parcel\ParcelHelperService;
 use App\Services\Pickup\PickupHelperService;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class PickupSearch extends Component
 {
+    use WithFileUploads;
+
     public $code;
     public $pickup = null;
     public $pickup_name;
+
+    public $payment_method, $total_payment, $prof_of_delivery;
 
     public function render()
     {
@@ -51,16 +56,28 @@ class PickupSearch extends Component
         }
 
         $this->validate([
-            'pickup_name' => 'required'
+            'pickup_name'      => 'required',
+            'payment_method'   => 'required|in:'.implode(',', array_keys(PickupHelperService::paymentMethodLabel())),
+            'total_payment'    => 'required|numeric|min:0.00',
+            'prof_of_delivery' => 'required|image|max:20024',
         ]);
+
+        if ($this->pickup->total < $this->total_payment){
+            session()->flash('error', __('Total payment must more than or equal to billing amount'));
+            return;
+        }
 
         \DB::beginTransaction();
 
         $this->pickup->update([
-            'status' => PickupHelperService::STATUS_DELIVERED,
-            'pickup_name' => $this->pickup_name,
-            'pickup_datetime' => now(),
-            'serve_by' => auth()->user()->id
+            'status'           => PickupHelperService::STATUS_DELIVERED,
+            'pickup_name'      => $this->pickup_name,
+            'pickup_datetime'  => now(),
+            'serve_by'         => auth()->user()->id,
+            'payment_method'   => $this->payment_method,
+            'payment_status'   => PickupHelperService::PAYMENT_STATUS_PAID,
+            'total_payment'    => $this->total_payment,
+            'prof_of_delivery' => $this->prof_of_delivery->store('pickup'),
         ]);
 
         foreach ($this->pickup->parcels as $parcel){

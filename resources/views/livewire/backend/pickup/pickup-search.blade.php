@@ -95,17 +95,46 @@
                                     <ul class="row gx-1">
                                         <li class="col-sm-4">
                                             <p>
-                                                <span class="text-soft">Id</span> {{ $pickup->user->id }}
-                                            </p>
-                                        </li>
-                                        <li class="col-sm-4">
-                                            <p>
                                                 <span class="text-soft">Customer Name</span> {{ $pickup->user->name }}
                                             </p>
                                         </li>
                                         <li class="col-sm-4">
                                             <p>
                                                 <span class="text-soft">Customer Phone Number</span> {{ $pickup->user->phone_number }}
+                                            </p>
+                                        </li>
+                                        <li class="col-sm-4">
+                                            <p>
+                                                <span class="text-soft">Email</span> {{ $pickup->user->email }}
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-inner">
+                                <div class="sp-plan-head">
+                                    <h6 class="title">Billing Detail</h6>
+                                </div>
+                                <div class="sp-plan-desc sp-plan-desc-mb">
+                                    <ul class="row gx-1">
+                                        <li class="col-sm-4">
+                                            <p>
+                                                <span class="text-soft">Total Parcel</span> {{ $pickup->parcels->count() }}
+                                            </p>
+                                        </li>
+                                        <li class="col-sm-4">
+                                            <p>
+                                                <span class="text-soft">Total Billing</span> {{ displayPriceFormat($pickup->total, '$') }}
+                                            </p>
+                                        </li>
+                                        <li class="col-sm-4">
+                                            <p>
+                                                <span class="text-soft">Payment Detail</span>
+                                                Status : {{ $pickup->payment_status_label }}
+                                                @if($pickup->payment_status == \App\Services\Pickup\PickupHelperService::PAYMENT_STATUS_PAID)
+                                                    Method : {{ $pickup->payment_method_label }}
+                                                    Amount : {{ displayPriceFormat($pickup->payment_amount, '$') }}
+                                                @endif
                                             </p>
                                         </li>
                                     </ul>
@@ -139,6 +168,50 @@
                                                     <span class="text-danger">{{ $message }}</span>
                                                 @enderror
                                             </p>
+                                        </li>
+                                    </ul>
+
+                                    <ul class="row gx-1">
+                                        <li class="col-sm-4">
+                                            <p>
+                                                <span class="text-soft">Payment Type</span>
+                                            </p>
+                                            <div class="g-4 align-center flex-wrap">
+                                                @foreach(\App\Services\Pickup\PickupHelperService::paymentMethodLabel() as $key => $value)
+                                                    <div class="g">
+                                                        <div class="custom-control custom-control-sm custom-radio">
+                                                            <input type="radio" class="custom-control-input" name="payment_type" id="payment_method_{{ $key }}"  wire:model="payment_method" value="{{ $key }}">
+                                                            <label class="custom-control-label" for="payment_method_{{ $key }}">{{ $value }}</label>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                            @error('payment_method')<span class="text-danger">{{ $message }}</span>@enderror
+                                        </li>
+                                        <li class="col-sm-4">
+                                            <p>
+                                                <span class="text-soft">Total Payment Receive</span>
+                                            </p>
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-left">
+                                                    $
+                                                </div>
+                                                <input type="number" min="0.00" step="0.01" class="form-control"  wire:model="total_payment">
+                                            </div>
+                                            @error('total_payment')
+                                            <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </li>
+                                        <li class="col-sm-4">
+                                            <p>
+                                                <span class="text-soft">Prof Of Delivery</span>
+                                            </p>
+                                            <div class="form-control-wrap">
+                                                <div class="form-file">
+                                                    <input type="file" class="form-file-input" id="customFile" wire:model="prof_of_delivery">
+                                                    <br>@error('prof_of_delivery')<span class="text-danger">{{ $message }}</span>@enderror
+                                                </div>
+                                            </div>
                                         </li>
                                     </ul>
 
@@ -184,95 +257,13 @@
         </div>
         @if($pickup)
             <div class="nk-block">
-            <div class="card card-bordered">
-                <div class="card-inner card-inner-md">
-                    <div class="card-title-group">
-                        <h6 class="card-title">Parcel List</h6>
-{{--                        <div class="card-action">--}}
-{{--                            <a href="/demo4/subscription/payments.html" class="link link-sm">Download Statement</a>--}}
-{{--                        </div>--}}
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-xl-12">
-                        @forelse($pickup->parcels as $parcel)
-                            <div class="card card-bordered m-2">
-                                <div class="card-inner-group">
-                                    <div class="card-inner">
-                                        <div class="sp-plan-desc sp-plan-desc-mb">
-                                            <ul class="row gx-1">
-                                                <li class="col-sm-4">
-                                                    <p><span class="text-soft">Tracking No.</span>
-                                                        {{ $parcel->tracking_no }}
-                                                    </p>
-                                                </li>
-                                                <li class="col-sm-4">
-                                                    <p><span class="text-soft">Date Received</span>
-                                                        {{ $parcel->created_at }}
-                                                    </p>
-                                                </li>
-
-                                                <li class="col-sm-4">
-                                                    <p><span class="text-soft">Destination</span>
-                                                        {{ $parcel?->dropPoint?->name }}
-                                                    </p>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="sp-plan-desc sp-plan-desc-mb">
-                                            <ul class="row gx-1">
-                                                <li class="col-sm-4">
-                                                    <p><span class="text-soft">Quantity</span>
-                                                        {{ $parcel->quantity }}
-                                                    </p>
-                                                </li>
-
-                                                <li class="col-sm-4">
-                                                    <p><span class="text-soft">Price</span>
-                                                        {{ displayPriceFormat($parcel->price) }}
-                                                    </p>
-                                                </li>
-
-                                                <li class="col-sm-4">
-                                                    <p><span class="text-soft">Tax</span>
-                                                        {{ displayPriceFormat($parcel->tax, '$') }}
-                                                    </p>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="sp-plan-desc sp-plan-desc-mb">
-                                            <ul class="row gx-1">
-                                                <li class="col-sm-8">
-                                                    <p><span class="text-soft">Item Description (Keterangan barang)</span>
-                                                        {{ $parcel->description }}
-                                                    </p>
-                                                </li>
-
-                                                <li class="col-sm-4">
-                                                    <p><span class="text-soft">Invoice</span>
-                                                        <a href="{{ \asset($parcel->invoice_url) }}" download><i class="fa fa-download me-2"></i> Download</a>
-                                                    </p>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div><!-- .card-inner -->
-                                </div>
-                            </div>
-                        @empty
-                            <tr class="tb-tnx-item">
-                                <td class="">
-                                    <a href="#">
-                                        <span>No Parcel Found</span>
-                                    </a>
-                                </td>
-
-                            </tr>
-                        @endforelse
-                    </div>
-                </div>
+                <h6 class="card-title">Parcel List</h6>
+                @forelse($pickup->parcels as $parcel)
+                    @include('components.parcel.summary-box')
+                @empty
+                    <span class="text-center">No Parcel Found</span>
+                @endforelse
             </div>
-        </div>
         @endif
     </div>
 </div>

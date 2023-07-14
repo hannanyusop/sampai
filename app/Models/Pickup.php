@@ -16,7 +16,9 @@ class Pickup extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['total_tax', 'status', 'pickup_name', 'pickup_datetime', 'serve_by'];
+    protected $fillable = ['total_tax', 'status', 'pickup_name', 'pickup_datetime', 'serve_by',
+        'payment_method', 'payment_status', 'total_payment', 'prof_of_delivery'
+    ];
 
     public function parcels(){
         return $this->hasMany(Parcels::class, 'pickup_id', 'id');
@@ -64,6 +66,14 @@ class Pickup extends Model
 
     public function getStatusLabelAttribute(){
         return PickupHelperService::StatusLabel()[$this->status] ?? __("Unknown Status");
+    }
+
+    public function getPaymentMethodLabelAttribute(){
+        return PickupHelperService::paymentMethodLabel()[$this->payment_method] ?? __("Unknown Payment Method");
+    }
+
+    public function getPaymentStatusLabelAttribute(){
+        return PickupHelperService::paymentStatusLabel()[$this->payment_status] ?? __("Unknown Payment Status");
     }
 
 }
