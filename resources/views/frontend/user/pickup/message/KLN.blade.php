@@ -1,31 +1,33 @@
-Assalamualaikum & Salam Sejahtera sis/bro..<br>
-Biskita boleh sdh collect Parcel biskita<br><br>
+Asalamualaikum..item abiskita bro/sis boleh sudah di collect di alamat ni<br>
+🏚️No.115A kg. kilanas, jln tutong. <br>
+Belakang restaurant Tiong, belakang rumah buat kaca<br><br>
 
-Di Alamat 🏡<br><br>
+For assitant pls text <br>
++6738868109/8815404 <br>
+📍📍Business hour <br>
+Monday n Thursday CLOSE <br><br>
 
-NO.13 SPG 311 KPG LAMBAK<br>
-JLN PASIR BERAKAS<br>
-📌 Sama Spg dgn Mudaseri showroom ,Rumah hujung Skali📌<br><br>
+OPEN <br>
+📌 Tuesday n wednesday 10.30am-6pm <br>
+📌 Friday 10.00am-11.45 2pm-6pm <br>
+📌 Sat n Sun 10.30am-6pm <br><br>
 
-⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️<br>
-PERINGATAN SEMASA COLLECT PARCEL<br><br>
 
-* Sila TULIS di Kertas NO REF & Nama ( Dlm Parcel )<br>
-*************<br>
-📌Business Hour<br>
-💜 Monday -Thurday & Saturday <br>
-⏱️ 10.00 am - 7.00 pm <br><br>
+Bagi yang mengambil 📦 , diminta untuk FOWARD CODE yang diberikan terlebih awal sebelum mengambil : <br>
+Collection* 📦 <br><r></r>
 
-💙 Friday <br>
-⏱️ 10am - 12pm <br>
-⏱️ 2pm - 7pm <br><br>
+✅ Sent No Code & Nama biskita sebelum mengambil (bagi parcel yang banyak or berat bgi penyediaan awal) .<br>
 
-🤍🖤 Sunday CLOSED <br><br>
+✅ Semak CODE NO, Nama & TRACKING abiskita sebelum pembayaran /meninggalkan kaunter.<br>
 
-(Dayat- 8761810) <br><br>
+✅ Bagi pembayaran di bawah $10 , kami hanya menerima secara *cash/tunai sahaja ATAU pembayaran melalui Vcard  (BIBD 8815404 - Rahidah)<br>
 
-‼️Bagi yg buat pembayaran secara Online sila hantar SCREENSHOT bukti pembayaran ke staff bertugas. <br><br>
+✅  Pembayaran secara transaksi/online hendaklah dilakukan di kaunter & staff akan membuat *screenshoot melalui hp abiskita.<br>
 
-Sekian terima kasih ☺️
+Utk Makluman tempat pengambilan barang booking/parcel :<br>
+👕Barangan booking - Kaunter Showroom<br>
+📦Barangan Parcel - Kaunter Parcel<br><br>
 
-ATT: Team Limbang Runner #Rahman
+⏩ Maklumkan staff bgi urusan di atas <br>
+
+🌹 Terima kasih di atas kerjasama abiskita & Terima kasih di atas sokongan abiskita dgn perkhidmatan kami  🌹
