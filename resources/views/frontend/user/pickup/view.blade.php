@@ -14,16 +14,117 @@
                 <li class="breadcrumb-item active" aria-current="page">Parcel</li>
             </ol>
         </nav>
+    </div>
 
-        @foreach($pickups->parcels as $parcel)
-        <h6>Parcel {{ $loop->iteration }}</h6>
-          <?php $count = 1; ?>
-        <div class="row mb-3">
-            <div class="col-xl-12">
-                @include('components.parcel.summary-box')
-            </div><!-- .col -->
+    @if(in_array($pickup->status, [\App\Services\Pickup\PickupHelperService::STATUS_READY_TO_DELIVER]))
+        <div class="alert alert-fill alert-secondary alert-icon">
+            @if($pickup->dropPoint->code == "KLN")
+                @include('frontend.user.pickup.message.kln')
+            @else
+                @include('frontend.user.pickup.message.lbk')
+            @endif
         </div>
-        @endforeach
+    @endif
+
+    <div class="invoice">
+        <div class="card invoice-wrap">
+            <div class="invoice-brand text-center">
+                <div class="logo-link">
+                    <img class="logo-light logo-img" src="{{ asset('images/logo.png') }}" srcset="{{ asset('images/logo.png') }} 2x" alt="logo">
+                    <img class="logo-dark logo-img" src="{{ asset('images/logo.png') }}" srcset="{{ asset('images/logo.png') }} 2x" alt="logo-dark">
+                </div>
+            </div>
+            <div class="invoice-head">
+                <div class="invoice-contact">
+                    <span class="overline-title">Customer Detail</span>
+                    <div class="invoice-contact-info">
+                        <h4 class="title">{{ $pickup?->user->name }}</h4>
+                        <ul class="list-plain">
+                            <li>
+                                <em class="icon ni ni-mail"></em>
+                                <span>{{ $pickup?->user->email }}</span>
+                            </li>
+                            <li>
+                                <em class="icon ni ni-call-fill"></em>
+                                <span>{{ $pickup?->user?->phone_number }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="invoice-desc">
+                    <h5 class="title">Pickup Detail </h5>
+                    <ul class="list-plain">
+                        <li class="invoice-id">
+                            <span>Code</span>: {{ $pickup->code }} <span></span>
+                        </li>
+                        <li class="invoice-date">
+                            <span>Total Parcels</span>: {{ $pickup->parcels->count() }}<span></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            @if(auth()->user()->type == \App\Domains\Auth\Models\User::TYPE_USER && !in_array($pickup->status, [\App\Services\Pickup\PickupHelperService::STATUS_READY_TO_DELIVER, \App\Services\Pickup\PickupHelperService::STATUS_DELIVERED]))
+                <div class="alert alert-fill alert-info alert-icon"><em class="icon ni ni-alert-circle"></em>
+                    <strong>This item is not ready for pickup.</strong> Please wait until further notice. </div>
+            @else
+                <div class="invoice-bills">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th class="w-150px">Item ID</th>
+                                <th class="w-60">Description</th>
+                                <th>Price</th>
+                                <th>Qty</th>
+                                <th>Amount</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($pickup->parcels as $parcel)
+                                <tr>
+                                    <td>{{ $parcel->coding }}</td>
+                                    <td><small>
+                                            {{ $parcel->tracking_no  }} - {{ $parcel->description }}
+                                        </small>
+                                    </td>
+                                    <td>{{ displayPriceFormat($parcel->total_billing, '$') }}</td>
+                                    <td>1</td>
+                                    <td>{{ displayPriceFormat($parcel->total_billing, '$') }}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                            <tfoot>
+                            {{--                        <tr>--}}
+                            {{--                            <td colspan="2"></td>--}}
+                            {{--                            <td colspan="2">Service Charge</td>--}}
+                            {{--                            <td>{{ displayPriceFormat($pickup->service_charge, '$') }}</td>--}}
+                            {{--                        </tr>--}}
+                            {{--                        <tr>--}}
+                            {{--                            <td colspan="2"></td>--}}
+                            {{--                            <td colspan="2">TAX</td>--}}
+                            {{--                            <td>{{ displayPriceFormat($pickup->tax , '$') }}</td>--}}
+                            {{--                        </tr>--}}
+                            <tr>
+                                <td colspan="2"></td>
+                                <td colspan="2">Grand Total</td>
+                                <td>{{ displayPriceFormat($pickup->total, '$') }}</td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                        <div class="nk-notes ff-italic fs-12px text-soft"> Invoice was created on a computer and is valid without the signature and seal. </div>
+                    </div>
+                </div>
+            @endif
+        </div>
+    </div>
+
+    <div class="card card-bordered">
+        <div class="card-inner-group">
+            <div class="card-inner">
+                @include('components.parcel.summary-box')
+            </div>
+        </div>
     </div>
 
 {{--    <div id="embedTrack"></div>--}}

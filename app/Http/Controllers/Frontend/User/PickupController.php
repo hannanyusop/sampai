@@ -17,15 +17,15 @@ class PickupController extends Controller
 
     public function view($id){
 
-        $pickups = Pickup::with('Parcels')->where([
+        $pickup = Pickup::with('Parcels')->where([
             'user_id' => auth()->user()->id
         ])->find(decrypt($id));
 
-        if(!$pickups){
+        if(!$pickup){
             return redirect()->back()->with('warning', 'Parcel not found!');
         }
 
-        return view('frontend.user.pickup.view', compact('pickups'));
+        return view('frontend.user.pickup.view', compact('pickup'));
     }
 
 }

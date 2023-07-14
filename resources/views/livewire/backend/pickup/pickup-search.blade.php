@@ -81,6 +81,11 @@
                                         </li>
                                         <li class="col-sm-4">
                                             <p>
+                                                <span class="text-soft">Total Parcel(s)</span> {{ $pickup->parcels->count() }}
+                                            </p>
+                                        </li>
+                                        <li class="col-sm-4">
+                                            <p>
                                                 <span class="text-soft">Destination</span> {{ $pickup->dropPoint->name }}
                                             </p>
                                         </li>
@@ -119,24 +124,24 @@
                                     <ul class="row gx-1">
                                         <li class="col-sm-4">
                                             <p>
-                                                <span class="text-soft">Total Parcel</span> {{ $pickup->parcels->count() }}
-                                            </p>
-                                        </li>
-                                        <li class="col-sm-4">
-                                            <p>
                                                 <span class="text-soft">Total Billing</span> {{ displayPriceFormat($pickup->total, '$') }}
                                             </p>
                                         </li>
                                         <li class="col-sm-4">
                                             <p>
-                                                <span class="text-soft">Payment Detail</span>
-                                                Status : {{ $pickup->payment_status_label }}
-                                                @if($pickup->payment_status == \App\Services\Pickup\PickupHelperService::PAYMENT_STATUS_PAID)
-                                                    Method : {{ $pickup->payment_method_label }}
-                                                    Amount : {{ displayPriceFormat($pickup->payment_amount, '$') }}
-                                                @endif
+                                                <span class="text-soft">Payment Status</span>
+                                                Status : {{ $pickup->payment_status_label }}<br>
                                             </p>
                                         </li>
+                                        @if($pickup->payment_status == \App\Services\Pickup\PickupHelperService::PAYMENT_STATUS_PAID)
+                                            <li class="col-sm-4">
+                                                <p>
+                                                    <span class="text-soft">Payment Detail</span>
+                                                    Method : {{ $pickup->payment_method_label }}<br>
+                                                    Amount : {{ displayPriceFormat($pickup->payment_amount, '$') }}
+                                                </p>
+                                            </li>
+                                        @endif
                                     </ul>
                                 </div>
                             </div>
@@ -144,7 +149,27 @@
                                 <div class="sp-plan-head">
                                     <h6 class="title">Handover Detail {!! $pickup->status_badge !!}</h6>
                                 </div>
+
+                                <div class="my-2">
+                                    @if(session()->has('error'))
+                                        <div class="alert alert-danger alert-dismissible">
+                                            <div class="alert-text">
+                                                {{ session('error') }}
+                                            </div>
+                                            <button class="close" data-dismiss="alert"></button>
+                                        </div>
+                                    @endif
+                                    @if(session()->has('success'))
+                                        <div class="alert alert-success alert-dismissible">
+                                            <div class="alert-text">
+                                                {{ session('success') }}
+                                            </div>
+                                            <button class="close" data-dismiss="alert"></button>
+                                        </div>
+                                    @endif
+                                </div>
                                 @if($pickup->status == \App\Services\Pickup\PickupHelperService::STATUS_READY_TO_DELIVER && auth()->user()->can('staff.inhouse') && $pickup->office_id == auth()->user()->office_id)
+
                                 <div class="sp-plan-desc sp-plan-desc-mb">
                                     <ul class="row gx-1">
                                         <li class="col-sm-4">
@@ -193,8 +218,7 @@
                                                 <span class="text-soft">Total Payment Receive</span>
                                             </p>
                                             <div class="form-control-wrap">
-                                                <div class="form-icon form-icon-left">
-                                                    $
+                                                <div class="form-icon form-icon-left"> $
                                                 </div>
                                                 <input type="number" min="0.00" step="0.01" class="form-control"  wire:model="total_payment">
                                             </div>
@@ -211,7 +235,13 @@
                                                     <input type="file" class="form-file-input" id="customFile" wire:model="prof_of_delivery">
                                                     <br>@error('prof_of_delivery')<span class="text-danger">{{ $message }}</span>@enderror
                                                 </div>
+
                                             </div>
+
+                                            @if ($prof_of_delivery)
+                                                Photo Preview:
+                                                <img src="{{ $prof_of_delivery->temporaryUrl() }}">
+                                            @endif
                                         </li>
                                     </ul>
 
@@ -258,11 +288,8 @@
         @if($pickup)
             <div class="nk-block">
                 <h6 class="card-title">Parcel List</h6>
-                @forelse($pickup->parcels as $parcel)
-                    @include('components.parcel.summary-box')
-                @empty
-                    <span class="text-center">No Parcel Found</span>
-                @endforelse
+                @include('components.parcel.summary-box')
+
             </div>
         @endif
     </div>

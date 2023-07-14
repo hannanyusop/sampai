@@ -6,6 +6,7 @@ use App\Models\Pickup;
 use App\Services\Parcel\ParcelGeneralService;
 use App\Services\Parcel\ParcelHelperService;
 use App\Services\Pickup\PickupHelperService;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -55,6 +56,7 @@ class PickupSearch extends Component
             return;
         }
 
+
         $this->validate([
             'pickup_name'      => 'required',
             'payment_method'   => 'required|in:'.implode(',', array_keys(PickupHelperService::paymentMethodLabel())),
@@ -62,9 +64,14 @@ class PickupSearch extends Component
             'prof_of_delivery' => 'required|image|max:20024',
         ]);
 
-        if ($this->pickup->total < $this->total_payment){
-            session()->flash('error', __('Total payment must more than or equal to billing amount'));
-            return;
+//        if ($this->pickup->total < $this->total_payment){
+//            session()->flash('error', __('Total payment must more than or equal to billing amount'));
+//            return;
+//        }
+
+        //delete previous prof of delivery
+        if ($this->pickup->prof_of_delivery){
+            Storage::delete($this->pickup->prof_of_delivery);
         }
 
         \DB::beginTransaction();
@@ -77,7 +84,7 @@ class PickupSearch extends Component
             'payment_method'   => $this->payment_method,
             'payment_status'   => PickupHelperService::PAYMENT_STATUS_PAID,
             'total_payment'    => $this->total_payment,
-            'prof_of_delivery' => $this->prof_of_delivery->store('pickup'),
+            'prof_of_delivery' => Storage::put('pickup', $this->prof_of_delivery),
         ]);
 
         foreach ($this->pickup->parcels as $parcel){
