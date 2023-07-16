@@ -94,9 +94,10 @@
                                         <th>{{ __('Parcel Coding') }}</th>
                                         <td>{{ __('Quantity') }}</td>
                                         <th>{{ __('Price') }}</th>
+                                        <th>{{ __('COD') }}</th>
                                         <th>{{ __('Tax') }}</th>
                                         <th>{{ __('Permit') }}</th>
-                                        <th>{{ __('Postage') }}</th>
+                                        <th>{{ __('Service Charge') }}</th>
                                         <th>{{ __('Total') }}</th>
                                         <th>{{ __('Location') }}</th>
                                         <th>{{ __('Status') }}</th>
@@ -115,6 +116,7 @@
                                             </td>
                                             <td>{{ $pickup->parcels->count() }}</td>
                                             <td>{{ displayPriceFormat($pickup->gross_price, '$') }}</td>
+                                            <td>{{ displayPriceFormat($pickup->cod, '$') }}</td>
                                             <td>{{ displayPriceFormat($pickup->tax, '$') }}</td>
                                             <td>{{ displayPriceFormat($pickup->permit, '$') }}</td>
                                             <td>{{ displayPriceFormat($pickup?->service_charge, '$') }}</td>
