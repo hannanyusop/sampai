@@ -61,18 +61,20 @@ class PickupSearch extends Component
             'pickup_name'      => 'required',
             'payment_method'   => 'required|in:'.implode(',', array_keys(PickupHelperService::paymentMethodLabel())),
             'total_payment'    => 'required|numeric|min:0.00',
-            'prof_of_delivery' => 'required|image|max:20024',
+            'prof_of_delivery' => 'nullable|file|max:20024',
         ]);
 
-//        if ($this->pickup->total < $this->total_payment){
-//            session()->flash('error', __('Total payment must more than or equal to billing amount'));
-//            return;
-//        }
+        $file = null;
+        if ($this->prof_of_delivery){
 
-        //delete previous prof of delivery
-        if ($this->pickup->prof_of_delivery){
-            Storage::delete($this->pickup->prof_of_delivery);
+            if ($this->pickup->prof_of_delivery){
+                Storage::delete($this->pickup->prof_of_delivery);
+            }
+
+            $file = Storage::put('pickup', $this->prof_of_delivery);
+
         }
+
 
         \DB::beginTransaction();
 
@@ -84,7 +86,7 @@ class PickupSearch extends Component
             'payment_method'   => $this->payment_method,
             'payment_status'   => PickupHelperService::PAYMENT_STATUS_PAID,
             'total_payment'    => $this->total_payment,
-            'prof_of_delivery' => Storage::put('pickup', $this->prof_of_delivery),
+            'prof_of_delivery' => $file,
         ]);
 
         foreach ($this->pickup->parcels as $parcel){

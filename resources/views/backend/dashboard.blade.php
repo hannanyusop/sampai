@@ -18,7 +18,7 @@
                     </div><!-- .nk-block-head-content -->
                     <div class="nk-block-head-content">
                         <ul class="nk-block-tools gx-3">
-                            <li><a href="{{ route('admin.pickup.search') }}" class="btn btn-primary"><span>Kaunter Serhan</span> <em class="icon ni ni-qr"></em></a></li>
+                            <li><a href="{{ route('admin.pickup.search') }}" class="btn btn-primary"><span>Kaunter Serahan</span> <em class="icon ni ni-qr"></em></a></li>
 {{--                            <li><a href="{{ route('admin.parcel.scan') }}" class="btn btn-primary"><span>Kaunter Serhan</span> <em class="icon ni ni-qr"></em></a></li>--}}
                             <li><a href="{{ route('admin.trip.receive') }}" class="btn btn-success"><span>Receive Trip</span> <em class="icon ni ni-truck"></em></a></li>
                             <li class="opt-menu-md dropdown">
