@@ -34,13 +34,18 @@ class TripBatchShow extends Component
     {
         $tripBatch = $this->tripBatch;
 
-        return view('livewire.backend.trip-batch.trip-batch-show', compact('tripBatch'));
+        $parcels =  Parcels::whereHas('pickup', function ($query) use ($tripBatch) {
+            $query->whereIn('trip_id', $tripBatch->trips->pluck('id')->toArray());
+        })
+            ->orderBy('pickup_id', 'desc')
+            ->paginate(20);
+
+        return view('livewire.backend.trip-batch.trip-batch-show', compact('tripBatch', 'parcels'));
     }
 
     public function search(){
 
         $service = ParcelGeneralService::insertableParcel($this->tracking_no, $this->tripBatch);
-
 
         if ($service[GeneralHelperService::KEY_STATUS] == GeneralHelperService::STATUS_ERROR) {
             return session()->flash('insert_'.GeneralHelperService::STATUS_ERROR, $service[GeneralHelperService::KEY_MESSAGE]);

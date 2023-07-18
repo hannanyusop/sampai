@@ -330,4 +330,8 @@ class TripController extends Controller
     public function checklist(Trip $trip){
         return view('backend.trip.checklist', compact('trip'));
     }
+
+    public function checklistAll(TripBatch $tripBatch){
+        return view('backend.trip.checklist-all', compact('tripBatch'));
+    }
 }

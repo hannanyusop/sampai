@@ -11,7 +11,6 @@
                         </div>
                     </div>
                     <div class="nk-block-head-content">
-
                         <a href="{{ route('admin.tripBatch.index') }}" class="btn btn-outline-light bg-warning d-none d-sm-inline-flex"><em class="icon ni ni-back-alt"></em><span>Back</span></a>
                         @can('admin.trip.master')
                             <a href="{{ route('admin.trip.masterList', $tripBatch->id) }}" class="btn btn-success d-none d-sm-inline-flex"><em class="icon ni ni-list-check"></em><span>Master List</span></a>
@@ -283,83 +282,125 @@
             </div>
         </div>
     </div>
-
     <div class="row mt-4">
-        @foreach($tripBatch->trips as $trip)
-            <div class="col-md-6">
-                <div class="nk-block nk-block-lg">
-                    <div class="card card-bordered card-preview">
+        <div class="col-md-12">
 
-                        <p class="mx-3 mt-2">Destination : {{ $trip->destination->coded }} - {{ $trip->destination->name }} </p>
-
-                        <div class="mx-2">
-                            <a class="btn btn-info btn-sm float-right" href="{{ route('admin.trip.checklist', $trip) }}"><i class="fa fa-check"></i> Checklist</a>
-                        </div>
-
-                        <div class="card-inner">
-                            <table class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="false">
-                                <thead>
-                                <tr class="nk-tb-item nk-tb-head">
-                                    <th class="nk-tb-col nk-tb-col-check">
-                                        <div class="custom-control custom-control-sm custom-checkbox notext">
-                                            <input type="checkbox" class="custom-control-input" id="uid">
-                                            <label class="custom-control-label" for="uid"></label>
-                                        </div>
-                                    </th>
-                                    <th class="nk-tb-col"><span class="sub-text">Tracking No</span></th>
-                                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">Status</span></th>
-                                    <th class="nk-tb-col nk-tb-col-tools text-right">
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($trip->parcels as $parcel)
-                                    <tr class="nk-tb-item">
-                                        <td class="nk-tb-col nk-tb-col-check">
-                                            <div class="custom-control custom-control-sm custom-checkbox notext">
-                                                <input type="checkbox" class="custom-control-input" id="uid1">
-                                                <label class="custom-control-label" for="uid1"></label>
-                                            </div>
-                                        </td>
-                                        <td class="nk-tb-col">
-                                            <div class="user-card">
-                                                <div class="user-info">
-                                                    <span class="tb-lead">{{ $parcel->tracking_no }} <span class="dot dot-success d-md-none ml-1"></span></span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="nk-tb-col tb-col-lg">
-                                            <span>{!! $parcel->status_label !!}</span>
-                                        </td>
-                                        <td class="nk-tb-col nk-tb-col-tools">
-                                            <ul class="nk-tb-actions gx-1">
-                                                <li>
-                                                    <div class="drodown">
-                                                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                            <ul class="link-list-opt no-bdr">
-                                                                <a href="#" wire:click.prevent="deleteParcel({{ $parcel->id }})"
-                                                                   onclick="return confirm('Are you sure want to remove this parcel ({{ $parcel->tracking_no }})?')">
-                                                                    <em class="icon ni ni-trash"></em>
-                                                                    <span>Remove</span>
-                                                                </a>
-
-{{--                                                                <li><a href="{{ route('admin.trip.deleteParcel', $parcel->id) }}" onclick="return confirm('Are you sure want to remove this parcel ({{ $parcel->tracking_no }})?')"><em class="icon ni ni-trash"></em><span>Remove</span></a></li>--}}
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </li>
+            <div class="nk-block nk-block-lg">
+                <div class="card card-bordered">
+                    <div class="card-inner">
+                        <ul class="nk-tb-actions gx-1 my-4">
+                            <li>
+                                <div class="drodown">
+                                    <button href="#" class="dropdown-toggle btn btn-info" data-toggle="dropdown">Checklist <em class="icon ni ni-caret-down"></em></button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <ul class="link-list-opt no-bdr">
+                                            <a href="{{ route('admin.trip.checklist-all', $tripBatch) }}">
+                                                <em class="icon ni ni-list"></em>
+                                                <span>All</span>
+                                            </a>
+                                        </ul>
+                                        @foreach($tripBatch->trips as $trip)
+                                            <ul class="link-list-opt no-bdr">
+                                                <a href="{{ route('admin.trip.checklist', $trip) }}">
+                                                    <em class="icon ni ni-list"></em>
+                                                    <span>Only For {{ $trip->destination->code }}</span>
+                                                </a>
                                             </ul>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <table class="nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+                            <thead>
+                            <tr class="nk-tb-item nk-tb-head">
+                                <th class="nk-tb-col"><span class="sub-text">Name</span></th>
+                                <th class="nk-tb-col tb-col-md"><span class="sub-text">Description</span></th>
+                                <th class="nk-tb-col tb-col-md"><span class="sub-text">Koding/Guni</span></th>
+                                <th class="nk-tb-col tb-col-lg"><span class="sub-text">Parcel Price (RM)</span></th>
+                                <th class="nk-tb-col tb-col-lg"><span class="sub-text">Parcel Price</span></th>
+                                <th class="nk-tb-col tb-col-md"><span class="sub-text">Tax Percentage (%)</span></th>
+                                <th class="nk-tb-col tb-col-lg"><span class="sub-text">Tax ($)</span></th>
+                                <th class="nk-tb-col tb-col-lg"><span class="sub-text">COD (RM)</span></th>
+                                <th class="nk-tb-col tb-col-lg"><span class="sub-text">COD Converted ($)</span></th>
+                                <th class="nk-tb-col tb-col-lg"><span class="sub-text">Service Charge ($)</span></th>
+                                <th class="nk-tb-col tb-col-lg"><span class="sub-text">Permit ($)</span></th>
+                                <th class="nk-tb-col tb-col-lg"><span class="sub-text">Action</span></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($parcels as $parcel)
+                                <tr class="nk-tb-item">
+                                    <td class="nk-tb-col tb-col-md">
+                                        <span>{{ $parcel?->user?->name }}</span><br>
+                                        <small>{{ $parcel?->user?->phone_number }}</small>
+                                    </td>
+
+                                    <td class="nk-tb-col">
+                                        <b class="tb-lead">{{ $parcel->tracking_no }}</span></b>
+                                        <small>{{ $parcel->description }}</small>
+                                    </td>
+                                    <td class="nk-tb-col tb-col-md">
+                                        <span>{{ $parcel?->coding }}</span><br>
+                                        <small>{{ $parcel?->pickup->code }}</small>
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        <span>{{ displayPriceFormat($parcel->price) }}</span>
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        <span>{{ displayPriceFormat($parcel->price/$tripBatch->pos_rate, '$') }}</span>
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        <span>{{ $parcel->percent }}%</span>
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        <span>{{ displayPriceFormat($parcel->tax, '$') }}</span>
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        <span>{{ displayPriceFormat($parcel->cod_fee_ori, 'RM') }}</span>
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        <span>{{ displayPriceFormat($parcel->cod_fee, '$') }}</span>
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        <span>{{ displayPriceFormat($parcel->service_charge, '$') }}</span>
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        <span>{{ displayPriceFormat($parcel?->permit, '$') }}</span>
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        <ul class="nk-tb-actions gx-1">
+                                            <li>
+                                                <div class="drodown">
+                                                    <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <ul class="link-list-opt no-bdr">
+                                                            <a href="#" wire:click.prevent="deleteParcel({{ $parcel->id }})"
+                                                               onclick="return confirm('Are you sure want to remove this parcel ({{ $parcel->tracking_no }})?')">
+                                                                <em class="icon ni ni-trash"></em>
+                                                                <span>Remove</span>
+                                                            </a>
+
+                                                            {{--                                                                <li><a href="{{ route('admin.trip.deleteParcel', $parcel->id) }}" onclick="return confirm('Are you sure want to remove this parcel ({{ $parcel->tracking_no }})?')"><em class="icon ni ni-trash"></em><span>Remove</span></a></li>--}}
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+
+                        <div class="mt-2">
+                            {{ $parcels->links() }}
                         </div>
-                    </div><!-- .card-preview -->
+                    </div>
                 </div>
             </div>
-        @endforeach
+        </div>
     </div>
 
 

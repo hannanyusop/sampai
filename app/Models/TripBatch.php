@@ -29,7 +29,7 @@ class TripBatch extends Model
 
     public function parcels()
     {
-        return $this->hasManyThrough(Parcels::class, Trip::class, 'trip_batch_id', 'pickup_id', 'id', 'id');
+        return $this->hasManyThrough(Parcels::class, Pickup::class, 'trip_id', 'pickup_id', 'id', 'id');
     }
 
     public function getStatusAttribute(){
