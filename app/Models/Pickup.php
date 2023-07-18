@@ -6,10 +6,12 @@ use App\Domains\Auth\Models\Office;
 use App\Domains\Auth\Models\Parcels;
 use App\Domains\Auth\Models\Trip;
 use App\Domains\Auth\Models\User;
+use App\Mail\Pickup\SendNotification;
 use App\Services\Pickup\PickupHelperService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Mail;
 
 class Pickup extends Model
 {
@@ -17,7 +19,8 @@ class Pickup extends Model
     use SoftDeletes;
 
     protected $fillable = ['total_tax', 'status', 'pickup_name', 'pickup_datetime', 'serve_by',
-        'payment_method', 'payment_status', 'total_payment', 'prof_of_delivery'
+        'payment_method', 'payment_status', 'total_payment', 'prof_of_delivery',
+        'notification_sent', 'notification_send_at'
     ];
 
     public function parcels(){
@@ -74,6 +77,19 @@ class Pickup extends Model
 
     public function getPaymentStatusLabelAttribute(){
         return PickupHelperService::paymentStatusLabel()[$this->payment_status] ?? __("Unknown Payment Status");
+    }
+
+    //sendNotificationEmail
+    public function sendNotificationEmail(){
+
+        Mail::to('hannan135589@gmail.com')->send(new SendNotification($this));
+
+
+        $this->update([
+            'notification_sent' => 1,
+            'notification_send_at' => now()
+        ]);
+
     }
 
 }

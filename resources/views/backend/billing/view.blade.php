@@ -101,6 +101,7 @@
                                         <th>{{ __('Total') }}</th>
                                         <th>{{ __('Location') }}</th>
                                         <th>{{ __('Status') }}</th>
+                                        <th>{{ __('Action') }}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -123,7 +124,9 @@
                                             <td>{{ displayPriceFormat($pickup?->total, '$') }}</td>
                                             <td>{{ $pickup?->dropPoint->code }}</td>
                                             <td>{!! $pickup?->status_badge !!}</td>
-
+                                            <td>
+                                                <a href="{{ route('admin.billing.resendNotification', $pickup) }}" class="btn btn-primary btn-sm">{{ __('Send Notification') }}</a>
+                                            </td>
                                         </tr>
                                     @endforeach
                                     </tbody>
