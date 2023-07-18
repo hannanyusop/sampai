@@ -26,7 +26,7 @@ class BillingController extends Controller
 //        $pickup->sendNotificationEmail();
 
         try {
-            Mail::to('hannan135589@gmail.com')->send(new SendNotification($this));
+            Mail::to('hannan135589@gmail.com')->send(new SendNotification($pickup));
 
             $this->update([
                 'notification_sent' => 1,
