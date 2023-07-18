@@ -312,36 +312,69 @@
                             </li>
                         </ul>
 
+                        <div class="row my-4">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <div class="form-control-wrap">
+                                        <input type="text" class="form-control" id="ft" wire:model="filter_tracking_no" placeholder="{{ __('Tracking No') }}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <div class="form-control-wrap">
+                                        <input type="text" class="form-control" id="fn" wire:model="filter_name" placeholder="{{ __('Customer Name') }}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <div class="form-control-wrap">
+                                        <input type="text" class="form-control" id="fn" wire:model="filter_phone_no" placeholder="{{ __('Phone Number') }}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <button class="btn btn-warning" wire:click="resetFilter()"><span class="ni ni-redo mr-1"></span> {{ __('Reset') }}</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+
                         <table class="nk-tb-list nk-tb-ulist" data-auto-responsive="false">
                             <thead>
                             <tr class="nk-tb-item nk-tb-head">
                                 <th class="nk-tb-col"><span class="sub-text">Name</span></th>
                                 <th class="nk-tb-col tb-col-md"><span class="sub-text">Description</span></th>
-                                <th class="nk-tb-col tb-col-md"><span class="sub-text">Koding/Guni</span></th>
+                                <th class="nk-tb-col"><span class="sub-text">Koding/Guni</span></th>
                                 <th class="nk-tb-col tb-col-lg"><span class="sub-text">Parcel Price (RM)</span></th>
                                 <th class="nk-tb-col tb-col-lg"><span class="sub-text">Parcel Price</span></th>
-                                <th class="nk-tb-col tb-col-md"><span class="sub-text">Tax Percentage (%)</span></th>
                                 <th class="nk-tb-col tb-col-lg"><span class="sub-text">Tax ($)</span></th>
                                 <th class="nk-tb-col tb-col-lg"><span class="sub-text">COD (RM)</span></th>
                                 <th class="nk-tb-col tb-col-lg"><span class="sub-text">COD Converted ($)</span></th>
                                 <th class="nk-tb-col tb-col-lg"><span class="sub-text">Service Charge ($)</span></th>
                                 <th class="nk-tb-col tb-col-lg"><span class="sub-text">Permit ($)</span></th>
-                                <th class="nk-tb-col tb-col-lg"><span class="sub-text">Action</span></th>
+                                <th class="nk-tb-col"><span class="sub-text">Action</span></th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($parcels as $parcel)
                                 <tr class="nk-tb-item">
                                     <td class="nk-tb-col tb-col-md">
-                                        <span>{{ $parcel?->user?->name }}</span><br>
-                                        <small>{{ $parcel?->user?->phone_number }}</small>
+                                        <span>{{ $parcel?->receiver_name }}</span><br>
+                                        <small>{{ $parcel?->phone_number }}</small>
                                     </td>
 
                                     <td class="nk-tb-col">
                                         <b class="tb-lead">{{ $parcel->tracking_no }}</span></b>
                                         <small>{{ $parcel->description }}</small>
                                     </td>
-                                    <td class="nk-tb-col tb-col-md">
+                                    <td class="nk-tb-col">
                                         <span>{{ $parcel?->coding }}</span><br>
                                         <small>{{ $parcel?->pickup->code }}</small>
                                     </td>
@@ -350,9 +383,6 @@
                                     </td>
                                     <td class="nk-tb-col tb-col-lg">
                                         <span>{{ displayPriceFormat($parcel->price/$tripBatch->pos_rate, '$') }}</span>
-                                    </td>
-                                    <td class="nk-tb-col tb-col-lg">
-                                        <span>{{ $parcel->percent }}%</span>
                                     </td>
                                     <td class="nk-tb-col tb-col-lg">
                                         <span>{{ displayPriceFormat($parcel->tax, '$') }}</span>
@@ -369,7 +399,7 @@
                                     <td class="nk-tb-col tb-col-lg">
                                         <span>{{ displayPriceFormat($parcel?->permit, '$') }}</span>
                                     </td>
-                                    <td class="nk-tb-col tb-col-lg">
+                                    <td class="nk-tb-col">
                                         <ul class="nk-tb-actions gx-1">
                                             <li>
                                                 <div class="drodown">

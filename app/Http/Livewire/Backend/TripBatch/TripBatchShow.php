@@ -14,6 +14,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class TripBatchShow extends Component
 {
+    public $filter_tracking_no = null, $filter_name = null, $filter_phone_no = null;
     public $tripBatch, $tracking_no, $last_parcel;
     public bool $edit_rate = false, $showUploadForm = false;
     public $excel;
@@ -37,6 +38,15 @@ class TripBatchShow extends Component
         $parcels =  Parcels::whereHas('pickup', function ($query) use ($tripBatch) {
             $query->whereIn('trip_id', $tripBatch->trips->pluck('id')->toArray());
         })
+            ->when($this->filter_tracking_no, function ($query) {
+                $query->where('tracking_no', 'like', '%'.$this->filter_tracking_no.'%');
+            })
+            ->when($this->filter_name, function ($query) {
+                $query->where('receiver_name', 'like', '%'.$this->filter_name.'%');
+            })
+            ->when($this->filter_phone_no, function ($query) {
+                $query->where('phone_number', 'like', '%'.$this->filter_phone_no.'%');
+            })
             ->orderBy('pickup_id', 'desc')
             ->paginate(20);
 
@@ -125,5 +135,11 @@ class TripBatchShow extends Component
 
     public function hideUploadForm(){
         $this->showUploadForm = false;
+    }
+
+    public function resetFilter(){
+        $this->filter_tracking_no = null;
+        $this->filter_name = null;
+        $this->filter_phone_no = null;
     }
 }
