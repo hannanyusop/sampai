@@ -26,6 +26,25 @@
                                 <a href="{{ route('admin.trip.close', $tripBatch->id) }}" onclick="return confirm('Are you sure want to close this trip?')" class="btn btn-light d-none d-sm-inline-flex"><em class="icon ni ni-clock"></em><span>Close Trip</span></a>
                             @endif
                         @endcan
+                        <div class="drodown m-2">
+                            <button href="#" class="dropdown-toggle btn btn-info" data-toggle="dropdown">Checklist <em class="icon ni ni-caret-down"></em></button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <ul class="link-list-opt no-bdr">
+                                    <a href="{{ route('admin.trip.checklist-all', $tripBatch) }}">
+                                        <em class="icon ni ni-list"></em>
+                                        <span>All</span>
+                                    </a>
+                                </ul>
+                                @foreach($tripBatch->trips as $trip)
+                                    <ul class="link-list-opt no-bdr">
+                                        <a href="{{ route('admin.trip.checklist', $trip) }}">
+                                            <em class="icon ni ni-list"></em>
+                                            <span>Only For {{ $trip->destination->code }}</span>
+                                        </a>
+                                    </ul>
+                                @endforeach
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -37,52 +56,44 @@
                             <div class="nk-block">
                                 <div class="nk-block-head">
                                     <h5 class="title">Trip Information</h5>
-                                </div><!-- .nk-block-head -->
-                                <div class="profile-ud-list">
-                                    <div class="profile-ud-item">
-                                        <div class="profile-ud wider">
-                                            <span class="profile-ud-label">Trip ID.</span>
-                                            <span class="profile-ud-value">{{ $tripBatch->number }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="profile-ud-item">
-                                        <div class="profile-ud wider">
-                                            <span class="profile-ud-label">Date</span>
-                                            <span class="profile-ud-value">{{ reformatDatetime($tripBatch->date, 'd M, Y') }}</span>
-                                        </div>
-                                    </div>
                                 </div>
-                                <div class="profile-ud-list">
-                                    <div class="profile-ud-item">
-                                        <div class="profile-ud wider">
-                                            <span class="profile-ud-label">Tax Rate</span>
-                                            <span class="profile-ud-value">{{ $tripBatch->tax_rate_currency }}</span>
+
+                                <div class="tranx-list card card-bordered">
+                                    <div class="tranx-item">
+                                        <div class="tranx-col">
+                                            <div class="tranx-info">
+                                                <div class="tranx-data">
+                                                    <div class="tranx-label"> Trip : {{ $tripBatch->number }} <em class="tranx-icon sm icon ni ni-truck"></em>
+                                                    </div>
+                                                    <div class="tranx-date">{{ reformatDatetime($tripBatch->date, 'd M, Y') }}</div>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="profile-ud-item">
-                                        <div class="profile-ud wider">
-                                            <span class="profile-ud-label">Pos Rate</span>
-                                            <span class="profile-ud-value">{{ $tripBatch->pos_rate_currency }}</span>
+                                        <div class="tranx-col">
+                                            <div class="tranx-amount">
+                                                <div class="number">Tax Rate : {{ $tripBatch->tax_rate_currency }} <span class="currency currency-btc"></span>
+                                                </div>
+                                                <div class="number-sm">Pos Rate : {{ $tripBatch->pos_rate_currency }}<span class="currency currency-usd"></span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div><!-- .nk-block -->
-                            <div class="nk-divider divider md"></div>
-                            <div class="nk-block">
-                                <div class="my-2">
-                                    @if(session()->get('insert_success'))
-                                        <div class="alert alert-success">
-                                            <i class="icon ni ni-check me-2"></i> {{ session()->get('insert_success') }}
-                                        </div>
-                                    @endif
-                                    @if(session()->get('insert_error'))
-                                        <div class="alert alert-danger">
-                                            <i class="icon ni ni-bell me-2"></i> {{ session()->get('insert_error') }}
-                                        </div>
-                                    @endif
-                                </div>
+                            <div class="my-2">
+                                @if(session()->get('insert_success'))
+                                    <div class="alert alert-success">
+                                        <i class="icon ni ni-check me-2"></i> {{ session()->get('insert_success') }}
+                                    </div>
+                                @endif
+                                @if(session()->get('insert_error'))
+                                    <div class="alert alert-danger">
+                                        <i class="icon ni ni-bell me-2"></i> {{ session()->get('insert_error') }}
+                                    </div>
+                                @endif
+                            </div>
 
-                                @if(!$showUploadForm)
+                            @if(!$showUploadForm)
                                 <div  class="nk-refwg-invite card-inner">
                                     <div class="nk-refwg-title">
                                         <div class="title-sub">Add Parcel</div>
@@ -99,183 +110,181 @@
 
                                     @if($last_parcel)
                                         <div class="row">
-                                        <div class="col-xl-12">
-                                            <div class="card card-bordered">
-                                                <div class="card-inner-group">
-                                                    <div class="card-inner">
-                                                        <div class="sp-plan-head">
-                                                            <h6 class="title">Parcel Details</h6>
-                                                        </div>
-                                                        <div class="sp-plan-desc sp-plan-desc-mb">
-                                                            <ul class="row gx-1">
-                                                                <li class="col-sm-4">
-                                                                    <p><span class="text-soft">Tracking No.</span>
-                                                                        {{ $last_parcel->tracking_no }}
-                                                                    </p>
-                                                                </li>
-                                                                <li class="col-sm-4">
-                                                                    <p><span class="text-soft">Date Received</span>
-                                                                        {{ $last_parcel->created_at }}
-                                                                    </p>
-                                                                </li>
-                                                                <li class="col-sm-4">
-                                                                    <p><span class="text-soft">Destination</span>
-                                                                        {{ $last_parcel->dropPoint?->name }}
-                                                                    </p>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
+                                            <div class="col-xl-12">
+                                                <div class="card card-bordered">
+                                                    <div class="card-inner-group">
+                                                        <div class="card-inner">
+                                                            <div class="sp-plan-head">
+                                                                <h6 class="title">Parcel Details</h6>
+                                                            </div>
+                                                            <div class="sp-plan-desc sp-plan-desc-mb">
+                                                                <ul class="row gx-1">
+                                                                    <li class="col-sm-4">
+                                                                        <p><span class="text-soft">Tracking No.</span>
+                                                                            {{ $last_parcel->tracking_no }}
+                                                                        </p>
+                                                                    </li>
+                                                                    <li class="col-sm-4">
+                                                                        <p><span class="text-soft">Date Received</span>
+                                                                            {{ $last_parcel->created_at }}
+                                                                        </p>
+                                                                    </li>
+                                                                    <li class="col-sm-4">
+                                                                        <p><span class="text-soft">Destination</span>
+                                                                            {{ $last_parcel->dropPoint?->name }}
+                                                                        </p>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
 
-                                                        <div class="sp-plan-desc sp-plan-desc-mb">
-                                                            <ul class="row gx-1">
-                                                                <li class="col-sm-8">
-                                                                    <p><span class="text-soft">Description</span>
-                                                                       <small> {{ $last_parcel->description }}</small>
-                                                                    </p>
-                                                                </li>
-                                                                <li class="col-sm-4 text-success">
-                                                                    <p><span class="text-soft text-success">Parcel Code</span>
-                                                                        {{ $last_parcel->coding }}
-                                                                    </p>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
+                                                            <div class="sp-plan-desc sp-plan-desc-mb">
+                                                                <ul class="row gx-1">
+                                                                    <li class="col-sm-8">
+                                                                        <p><span class="text-soft">Description</span>
+                                                                            <small> {{ $last_parcel->description }}</small>
+                                                                        </p>
+                                                                    </li>
+                                                                    <li class="col-sm-4 text-success">
+                                                                        <p><span class="text-soft text-success">Parcel Code</span>
+                                                                            {{ $last_parcel->coding }}
+                                                                        </p>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
 
-                                                        <div class="sp-plan-desc sp-plan-desc-mb">
-                                                            <ul class="row gx-1">
-                                                                <li class="col-sm-4">
-                                                                    <p><span class="text-soft">Service Charge ($)</span>
-                                                                        <input type="number" class="form-control" wire:model="service_charge">
-                                                                    </p>
-                                                                </li>
-                                                                <li class="col-sm-4">
-                                                                    <p><span class="text-soft">Guni</span>
-                                                                        <input type="text" class="form-control" wire:model="guni">
-                                                                    </p>
-                                                                </li>
+                                                            <div class="sp-plan-desc sp-plan-desc-mb">
+                                                                <ul class="row gx-1">
+                                                                    <li class="col-sm-4">
+                                                                        <p><span class="text-soft">Service Charge ($)</span>
+                                                                            <input type="number" class="form-control" wire:model="service_charge">
+                                                                        </p>
+                                                                    </li>
+                                                                    <li class="col-sm-4">
+                                                                        <p><span class="text-soft">Guni</span>
+                                                                            <input type="text" class="form-control" wire:model="guni">
+                                                                        </p>
+                                                                    </li>
 
-{{--                                                                <li class="col-sm-4">--}}
-{{--                                                                    <p><span class="text-soft">Destination</span>--}}
-{{--                                                                        <input type="number" class="form-control" wire:model="guni">--}}
-{{--                                                                    </p>--}}
-{{--                                                                </li>--}}
-                                                            </ul>
-                                                        </div>
+                                                                    {{--                                                                <li class="col-sm-4">--}}
+                                                                    {{--                                                                    <p><span class="text-soft">Destination</span>--}}
+                                                                    {{--                                                                        <input type="number" class="form-control" wire:model="guni">--}}
+                                                                    {{--                                                                    </p>--}}
+                                                                    {{--                                                                </li>--}}
+                                                                </ul>
+                                                            </div>
 
-                                                        <div class="text-center my-2">
-                                                            <button wire:click="save()" class="btn btn-success me-2"><i class="icon ni ni-check"></i>Save</button>
-                                                            @if($last_parcel->pickup_id)
-                                                                <button wire:click="undo()" class="btn btn-danger me-2"><i class="icon ni ni-times"></i>Remove</button>
-                                                            @endif
-                                                            <button wire:click="cancel()" class="btn btn-warning me-2"><i class="icon ni ni-redo"></i>Cancel</button>
-                                                        </div>
+                                                            <div class="text-center my-2">
+                                                                <button wire:click="save()" class="btn btn-success me-2"><i class="icon ni ni-check"></i>Save</button>
+                                                                @if($last_parcel->pickup_id)
+                                                                    <button wire:click="undo()" class="btn btn-danger me-2"><i class="icon ni ni-times"></i>Remove</button>
+                                                                @endif
+                                                                <button wire:click="cancel()" class="btn btn-warning me-2"><i class="icon ni ni-redo"></i>Cancel</button>
+                                                            </div>
 
-                                                    </div><!-- .card-inner -->
+                                                        </div><!-- .card-inner -->
 
-                                                </div><!-- .card-inner-group -->
-                                            </div><!-- .card -->
-                                        </div><!-- .col -->
+                                                    </div><!-- .card-inner-group -->
+                                                </div><!-- .card -->
+                                            </div><!-- .col -->
                                         </div>
                                     @endif
                                 </div>
-                                @else
-                                    <div  class="nk-refwg-invite card-inner">
+                            @else
+                                <div  class="nk-refwg-invite card-inner">
 
-                                        <div class="alert alert-info"><span class="ni ni-info"></span> Excel header must have <b class="font-italic">No Item,Name, Tracking No, Harga</b> </div>
-                                        <div class="nk-refwg-title">
-                                            <div class="title-sub">Upload Offline Parcel</div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <input class="form-control-file" type="file" accept=".xlsx" wire:model="excel">
-                                            </div>
-                                        </div>
-
-                                        <div class="text-center my-2">
-                                            <button wire:click="hideUploadForm()" class="btn btn-danger me-2"><i class="icon ni ni-times"></i>Cancel</button>
-                                            <button wire:click="upload()" class="btn btn-success me-2"><i class="icon ni ni-check"></i>Save</button>
-                                        </div>
-
-                                        @if($last_parcel)
-                                            <div class="row">
-                                                <div class="col-xl-12">
-                                                    <div class="card card-bordered">
-                                                        <div class="card-inner-group">
-                                                            <div class="card-inner">
-                                                                <div class="sp-plan-head">
-                                                                    <h6 class="title">Parcel Details</h6>
-                                                                </div>
-                                                                <div class="sp-plan-desc sp-plan-desc-mb">
-                                                                    <ul class="row gx-1">
-                                                                        <li class="col-sm-4">
-                                                                            <p><span class="text-soft">Tracking No.</span>
-                                                                                {{ $last_parcel->tracking_no }}
-                                                                            </p>
-                                                                        </li>
-                                                                        <li class="col-sm-4">
-                                                                            <p><span class="text-soft">Date Received</span>
-                                                                                {{ $last_parcel->created_at }}
-                                                                            </p>
-                                                                        </li>
-                                                                        <li class="col-sm-4">
-                                                                            <p><span class="text-soft">Destination</span>
-                                                                                {{ $last_parcel->dropPoint?->name }}
-                                                                            </p>
-                                                                        </li>
-                                                                    </ul>
-                                                                </div>
-
-                                                                <div class="sp-plan-desc sp-plan-desc-mb">
-                                                                    <ul class="row gx-1">
-                                                                        <li class="col-sm-8">
-                                                                            <p><span class="text-soft">Description</span>
-                                                                                <small> {{ $last_parcel->description }}</small>
-                                                                            </p>
-                                                                        </li>
-                                                                        <li class="col-sm-4 text-success">
-                                                                            <p><span class="text-soft text-success">Parcel Code</span>
-                                                                                {{ $last_parcel->coding }}
-                                                                            </p>
-                                                                        </li>
-                                                                    </ul>
-                                                                </div>
-
-                                                                <div class="sp-plan-desc sp-plan-desc-mb">
-                                                                    <ul class="row gx-1">
-                                                                        <li class="col-sm-4">
-                                                                            <p><span class="text-soft">Service Charge ($)</span>
-                                                                                <input type="number" class="form-control" wire:model="service_charge">
-                                                                            </p>
-                                                                        </li>
-                                                                        <li class="col-sm-4">
-                                                                            <p><span class="text-soft">Guni</span>
-                                                                                <input type="text" class="form-control" wire:model="guni">
-                                                                            </p>
-                                                                        </li>
-
-                                                                    </ul>
-                                                                </div>
-
-                                                                <div class="text-center my-2">
-                                                                    <button wire:click="save()" class="btn btn-success me-2"><i class="icon ni ni-check"></i>Save</button>
-                                                                    @if($last_parcel->pickup_id)
-                                                                        <button wire:click="undo()" class="btn btn-danger me-2"><i class="icon ni ni-times"></i>Remove</button>
-                                                                    @endif
-                                                                    <button wire:click="cancel()" class="btn btn-warning me-2"><i class="icon ni ni-redo"></i>Cancel</button>
-                                                                </div>
-
-                                                            </div><!-- .card-inner -->
-
-                                                        </div><!-- .card-inner-group -->
-                                                    </div><!-- .card -->
-                                                </div><!-- .col -->
-                                            </div>
-                                        @endif
+                                    <div class="alert alert-info"><span class="ni ni-info"></span> Excel header must have <b class="font-italic">No Item,Name, Tracking No, Harga</b> </div>
+                                    <div class="nk-refwg-title">
+                                        <div class="title-sub">Upload Offline Parcel</div>
                                     </div>
-                                @endif
 
-                            </div><!-- .nk-block -->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <input class="form-control-file" type="file" accept=".xlsx" wire:model="excel">
+                                        </div>
+                                    </div>
+
+                                    <div class="text-center my-2">
+                                        <button wire:click="hideUploadForm()" class="btn btn-danger me-2"><i class="icon ni ni-times"></i>Cancel</button>
+                                        <button wire:click="upload()" class="btn btn-success me-2"><i class="icon ni ni-check"></i>Save</button>
+                                    </div>
+
+                                    @if($last_parcel)
+                                        <div class="row">
+                                            <div class="col-xl-12">
+                                                <div class="card card-bordered">
+                                                    <div class="card-inner-group">
+                                                        <div class="card-inner">
+                                                            <div class="sp-plan-head">
+                                                                <h6 class="title">Parcel Details</h6>
+                                                            </div>
+                                                            <div class="sp-plan-desc sp-plan-desc-mb">
+                                                                <ul class="row gx-1">
+                                                                    <li class="col-sm-4">
+                                                                        <p><span class="text-soft">Tracking No.</span>
+                                                                            {{ $last_parcel->tracking_no }}
+                                                                        </p>
+                                                                    </li>
+                                                                    <li class="col-sm-4">
+                                                                        <p><span class="text-soft">Date Received</span>
+                                                                            {{ $last_parcel->created_at }}
+                                                                        </p>
+                                                                    </li>
+                                                                    <li class="col-sm-4">
+                                                                        <p><span class="text-soft">Destination</span>
+                                                                            {{ $last_parcel->dropPoint?->name }}
+                                                                        </p>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+
+                                                            <div class="sp-plan-desc sp-plan-desc-mb">
+                                                                <ul class="row gx-1">
+                                                                    <li class="col-sm-8">
+                                                                        <p><span class="text-soft">Description</span>
+                                                                            <small> {{ $last_parcel->description }}</small>
+                                                                        </p>
+                                                                    </li>
+                                                                    <li class="col-sm-4 text-success">
+                                                                        <p><span class="text-soft text-success">Parcel Code</span>
+                                                                            {{ $last_parcel->coding }}
+                                                                        </p>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+
+                                                            <div class="sp-plan-desc sp-plan-desc-mb">
+                                                                <ul class="row gx-1">
+                                                                    <li class="col-sm-4">
+                                                                        <p><span class="text-soft">Service Charge ($)</span>
+                                                                            <input type="number" class="form-control" wire:model="service_charge">
+                                                                        </p>
+                                                                    </li>
+                                                                    <li class="col-sm-4">
+                                                                        <p><span class="text-soft">Guni</span>
+                                                                            <input type="text" class="form-control" wire:model="guni">
+                                                                        </p>
+                                                                    </li>
+
+                                                                </ul>
+                                                            </div>
+
+                                                            <div class="text-center my-2">
+                                                                <button wire:click="save()" class="btn btn-success me-2"><i class="icon ni ni-check"></i>Save</button>
+                                                                @if($last_parcel->pickup_id)
+                                                                    <button wire:click="undo()" class="btn btn-danger me-2"><i class="icon ni ni-times"></i>Remove</button>
+                                                                @endif
+                                                                <button wire:click="cancel()" class="btn btn-warning me-2"><i class="icon ni ni-redo"></i>Cancel</button>
+                                                            </div>
+
+                                                        </div><!-- .card-inner -->
+
+                                                    </div><!-- .card-inner-group -->
+                                                </div><!-- .card -->
+                                            </div><!-- .col -->
+                                        </div>
+                                    @endif
+                                </div>
+                            @endif
                         </div><!-- .card-inner -->
                     </div><!-- .card-content -->
                 </div><!-- .card-aside-wrap -->
@@ -288,29 +297,6 @@
             <div class="nk-block nk-block-lg">
                 <div class="card card-bordered">
                     <div class="card-inner">
-                        <ul class="nk-tb-actions gx-1 my-4">
-                            <li>
-                                <div class="drodown">
-                                    <button href="#" class="dropdown-toggle btn btn-info" data-toggle="dropdown">Checklist <em class="icon ni ni-caret-down"></em></button>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <ul class="link-list-opt no-bdr">
-                                            <a href="{{ route('admin.trip.checklist-all', $tripBatch) }}">
-                                                <em class="icon ni ni-list"></em>
-                                                <span>All</span>
-                                            </a>
-                                        </ul>
-                                        @foreach($tripBatch->trips as $trip)
-                                            <ul class="link-list-opt no-bdr">
-                                                <a href="{{ route('admin.trip.checklist', $trip) }}">
-                                                    <em class="icon ni ni-list"></em>
-                                                    <span>Only For {{ $trip->destination->code }}</span>
-                                                </a>
-                                            </ul>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
 
                         <div class="row my-4">
                             <div class="col-sm-3">
@@ -353,10 +339,8 @@
                                 <th class="nk-tb-col tb-col-md"><span class="sub-text">Description</span></th>
                                 <th class="nk-tb-col"><span class="sub-text">Koding/Guni</span></th>
                                 <th class="nk-tb-col tb-col-lg"><span class="sub-text">Parcel Price (RM)</span></th>
-                                <th class="nk-tb-col tb-col-lg"><span class="sub-text">Parcel Price</span></th>
                                 <th class="nk-tb-col tb-col-lg"><span class="sub-text">Tax ($)</span></th>
                                 <th class="nk-tb-col tb-col-lg"><span class="sub-text">COD (RM)</span></th>
-                                <th class="nk-tb-col tb-col-lg"><span class="sub-text">COD Converted ($)</span></th>
                                 <th class="nk-tb-col tb-col-lg"><span class="sub-text">Service Charge ($)</span></th>
                                 <th class="nk-tb-col tb-col-lg"><span class="sub-text">Permit ($)</span></th>
                                 <th class="nk-tb-col"><span class="sub-text">Action</span></th>
@@ -375,14 +359,16 @@
                                         <small>{{ $parcel->description }}</small>
                                     </td>
                                     <td class="nk-tb-col">
-                                        <span>{{ $parcel?->coding }}</span><br>
-                                        <small>{{ $parcel?->pickup->code }}</small>
+                                        @if($parcel->id == $edit_parcel_id)
+                                            <input type="text" class="form-control" value="{{ $parcel->guni }}" placeholder="Guni Number" wire:model="guni_edit">
+                                            @error('guni_edit') <span class="text-danger">{{ $message }}</span> @enderror
+                                        @else
+                                            <span>{{ $parcel?->coding }}</span><br>
+                                            <small>{{ $parcel?->guni ?? "-" }}</small>
+                                        @endif
                                     </td>
                                     <td class="nk-tb-col tb-col-lg">
                                         <span>{{ displayPriceFormat($parcel->price) }}</span>
-                                    </td>
-                                    <td class="nk-tb-col tb-col-lg">
-                                        <span>{{ displayPriceFormat($parcel->price/$tripBatch->pos_rate, '$') }}</span>
                                     </td>
                                     <td class="nk-tb-col tb-col-lg">
                                         <span>{{ displayPriceFormat($parcel->tax, '$') }}</span>
@@ -391,33 +377,44 @@
                                         <span>{{ displayPriceFormat($parcel->cod_fee_ori, 'RM') }}</span>
                                     </td>
                                     <td class="nk-tb-col tb-col-lg">
-                                        <span>{{ displayPriceFormat($parcel->cod_fee, '$') }}</span>
-                                    </td>
-                                    <td class="nk-tb-col tb-col-lg">
+                                        @if($parcel->id == $edit_parcel_id)
+                                            <input type="number" class="form-control" placeholder="$" wire:model="service_charge_edit">
+                                            @error('service_charge_edit') <span class="text-danger">{{ $message }}</span> @enderror
+                                        @else
                                         <span>{{ displayPriceFormat($parcel->service_charge, '$') }}</span>
+                                        @endif
                                     </td>
                                     <td class="nk-tb-col tb-col-lg">
                                         <span>{{ displayPriceFormat($parcel?->permit, '$') }}</span>
                                     </td>
                                     <td class="nk-tb-col">
-                                        <ul class="nk-tb-actions gx-1">
-                                            <li>
-                                                <div class="drodown">
-                                                    <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <ul class="link-list-opt no-bdr">
-                                                            <a href="#" wire:click.prevent="deleteParcel({{ $parcel->id }})"
-                                                               onclick="return confirm('Are you sure want to remove this parcel ({{ $parcel->tracking_no }})?')">
-                                                                <em class="icon ni ni-trash"></em>
-                                                                <span>Remove</span>
-                                                            </a>
 
-                                                            {{--                                                                <li><a href="{{ route('admin.trip.deleteParcel', $parcel->id) }}" onclick="return confirm('Are you sure want to remove this parcel ({{ $parcel->tracking_no }})?')"><em class="icon ni ni-trash"></em><span>Remove</span></a></li>--}}
-                                                        </ul>
+                                        @if($parcel->id == $edit_parcel_id)
+                                            <button class="btn btn-sm btn-success" wire:click="updateParcel({{ $parcel }})"><em class="icon ni ni-check-circle"></em></button>
+                                        @else
+                                            <ul class="nk-tb-actions gx-1">
+                                                <li>
+                                                    <div class="drodown">
+                                                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                            <ul class="link-list-opt no-bdr">
+                                                                <a href="#" wire:click.prevent="editParcel({{ $parcel }})">
+                                                                    <em class="icon ni ni-edit"></em>
+                                                                    <span>Edit</span>
+                                                                </a>
+                                                            </ul>
+                                                            <ul class="link-list-opt no-bdr">
+                                                                <a href="#" wire:click.prevent="deleteParcel({{ $parcel->id }})"
+                                                                   onclick="return confirm('Are you sure want to remove this parcel ({{ $parcel->tracking_no }})?')">
+                                                                    <em class="icon ni ni-trash"></em>
+                                                                    <span>Remove</span>
+                                                                </a>
+                                                            </ul>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </li>
-                                        </ul>
+                                                </li>
+                                            </ul>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

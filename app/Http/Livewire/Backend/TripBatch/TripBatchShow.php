@@ -14,6 +14,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class TripBatchShow extends Component
 {
+    public $edit_parcel_id = null, $guni_edit, $service_charge_edit;
     public $filter_tracking_no = null, $filter_name = null, $filter_phone_no = null;
     public $tripBatch, $tracking_no, $last_parcel;
     public bool $edit_rate = false, $showUploadForm = false;
@@ -142,4 +143,32 @@ class TripBatchShow extends Component
         $this->filter_name = null;
         $this->filter_phone_no = null;
     }
+
+
+    #region edit rate
+
+    public function editParcel(Parcels $parcel){
+        $this->edit_parcel_id = $parcel->id;
+
+        $this->guni_edit = $parcel->guni;
+        $this->service_charge_edit = $parcel->service_charge;
+    }
+
+    public function updateParcel(Parcels $parcel){
+        $this->validate([
+            'guni_edit' => 'required|max:50',
+            'service_charge_edit' => 'required|numeric|min:0',
+        ]);
+
+        $parcel->update([
+            'guni' => $this->guni_edit,
+            'service_charge' => $this->service_charge_edit,
+        ]);
+
+        $this->edit_parcel_id = null;
+
+        session()->flash('insert_'.GeneralHelperService::STATUS_SUCCESS, __('Rate updated successfully.'));
+    }
+
+    #endregion
 }
