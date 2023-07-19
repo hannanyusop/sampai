@@ -5,6 +5,19 @@
 
 @section('content')
 
+    <style>
+        /* Define blinking animation */
+        @keyframes blink {
+            0% { background-color: white; }
+            50% { background-color: #880707; }
+            100% { background-color: white; }
+        }
+
+        /* Apply animation to desired element  */
+        .element {
+            animation: blink 1.5s infinite;
+        }
+    </style>
 
     <div class="nk-content-wrap">
         <nav aria-label="breadcrumb">
@@ -51,6 +64,7 @@
                         </ul>
                     </div>
                 </div>
+                @if(in_array($pickup->status, [\App\Services\Pickup\PickupHelperService::STATUS_READY_TO_DELIVER]))
                 <div class="invoice-desc">
                     <h5 class="title">Pickup Detail </h5>
                     <ul class="list-plain">
@@ -62,10 +76,11 @@
                         </li>
                     </ul>
                 </div>
+                @endif
             </div>
 
             @if(auth()->user()->type == \App\Domains\Auth\Models\User::TYPE_USER && !in_array($pickup->status, [\App\Services\Pickup\PickupHelperService::STATUS_READY_TO_DELIVER, \App\Services\Pickup\PickupHelperService::STATUS_DELIVERED]))
-                <div class="alert alert-fill alert-info alert-icon"><em class="icon ni ni-alert-circle"></em>
+                <div class="alert alert-fill alert-info alert-icon element"><em class="icon ni ni-alert-circle"></em>
                     <strong>This item is not ready for pickup.</strong> Please wait until further notice. </div>
             @else
                 <div class="invoice-bills">
