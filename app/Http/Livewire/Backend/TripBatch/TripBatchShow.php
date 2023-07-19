@@ -48,7 +48,7 @@ class TripBatchShow extends Component
             ->when($this->filter_phone_no, function ($query) {
                 $query->where('phone_number', 'like', '%'.$this->filter_phone_no.'%');
             })
-            ->orderBy('pickup_id', 'desc')
+            ->orderBy('updated_at', 'desc')
             ->paginate(20);
 
         return view('livewire.backend.trip-batch.trip-batch-show', compact('tripBatch', 'parcels'));

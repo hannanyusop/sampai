@@ -30,6 +30,7 @@ class StoreParcelRequest extends FormRequest
     public function messages()
     {
         return [
+            'tracking_no.unique' => 'The tracking no has been submitted in PARCEL LIST.',
             'invoice_url.max' => 'The invoice may not be greater than 20 MB.',
             'invoice_url.file' => 'The invoice must be a file.',
             'invoice_url.required' => 'Please upload invoice.',
