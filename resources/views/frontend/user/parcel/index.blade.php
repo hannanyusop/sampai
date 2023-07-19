@@ -17,31 +17,19 @@
                     <table class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="true">
                         <thead>
                         <tr class="nk-tb-item nk-tb-head">
-                            <th class="nk-tb-col nk-tb-col-check">
-                                <div class="custom-control custom-control-sm custom-checkbox notext">
-                                    <input type="checkbox" class="custom-control-input" id="uid">
-                                    <label class="custom-control-label" for="uid"></label>
-                                </div>
-                            </th>
                             <th class="nk-tb-col"><span class="sub-text">Tracking No</span></th>
-                            <th class="nk-tb-col tb-col-mb"><span class="sub-text">Receiver Name</span></th>
-                            <th class="nk-tb-col tb-col-md"><span class="sub-text">Drop Point</span></th>
+                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">Receiver Name</span></th>
+                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">Drop Point</span></th>
                             <th class="nk-tb-col tb-col-lg"><span class="sub-text">Pickup By</span></th>
                             <th class="nk-tb-col tb-col-lg"><span class="sub-text">Pickup Datetime</span></th>
                             <th class="nk-tb-col tb-col-md"><span class="sub-text">Status</span></th>
-                            <th class="nk-tb-col nk-tb-col-tools text-right">
+                            <th class="nk-tb-col text-right">
                             </th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($parcels as $parcel)
                             <tr class="nk-tb-item">
-                                <td class="nk-tb-col nk-tb-col-check">
-                                    <div class="custom-control custom-control-sm custom-checkbox notext">
-                                        <input type="checkbox" class="custom-control-input" id="{{ $parcel->id }}">
-                                        <label class="custom-control-label" for="{{ $parcel->id }}"></label>
-                                    </div>
-                                </td>
                                 <td class="nk-tb-col">
                                     <div class="user-card">
                                         <div class="user-info">
@@ -50,10 +38,10 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="nk-tb-col tb-col-mb">
-                                    <span class="tb-amount">{{ $parcel->dropPoint->name }}</span>
+                                <td class="nk-tb-col tb-col-lg">
+                                    <span class="tb-amount">{{ $parcel->receiver_name }}</span>
                                 </td>
-                                <td class="nk-tb-col tb-col-md">
+                                <td class="nk-tb-col tb-col-lg">
                                     <span>{{ $parcel->dropPoint->name }}</span>
                                 </td>
                                 <td class="nk-tb-col tb-col-lg">
@@ -65,7 +53,7 @@
                                 <td class="nk-tb-col tb-col-md">
                                     <span class="tb-status text-success">{{ $parcel->status_label }}</span>
                                 </td>
-                                <td class="nk-tb-col nk-tb-col-tools">
+                                <td class="nk-tb-col">
                                     <ul class="nk-tb-actions gx-1">
                                         <li>
                                             <div class="drodown">
