@@ -9,10 +9,7 @@ use App\Models\Pickup;
 class PickupController extends Controller
 {
     public function index(){
-
-        $pickups = Pickup::where('user_id', auth()->user()->id)
-            ->get();
-        return view('frontend.user.pickup.index', compact('pickups'));
+        return view('frontend.user.pickup.index');
     }
 
     public function view($id){
