@@ -11,6 +11,7 @@ use App\Models\TripBatch;
 use App\Services\General\GeneralHelperService;
 use App\Services\Pickup\PickupGeneralService;
 use App\Services\Role\RoleHelperService;
+use App\Services\Trip\TripHelperService;
 
 class ParcelGeneralService
 {
@@ -44,6 +45,27 @@ class ParcelGeneralService
             return [
                 GeneralHelperService::KEY_STATUS  => GeneralHelperService::STATUS_ERROR,
                 GeneralHelperService::KEY_MESSAGE => __('Parcel :tracking_no already assigned to Trip : :pickup_id', ['pickup_id' => $parcel->trip?->batch?->number, 'tracking_no' => $tracking_no])
+            ];
+        }
+
+        $trip = Trip::where([
+            'trip_batch_id' => $tripBatch->id,
+            'destination_id' => $parcel->office_id
+        ])->first();
+
+        if (!$trip){
+
+            return [
+                GeneralHelperService::KEY_STATUS  => GeneralHelperService::STATUS_ERROR,
+                GeneralHelperService::KEY_MESSAGE => __('No available destination found for :tracking_no', ['tracking_no' => $tracking_no])
+            ];
+        }
+
+        if ($trip->status != TripHelperService::STATUS_PENDING){
+
+            return [
+                GeneralHelperService::KEY_STATUS  => GeneralHelperService::STATUS_ERROR,
+                GeneralHelperService::KEY_MESSAGE => __('Trip already in status :status', ['status' => $trip->status_label])
             ];
         }
 
@@ -139,6 +161,14 @@ class ParcelGeneralService
 
     public static function assignToPickup(Parcels $parcel, Trip $trip, Office $office){
 
+        if ($trip->status != TripHelperService::STATUS_PENDING){
+
+            return [
+                GeneralHelperService::KEY_STATUS  => GeneralHelperService::STATUS_ERROR,
+                GeneralHelperService::KEY_MESSAGE => __('Trip already in status :status', ['status' => $trip->status_label])
+            ];
+        }
+
         $servicePickup = PickupGeneralService::getPickupByUser($parcel->user, $trip, $office);
 
         $pickup = $servicePickup[GeneralHelperService::KEY_DATA];
@@ -163,6 +193,14 @@ class ParcelGeneralService
             return [
                 GeneralHelperService::KEY_STATUS  => GeneralHelperService::STATUS_ERROR,
                 GeneralHelperService::KEY_MESSAGE => __('Invalid data')
+            ];
+        }
+
+        if ($parcel->trip->status != TripHelperService::STATUS_PENDING){
+
+            return [
+                GeneralHelperService::KEY_STATUS  => GeneralHelperService::STATUS_ERROR,
+                GeneralHelperService::KEY_MESSAGE => __('Trip already in status :status', ['status' => $parcel->trip->status_label])
             ];
         }
 

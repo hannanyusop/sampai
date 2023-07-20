@@ -14,7 +14,7 @@ class Parcels extends Model{
     protected $appends = ['total_billing'];
 
     public function trip(){
-        return $this->hasOneThrough(Trip::class, Pickup::class, 'trip_id', 'id', 'pickup_id');
+        return $this->hasOneThrough(Trip::class, Pickup::class, 'id', 'id', 'pickup_id', 'trip_id');
     }
 
     public function transactions(){

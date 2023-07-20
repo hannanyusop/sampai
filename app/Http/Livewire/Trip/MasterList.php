@@ -98,6 +98,11 @@ class MasterList extends Component
              return;
         }
 
+        if($parcel->status == ParcelHelperService::STATUS_DELIVERED){
+            session()->flash('error', 'Cannot edit delivered parcel information.');
+            return;
+        }
+
         $parcel->tax = ParcelHelperService::CalculateTax($this->price,$this->currency_exchange, $this->percent);
         $parcel->price = $this->price;
         $parcel->percent = $this->percent;

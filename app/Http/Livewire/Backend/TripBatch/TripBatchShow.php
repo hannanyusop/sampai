@@ -7,6 +7,7 @@ use App\Imports\Parcel\OfflineParcelImport;
 use App\Models\TripBatch;
 use App\Services\General\GeneralHelperService;
 use App\Services\Parcel\ParcelGeneralService;
+use App\Services\TripBatch\TripBatchHelperService;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
