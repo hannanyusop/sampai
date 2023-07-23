@@ -3,6 +3,7 @@ namespace App\Domains\Auth\Models;
 
 use App\Models\Pickup;
 use App\Services\Parcel\ParcelHelperService;
+use App\Services\Pickup\PickupHelperService;
 use App\Services\Trip\TripHelperService;
 use App\Models\UnregisteredParcel;
 use Illuminate\Database\Eloquent\Model;
@@ -66,7 +67,7 @@ class Parcels extends Model{
     public function getCodingAttribute(){
 
 
-        if(auth()->user()->type == User::TYPE_USER && !in_array($this->status, [ParcelHelperService::STATUS_READY_TO_COLLECT, ParcelHelperService::STATUS_DELIVERED])){
+        if(auth()->user()->type == User::TYPE_USER && !in_array($this->pickup?->status, [PickupHelperService::STATUS_READY_TO_DELIVER, PickupHelperService::STATUS_DELIVERED])){
             return __("- NOT READY -");
         }
 

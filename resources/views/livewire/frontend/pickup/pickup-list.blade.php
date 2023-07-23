@@ -34,10 +34,10 @@
                     <tr class="nk-tb-item nk-tb-head">
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Trip</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Office</span></th>
-                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Code</span></th>
+                        <th class=""><span class="sub-text">Code</span></th>
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Pickup By</span></th>
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Pickup Datetime</span></th>
-                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Status</span></th>
+                        <th class=""><span class="sub-text">Status</span></th>
                         <th class="nk-tb-col nk-tb-col-tools text-right">
                         </th>
                     </tr>
@@ -51,7 +51,7 @@
                             <td class="nk-tb-col tb-col-mb">
                                 <span class="tb-amount">{{ $pickup->dropPoint->name }}</span>
                             </td>
-                            <td class="nk-tb-col tb-col-md">
+                            <td class="">
                                 <span>{{ $pickup->code }}</span>
                             </td>
                             <td class="nk-tb-col tb-col-lg">
@@ -60,7 +60,7 @@
                             <td class="nk-tb-col tb-col-lg">
                                 <span>{{ (!is_null($pickup->pickup_name))? $pickup->pickup_datetime : "" }}</span>
                             </td>
-                            <td class="nk-tb-col tb-col-md">
+                            <td class="">
                                 <span class="tb-status text-success">{{ $pickup->status_label }}</span>
                             </td>
                             <td class="nk-tb-col nk-tb-col-tools">

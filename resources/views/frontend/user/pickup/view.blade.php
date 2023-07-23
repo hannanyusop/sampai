@@ -89,7 +89,7 @@
                             <thead>
                             <tr>
                                 <th class="w-150px">Item ID</th>
-                                <th class="w-60">Description</th>
+                                <th class="w-60">Tracking No</th>
                                 <th>Price</th>
                                 <th>Qty</th>
                                 <th>Amount</th>
@@ -100,7 +100,7 @@
                                 <tr>
                                     <td>{{ $parcel->coding }}</td>
                                     <td><small>
-                                            {{ $parcel->tracking_no  }} - {{ $parcel->description }}
+                                            {{ $parcel->tracking_no  }}
                                         </small>
                                     </td>
                                     <td>{{ displayPriceFormat($parcel->total_billing, '$') }}</td>
