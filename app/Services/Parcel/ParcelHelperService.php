@@ -35,7 +35,7 @@ class ParcelHelperService
 
     public static function LBKWhatsappText(Pickup $pickup) :string{
 
-        $text = __("Hello :name, your total bill for code: | *:pickup_code* |  |*Total Parcel: :total_parcel* |Amount need to pay total= *:total_billing* ||Salam/Hi your parcel ready to be collected at *:pickup_point.* | For more detail please visit :link |►*Ramadhan Business Hour*◄|♥ *Monday-Thursday & Saturday*|☼ 9.00 am - 5.30 pm ||♥ *Friday* |9am - 12pm|☼ 2pm - 5.30pm ||♥♥ Sunday & Public Holiday *CLOSED* ||Payment can be made by cash or Via online PREFERABLE (don't forget to screenshot of your receipt show to my staff pic of receipt.)|*Payment via cash below $20.* |*Vcard pyment $20 ke atas* ||VIA BIBD VCARD - 8687454|AWG ROSPPA ||Pasir Berakas Address: |No.13 Spg 311 , Kpg Lambak |Jln Pasir Berakas.|Sama simpang dengan Mudaseri Showroom ||Terima Kasih ☺", [
+        $text = __("Hello :name, your total bill for code:  *:pickup_code* *Total Parcel: :total_parcel* Amount need to pay total= *:total_billing* Salam/Hi your parcel ready to be collected at *:pickup_point.*  For more detail please visit :link ►*Ramadhan Business Hour*◄♥ *Monday-Thursday & Saturday*☼ 9.00 am - 5.30 pm ♥ *Friday* 9am - 12pm ☼ 2pm - 5.30pm  ♥♥ Sunday & Public Holiday *CLOSED*  Payment can be made by cash or Via online PREFERABLE (don't forget to screenshot of your receipt show to my staff pic of receipt.) *Payment via cash below $20.* *Vcard pyment $20 ke atas*  VIA BIBD VCARD - 8687454 AWG ROSPPA  Pasir Berakas Address: No.13 Spg 311 , Kpg Lambak Jln Pasir Berakas. Sama simpang dengan Mudaseri Showroom  Terima Kasih ☺", [
             'name' => $pickup?->user?->name,
             'pickup_code' => $pickup->pickup?->code,
             'total_billing' => displayPriceFormat($pickup->total, '$'),
@@ -56,10 +56,10 @@ class ParcelHelperService
 //        $parcel_text = "";
 //
 //        foreach ($pickup->parcels as $parcel) {
-//            $parcel_text .= "|*".$parcel->tracking_no."*|*".displayPriceFormat($parcel->total_billing, '$')."*|*".$parcel->tax."*|*".$parcel->permit."*|*".$parcel->total."*|";
+//            $parcel_text .= " *".$parcel->tracking_no."* *".displayPriceFormat($parcel->total_billing, '$')."* *".$parcel->tax."* *".$parcel->permit."* *".$parcel->total."* ";
 //        }
 
-        $text = __("Asalamualaikum..item abiskita bro/sis boleh sudah di collect di alamat niNo.115A kg. kilanas, jln tutong.Belakang restaurant belakang rumah buat kacahttps://www.google.com/maps/place/4%C2%B052'42.9%22N+114%C2%B051'29.7%22E |For assitant pls text
+        $text = __("Asalamualaikum..item abiskita bro/sis boleh sudah di collect di alamat niNo.115A kg. kilanas, jln tutong.Belakang restaurant belakang rumah buat kacahttps://www.google.com/maps/place/4%C2%B052'42.9%22N+114%C2%B051'29.7%22E For assitant pls text
 +6738868109/8815404
 -Business hour
 *Monday n Thursday CLOSE
