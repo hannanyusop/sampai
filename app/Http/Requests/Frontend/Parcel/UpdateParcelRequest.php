@@ -18,7 +18,7 @@ class UpdateParcelRequest extends FormRequest
             "receiver_name" => "required|max:200",
             "phone_number"  => "required|max:20",
             "tracking_no"   => "required|unique:parcels,tracking_no,{$this->id}|max:50",
-            "description"   => "required|max:250",
+            "description"   => "required|max:1000",
             "quantity"      => "required|numeric|min:1",
             "price"         => "required|numeric",
 //            "tax"           => "required|numeric",

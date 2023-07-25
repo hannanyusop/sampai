@@ -66,7 +66,7 @@
                                         <label class="form-label" for="receiver_name">Item Description (Keterangan barang)</label>
                                         <div class="form-control-wrap">
                                             <textarea class="form-control" rows="4" name="description">{{ old('description') }}</textarea>
-                                            <small class="text-info font-weight-bold">*Simple description of every items, quantity & price, example: Shirt 2pcs RM10. (Keterangan ringkas setiap barang, contoh: Baju 2pcs RM10)</small><br>
+                                            <small class="text-info font-weight-bold">Max:1000 characters | *Simple description of every items, quantity & price, example: Shirt 2pcs RM10. (Keterangan ringkas setiap barang, contoh: Baju 2pcs RM10)</small><br>
                                             @error('description')
                                                 <span id="fv-name-error" class="invalid">{{ $message }}</span>
                                             @enderror

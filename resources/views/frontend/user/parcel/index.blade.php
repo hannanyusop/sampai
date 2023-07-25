@@ -18,7 +18,6 @@
                         <thead>
                         <tr class="nk-tb-item nk-tb-head">
                             <th class="nk-tb-col"><span class="sub-text">Tracking No</span></th>
-                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">Receiver Name</span></th>
                             <th class="nk-tb-col tb-col-lg"><span class="sub-text">Drop Point</span></th>
                             <th class="nk-tb-col tb-col-lg"><span class="sub-text">Pickup By</span></th>
                             <th class="nk-tb-col tb-col-lg"><span class="sub-text">Pickup Datetime</span></th>
@@ -34,15 +33,12 @@
                                     <div class="user-card">
                                         <div class="user-info">
                                             <span class="tb-lead">{{ $parcel->tracking_no }} <span class="dot dot-success d-md-none ml-1"></span></span>
-                                            {{--                                        <span>{{ $user->email }}</span>--}}
+                                            <span>Pickup Code : {{ $parcel->coding }}</span>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="nk-tb-col tb-col-lg">
-                                    <span class="tb-amount">{{ $parcel->receiver_name }}</span>
-                                </td>
-                                <td class="nk-tb-col tb-col-lg">
-                                    <span>{{ $parcel->dropPoint->name }}</span>
+                                    <span>{{ $parcel->dropPoint->code }}</span>
                                 </td>
                                 <td class="nk-tb-col tb-col-lg">
                                     <span>{{ (!is_null($parcel->pickup_name))? $parcel->pickup_name : "" }}</span>

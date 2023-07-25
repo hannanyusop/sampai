@@ -48,8 +48,8 @@
                                     </li>
 
                                     <li class="col-sm-4">
-                                        <p><span class="text-soft">Price</span>
-                                            {{ $parcel->price_formated }}
+                                        <p><span class="text-soft">Service Charge</span>
+                                            {{ displayPriceFormat($parcel->service_charge, '$')}}
                                         </p>
                                     </li>
 

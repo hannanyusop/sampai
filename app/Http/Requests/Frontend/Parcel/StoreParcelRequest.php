@@ -18,7 +18,7 @@ class StoreParcelRequest extends FormRequest
             "tracking_no"   => "required|unique:parcels,tracking_no|max:50",
             "receiver_name" => "required|max:100",
             "phone_number"  => "required|max:20",
-            "description"   => "required|max:250",
+            "description"   => "required|max:1000",
             "quantity"      => "required|numeric|min:1",
             "price"         => "required|numeric",
             "invoice_url"   => "required|file|max:20048",
