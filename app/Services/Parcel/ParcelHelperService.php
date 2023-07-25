@@ -35,7 +35,7 @@ class ParcelHelperService
 
     public static function LBKWhatsappText(Pickup $pickup) :string{
 
-        $text = __("Salam/Hi your parcel ready to be collected.|Pickup code:  *:pickup_code*. | For more detail please visit :link.", [
+        $text = __("Salam/Hi your parcel ready to be collected.|Pickup code:  :pickup_code . | For more detail please visit :link.", [
             'name' => $pickup?->user?->name,
             'pickup_code' => $pickup->pickup?->code,
             'total_billing' => displayPriceFormat($pickup->total, '$'),
@@ -102,7 +102,7 @@ class ParcelHelperService
 //            'link' => route('frontend.user.pickup.show', encrypt($pickup->id))
 //        ]);
 
-        $text = __("Salam/Hi your parcel ready to be collected.|Pickup code:  *:pickup_code*. | For more detail please visit :link.", [
+        $text = __("Salam/Hi your parcel ready to be collected.|Pickup code:  :pickup_code . | For more detail please visit :link.", [
             'name' => $pickup?->user?->name,
             'pickup_code' => $pickup->pickup?->code,
             'total_billing' => displayPriceFormat($pickup->total, '$'),
