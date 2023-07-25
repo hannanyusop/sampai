@@ -35,7 +35,7 @@ class ParcelHelperService
 
     public static function LBKWhatsappText(Pickup $pickup) :string{
 
-        $text = __("Hello :name, your total bill for code:  *:pickup_code* *Total Parcel: :total_parcel* Amount need to pay total= *:total_billing* Salam/Hi your parcel ready to be collected at *:pickup_point.*  For more detail please visit :link ►*Ramadhan Business Hour*◄♥ *Monday-Thursday & Saturday*☼ 9.00 am - 5.30 pm ♥ *Friday* 9am - 12pm ☼ 2pm - 5.30pm  ♥♥ Sunday & Public Holiday *CLOSED*  Payment can be made by cash or Via online PREFERABLE (don't forget to screenshot of your receipt show to my staff pic of receipt.) *Payment via cash below $20.* *Vcard pyment $20 ke atas*  VIA BIBD VCARD - 8687454 AWG ROSPPA  Pasir Berakas Address: No.13 Spg 311 , Kpg Lambak Jln Pasir Berakas. Sama simpang dengan Mudaseri Showroom  Terima Kasih ☺", [
+        $text = __("Salam/Hi your parcel ready to be collected.|Pickup code:  *:pickup_code*. | For more detail please visit :link.", [
             'name' => $pickup?->user?->name,
             'pickup_code' => $pickup->pickup?->code,
             'total_billing' => displayPriceFormat($pickup->total, '$'),
@@ -59,45 +59,57 @@ class ParcelHelperService
 //            $parcel_text .= " *".$parcel->tracking_no."* *".displayPriceFormat($parcel->total_billing, '$')."* *".$parcel->tax."* *".$parcel->permit."* *".$parcel->total."* ";
 //        }
 
-        $text = __("Asalamualaikum..item abiskita bro/sis boleh sudah di collect di alamat niNo.115A kg. kilanas, jln tutong.Belakang restaurant belakang rumah buat kacahttps://www.google.com/maps/place/4%C2%B052'42.9%22N+114%C2%B051'29.7%22E For assitant pls text
-+6738868109/8815404
--Business hour
-*Monday n Thursday CLOSE
+//        $text = __("Asalamualaikum..item abiskita bro/sis boleh sudah di collect di alamat niNo.115A kg. kilanas, jln tutong.Belakang restaurant belakang rumah buat kacahttps://www.google.com/maps/place/4%C2%B052'42.9%22N+114%C2%B051'29.7%22E For assitant pls text
+//+6738868109/8815404
+//-Business hour
+//*Monday n Thursday CLOSE
+//
+//OPEN:
+//• Tuesday n wednesday 10.30am-6pm
+//• Friday 10.30am-12pm & 2pm-6pm
+//• Sat n Sun 10.30am-6pm
+//
+//Pp/s plz recheck Nama n Tracking No yang betul sblum sign dan meninggalkn kaunter.
+//
+//Bagi yang mengambil parcel , diminta untuk FOWARD CODE yang diberikan terlebih awal sebelum mengambil :
+//
+//CODE: :pickup_code  :total_billing
+//TOTAL PARCEL: :total_parcel
+//NAMA: :name
+//PRICE: :total_billing
+//For more detail please visit :link
+//
+//• Parcel akan disediakan di kaunter luar.
+//• Pastikan biskita SIGN bagi pengesahan
+//Abiskita pastikan AMOUNT yg diberikan.
+//
+//►PARCEL & BOOKING COLLECTION◄
+//
+//►Sebarang Transaksi BIBD/BAIDURI hendaklah $10.00 ke atas .
+//
+//►Kerjasama abiskita untuk memaklumkan resit pembayaran, hendaklah dimaklumkan kpd staff utk d skrinShot
+//Bibd Acc 00001010104774
+//Vcard No 8815404
+//
+//Terima kasih
+//
+//Terima kasih di atas kerjasama abiskita", [
+//            'name' => $pickup?->user?->name,
+//            'pickup_code' => $pickup->pickup?->code,
+//            'total_billing' => money_parse($pickup->total, 'BND'),
+//            'pickup_point' => $pickup?->dropPoint?->name,
+//            'total_parcel' => $pickup->parcels->count(),
+//            'link' => route('frontend.user.pickup.show', encrypt($pickup->id))
+//        ]);
 
-OPEN:
-• Tuesday n wednesday 10.30am-6pm
-• Friday 10.30am-12pm & 2pm-6pm
-• Sat n Sun 10.30am-6pm
-
-Pp/s plz recheck Nama n Tracking No yang betul sblum sign dan meninggalkn kaunter.
-
-Bagi yang mengambil parcel , diminta untuk FOWARD CODE yang diberikan terlebih awal sebelum mengambil :
-
-CODE: :pickup_code  :total_billing
-TOTAL PARCEL: :total_parcel
-NAMA: :name
-PRICE: :total_billing
-For more detail please visit :link
-
-• Parcel akan disediakan di kaunter luar.
-• Pastikan biskita SIGN bagi pengesahan
-Abiskita pastikan AMOUNT yg diberikan.
-
-►PARCEL & BOOKING COLLECTION◄
-
-►Sebarang Transaksi BIBD/BAIDURI hendaklah $10.00 ke atas .
-
-►Kerjasama abiskita untuk memaklumkan resit pembayaran, hendaklah dimaklumkan kpd staff utk d skrinShot
-Bibd Acc 00001010104774
-Vcard No 8815404
-
-Terima kasih
-
-Terima kasih di atas kerjasama abiskita", [
+        $text = __("Salam/Hi your parcel ready to be collected.|Pickup code:  *:pickup_code*. | For more detail please visit :link.", [
             'name' => $pickup?->user?->name,
             'pickup_code' => $pickup->pickup?->code,
-            'total_billing' => money_parse($pickup->total, 'BND'),
-            'pickup_point' => $pickup?->dropPoint?->name,
+            'total_billing' => displayPriceFormat($pickup->total, '$'),
+            'price' => displayPriceFormat($pickup->price, '$'),
+            'pickup_point' => $pickup->pickup?->dropPoint?->name,
+            'tax' => displayPriceFormat($pickup->tax, '$'),
+            'permit' => displayPriceFormat($pickup->permit, '$'),
             'total_parcel' => $pickup->parcels->count(),
             'link' => route('frontend.user.pickup.show', encrypt($pickup->id))
         ]);
