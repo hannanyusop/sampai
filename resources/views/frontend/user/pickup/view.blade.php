@@ -88,42 +88,25 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th class="w-150px">Item ID</th>
-                                <th class="w-60">Tracking No</th>
-                                <th>Price</th>
-                                <th>Qty</th>
-                                <th>Amount</th>
+                                <th>Item ID</th>
+                                <th class="text-left">Amount</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($pickup->parcels as $parcel)
                                 <tr>
-                                    <td>{{ $parcel->coding }}</td>
-                                    <td><small>
-                                            {{ $parcel->tracking_no  }}
-                                        </small>
+                                    <td class="text-left">
+                                        {{ $parcel->coding }}
+                                        <small><br>{{ $parcel->tracking_no  }}</small>
                                     </td>
-                                    <td>{{ displayPriceFormat($parcel->total_billing, '$') }}</td>
-                                    <td>1</td>
-                                    <td>{{ displayPriceFormat($parcel->total_billing, '$') }}</td>
+                                    <td class="text-left">{{ displayPriceFormat($parcel->total_billing, '$') }}</td>
                                 </tr>
                             @endforeach
                             </tbody>
                             <tfoot>
-                            {{--                        <tr>--}}
-                            {{--                            <td colspan="2"></td>--}}
-                            {{--                            <td colspan="2">Service Charge</td>--}}
-                            {{--                            <td>{{ displayPriceFormat($pickup->service_charge, '$') }}</td>--}}
-                            {{--                        </tr>--}}
-                            {{--                        <tr>--}}
-                            {{--                            <td colspan="2"></td>--}}
-                            {{--                            <td colspan="2">TAX</td>--}}
-                            {{--                            <td>{{ displayPriceFormat($pickup->tax , '$') }}</td>--}}
-                            {{--                        </tr>--}}
                             <tr>
-                                <td colspan="2"></td>
-                                <td colspan="2">Grand Total</td>
-                                <td>{{ displayPriceFormat($pickup->total, '$') }}</td>
+                                <td></td>
+                                <td>Grand Total : {{ displayPriceFormat($pickup->total, '$') }}</td>
                             </tr>
                             </tfoot>
                         </table>

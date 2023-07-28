@@ -145,7 +145,7 @@
                                                                         </p>
                                                                     </li>
                                                                     <li class="col-sm-4 text-success">
-                                                                        <p><span class="text-soft text-success">Parcel Code</span>
+                                                                        <p><span class="font-weight-bold">Parcel Code</span>
                                                                             {{ $last_parcel->coding }}
                                                                         </p>
                                                                     </li>
@@ -245,7 +245,7 @@
                                                                         </p>
                                                                     </li>
                                                                     <li class="col-sm-4 text-success">
-                                                                        <p><span class="text-soft text-success">Parcel Code</span>
+                                                                        <p><span class="font-weight-bold">Parcel Code</span>
                                                                             {{ $last_parcel->coding }}
                                                                         </p>
                                                                     </li>
