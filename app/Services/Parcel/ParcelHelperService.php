@@ -35,8 +35,8 @@ class ParcelHelperService
 
     public static function LBKWhatsappText(Pickup $pickup) :string{
 
-        $text = __("Salam/Hi |Your parcel ready to be collected.|Pickup code:  :pickup_code . | For more detail please visit :link.", [
-            'name' => $pickup?->user?->name,
+        $text = __("Salam/Hi :name |Your parcel ready to be collected.|Pickup code:  :pickup_code . | For more detail please visit :link.", [
+            'name' => \Str::upper($pickup?->user?->name),
             'pickup_code' => $pickup?->code,
             'total_billing' => displayPriceFormat($pickup->total, '$'),
             'price' => displayPriceFormat($pickup->price, '$'),
@@ -52,8 +52,8 @@ class ParcelHelperService
 
     public static function KLNWhatsappText(Pickup $pickup) :string{
 
-        $text = __("Salam/Hi |Your parcel ready to be collected.|Pickup code:  :pickup_code . | For more detail please visit :link.", [
-            'name' => $pickup?->user?->name,
+        $text = __("Salam/Hi :name |Your parcel ready to be collected.|Pickup code:  :pickup_code . | For more detail please visit :link.", [
+            'name' => \Str::upper($pickup?->user?->name),
             'pickup_code' => $pickup?->code,
             'total_billing' => displayPriceFormat($pickup->total, '$'),
             'price' => displayPriceFormat($pickup->price, '$'),
