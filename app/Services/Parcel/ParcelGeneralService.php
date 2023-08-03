@@ -116,7 +116,7 @@ class ParcelGeneralService
         $parcel->save();
 
 
-        addParcelTransaction($parcel->id, "Parcel assigned to trip $trip->code");
+        addParcelTransaction($parcel->id, "Parcel received by NUJ and assigned to trip $trip->code");
 
         return [
             GeneralHelperService::KEY_STATUS  => GeneralHelperService::STATUS_SUCCESS,
@@ -177,7 +177,7 @@ class ParcelGeneralService
         $parcel->save();
 
 
-        addParcelTransaction($parcel->id, "Parcel assigned to trip $trip->code");
+        addParcelTransaction($parcel->id, "Parcel received by NUJ and assigned to trip $trip->code");
 
         return [
             GeneralHelperService::KEY_STATUS  => GeneralHelperService::STATUS_SUCCESS,
