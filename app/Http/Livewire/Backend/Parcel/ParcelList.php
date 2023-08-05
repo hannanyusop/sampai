@@ -25,20 +25,16 @@ class ParcelList extends Component
 
         $parcels = ParcelGeneralService::query()
             ->with('user', 'pickup')
-            ->when(request()->filled('tracking_no'), function($query){
-                $query->where('tracking_no', 'like', '%'.$this->tracking_no.'%');
-            })
+            ->where('tracking_no', 'like', '%'.$this->tracking_no.'%')
             ->when($this->office_id != 0, function($query){
                 $query->where('office_id', $this->office_id);
             })
             ->when($this->status != 0, function($query){
                 $query->where('status', $this->status);
             })
-            ->when(request()->filled('owner'), function($query){
-                $query->whereHas('user', function($query){
-                    $query->where('name', 'like', '%'.$this->owner.'%')
-                        ->orWhere('phone_number', 'like', '%'.$this->owner.'%');
-                });
+            ->whereHas('user', function($query){
+                $query->where('name', 'like', '%'.$this->owner.'%')
+                    ->orWhere('phone_number', 'like', '%'.$this->owner.'%');
             })
             ->orderBy('id', 'desc')
             ->paginate(10);

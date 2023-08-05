@@ -83,7 +83,7 @@
                                 @error('phone_number')
                                     <span id="fv-name-error" class="invalid">{{ $message }}</span>
                                 @enderror
-                                <br><small class="text-info font-weight-bold">*Contact number only with country code without '+'</small>
+                                <br><small class="text-info font-weight-bold">*Contact must be a valid number with country code with '+6'</small>
                             </div><!-- .foem-group -->
 
                             <div class="form-group">

@@ -30,11 +30,18 @@ class UpdateProfileRequest extends FormRequest
         return [
             'name' => ['required', 'max:100'],
 //            'identification' => ['required', 'string','min:5', 'max:20', Rule::unique('users')->ignore($this->user()->id)],
-            'phone_number' => ['required', 'string','min:9', 'max:15', Rule::unique('users')->ignore($this->user()->id)],
+            'phone_number' => ['required',  'regex:/^\+6\d*$/','min:9', 'max:15', Rule::unique('users')->ignore($this->user()->id)],
 //            'address' => ['required', 'min:6', 'max:150'],
             'email' => [Rule::requiredIf(function () {
                 return config('boilerplate.access.user.change_email');
             }), 'max:255', 'email', Rule::unique('users')->ignore($this->user()->id)],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'phone_number.regex' => 'The phone number must start with +6 and contain a maximum of 10 numbers.',
         ];
     }
 }

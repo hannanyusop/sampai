@@ -43,7 +43,6 @@
                         </div>
                     </div>
                     <div class="m-2">
-                        <button type="submit" class="btn btn-primary"><span class="ni ni-search"></span></button>
                         <button wire:click="resetPage()" class="btn btn-warning"><span class="ni ni-redo"></span></button>
                     </div>
                 </div>
