@@ -57,7 +57,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:100'],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')],
             'default_drop_point' => 'required|exists:offices,id',
-            'phone_number' => ['required', 'regex:/^\6\d*$/', 'string','min:9', 'max:15', Rule::unique('users')],
+            'phone_number' => ['required', 'regex:/^6\d*$/', 'string','min:9', 'max:15', Rule::unique('users')],
             'password' => ['required', 'confirmed', 'min:5'],
             'terms' => ['required', 'in:1'],
             'g-recaptcha-response' => ['required_if:captcha_status,true', new Captcha], [
