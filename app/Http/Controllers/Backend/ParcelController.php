@@ -14,30 +14,7 @@ use Illuminate\Support\Facades\Storage;
 class ParcelController extends Controller{
 
     public function index(){
-
-        $pickup_offices = Office::where('is_drop_point', 1)->get();
-
-        $parcels = ParcelGeneralService::query()
-            ->with('user', 'pickup')
-            ->when(request()->filled('tracking_no'), function($query){
-                $query->where('tracking_no', 'like', '%'.request()->tracking_no.'%');
-            })
-            ->when(request()->filled('office') && request()->office != 0, function($query){
-                $query->where('office_id', request()->office);
-            })
-            ->when(request()->filled('status') && request()->status != 0, function($query){
-                $query->where('status', request()->status);
-            })
-            ->when(request()->filled('owner'), function($query){
-                $query->whereHas('user', function($query){
-                    $query->where('name', 'like', '%'.request()->owner.'%')
-                        ->orWhere('phone_number', 'like', '%'.request()->owner.'%');
-                });
-            })
-            ->orderBy('id', 'desc')
-            ->get();
-
-        return view('backend.parcel.index', compact('parcels', 'pickup_offices'));
+        return view('backend.parcel.index');
     }
 
     public function scan(){
