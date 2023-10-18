@@ -185,6 +185,7 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
 
 
+        Laravel\Passport\PassportServiceProvider::class,
     ],
 
     /*

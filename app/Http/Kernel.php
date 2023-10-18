@@ -46,6 +46,9 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\EnsureJsonRequest::class,
+            \Illuminate\Cookie\Middleware\EncryptCookies::class,
+            \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
         ],
 
         'admin' => [
