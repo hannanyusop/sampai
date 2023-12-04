@@ -34,7 +34,7 @@ class PickupGeneralService
     {
 
         $last    = Pickup::orderBy('id', 'DESC')->first();
-        $next_id = ($last)? $last->id+1 : 1;
+        $next_id = ($last)? $last->id+1-10100 : 1;
 
         $pickup = new Pickup();
         $pickup->user_id   = $user->id;
