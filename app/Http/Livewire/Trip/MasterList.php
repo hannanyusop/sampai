@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Trip;
 
+use App\Domains\Auth\Models\Office;
 use App\Domains\Auth\Models\Parcels;
 use App\Exports\Trip\MasterListExport;
 use App\Exports\Trip\WhatsappBotExport;
@@ -25,6 +26,7 @@ class MasterList extends Component
     public $trip, $tax, $trip_ids = [], $service_charge = 0.00, $percent = 0.00, $price = 0.00, $currency_exchange = 0.00, $permit = 0.00;
     public $cod_fee_ori;
     public $tracking_no, $edited_id = 0;
+    public $drop_point_id, $drop_points = [];
 
     public bool $edit_rate = false;
     public $tax_rate = 0.00, $pos_rate = 0.00;
@@ -32,6 +34,8 @@ class MasterList extends Component
     public function mount($trip_id)
     {
         $this->trip_batch = TripBatch::with('trips')->findOrFail($trip_id);
+
+        $this->drop_points = Office::where('is_drop_point', true)->get();
 
 
         $this->currency_exchange = $this->trip_batch->tax_rate;
@@ -49,6 +53,9 @@ class MasterList extends Component
         })->when($this->tracking_no, function ($query) {
             $query->where('tracking_no', 'like', '%' . $this->tracking_no . '%');
         })
+            ->when($this->drop_point_id, function ($query) {
+                $query->where('office_id', $this->drop_point_id);
+            })
             ->orderBy('user_id', 'asc')
             ->paginate(20);
 

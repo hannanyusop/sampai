@@ -111,6 +111,17 @@
 
                     Selected Parcel : {{ $selected_parcel?->tracking_no ?? __("No Parcel Selected") }}
 
+                    <div class="row my-2">
+                        <div class="col-md-3">
+                            <label for="">Select Drop Point</label>
+                            <select wire:model="drop_point_id" class="form-control">
+                                <option value="">Select Drop Point</option>
+                                @foreach($drop_points as $drop_point)
+                                    <option value="{{ $drop_point->id }}">{{ $drop_point->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                     <table class="nk-tb-list nk-tb-ulist" data-auto-responsive="false">
                         <thead>
                         <tr class="nk-tb-item nk-tb-head">
