@@ -56,7 +56,7 @@ class WhatsappBotExport implements FromArray, ShouldAutoSize, WithStyles, WithCo
                 $pickup->status_label,
                 '',
                 $pickup?->user?->phone_number,
-                ($pickup->dropPoint->code == "LBK") ? ParcelHelperService::LBKWhatsappText($pickup) : ParcelHelperService::KLNWhatsappText($pickup)
+                ($pickup->dropPoint->code == "L") ? ParcelHelperService::LBKWhatsappText($pickup) : ParcelHelperService::KLNWhatsappText($pickup)
             ];
 
             $ttl_tax+=$pickup->tax;

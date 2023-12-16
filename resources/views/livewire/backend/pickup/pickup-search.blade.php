@@ -44,7 +44,7 @@
                         <div class="nk-help-plain card-inner text-center">
                             <div class="nk-help-text">
                                 <h5>Search Pickup </h5>
-                                <p class="text-soft">Insert customer pickup code Ex : KLN-1</p>
+                                <p class="text-soft">Insert customer pickup code Ex : K-1</p>
                             </div>
 
                             <div class="row mb-3">
