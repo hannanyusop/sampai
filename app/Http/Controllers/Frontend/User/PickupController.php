@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Frontend\User;
 
-use App\Domains\Auth\Models\Parcels;
 use App\Http\Controllers\Controller;
 use App\Models\Pickup;
 
