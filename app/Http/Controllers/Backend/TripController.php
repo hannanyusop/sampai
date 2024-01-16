@@ -233,11 +233,17 @@ class TripController extends Controller
 
         $batch = TripBatch::whereHas('trips', function ($q) use ($trip_batch_id){
             $q->where('status', TripHelperService::STATUS_PENDING);
-        })->findOrFail($trip_batch_id);
+        })
+            ->where('is_closed', false)
+            ->findOrFail($trip_batch_id);
 
 //        if($batch->parcels->count() == 0){
 //            return redirect()->back()->with('flash_danger', 'Trip cannot be closed. Reason : There are no parcel inserted.');
 //        }
+
+
+        $batch->is_closed = true;
+        $batch->save();
 
         foreach ($batch->parcels as $parcel){
             addParcelTransaction($parcel->id, ParcelHelperService::statuses(ParcelHelperService::STATUS_OUTBOUND_TO_DROP_POINT));
