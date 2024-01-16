@@ -25,7 +25,7 @@ class DashboardController extends Controller
         }elseif (auth()->user()->can('staff.distributor')){
 
 
-            $trip_batches = TripBatch::wherehas('trips',
+            $trip_batches = TripBatchGeneralService::query()->wherehas('trips',
                 fn ($q) => $q->whereIn('status', [TripBatchHelperService::STATUS_PENDING]))
                 ->orderBy('id', 'desc')
                 ->get();
@@ -56,15 +56,13 @@ class DashboardController extends Controller
             $picked_trips = TripBatchGeneralService::getByStatus([TripBatchHelperService::STATUS_IN_TRANSIT])
                 ->get();
 
-//            dd($picked_trips);
-
             $total = [
                 'current' => Trip::whereYear('created_at', date('Y'))->count(),
                 'prev' => Trip::whereYear('created_at', date('Y')-1)->count()
             ];
 
             return view('backend.dashboard-runner', compact('closed_trips', 'picked_trips', 'total'));
-        }elseif ('staff.inhouse'){
+        }elseif (auth()->user()->can('staff.inhouse')){
 
             $data =  [
                 'all' => Parcels::whereNotIn('status', [ParcelHelperService::STATUS_REGISTERED])->count(),
@@ -80,6 +78,11 @@ class DashboardController extends Controller
 
             return view('backend.dashboard', compact('trips', 'data'));
 
+        }elseif (auth()->user()->can('staff.biacc')){
+
+            $trip_batches  = TripBatchGeneralService::query()->limit(5)->get();
+
+            return view('backend.dashboard-biacc', compact('trip_batches'));
         }
 
     }

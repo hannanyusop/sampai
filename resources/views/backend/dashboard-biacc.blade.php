@@ -3,71 +3,36 @@
 @section('title', __('Dashboard'))
 
 @section('content')
-    @php $data = parcelData() @endphp
-
     <div class="container-xl wide-lg">
         <div class="nk-content-body">
             <div class="nk-block-head">
-                <div class="nk-block-head-sub"><span>Welcome!</span>
+                <div class="nk-block-head-sub"><span>Welcome {{ auth()->user()->name }}!</span>
                 </div>
                 <div class="nk-block-between-md g-4">
                     <div class="nk-block-head-content">
-                        <h2 class="nk-block-title fw-normal">{{ auth()->user()->name }}</h2>
                         <div class="nk-block-des">
-                            <p>Pusat Terimaan</p>
+                            <p><b>Office</b> : {{ auth()->user()->office() }}<br>
+                            <b>Position</b> : {{ auth()->user()->can('staff.manager')? "Manager" : "Staff" }}</p>
                         </div>
                     </div><!-- .nk-block-head-content -->
                     <div class="nk-block-head-content">
-                        @can('admin.trip.open')
                         <ul class="nk-block-tools gx-3">
-                            <li><a href="{{ route('admin.tripBatch.create') }}" class="btn btn-primary"><span>Create Trip</span>
-                                    <em class="icon ni ni-arrow-long-right"></em></a></li>
+                            <li><a href="{{ route('admin.tripBatch.index') }}" class="btn btn-primary"><span>All Trip List</span> <em class="icon ni ni-list-check"></em></a></li>
+                            <li class="opt-menu-md dropdown">
+                                <a href="#" class="btn btn-white btn-light btn-icon" data-toggle="dropdown"><em class="icon ni ni-setting"></em></a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <ul class="link-list-opt no-bdr">
+                                        @if(auth()->user()->can('staff.manager'))
+                                        <li><a href="{{ route('admin.office.edit') }}"><em class="icon ni ni-setting"></em><span>Manage Office</span></a></li>
+                                        @endif
+                                        <li><a href="{{ route('admin.office.staff') }}"><em class="icon ni ni-user-list"></em><span>Staff List</span></a></li>
+                                    </ul>
+                                </div>
+                            </li>
                         </ul>
-                        @endcan
                     </div><!-- .nk-block-head-content -->
                 </div><!-- .nk-block-between -->
             </div><!-- .nk-block-head -->
-
-            <div class="nk-block">
-                <div class="row g-gs">
-                    <div class="col-xxl-6">
-                        <div class="row g-gs">
-                            <div class="col-lg-12 col-xxl-12">
-                                <div class="card card-bordered">
-                                    <div class="card-inner">
-                                        <div class="card-title-group align-start mb-2">
-                                            <div class="card-title">
-                                                <h6 class="title">Parcel Receive</h6>
-                                                <p>Parcel received for this year.</p>
-                                            </div>
-                                            <div class="card-tools">
-                                                <em class="card-hint icon ni ni-help-fill" data-toggle="tooltip"
-                                                    data-placement="left" title="Revenue from subscription"></em>
-                                            </div>
-                                        </div>
-                                        <div
-                                            class="align-end gy-3 gx-5 flex-wrap flex-md-nowrap flex-lg-wrap flex-xxl-nowrap">
-                                            <div class="nk-sale-data-group flex-md-nowrap g-4">
-                                                <div class="nk-sale-data">
-                                                    <span class="amount">{{ $total_current_month }} </span>
-                                                    <span class="sub-title">This Month</span>
-                                                </div>
-                                                <div class="nk-sale-data">
-                                                    <span class="amount">{{ $avg }}</span>
-                                                    <span class="sub-title">Average Per Month</span>
-                                                </div>
-                                            </div>
-                                            <div class="nk-sales-ck sales-revenue">
-                                                <canvas class="sales-bar-chart" id="salesRevenue"></canvas>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!-- .col -->
-                </div>
-            </div>
 
             <div class="nk-block nk-block-lg">
                 <div class="row gy-gs">
@@ -84,7 +49,10 @@
                                         <div class="tranx-info">
                                             <div class="tranx-data">
                                                 <div class="tranx-label">
-                                                    {{ $trip_batch->number }}
+                                                    <p>
+                                                        <b>Receiver Office</b> : <span class="text-base">{{ __(":code - :name", ["code" => $trip_batch?->office?->code, "name" => $trip_batch?->office?->name]) }}</span>
+                                                        |<b>Code</b> : <span class="text-base">{{ $trip_batch->number }}</span>
+                                                    </p>
                                                 </div>
 
                                                 <div class="tranx-date">
@@ -113,6 +81,7 @@
                     </div><!-- .col -->
                 </div><!-- .row -->
             </div><!-- .nk-block -->
+
         </div>
     </div>
 
@@ -567,12 +536,12 @@
             });
             var salesRevenue = {
                 labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-                dataUnit: 'Parcel(s)',
+                dataUnit: 'USD',
                 stacked: true,
                 datasets: [{
                     label: "Sales Revenue",
                     color: ["#e9ecff", "#e9ecff", "#e9ecff", "#e9ecff", "#e9ecff", "#e9ecff", "#e9ecff", "#e9ecff", "#e9ecff", "#e9ecff", "#e9ecff", "#6576ff"],
-                    data: @json($pr)
+                    data: [11000, 8000, 12500, 5500, 9500, 14299, 11000, 8000, 12500, 5500, 9500, 14299]
                 }]
             };
             var activeSubscription = {
@@ -933,5 +902,5 @@
             });
         }(NioApp, jQuery);
     </script>
-    {{--    <script src="{{ asset('assets/js/charts/gd-general.js') }}?ver=1.4.0"></script>--}}
+{{--    <script src="{{ asset('assets/js/charts/gd-general.js') }}?ver=1.4.0"></script>--}}
 @endpush

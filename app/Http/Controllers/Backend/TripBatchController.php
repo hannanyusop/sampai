@@ -7,6 +7,7 @@ use App\Domains\Auth\Models\Trip;
 use App\Http\Controllers\Controller;
 use App\Models\TripBatch;
 use App\Services\Parcel\ParcelHelperService;
+use App\Services\TripBatch\TripBatchGeneralService;
 use App\Services\TripBatch\TripBatchHelperService;
 
 class TripBatchController extends Controller
@@ -25,6 +26,11 @@ class TripBatchController extends Controller
     }
 
     public function show(TripBatch $tripBatch){
+
+        $tripBatch = TripBatchGeneralService::query()->find($tripBatch->id);
+
+        if (!$tripBatch) return redirect()->back()->withFlashWarning('Trip batch not found!');
+
         return view('backend.trip_batch.show', compact('tripBatch'));
     }
 

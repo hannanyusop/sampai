@@ -27,6 +27,7 @@ class UserRoleSeeder extends Seeder
         $manager = Permission::where('name', 'staff.manager')->first()->id;
         $officer = Permission::where('name', 'staff.inhouse')->first()->id;
         $distributor = Permission::where('name', 'staff.distributor')->first()->id;
+        $biacc = Permission::where('name', 'staff.biacc')->first()->id;
 
         $limbang = User::find(2);
         $limbang->assignRole(2);
@@ -43,6 +44,14 @@ class UserRoleSeeder extends Seeder
         $kilanas = User::find(5);
         $kilanas->assignRole(2);
         $kilanas->syncPermissions([$manager, $officer]);
+
+        $belait = User::find(8);
+        $belait->assignRole(2);
+        $belait->syncPermissions([$manager, $officer]);
+
+        $staff_biacc = User::find(9);
+        $staff_biacc->assignRole(2);
+        $staff_biacc->syncPermissions([$manager, $biacc]);
 
         $run = User::find(6);
         $run->assignRole(2);

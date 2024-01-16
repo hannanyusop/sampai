@@ -10,6 +10,7 @@ class Office extends Model{
         'code',
         'name',
         'is_drop_point',
+        'is_receiver',
         'address',
     ];
 

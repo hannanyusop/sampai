@@ -112,8 +112,14 @@ class PermissionRoleSeeder extends Seeder
             new Permission([
                 'type' => User::TYPE_ADMIN,
                 'name' => 'staff.distributor',
-                'description' => 'UTeM-Mel Staff',
+                'description' => 'Staff Distributor',
                 'sort' => 4,
+            ]),
+            new Permission([
+                'type' => User::TYPE_ADMIN,
+                'name' => 'staff.biacc',
+                'description' => 'Staff',
+                'sort' => 5,
             ]),
         ]);
 

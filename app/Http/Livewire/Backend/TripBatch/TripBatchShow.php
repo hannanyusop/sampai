@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Backend\TripBatch;
 
 use App\Domains\Auth\Models\Parcels;
+use App\Exports\Trip\BiaccExport;
 use App\Imports\Parcel\OfflineParcelImport;
 use App\Models\TripBatch;
 use App\Services\General\GeneralHelperService;
@@ -26,8 +27,9 @@ class TripBatchShow extends Component
     use WithFileUploads;
 
 
-    public function mount($tripBatch)
+    public function mount(TripBatch $tripBatch)
     {
+
         $this->tripBatch = $tripBatch;
         $this->tax_rate = $tripBatch->tax_rate;
         $this->pos_rate = $tripBatch->pos_rate;
@@ -169,6 +171,12 @@ class TripBatchShow extends Component
         $this->edit_parcel_id = null;
 
         session()->flash('insert_'.GeneralHelperService::STATUS_SUCCESS, __('Rate updated successfully.'));
+    }
+
+    public function exportBiacc()
+    {
+        return (new BiaccExport($this->tripBatch))->download('trip_'.$this->tripBatch->number.'_BIACC_'.time().'.xlsx');
+
     }
 
     #endregion

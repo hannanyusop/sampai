@@ -48,6 +48,7 @@
                                     <thead class="bg-dark text-white">
                                     <tr>
                                         <th>Trip No.</th>
+                                        <th>Receiver Office</th>
                                         <th>Date</th>
                                         <th>Created By</th>
                                         <th>Status</th>
@@ -58,6 +59,7 @@
                                     @foreach($batches as $key => $batch)
                                         <tr>
                                             <td>{{ $batch->number }}</td>
+                                            <td>{{ __(":code - :name", ["code" => $batch?->office?->code, "name" => $batch?->office?->name]) }}</td>
                                             <td>{{ $batch->date }}</td>
                                             <td>{{ $batch?->creator->name }}</td>
                                             <td>{{ $batch->status_name }}</td>

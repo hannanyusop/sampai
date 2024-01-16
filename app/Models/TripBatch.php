@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Domains\Auth\Models\Office;
 use App\Domains\Auth\Models\Parcels;
 use App\Domains\Auth\Models\Trip;
 use App\Domains\Auth\Models\User;
@@ -13,7 +14,15 @@ class TripBatch extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['tax_rate', 'pos_rate'];
+    # office_id
+
+    protected $fillable = ['tax_rate', 'pos_rate', 'is_closed', 'created_by', 'office_id'];
+
+
+    public function office()
+    {
+        return $this->belongsTo(Office::class, 'office_id', 'id');
+    }
 
     public function trips(){
         return $this->hasMany(Trip::class, 'trip_batch_id', 'id');

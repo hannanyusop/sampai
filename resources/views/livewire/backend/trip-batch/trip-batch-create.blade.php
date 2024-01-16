@@ -5,8 +5,18 @@
             <div class="card-inner">
                 <div class="text-center">
 
-                    Please select the trip type and fill the form below to create a new trip.
+                    Please select office and fill the form below to create a new trip.
                     This will create a new trip batch for d {{ date('Y-m-d') }}
+
+
+                    <select class="form-control" wire:model="office_id">
+                        <option value=""> - Select Office - </option>
+                        @foreach($receiver_offices as $office)
+                            <option value="{{ $office->id }}">{{ $office->name }}</option>
+                        @endforeach
+                    </select>
+
+                    @error('office_id') <span class="text-danger">{{ $message }}</span> @enderror
 
                     <div class="row m-4">
                         <div class="col-md-12">
