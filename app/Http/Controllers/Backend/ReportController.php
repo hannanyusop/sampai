@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 use App\Domains\Auth\Models\Parcels;
 use App\Domains\Auth\Models\WalletTransaction;
 use App\Http\Controllers\Controller;
+use App\Services\Parcel\ParcelHelperService;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller{
@@ -32,7 +33,7 @@ class ReportController extends Controller{
             $process = Parcels::leftJoin('trips', 'trips.id', '=', 'parcels.id')
                 ->whereYear('parcels.created_at', $year)
                 ->whereMonth('parcels.created_at', $month)
-                ->whereIn('parcels.status', [0,1,2])
+                ->whereIn('parcels.status', [ParcelHelperService::STATUS_REGISTERED])
                 ->whereIn('destination_id', $office_id)
                 ->count();
 
@@ -96,10 +97,11 @@ class ReportController extends Controller{
         do{
 
 
-            $amount = WalletTransaction::whereYear('created_at', $year)
+            $amount = Parcels::whereYear('created_at', $year)
                 ->whereMonth('created_at', $month)
-                ->where('status', 'paid')
-                ->sum('amount');
+                ->selectRaw('SUM(cod_fee + service_charge) as total_amount')
+                ->value('total_amount');
+
             $month++;
 
             array_push($data, $amount);

@@ -175,17 +175,17 @@
                                                                                 <input type="number" class="form-control" wire:model="service_charge">
                                                                             </p>
                                                                         </li>
+
                                                                         <li class="col-sm-4">
                                                                             <p><span class="text-soft">Guni</span>
                                                                                 <input type="text" class="form-control" wire:model="guni">
                                                                             </p>
                                                                         </li>
-
-                                                                        {{--                                                                <li class="col-sm-4">--}}
-                                                                        {{--                                                                    <p><span class="text-soft">Destination</span>--}}
-                                                                        {{--                                                                        <input type="number" class="form-control" wire:model="guni">--}}
-                                                                        {{--                                                                    </p>--}}
-                                                                        {{--                                                                </li>--}}
+                                                                        <li class="col-sm-4">
+                                                                            <p><span class="text-soft">COD ($)</span>
+                                                                                <input type="number" class="form-control" wire:model="cod_fee">
+                                                                            </p>
+                                                                        </li>
                                                                     </ul>
                                                                 </div>
 
@@ -353,12 +353,13 @@
                             <thead>
                             <tr class="nk-tb-item nk-tb-head">
                                 <th class="nk-tb-col"><span class="sub-text">Name</span></th>
-                                <th class="nk-tb-col tb-col-md"><span class="sub-text">Description</span></th>
-                                <th class="nk-tb-col"><span class="sub-text">Koding/Guni</span></th>
+                                <th class="nk-tb-col tb-col-md"><span class="sub-text">Tracking / Description</span></th>
+                                <th class="nk-tb-col"><span class="sub-text">Koding / Guni</span></th>
+                                <th class="nk-tb-col tb-col-lg"><span class="sub-text">Parcel Price (RM)</span></th>
+
                                 @cannot('staff.biacc')
-                                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">Parcel Price (RM)</span></th>
                                     <th class="nk-tb-col tb-col-lg"><span class="sub-text">Tax ($)</span></th>
-                                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">COD (RM)</span></th>
+                                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">COD ($)</span></th>
                                     <th class="nk-tb-col tb-col-lg"><span class="sub-text">Service Charge ($)</span></th>
                                     <th class="nk-tb-col tb-col-lg"><span class="sub-text">Permit ($)</span></th>
                                     <th class="nk-tb-col"><span class="sub-text">Action</span></th>
@@ -389,15 +390,16 @@
                                             <small>{{ $parcel?->guni ?? "-" }}</small>
                                         @endif
                                     </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        <span>{{ displayPriceFormat($parcel->price) }}</span>
+                                    </td>
                                     @cannot('staff.biacc')
-                                        <td class="nk-tb-col tb-col-lg">
-                                            <span>{{ displayPriceFormat($parcel->price) }}</span>
-                                        </td>
+
                                         <td class="nk-tb-col tb-col-lg">
                                             <span>{{ displayPriceFormat($parcel->tax, '$') }}</span>
                                         </td>
                                         <td class="nk-tb-col tb-col-lg">
-                                            <span>{{ displayPriceFormat($parcel->cod_fee_ori, 'RM') }}</span>
+                                            <span>{{ displayPriceFormat($parcel->cod_fee, '$') }}</span>
                                         </td>
                                         <td class="nk-tb-col tb-col-lg">
                                             @if($parcel->id == $edit_parcel_id)

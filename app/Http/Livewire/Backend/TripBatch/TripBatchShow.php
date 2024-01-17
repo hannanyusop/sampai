@@ -18,11 +18,11 @@ class TripBatchShow extends Component
 {
     public $edit_parcel_id = null, $guni_edit, $service_charge_edit;
     public $filter_tracking_no = null, $filter_name = null, $filter_phone_no = null;
-    public $tripBatch, $tracking_no, $last_parcel;
+    public $tripBatch, $tracking_no = "", $last_parcel;
     public bool $edit_rate = false, $showUploadForm = false;
     public $excel;
-    public string $guni;
-    public $tax_rate = 0.00, $pos_rate = 0.00,  $service_charge = 0.00;
+    public $guni = '';
+    public $tax_rate = 0.00, $pos_rate = 0.00,  $service_charge = 0.00, $cod_fee = 0.00;
 
     use WithFileUploads;
 
@@ -37,6 +37,11 @@ class TripBatchShow extends Component
 
     public function render()
     {
+
+        if(Str::length($this->tracking_no) > 5){
+            $this->search();
+        }
+
         $tripBatch = $this->tripBatch;
 
         $parcels =  Parcels::whereHas('pickup', function ($query) use ($tripBatch) {
@@ -67,6 +72,10 @@ class TripBatchShow extends Component
 
         if ($service[GeneralHelperService::KEY_STATUS] == GeneralHelperService::STATUS_SUCCESS) $this->last_parcel = $service[GeneralHelperService::KEY_DATA];
 
+        $this->cod_fee         = $service[GeneralHelperService::KEY_DATA]->cod_fee;
+        $this->service_charge  = $service[GeneralHelperService::KEY_DATA]->service_charge;
+        $this->guni            = $service[GeneralHelperService::KEY_DATA]->guni;
+
     }
 
     public function save(){
@@ -88,11 +97,14 @@ class TripBatchShow extends Component
         $parcel->update([
             'service_charge' => $this->service_charge,
             'guni'           => $this->guni,
+            'cod_fee'        => $this->cod_fee,
         ]);
 
         if ($service[GeneralHelperService::KEY_STATUS] == GeneralHelperService::STATUS_SUCCESS) $this->last_parcel = Parcels::where('tracking_no', $tracking_no)->first();
 
         session()->flash('insert_'.$service[GeneralHelperService::KEY_STATUS],$service[GeneralHelperService::KEY_MESSAGE]);
+
+        $this->last_parcel = null;
     }
 
     public function deleteParcel($id){
@@ -118,7 +130,7 @@ class TripBatchShow extends Component
 
     public function cancel(){
 
-        $this->tracking_no = null;
+        $this->tracking_no = "";
         $this->last_parcel = null;
     }
 

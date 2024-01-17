@@ -52,7 +52,7 @@
                                                     <h6 class="title">Lowest (Monthly) <em class="icon ni ni-info"></em></h6>
                                                 </div>
                                                 <div class="nk-iv-wg2-text">
-                                                    <div class="nk-iv-wg2-amount">{{ displayPriceFormat($min)  }}</span>
+                                                    <div class="nk-iv-wg2-amount">{{ displayPriceFormat($min, '$')  }}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -67,7 +67,7 @@
                                                     <h6 class="title">Highest (Monthly) <em class="icon ni ni-info"></em></h6>
                                                 </div>
                                                 <div class="nk-iv-wg2-text">
-                                                    <div class="nk-iv-wg2-amount">{{ displayPriceFormat($max)  }}</span>
+                                                    <div class="nk-iv-wg2-amount">{{ displayPriceFormat($max, '$')  }}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -82,7 +82,7 @@
                                                     <h6 class="title">Total (Year) <em class="icon ni ni-info"></em></h6>
                                                 </div>
                                                 <div class="nk-iv-wg2-text">
-                                                    <div class="nk-iv-wg2-amount">{{ displayPriceFormat($sum)  }}</span>
+                                                    <div class="nk-iv-wg2-amount">{{ displayPriceFormat($sum, '$')  }}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -97,7 +97,7 @@
                                                     <h6 class="title">Monthly Average <em class="icon ni ni-info"></em></h6>
                                                 </div>
                                                 <div class="nk-iv-wg2-text">
-                                                    <div class="nk-iv-wg2-amount">{{ displayPriceFormat($avg)  }}</span>
+                                                    <div class="nk-iv-wg2-amount">{{ displayPriceFormat($avg, '$')  }}</span>
                                                     </div>
                                                 </div>
                                             </div>

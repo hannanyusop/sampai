@@ -80,7 +80,7 @@ class DashboardController extends Controller
 
         }elseif (auth()->user()->can('staff.biacc')){
 
-            $trip_batches  = TripBatchGeneralService::query()->limit(5)->get();
+            $trip_batches  = TripBatchGeneralService::query()->orderBy('id', 'desc')->limit(5)->get();
 
             return view('backend.dashboard-biacc', compact('trip_batches'));
         }
