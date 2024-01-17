@@ -38,7 +38,7 @@ class TripBatchShow extends Component
     public function render()
     {
 
-        if(Str::length($this->tracking_no) > 5){
+        if(Str::length($this->tracking_no) > 5 && $this->tracking_no != $this?->last_parcel?->tracking_no){
             $this->search();
         }
 
