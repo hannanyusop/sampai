@@ -104,7 +104,7 @@ class TripBatchShow extends Component
 
         session()->flash('insert_'.$service[GeneralHelperService::KEY_STATUS],$service[GeneralHelperService::KEY_MESSAGE]);
 
-        $this->last_parcel = null;
+//        $this->last_parcel = null;
     }
 
     public function deleteParcel($id){
