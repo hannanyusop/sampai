@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\V1\AuthController;
 use Illuminate\Http\Request;
 
 /*
@@ -13,6 +14,13 @@ use Illuminate\Http\Request;
 |
 */
 
-//Route::middleware('auth:api')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::group([
+    'middleware' => [ 'auth:api'],
+], function () {
+
+    Route::get('check', [AuthController::class, 'checkAuth']);
+    Route::get('user', [AuthController::class, 'user']);
+    Route::post('logout', [AuthController::class, 'logout']);
+});

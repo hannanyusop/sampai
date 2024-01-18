@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Passport\Passport;
 
 /**
  * Class AuthServiceProvider.
@@ -33,6 +34,12 @@ class AuthServiceProvider extends ServiceProvider
         Gate::before(function ($user) {
             return $user->hasAllAccess() ? true : null;
         });
+
+        Passport::routes();
+        Passport::tokensExpireIn(now()->addYears(10));
+        Passport::refreshTokensExpireIn(now()->addYears(10));
+        Passport::personalAccessTokensExpireIn(now()->addYears(10));
+
 
         // Learn when to use this instead: https://docs.spatie.be/laravel-permission/v3/basic-usage/super-admin/#gate-after
 //        Gate::after(function ($user) {

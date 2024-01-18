@@ -23,6 +23,7 @@
         "kriswallsmith/buzz": "^1.2",
         "lab404/laravel-impersonate": "^1.6",
         "laravel/framework": "^v8.83.27",
+        "laravel/passport": "^10.4",
         "laravel/socialite": "^5.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.0",
