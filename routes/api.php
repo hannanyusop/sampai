@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\API\V1\AuthController;
+use App\Http\Controllers\API\V1\HelperController;
+use App\Http\Controllers\API\V1\ParcelController;
 use Illuminate\Http\Request;
 
 /*
@@ -23,4 +25,23 @@ Route::group([
     Route::get('check', [AuthController::class, 'checkAuth']);
     Route::get('user', [AuthController::class, 'user']);
     Route::post('logout', [AuthController::class, 'logout']);
+
+    Route::group([
+        'prefix' => 'parcel',
+        'as' => 'parcel.',
+    ], function () {
+        Route::get('/', [ParcelController::class, 'index'])->name('index');
+        Route::get('/{parcel}', [ParcelController::class, 'show'])->name('show');
+
+        Route::post('/', [ParcelController::class, 'store'])->name('store');
+        Route::put('/{parcel}', [ParcelController::class, 'update'])->name('update');
+        Route::delete('/{parcel}', [ParcelController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::group([
+        'prefix' => 'helper',
+        'as' => 'helper.',
+    ], function () {
+        Route::get('/drop-point', [HelperController::class, 'dropPoint'])->name('drop-point');
+    });
 });

@@ -14,6 +14,8 @@ class Office extends Model{
         'address',
     ];
 
+    protected $appends = ['label'];
+
     public function manager(){
 
 
@@ -37,4 +39,9 @@ class Office extends Model{
     public function pickups(){
         return $this->hasMany(Office::class);
     }
+
+    public function getLabelAttribute(){
+        return $this->code." - ".$this->name;
+    }
+
 }

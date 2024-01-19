@@ -8,10 +8,13 @@ use App\Domains\Auth\Models\Parcels;
 use App\Domains\Auth\Models\Trip;
 use App\Models\Pickup;
 use App\Models\TripBatch;
+use App\Models\UnregisteredParcel;
 use App\Services\General\GeneralHelperService;
 use App\Services\Pickup\PickupGeneralService;
 use App\Services\Role\RoleHelperService;
 use App\Services\Trip\TripHelperService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ParcelGeneralService
 {
@@ -25,6 +28,52 @@ class ParcelGeneralService
         })->when(!auth()->user()->hasAnyRole([RoleHelperService::ROLE_ADMIN, RoleHelperService::ROLE_STAFF]), function ($q){
                 $q->where('user_id', auth()->user()->id);
         });
+    }
+
+    //customer save new parcel
+    public static function store(Request $request)
+    {
+
+        try {
+
+            $exists = Parcels::where('tracking_no', strtoupper($request->tracking_no))->first();
+
+            if($exists){
+                return ['status' => 'error', 'message' => 'Tracking no '. strtoupper($request->tracking_no). ' already exist.', 'data' => null, 'code' => 500];
+            }
+
+            $parcel = new Parcels();
+            $parcel->user_id       = auth()->user()->id;
+            $parcel->tracking_no   = strtoupper($request->tracking_no);
+            $parcel->status        = ParcelHelperService::STATUS_REGISTERED;
+            $parcel->receiver_name = strtoupper($request->receiver_name);
+            $parcel->phone_number  = $request->phone_number;
+            $parcel->description   = $request->description;
+            $parcel->price         = $request->price;
+            $parcel->quantity      = $request->quantity;
+            $parcel->order_origin  = $request->order_origin;
+            $parcel->office_id     = $request->office_id;
+//        $file                  = Storage::put('invoice', $request->file('invoice_url'));
+//        $parcel->invoice_url   = $file;
+            $parcel->save();
+
+            $unregistered = UnregisteredParcel::where([
+                'tracking_no' => $request->tracking_no,
+                'parcel_id' => null
+            ])->first();
+
+            if($unregistered){
+                $unregistered->parcel_id = $parcel->id;
+                $unregistered->save();
+            }
+
+            addParcelTransaction($parcel->id, ParcelHelperService::statuses(ParcelHelperService::STATUS_REGISTERED));
+            return ['status' => 'success', 'message' => 'Parcel inserted', 'data' => $parcel, 'code' => 200];
+
+        }catch (\Exception $e) {
+            return ['status' => 'error', 'message' => $e->getMessage(), 'data' => null, 'code' => 500];
+        }
+
     }
 
     public static function insertableParcel($tracking_no, TripBatch $tripBatch){

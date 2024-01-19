@@ -122,7 +122,6 @@ class ParcelController extends Controller{
 
     public function store(StoreParcelRequest $request){
 
-
         $parcel = new Parcels();
         $parcel->user_id       = auth()->user()->id;
         $parcel->tracking_no   = strtoupper($request->tracking_no);

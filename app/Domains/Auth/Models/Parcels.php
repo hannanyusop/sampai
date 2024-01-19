@@ -12,7 +12,7 @@ class Parcels extends Model{
 
     protected $fillable = ['pickup_id', 'status', 'checked', 'service_charge', 'guni', 'cod_fee'];
 
-    protected $appends = ['total_billing'];
+    protected $appends = ['total_billing', 'status_label', 'price_formated', 'tax_formated', 'coding', 'gross_price', 'total_billing_formatted'];
 
     public function trip(){
         return $this->hasOneThrough(Trip::class, Pickup::class, 'id', 'id', 'pickup_id', 'trip_id');
@@ -45,6 +45,10 @@ class Parcels extends Model{
 
     public function getTotalBillingAttribute(){
         return $this->cod_fee + $this->service_charge + $this->tax + $this->permit;
+    }
+
+    public function getTotalBillingFormattedAttribute(){
+        return displayPriceFormat($this->total_billing, '$');
     }
 
     public function unregisteredParcel(){

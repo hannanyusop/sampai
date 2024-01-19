@@ -1,0 +1,101 @@
+<?php
+
+namespace App\Http\Controllers\API\V1;
+
+use App\Http\Controllers\Controller;
+use App\Services\Parcel\ParcelGeneralService;
+use Illuminate\Http\Request;
+
+class ParcelController extends Controller
+{
+
+    public function index(Request $request)
+    {
+
+        $parcels = ParcelGeneralService::query()
+            ->when($request->filter_tracking_no, function ($query) use ($request) {
+                $query->where('tracking_no', 'like', '%'.$request->filter_tracking_no.'%');
+            })
+            ->when($request->filter_name, function ($query) use ($request) {
+                $query->where('receiver_name', 'like', '%'.$request->filter_name.'%');
+            })
+            ->when($request->filter_phone_no, function ($query) use ($request) {
+                $query->where('phone_number', 'like', '%'.$request->filter_phone_no.'%');
+            })
+            ->orderBy('updated_at', 'desc')
+            ->paginate(20);
+
+        return response(['data' => $parcels], 200);
+
+    }
+
+    public function show($id)
+    {
+        $parcel = ParcelGeneralService::query()->find($id);
+
+        if (!$parcel) {
+            return response(['error' => 'Parcel not found'], 404);
+        }
+
+        return response(['data' => $parcel], 200);
+    }
+
+    public function store(Request $request)
+    {
+//        $request->validate([
+//            "tracking_no"   => "required|unique:parcels,tracking_no|max:50",
+//            "receiver_name" => "required|max:100",
+//            "phone_number"  => "required|max:20",
+//            "description"   => "required|max:1000",
+//            "quantity"      => "required|numeric|min:1",
+//            "price"         => "required|numeric",
+//            "invoice_url"   => "required|file|max:20048",
+//            "order_origin"  => "required|max:50",
+//            "office_id"     => "required|exists:offices,id",
+//        ],[
+//            'tracking_no.unique' => 'The tracking no has been submitted in PARCEL LIST.',
+//            'invoice_url.max' => 'The invoice may not be greater than 20 MB.',
+//            'invoice_url.file' => 'The invoice must be a file.',
+//            'invoice_url.required' => 'Please upload invoice.',
+//
+//            'office_id.required' => 'Please select drop point.'
+//        ]);
+
+        //if validation fail, it will return error response automatically
+
+
+
+
+
+        $result = ParcelGeneralService::store($request);
+
+        return response(['message' => $result['message'], 'data' => $result['data']], $result['code']);
+    }
+
+
+    public function update(Request $request, $id)
+    {
+        $parcel = ParcelGeneralService::query()->find($id);
+
+        if (!$parcel) {
+            return response(['error' => 'Parcel not found'], 404);
+        }
+
+        $parcel = ParcelGeneralService::update($request, $parcel);
+
+        return response(['parcel' => $parcel], 200);
+    }
+
+    public function destroy($id)
+    {
+        $parcel = ParcelGeneralService::query()->find($id);
+
+        if (!$parcel) {
+            return response(['error' => 'Parcel not found'], 404);
+        }
+
+        $parcel->delete();
+
+        return response(['message' => 'Parcel deleted successfully'], 200);
+    }
+}
