@@ -26,6 +26,7 @@ Route::group([
     Route::get('user', [AuthController::class, 'user']);
     Route::post('logout', [AuthController::class, 'logout']);
 
+    Route::get('parcel-counter', [ParcelController::class, 'counter']);
     Route::group([
         'prefix' => 'parcel',
         'as' => 'parcel.',

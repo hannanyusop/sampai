@@ -20,6 +20,7 @@
         "illuminate/config": "^8.12",
         "illuminate/support": "^8.39|^9|^10",
         "jamesmills/laravel-timezone": "^1.9",
+        "kreait/laravel-firebase": "^4.2",
         "kriswallsmith/buzz": "^1.2",
         "lab404/laravel-impersonate": "^1.6",
         "laravel/framework": "^v8.83.27",

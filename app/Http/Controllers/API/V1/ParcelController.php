@@ -4,10 +4,21 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
 use App\Services\Parcel\ParcelGeneralService;
+use App\Services\Parcel\ParcelHelperService;
 use Illuminate\Http\Request;
 
 class ParcelController extends Controller
 {
+
+    public function counter(){
+
+        $pending = ParcelGeneralService::query()->whereIn('status', ParcelHelperService::PENDING_STATUS)->count();
+        $processed = ParcelGeneralService::query()->whereIn('status', ParcelHelperService::PROCESSED_STATUS)->count();
+        $completed = ParcelGeneralService::query()->whereIn('status', ParcelHelperService::COMPLETED_STATUS)->count();
+        $ready = ParcelGeneralService::query()->whereIn('status', ParcelHelperService::READY_TO_COLLECT_STATUS)->count();
+
+        return response(['data' => ['pending' => $pending, 'processed' => $processed, 'completed' => $completed, 'ready' => $ready]], 200);
+    }
 
     public function index(Request $request)
     {
