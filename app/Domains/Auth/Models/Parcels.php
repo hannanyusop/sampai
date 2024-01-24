@@ -7,12 +7,13 @@ use App\Services\Pickup\PickupHelperService;
 use App\Services\Trip\TripHelperService;
 use App\Models\UnregisteredParcel;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Parcels extends Model{
 
     protected $fillable = ['pickup_id', 'status', 'checked', 'service_charge', 'guni', 'cod_fee'];
 
-    protected $appends = ['total_billing', 'status_label', 'price_formated', 'tax_formated', 'coding', 'gross_price', 'total_billing_formatted'];
+    protected $appends = ['total_billing', 'status_label', 'price_formated', 'tax_formated', 'coding', 'gross_price', 'total_billing_formatted', 'invoice_path'];
 
     public function trip(){
         return $this->hasOneThrough(Trip::class, Pickup::class, 'id', 'id', 'pickup_id', 'trip_id');
@@ -25,6 +26,11 @@ class Parcels extends Model{
 
     public function user(){
         return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function getInvoicePathAttribute()
+    {
+        return  Storage::exists($this->invoice_url) ? asset($this->invoice_url) : 'https://placehold.co/600x400';
     }
 
     public function lastTransaction(){
