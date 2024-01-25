@@ -42,7 +42,9 @@ class ParcelController extends Controller
 
     public function show($id)
     {
-        $parcel = ParcelGeneralService::query()->find($id);
+        $parcel = ParcelGeneralService::query()
+            ->with(['transactions'])
+            ->find($id);
 
         if (!$parcel) {
             return response(['error' => 'Parcel not found'], 404);

@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\V1\AuthController;
 use App\Http\Controllers\API\V1\HelperController;
 use App\Http\Controllers\API\V1\ParcelController;
+use App\Http\Controllers\API\V1\PickupController;
 use Illuminate\Http\Request;
 
 /*
@@ -37,6 +38,14 @@ Route::group([
         Route::post('/', [ParcelController::class, 'store'])->name('store');
         Route::put('/{parcel}', [ParcelController::class, 'update'])->name('update');
         Route::delete('/{parcel}', [ParcelController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::group([
+        'prefix' => 'pickup',
+        'as' => 'pickup.',
+    ], function () {
+        Route::get('/', [PickupController::class, 'index'])->name('index');
+        Route::get('/{pickup}', [PickupController::class, 'show'])->name('show');
     });
 
     Route::group([
