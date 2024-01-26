@@ -81,12 +81,13 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="footer-col first">
-                    <h6>About SAMPAI.COM</h6>
+                    <h6>About NUJ</h6>
                     <p class="p-small">Norizaman Usaha Jaya is a service runner service for parcel</p>
                 </div> <!-- end of footer-col -->
                 <div class="footer-col second">
                     <h6>Links</h6>
                     <ul class="list-unstyled li-space-lg p-small">
+                        <li><a href="{{ route('frontend.pages.terms') }}">Privacy Policy for NUJ (Norizman Usaha Jaya Express)</a></li>
                     </ul>
                 </div> <!-- end of footer-col -->
                 <div class="footer-col third">

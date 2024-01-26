@@ -34,8 +34,8 @@
                         <div class="nk-iv-scheme-item">
                             <div class="nk-iv-scheme-term">
                                 <div class="nk-iv-scheme-start nk-iv-scheme-order">
-                                    <span class="nk-iv-scheme-value date">Received By UTeM-Mel</span>
-                                    <span class="nk-iv-scheme-label text-soft">Utem-Mel</span>
+                                    <span class="nk-iv-scheme-value date">Received By Receiver Office</span>
+                                    <span class="nk-iv-scheme-label text-soft">Receiver Office</span>
                                 </div>
                                 <div class="nk-iv-scheme-start nk-iv-scheme-order">
                                     <span class="nk-iv-scheme-value date">Outbound To Drop Point</span>

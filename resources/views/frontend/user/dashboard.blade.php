@@ -143,7 +143,7 @@ $dataUser = dataUserDashboard();
                                 </div>
                             @else
                                 <div class="sp-plan-note text-md-center">
-                                    <p>Utem-mel still not receive this parcel</p>
+                                    <p>We still not receive this parcel</p>
                                 </div>
                             @endif
                         </div>

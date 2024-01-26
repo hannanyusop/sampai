@@ -1,29 +1,89 @@
-@extends('frontend.layouts.app')
+@extends('frontend.layouts.landing')
 
-@section('title', __('Terms & Conditions'))
+<style>
+    .rounded-div {
+        background-color: rgba(255, 255, 255, 0.5); /* 50% transparency */
+        border-radius: 10px; /* Adjust the value for the desired roundness */
+        padding: 20px; /* Add padding as needed */
+        width: 300px; /* Set the width as needed */
+        margin: 20px;
+        color: #0b0b0b/* Adjust margin as needed */
+    }
 
+    .rounded-div h2 {
+        font-size: 1.5em;
+        font-weight: bold;
+        margin-bottom: 0.5em;
+        color: #0b0b0b/* Adjust margin as needed */
+
+    }
+
+    .rounded-div h3 {
+        font-size: 1.2em;
+        font-weight: bold;
+        margin-bottom: 0.5em;
+        color: #0b0b0b/* Adjust margin as needed */
+    }
+
+    .rounded-div p {
+        font-size: 1em;
+        margin-bottom: 0.5em;
+        color: #0b0b0b/* Adjust margin as needed */
+    }
+
+
+</style>
 @section('content')
-    <div class="container py-4">
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <x-frontend.card>
-                    <x-slot name="header">
-                        @lang('Terms & Conditions')
-                    </x-slot>
+    <header id="header" class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 rounded-div">
+                    <div class="text-container">
+                        <h2>Privacy Policy for NUJ (Norizman Usaha Jaya Express)</h2>
 
-                    <x-slot name="body">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Molestie ac feugiat sed lectus. Egestas diam in arcu cursus. Vitae nunc sed velit dignissim sodales ut eu sem. Nibh praesent tristique magna sit amet purus gravida quis. Tincidunt lobortis feugiat vivamus at augue. Mi quis hendrerit dolor magna eget est lorem. Dapibus ultrices in iaculis nunc sed augue lacus viverra vitae. Ullamcorper malesuada proin libero nunc consequat interdum varius. Tellus elementum sagittis vitae et leo duis ut diam quam. Nisl pretium fusce id velit. Sed enim ut sem viverra aliquet.</p>
+                        <p>Last updated: 26 JANUARY 2024</p>
 
-                        <p>Laoreet suspendisse interdum consectetur libero id. Duis ut diam quam nulla porttitor massa id neque. Nullam eget felis eget nunc lobortis mattis aliquam faucibus. Tristique sollicitudin nibh sit amet commodo. A erat nam at lectus urna duis convallis convallis. Commodo sed egestas egestas fringilla phasellus faucibus scelerisque eleifend donec. Bibendum ut tristique et egestas. Risus sed vulputate odio ut enim blandit volutpat maecenas. Lorem dolor sed viverra ipsum nunc aliquet bibendum enim. Tristique sollicitudin nibh sit amet commodo. Ac felis donec et odio pellentesque diam volutpat commodo sed. Quam quisque id diam vel. Massa tempor nec feugiat nisl pretium fusce id. Consectetur purus ut faucibus pulvinar elementum integer enim neque volutpat.</p>
+                        <h2>1. Introduction</h2>
 
-                        <p>Gravida rutrum quisque non tellus orci. Eget mauris pharetra et ultrices neque. Habitasse platea dictumst quisque sagittis purus sit amet volutpat. Nunc consequat interdum varius sit amet mattis vulputate enim. Venenatis a condimentum vitae sapien pellentesque habitant morbi tristique senectus. Tempor nec feugiat nisl pretium. Fames ac turpis egestas integer eget aliquet nibh. Mus mauris vitae ultricies leo integer. Vitae proin sagittis nisl rhoncus mattis rhoncus. Commodo odio aenean sed adipiscing diam donec. Purus semper eget duis at tellus at urna condimentum mattis.</p>
+                        <p>Welcome to NUJ (Norizman Usaha Jaya Express)! This Privacy Policy explains how we collect, use, disclose, and
+                            safeguard your information when you use our runner service to hand over parcels. Please read this policy
+                            carefully to understand our practices.</p>
 
-                        <p>Porttitor rhoncus dolor purus non enim praesent elementum facilisis. Massa massa ultricies mi quis hendrerit. Nunc id cursus metus aliquam eleifend mi in nulla posuere. In nisl nisi scelerisque eu ultrices vitae auctor eu augue. Libero nunc consequat interdum varius sit amet mattis vulputate enim. Accumsan tortor posuere ac ut consequat semper viverra nam. Massa tincidunt dui ut ornare. Elit sed vulputate mi sit amet mauris commodo. Faucibus nisl tincidunt eget nullam non nisi. Tortor condimentum lacinia quis vel eros donec ac odio. Posuere ac ut consequat semper. Vestibulum mattis ullamcorper velit sed ullamcorper. Blandit libero volutpat sed cras. Ultricies integer quis auctor elit sed vulputate mi. In hendrerit gravida rutrum quisque non tellus orci ac. Orci phasellus egestas tellus rutrum tellus pellentesque eu. Etiam non quam lacus suspendisse faucibus interdum. Ornare lectus sit amet est. Bibendum est ultricies integer quis auctor elit sed vulputate. Eget duis at tellus at urna.</p>
+                        <h2>2. Information We Collect</h2>
 
-                        <p>Sit amet massa vitae tortor condimentum lacinia quis. Id venenatis a condimentum vitae sapien pellentesque habitant. Ac tortor dignissim convallis aenean. Consectetur purus ut faucibus pulvinar elementum integer enim neque volutpat. Consectetur adipiscing elit ut aliquam purus sit amet luctus venenatis. Id porta nibh venenatis cras sed felis. Fermentum odio eu feugiat pretium. Id velit ut tortor pretium viverra. Quis auctor elit sed vulputate mi sit amet mauris. Vel elit scelerisque mauris pellentesque pulvinar pellentesque. Facilisis volutpat est velit egestas dui id ornare. Pretium viverra suspendisse potenti nullam ac. Nulla malesuada pellentesque elit eget gravida cum sociis natoque penatibus. Amet purus gravida quis blandit turpis.</p>
-                    </x-slot>
-                </x-frontend.card>
-            </div><!--col-md-10-->
-        </div><!--row-->
-    </div><!--container-->
+                        <h3>2.1 Personal Information</h3>
+
+                        <p>We may collect personal information, including but not limited to:</p>
+                        <ul>
+                            <li>Contact Information: Name, address, phone number, and email address.</li>
+                            <li>Delivery Details: Parcel information, recipient details, and delivery preferences.</li>
+                        </ul>
+
+                        <h3>2.2 Usage Information</h3>
+
+                        <p>We may collect information about how you interact with our service, including:</p>
+                        <ul>
+                            <li>Log Data: IP address, device type, browser type, pages viewed, and the date and time of your visit.</li>
+                        </ul>
+
+                        <h2>3. How We Use Your Information</h2>
+
+                        <p>We use the collected information for the following purposes:</p>
+                        <ul>
+                            <li>To provide and maintain our runner service.</li>
+                            <li>To process and complete parcel deliveries.</li>
+                            <li>To communicate with you regarding your deliveries.</li>
+                            <li>To improve our services and enhance user experience.</li>
+                        </ul>
+
+                        <!-- Continue with the rest of the content -->
+
+                        <p>For the complete Privacy Policy, please contact us at <a href="mailto:contact@nujcourier.my">contact@nnujcourier.my</a>.</p>
+                    </div> <!-- end of text-container -->
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </header>
+
+
 @endsection

@@ -166,7 +166,7 @@ if(!function_exists('getParcelStatusBadge')){
     function getParcelStatusBadge($status = null){
 
         $statuses = [
-            0 => '<span class="badge badge-dot badge-dot-xs badge-secondary">Receive By Utem Mel</span>',
+            0 => '<span class="badge badge-dot badge-dot-xs badge-secondary">Received by receiver office</span>',
             1 => '<span class="badge badge-dot badge-dot-xs badge-success" > Outbound To Drop Point </span>',
             2 => '<span class="badge badge-dot badge-dot-xs badge-success" > Inbound To Drop Point </span>',
             3 => '<span class="badge badge-dot badge-dot-xs badge-success" > Ready To Collect </span>',

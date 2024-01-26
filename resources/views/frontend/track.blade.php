@@ -151,7 +151,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-xl-10 offset-xl-1">
-                    <p class="m-5">Track your parcel easily with Sampai.com. We provide a service to check the arrival of parcel at the UTeM Mel units. The system is create for students and staff</p>
+                    <p class="m-5">Track your parcel easily with NUJ. We provide a service to check the arrival of parcel at the NUJ Office units.</p>
 
                     <!-- Contact Form -->
                     <form method="get" class="mb-6" data-toggle="validator" data-focus="false">
