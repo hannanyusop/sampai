@@ -21,7 +21,7 @@ class ParcelGeneralService
 
     public static function query()
     {
-        return Parcels::when(!auth()->user()->can('staff.distributor') || !auth()->user()->can('staff.runner'), function ($q){
+        return Parcels::with('transactions')->when(!auth()->user()->can('staff.distributor') || !auth()->user()->can('staff.runner'), function ($q){
 //            $q->where('office_id', auth()->user()->office_id);
 //                ->whereIn('parcels.status', [3,4,5]);
 
@@ -42,6 +42,10 @@ class ParcelGeneralService
                 return ['status' => 'error', 'message' => 'Tracking no '. strtoupper($request->tracking_no). ' already exist.', 'data' => null, 'code' => 500];
             }
 
+            if (!$request->hasFile('invoice_url')){
+                return ['status' => 'error', 'message' => 'Please attach invoice.', 'data' => null, 'code' => 500];
+            }
+
             $parcel = new Parcels();
             $parcel->user_id       = auth()->user()->id;
             $parcel->tracking_no   = strtoupper($request->tracking_no);
@@ -55,7 +59,7 @@ class ParcelGeneralService
             $parcel->office_id     = $request->office_id;
 
             if ($request->hasFile('invoice_url')){
-                $file                  = Storage::put('invoice', $request->file('invoice_url'));
+                $file                  = Storage::disk('public')->put('invoice', $request->file('invoice_url'));
                 $parcel->invoice_url   = $file;
             }
 
@@ -69,8 +73,10 @@ class ParcelGeneralService
                 $unregistered->save();
             }
 
+            $parcel->save();
+
             addParcelTransaction($parcel->id, ParcelHelperService::statuses(ParcelHelperService::STATUS_REGISTERED));
-            return ['status' => 'success', 'message' => 'Parcel inserted', 'data' => $parcel, 'code' => 200];
+            return ['status' => 'success', 'message' => 'Parcel inserted with id: '.$parcel->id, 'data' => $parcel, 'code' => 200];
 
         }catch (\Exception $e) {
             return ['status' => 'error', 'message' => $e->getMessage(), 'data' => null, 'code' => 500];

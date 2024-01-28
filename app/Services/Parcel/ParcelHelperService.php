@@ -22,7 +22,7 @@ class ParcelHelperService
 
     const READY_TO_COLLECT_STATUS = [self::STATUS_READY_TO_COLLECT];
 
-    const COMPLETED_STATUS = [self::STATUS_READY_TO_COLLECT, self::STATUS_DELIVERED, self::STATUS_RETURN];
+    const COMPLETED_STATUS = [self::STATUS_DELIVERED, self::STATUS_RETURN];
 
 
     public static function statuses($status = null){

@@ -24,6 +24,7 @@ class ParcelController extends Controller
     {
 
         $parcels = ParcelGeneralService::query()
+            ->with(['dropPoint'])
             ->when($request->filter_tracking_no, function ($query) use ($request) {
                 $query->where('tracking_no', 'like', '%'.$request->filter_tracking_no.'%');
             })
@@ -33,6 +34,7 @@ class ParcelController extends Controller
             ->when($request->filter_phone_no, function ($query) use ($request) {
                 $query->where('phone_number', 'like', '%'.$request->filter_phone_no.'%');
             })
+            ->whereNotIn('status', ParcelHelperService::COMPLETED_STATUS)
             ->orderBy('updated_at', 'desc')
             ->paginate(20);
 

@@ -38,7 +38,7 @@
                                     </div>
                                 </td>
                                 <td class="nk-tb-col tb-col-lg">
-                                    <span>{{ $parcel->dropPoint->code }}</span>
+                                    <span>{{ $parcel?->dropPoint?->code }}</span>
                                 </td>
                                 <td class="nk-tb-col tb-col-lg">
                                     <span>{{ (!is_null($parcel->pickup_name))? $parcel->pickup_name : "" }}</span>

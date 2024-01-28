@@ -30,7 +30,9 @@ class Parcels extends Model{
 
     public function getInvoicePathAttribute()
     {
-        return  Storage::exists($this->invoice_url) ? asset($this->invoice_url) : 'https://placehold.co/600x400';
+        return  Storage::disk('public')->exists($this->invoice_url) ? asset($this->invoice_url) : Storage::path($this->invoice_url);
+
+//        return  Storage::exists($this->invoice_url) ? asset($this->invoice_url) : 'https://placehold.co/600x400';
     }
 
     public function lastTransaction(){
@@ -40,6 +42,8 @@ class Parcels extends Model{
     public function dropPoint(){
         return $this->belongsTo(Office::class, 'office_id', 'id');
     }
+
+
 
     public function pickup(){
         return $this->hasOne(Pickup::class, 'id', 'pickup_id');

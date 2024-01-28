@@ -133,7 +133,7 @@ class ParcelController extends Controller{
         $parcel->quantity      = $request->quantity;
         $parcel->order_origin  = $request->order_origin;
         $parcel->office_id     = $request->office_id;
-        $file                  = Storage::put('invoice', $request->file('invoice_url'));
+        $file                  = Storage::disk('public')->put('invoice', $request->file('invoice_url'));
         $parcel->invoice_url   = $file;
         $parcel->save();
 
@@ -160,7 +160,13 @@ class ParcelController extends Controller{
             return redirect()->back()->with('error', 'Parcel not found!');
         }
 
-        $path = Storage::path($parcel->invoice_url);
-        return response()->download($path);
+        if (!Storage::disk('public')->exists($parcel->invoice_url)) {
+            $path = Storage::path($parcel->invoice_url);
+            return response()->download($path);
+        }
+
+        return response()->download(Storage::disk('public')->path($parcel->invoice_url));
+
+
     }
 }
