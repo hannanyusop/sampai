@@ -128,7 +128,7 @@ class ParcelController extends Controller{
         $parcel->quantity      = $request->quantity;
         $parcel->order_origin  = $request->order_origin;
         $parcel->office_id     = $request->office_id;
-        $file                  = Storage::put('invoice', $request->file('invoice_url'));
+        $file                  = Storage::disk('public')->put('invoice', $request->file('invoice_url'));
         $parcel->invoice_url   = $file;
         $parcel->save();
 

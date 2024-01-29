@@ -122,9 +122,9 @@ class ParcelController extends Controller
             return response(['message' => 'Parcel not found'], 404);
         }
 
-        $parcel = ParcelGeneralService::update($request, $parcel);
+        $result = ParcelGeneralService::update($request, $parcel);
 
-        return response(['message' => 'Parcel updated successfully', 'data' => $parcel], 200);
+        return response(['message' => $result['message'], 'data' => $result['data']], $result['code']);
     }
 
     public function destroy($id)
