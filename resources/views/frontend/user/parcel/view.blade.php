@@ -68,8 +68,14 @@
                                         </p>
                                     </li>
 
+
+
+
                                     <li class="col-sm-4">
-                                        <p><span class="text-soft">Invoice</span>
+                                        <p>
+                                            <span class="text-soft">Invoice</span>
+                                            <img src="{{ $parcel->invoice_path }}" alt="invoice" width="200" height="200"><br>
+
                                             <a href="{{ route('frontend.user.parcel.download',encrypt($parcel->id)) }}" download><i class="fa fa-download me-2"></i> Download</a>
                                         </p>
                                     </li>

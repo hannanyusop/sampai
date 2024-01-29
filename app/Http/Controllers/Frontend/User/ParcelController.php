@@ -69,16 +69,11 @@ class ParcelController extends Controller{
             'status' => ParcelHelperService::STATUS_REGISTERED
         ])->findOrFail($id);
 
-        $parcel->receiver_name = strtoupper($request->receiver_name);
-        $parcel->phone_number = $request->phone_number;
-        $parcel->tracking_no = strtoupper($request->tracking_no);
-        $parcel->description = strtoupper($request->description);
-        $parcel->quantity = $request->quantity;
-        $parcel->price = $request->price;
-        $parcel->office_id  = $request->office_id;
-        $parcel->save();
 
-        return redirect()->back()->withFlashSuccess('Parcel Updated');
+        $result = ParcelGeneralService::update($request, $parcel);
+
+        return redirect()->back()->with($result['status'], $result['message']);
+
 
     }
 
@@ -133,7 +128,7 @@ class ParcelController extends Controller{
         $parcel->quantity      = $request->quantity;
         $parcel->order_origin  = $request->order_origin;
         $parcel->office_id     = $request->office_id;
-        $file                  = Storage::disk('public')->put('invoice', $request->file('invoice_url'));
+        $file                  = Storage::put('invoice', $request->file('invoice_url'));
         $parcel->invoice_url   = $file;
         $parcel->save();
 

@@ -36,7 +36,7 @@ Route::group([
         Route::get('/{parcel}', [ParcelController::class, 'show'])->name('show');
 
         Route::post('/', [ParcelController::class, 'store'])->name('store');
-        Route::put('/{parcel}', [ParcelController::class, 'update'])->name('update');
+        Route::post('update/{parcel}', [ParcelController::class, 'update'])->name('update');
         Route::delete('/{parcel}', [ParcelController::class, 'destroy'])->name('destroy');
     });
 

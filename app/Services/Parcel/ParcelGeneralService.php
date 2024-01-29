@@ -14,6 +14,7 @@ use App\Services\Pickup\PickupGeneralService;
 use App\Services\Role\RoleHelperService;
 use App\Services\Trip\TripHelperService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class ParcelGeneralService
@@ -80,6 +81,57 @@ class ParcelGeneralService
 
         }catch (\Exception $e) {
             return ['status' => 'error', 'message' => $e->getMessage(), 'data' => null, 'code' => 500];
+        }
+
+    }
+
+    public static function update(Request $request, Parcels $parcel)
+    {
+
+        $parcel = ParcelGeneralService::query()->find($parcel->id);
+
+        if (!$parcel) {
+           return ['status' => 'error', 'message' => 'Parcel not found!', 'data' => null, 'code' => 404];
+        }
+
+        try {
+
+            DB::beginTransaction();
+
+            $old_invoice_url = $parcel->invoice_url;
+
+            if ($request->hasFile('invoice_url')){
+
+                $file                  = Storage::disk('public')->put('invoice', $request->file('invoice_url'));
+                $parcel->invoice_url   = $file;
+            }
+
+            $parcel->receiver_name = strtoupper($request->receiver_name);
+            $parcel->phone_number = $request->phone_number;
+            $parcel->tracking_no = strtoupper($request->tracking_no);
+            $parcel->description = strtoupper($request->description);
+            $parcel->quantity = $request->quantity;
+            $parcel->price = $request->price;
+            $parcel->office_id  = $request->office_id;
+            $parcel->save();
+
+            DB::commit();
+
+            if ($request->hasFile('invoice_url') && Storage::disk('public')->exists($old_invoice_url)){
+                Storage::disk('public')->delete($old_invoice_url);
+            }
+
+            return ['status' => 'success', 'message' => 'Parcel updated', 'data' => $parcel, 'code' => 200];
+
+        }Catch(\Exception $exception){
+
+            DB::rollBack();
+
+            if ($request->hasFile('invoice_url') && Storage::disk('public')->exists($file)){
+                Storage::disk('public')->delete($file);
+            }
+
+            return ['status' => 'error', 'message' => $exception->getMessage(), 'data' => null, 'code' => 500];
         }
 
     }

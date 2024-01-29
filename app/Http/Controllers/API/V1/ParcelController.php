@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\API\V1;
-
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use App\Services\Parcel\ParcelGeneralService;
 use App\Services\Parcel\ParcelHelperService;
@@ -57,29 +57,30 @@ class ParcelController extends Controller
 
     public function store(Request $request)
     {
-//        $request->validate([
-//            "tracking_no"   => "required|unique:parcels,tracking_no|max:50",
-//            "receiver_name" => "required|max:100",
-//            "phone_number"  => "required|max:20",
-//            "description"   => "required|max:1000",
-//            "quantity"      => "required|numeric|min:1",
-//            "price"         => "required|numeric",
-//            "invoice_url"   => "required|file|max:20048",
-//            "order_origin"  => "required|max:50",
-//            "office_id"     => "required|exists:offices,id",
-//        ],[
-//            'tracking_no.unique' => 'The tracking no has been submitted in PARCEL LIST.',
-//            'invoice_url.max' => 'The invoice may not be greater than 20 MB.',
-//            'invoice_url.file' => 'The invoice must be a file.',
-//            'invoice_url.required' => 'Please upload invoice.',
-//
-//            'office_id.required' => 'Please select drop point.'
-//        ]);
 
-        //if validation fail, it will return error response automatically
+        // Example in a controller method
+        $validator = Validator::make($request->all(), [
+            "tracking_no"   => "required|unique:parcels,tracking_no|max:50",
+            "receiver_name" => "required|max:100",
+            "phone_number"  => "required|max:20",
+            "description"   => "required|max:1000",
+            "quantity"      => "required|numeric|min:1",
+            "price"         => "required|numeric",
+            "invoice_url"   => "required|file|max:20048",
+            "order_origin"  => "required|max:50",
+            "office_id"     => "required|exists:offices,id",
+        ],[
+            'tracking_no.unique' => 'The tracking no has been submitted in PARCEL LIST.',
+            'invoice_url.max' => 'The invoice may not be greater than 20 MB.',
+            'invoice_url.file' => 'The invoice must be a file.',
+            'invoice_url.required' => 'Please upload invoice.',
 
+            'office_id.required' => 'Please select drop point.'
+        ]);
 
-
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()->first()], 422);
+        }
 
 
         $result = ParcelGeneralService::store($request);
@@ -90,15 +91,40 @@ class ParcelController extends Controller
 
     public function update(Request $request, $id)
     {
+
+        $validator = Validator::make($request->all(), [
+            "tracking_no"   => "required|unique:parcels,tracking_no,$id|max:50",
+            "receiver_name" => "required|max:100",
+            "phone_number"  => "required|max:20",
+            "description"   => "required|max:1000",
+            "quantity"      => "required|numeric|min:1",
+            "price"         => "required|numeric",
+            "invoice_url"   => "file|max:20048",
+            "order_origin"  => "required|max:50",
+            "office_id"     => "required|exists:offices,id",
+        ],[
+            'tracking_no.required' => 'The tracking number field is required',
+            'tracking_no.unique' => 'The tracking already exist.',
+            'invoice_url.max' => 'The invoice may not be greater than 20 MB.',
+            'invoice_url.file' => 'The invoice must be a file.',
+            'invoice_url.required' => 'Please upload invoice.',
+
+            'office_id.required' => 'Please select drop point.'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => $validator->errors()->first()], 422);
+        }
+
         $parcel = ParcelGeneralService::query()->find($id);
 
         if (!$parcel) {
-            return response(['error' => 'Parcel not found'], 404);
+            return response(['message' => 'Parcel not found'], 404);
         }
 
         $parcel = ParcelGeneralService::update($request, $parcel);
 
-        return response(['parcel' => $parcel], 200);
+        return response(['message' => 'Parcel updated successfully', 'data' => $parcel], 200);
     }
 
     public function destroy($id)
