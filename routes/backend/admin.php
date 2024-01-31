@@ -122,10 +122,17 @@ Route::group(['prefix' => 'office/', 'as' => 'office.'], function (){
 
 });
 
-Route::group(['prefix' => 'report/', 'as' => 'report.'], function (){
+Route::group([
+    'prefix' => 'report/',
+    'as' => 'report.',
+    'middleware' => 'permission:staff.finance'
+], function (){
 
-    Route::get('monthly', [ReportController::class, 'monthly'])->name('monthly')->middleware('permission:staff.distributor');
-    Route::get('income', [ReportController::class, 'income'])->name('income')->middleware('permission:staff.distributor');
+    Route::get('monthly', [ReportController::class, 'monthly'])->name('monthly');
+    Route::get('income', [ReportController::class, 'income'])->name('income');
+    Route::get('daily', [ReportController::class, 'daily'])->name('daily');
+    Route::put('daily-update/{id}', [ReportController::class, 'dailyUpdate'])->name('dailyUpdate');
+
 
 });
 

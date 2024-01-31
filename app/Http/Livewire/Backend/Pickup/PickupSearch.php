@@ -33,7 +33,7 @@ class PickupSearch extends Component
         $pickup = $this->pickup = Pickup::where('code', $this->code)->first();
 
         if(!$this->pickup){
-            session()->flash('error', __('No pickup found with this tracking number'));
+            session()->flash('error', __('No pickup found with this code'));
             return;
         }
 
@@ -83,6 +83,7 @@ class PickupSearch extends Component
         $request->payment_method = $this->payment_method;
         $request->total_payment = $this->total_payment;
         $request->prof_of_delivery = $file;
+        $request->total_price = $this->pickup->total;
 
         $result = PickupGeneralService::deliver($request, $this->pickup);
 

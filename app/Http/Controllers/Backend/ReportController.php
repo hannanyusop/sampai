@@ -5,6 +5,8 @@ use App\Domains\Auth\Models\Parcels;
 use App\Domains\Auth\Models\WalletTransaction;
 use App\Http\Controllers\Controller;
 use App\Services\Parcel\ParcelHelperService;
+use App\Services\Sales\DailySaleGeneralService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller{
@@ -113,6 +115,50 @@ class ReportController extends Controller{
         $max = max($data);
 
         return view('backend.report.income', compact('data', 'year', 'sum', 'avg', 'min', 'max'));
+    }
+
+    public function daily(Request $request)
+    {
+        $sale = null;
+        $date = date('Y-m-d');
+        $office_id = null;
+
+        if($request->date){
+
+            $date = $request->date;
+            $office_id = $request->office_id;
+
+            $sale = DailySaleGeneralService::query()
+                ->with(['office', 'pickups'])
+                ->where([
+                'office_id' => $request->office_id,
+            ])
+                ->whereDate('sales_date', Carbon::parse($request->date))
+                ->first();
+        }
+
+        return view('backend.report.daily', compact('sale', 'date', 'office_id'));
+    }
+
+    public function dailyUpdate($sale_id)
+    {
+        $sale = DailySaleGeneralService::query()
+            ->with(['office', 'pickups'])
+            ->where([
+                'id' => $sale_id,
+                'deposit_received' => null,
+            ])
+            ->first();
+
+
+        if (!$sale) {
+            return redirect()->back()->with('error', 'Sale not found');
+        }
+
+        $sale->deposit_received = now();
+        $sale->save();
+
+        return redirect()->back()->with('success', 'Sale updated successfully');
     }
 
 }

@@ -29,7 +29,7 @@ class SalesTable extends Migration
         });
 
         Schema::table('pickups', function (Blueprint $table){
-            $table->integer('daily_sales_id')->unsigned()->nullable()->foreign('daily_sales_id')->references('id')->on('daily_sales')->after('trip_id');
+            $table->integer('daily_sale_id')->unsigned()->nullable()->foreign('daily_sale_id')->references('id')->on('daily_sales')->after('trip_id');
         });
 
     }
@@ -44,7 +44,7 @@ class SalesTable extends Migration
 
         Schema::table('pickups', function (Blueprint $table){
             //drop foreign key
-            $table->dropColumn('daily_sales_id');
+            $table->dropColumn('daily_sale_id');
         });
 
         //drop table daily_sales

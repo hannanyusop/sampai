@@ -15,6 +15,11 @@ class DailySale extends Model
     }
 
     public function pickups(){
-        return $this->hasMany(Pickup::class, 'daily_sale_id', 'id');
+        return $this->hasMany(Pickup::class, 'daily_sale_id', 'id')->orderBy('created_at', 'desc');
+    }
+
+    public function getSalesReceivedBadgeAttribute()
+    {
+        return (is_null($this->deposit_received) ? '<div class="badge bg-danger rounded-pill text-white">Not Received</div>' : '<div class="badge bg-success rounded-pill text-dark">Received</div>');
     }
 }

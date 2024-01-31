@@ -79,6 +79,7 @@ class PickupGeneralService
                 'payment_status'   => PickupHelperService::PAYMENT_STATUS_PAID,
                 'total_payment'    => $request->total_payment,
                 'prof_of_delivery' => $request->prof_of_delivery,
+                'total_price'      => $request->total_price,
             ]);
 
             $daily_sale->total_sales += $request->total_payment;

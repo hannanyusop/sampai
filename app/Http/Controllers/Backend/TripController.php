@@ -311,6 +311,10 @@ class TripController extends Controller
 
         $result = TripGeneralService::ReceiveTrip($trip->id);
 
+        if ($result['status'] == 'success') {
+            return redirect()->route('admin.trip.view', $trip->id)->withFlashSuccess($result['message']);
+        }
+
         return redirect()->back()->with($result['status'], $result['message']);
 
     }

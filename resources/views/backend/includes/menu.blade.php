@@ -78,8 +78,13 @@
                         </a>
                     </li>
                     <li class="nk-menu-item">
+                        <a href="{{ route('admin.report.daily') }}" class="nk-menu-link">
+                            <span class="nk-menu-text">Daily Sales Report</span>
+                        </a>
+                    </li>
+                    <li class="nk-menu-item">
                         <a href="{{ route('admin.report.income') }}" class="nk-menu-link">
-                            <span class="nk-menu-text">Sales Report</span>
+                            <span class="nk-menu-text">Monthly Sales Report</span>
                         </a>
                     </li>
                 </ul>
