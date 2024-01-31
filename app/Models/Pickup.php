@@ -20,13 +20,18 @@ class Pickup extends Model
 
     protected $fillable = ['total_tax', 'status', 'pickup_name', 'pickup_datetime', 'serve_by',
         'payment_method', 'payment_status', 'total_payment', 'prof_of_delivery',
-        'notification_sent', 'notification_send_at'
+        'notification_sent', 'notification_send_at', 'daily_sales_id'
     ];
 
     protected $appends = ['status_label', 'status_badge', 'payment_method_label', 'payment_status_label', 'total', 'gross_price', 'permit', 'tax', 'service_charge'];
 
     public function parcels(){
         return $this->hasMany(Parcels::class, 'pickup_id', 'id');
+    }
+
+    public function dailySale()
+    {
+        return $this->belongsTo(DailySale::class, 'daily_sale_id', 'id');
     }
 
     public function dropPoint(){

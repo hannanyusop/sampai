@@ -5,7 +5,9 @@ namespace App\Http\Livewire\Backend\Pickup;
 use App\Models\Pickup;
 use App\Services\Parcel\ParcelGeneralService;
 use App\Services\Parcel\ParcelHelperService;
+use App\Services\Pickup\PickupGeneralService;
 use App\Services\Pickup\PickupHelperService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -36,6 +38,7 @@ class PickupSearch extends Component
         }
 
         $this->pickup_name = $pickup->user->name;
+        $this->total_payment = $pickup->total;
 
     }
 
@@ -71,30 +74,18 @@ class PickupSearch extends Component
                 Storage::delete($this->pickup->prof_of_delivery);
             }
 
-            $file = Storage::put('pickup', $this->prof_of_delivery);
+            $file = Storage::disk('public')->put('pickup', $this->prof_of_delivery);
 
         }
 
+        $request = new Request();
+        $request->pickup_name = $this->pickup_name;
+        $request->payment_method = $this->payment_method;
+        $request->total_payment = $this->total_payment;
+        $request->prof_of_delivery = $file;
 
-        \DB::beginTransaction();
+        $result = PickupGeneralService::deliver($request, $this->pickup);
 
-        $this->pickup->update([
-            'status'           => PickupHelperService::STATUS_DELIVERED,
-            'pickup_name'      => $this->pickup_name,
-            'pickup_datetime'  => now(),
-            'serve_by'         => auth()->user()->id,
-            'payment_method'   => $this->payment_method,
-            'payment_status'   => PickupHelperService::PAYMENT_STATUS_PAID,
-            'total_payment'    => $this->total_payment,
-            'prof_of_delivery' => $file,
-        ]);
-
-        foreach ($this->pickup->parcels as $parcel){
-            ParcelGeneralService::deliver($parcel , $this->pickup_name);
-        }
-
-        \DB::commit();
-
-        session()->flash('success', __('Pickup delivered successfully'));
+        session()->flash($result['status'], $result['message']);
     }
 }

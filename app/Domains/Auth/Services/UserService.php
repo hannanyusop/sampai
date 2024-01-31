@@ -111,6 +111,7 @@ class UserService extends BaseService
      */
     public function store(array $data = []): User
     {
+//        dd('sin permisos');
         DB::beginTransaction();
 
         try {
@@ -118,11 +119,12 @@ class UserService extends BaseService
                 'type' => $data['type'],
                 'name' => $data['name'],
                 'email' => $data['email'],
-                'identification' => $data['identification'],
+//                'identification' => $data['identification'],
                 'phone_number' => $data['phone_number'],
                 'password' => $data['password'],
                 'email_verified_at' => isset($data['email_verified']) && $data['email_verified'] === '1' ? now() : null,
                 'active' => isset($data['active']) && $data['active'] === '1',
+                'default_drop_point' => 1
             ]);
 
             $user->syncRoles($data['roles'] ?? []);
@@ -334,7 +336,8 @@ class UserService extends BaseService
             'type' => $data['type'] ?? $this->model::TYPE_USER,
             'name' => $data['name'] ?? null,
             'email' => $data['email'] ?? null,
-            'identification' => $data['identification'] ?? null,
+//            'identification' => $data['identification'] ?? null,
+            'default_drop_point' => $data['default_drop_point'] ?? 1,
             'phone_number' => $data['phone_number'] ?? null,
             'password' => $data['password'] ?? null,
             'provider' => $data['provider'] ?? null,

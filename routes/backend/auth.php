@@ -1,5 +1,6 @@
 <?php
 
+use App\Domains\Auth\Http\Controllers\Backend\Permission\PermissionController;
 use App\Domains\Auth\Http\Controllers\Backend\Role\RoleController;
 use App\Domains\Auth\Http\Controllers\Backend\User\DeactivatedUserController;
 use App\Domains\Auth\Http\Controllers\Backend\User\DeletedUserController;
@@ -108,6 +109,28 @@ Route::group([
 
             Route::patch('/', [RoleController::class, 'update'])->name('update');
             Route::delete('/', [RoleController::class, 'destroy'])->name('destroy');
+        });
+    });
+
+    Route::group([
+        'prefix' => 'permission',
+        'as' => 'permission.',
+        'middleware' => 'role:'.config('boilerplate.access.role.admin'),
+    ], function () {
+        Route::get('/', [PermissionController::class, 'index'])
+            ->name('index');
+
+        Route::get('create', [PermissionController::class, 'create'])
+            ->name('create');
+
+        Route::post('/', [PermissionController::class, 'store'])->name('store');
+
+        Route::group(['prefix' => '{role}'], function () {
+            Route::get('edit', [PermissionController::class, 'edit'])
+                ->name('edit');
+
+            Route::patch('/', [PermissionController::class, 'update'])->name('update');
+            Route::delete('/', [PermissionController::class, 'destroy'])->name('destroy');
         });
     });
 });

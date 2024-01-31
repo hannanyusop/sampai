@@ -7,6 +7,7 @@ use App\Domains\Auth\Models\Trip;
 use App\Http\Controllers\Controller;
 use App\Models\TripBatch;
 use App\Services\Parcel\ParcelHelperService;
+use App\Services\Sales\DailySaleGeneralService;
 use App\Services\Trip\TripHelperService;
 use App\Services\TripBatch\TripBatchGeneralService;
 use App\Services\TripBatch\TripBatchHelperService;
@@ -83,6 +84,18 @@ class DashboardController extends Controller
             $trip_batches  = TripBatchGeneralService::query()->orderBy('id', 'desc')->limit(5)->get();
 
             return view('backend.dashboard-biacc', compact('trip_batches'));
+        }elseif (auth()->user()->can('staff.finance')) {
+
+
+            $today = date('Y-m-d');
+
+            $daily_sales = DailySaleGeneralService::query()
+                ->with('office')
+                ->whereDate('sales_date', $today)
+                ->get();
+
+
+            return view('backend.finance', compact('daily_sales', 'today'));
         }
 
     }

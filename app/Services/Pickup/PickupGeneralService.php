@@ -7,6 +7,9 @@ use App\Domains\Auth\Models\Trip;
 use App\Domains\Auth\Models\User;
 use App\Models\Pickup;
 use App\Services\General\GeneralHelperService;
+use App\Services\Parcel\ParcelGeneralService;
+use App\Services\Sales\DailySaleGeneralService;
+use Illuminate\Http\Request;
 
 class PickupGeneralService
 {
@@ -53,30 +56,61 @@ class PickupGeneralService
     }
 
 
-    public function customerPickup($code){
+    public static function deliver(Request $request, Pickup $pickup){
 
-        $pickup = Pickup::where([
-            'code'   => $code
-        ])->first();
+        try {
+            \DB::beginTransaction();
 
+            $get_office = DailySaleGeneralService::create($pickup->office_id);
 
-        if(!$pickup){
+            if($get_office['status'] == 'error'){
+                return $get_office;
+            }
+
+            $daily_sale = $get_office['data'];
+
+            $pickup->update([
+                'daily_sale_id' => $daily_sale->id,
+                'status'           => PickupHelperService::STATUS_DELIVERED,
+                'pickup_name'      => $request->pickup_name,
+                'pickup_datetime'  => now(),
+                'serve_by'         => auth()->user()->id,
+                'payment_method'   => $request->payment_method,
+                'payment_status'   => PickupHelperService::PAYMENT_STATUS_PAID,
+                'total_payment'    => $request->total_payment,
+                'prof_of_delivery' => $request->prof_of_delivery,
+            ]);
+
+            $daily_sale->total_sales += $request->total_payment;
+            $daily_sale->expected_sales += $request->total_price;
+
+            if ($request->payment_method == PickupHelperService::PAYMENT_METHOD_CASH) {
+                $daily_sale->cash += $request->total_payment;
+            } elseif ($request->payment_method == PickupHelperService::PAYMENT_METHOD_BANK_TRANSFER) {
+                $daily_sale->bank_transfer += $request->total_payment;
+            }
+
+            $daily_sale->save();
+
+            foreach ($pickup->parcels as $parcel){
+                ParcelGeneralService::deliver($parcel , $request->pickup_name);
+            }
+
+            \DB::commit();
+
+            return [
+                GeneralHelperService::KEY_STATUS  => GeneralHelperService::STATUS_SUCCESS,
+                GeneralHelperService::KEY_MESSAGE => __('Pickup delivered successfully.'),
+                GeneralHelperService::KEY_DATA    => $pickup
+            ];
+
+        }catch (\Exception $e){
             return [
                 GeneralHelperService::KEY_STATUS  => GeneralHelperService::STATUS_ERROR,
-                GeneralHelperService::KEY_MESSAGE => __('Code not found.'),
+                GeneralHelperService::KEY_MESSAGE => $e->getMessage(),
+                'code'                             => $e->getCode(),
             ];
         }
-
-        if($pickup->status == PickupHelperService::STATUS_PENDING){
-            return [
-                GeneralHelperService::KEY_STATUS  => GeneralHelperService::STATUS_ERROR,
-                GeneralHelperService::KEY_MESSAGE => __('Code for :code already received by customer.', ['code' => $code]),
-            ];
-        }
-
-        $pickup->update([
-            'status' => PickupHelperService::STATUS_DELIVERED
-        ]);
     }
 
 }
