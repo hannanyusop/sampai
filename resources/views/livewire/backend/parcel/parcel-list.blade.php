@@ -108,7 +108,7 @@
                                 {!! $parcel->status_label !!}
                             </td>
                             <td class="nk-tb-col tb-col-md">
-                                {!! $parcel->dropPoint->code !!}
+                                {!! $parcel?->dropPoint?->code !!}
                             </td>
                             <td class="nk-tb-col nk-tb-col-tools">
                                 <ul class="nk-tb-actions gx-1">

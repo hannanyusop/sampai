@@ -357,7 +357,7 @@
                                 <th class="nk-tb-col"><span class="sub-text">Koding / Guni</span></th>
                                 <th class="nk-tb-col tb-col-lg"><span class="sub-text">Parcel Price (RM)</span></th>
 
-                                @cannot('staff.biacc')
+                                @if(!auth()->user()->can('staff.biacc') || auth()->user()->hasAllAccess())
                                     <th class="nk-tb-col tb-col-lg"><span class="sub-text">Tax ($)</span></th>
                                     <th class="nk-tb-col tb-col-lg"><span class="sub-text">COD ($)</span></th>
                                     <th class="nk-tb-col tb-col-lg"><span class="sub-text">Service Charge ($)</span></th>
@@ -365,7 +365,7 @@
                                     <th class="nk-tb-col"><span class="sub-text">Action</span></th>
                                 @else
                                     <th class="nk-tb-col tb-col-lg"><span class="sub-text">Invoice</span></th>
-                                @endcannot
+                                @endif
                             </tr>
 
                             </thead>
@@ -393,7 +393,8 @@
                                     <td class="nk-tb-col tb-col-lg">
                                         <span>{{ displayPriceFormat($parcel->price) }}</span>
                                     </td>
-                                    @cannot('staff.biacc')
+
+                                    @if(!auth()->user()->can('staff.biacc') || auth()->user()->hasAllAccess())
 
                                         <td class="nk-tb-col tb-col-lg">
                                             <span>{{ displayPriceFormat($parcel->tax, '$') }}</span>
@@ -415,32 +416,35 @@
 
                                         <td class="nk-tb-col">
 
-                                        @if($parcel->id == $edit_parcel_id)
-                                            <button class="btn btn-sm btn-success" wire:click="updateParcel({{ $parcel }})"><em class="icon ni ni-check-circle"></em></button>
-                                        @else
-                                            <ul class="nk-tb-actions gx-1">
-                                                <li>
-                                                    <div class="drodown">
-                                                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                            <ul class="link-list-opt no-bdr">
-                                                                <a href="#" wire:click.prevent="editParcel({{ $parcel }})">
-                                                                    <em class="icon ni ni-edit"></em>
-                                                                    <span>Edit</span>
-                                                                </a>
-                                                            </ul>
-                                                            <ul class="link-list-opt no-bdr">
-                                                                <a href="#" wire:click.prevent="deleteParcel({{ $parcel->id }})"
-                                                                   onclick="return confirm('Are you sure want to remove this parcel ({{ $parcel->tracking_no }})?')">
-                                                                    <em class="icon ni ni-trash"></em>
-                                                                    <span>Remove</span>
-                                                                </a>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        @endif
+                                            @if(!auth()->user()->can('staff.inhouse') || auth()->user()->hasAllAccess())
+                                                @if($parcel->id == $edit_parcel_id)
+                                                    <button class="btn btn-sm btn-success" wire:click="updateParcel({{ $parcel }})"><em class="icon ni ni-check-circle"></em></button>
+                                                @else
+                                                    <ul class="nk-tb-actions gx-1">
+                                                        <li>
+                                                            <div class="drodown">
+                                                                <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                                                <div class="dropdown-menu dropdown-menu-right">
+                                                                    <ul class="link-list-opt no-bdr">
+                                                                        <a href="#" wire:click.prevent="editParcel({{ $parcel }})">
+                                                                            <em class="icon ni ni-edit"></em>
+                                                                            <span>Edit</span>
+                                                                        </a>
+                                                                    </ul>
+                                                                    <ul class="link-list-opt no-bdr">
+                                                                        <a href="#" wire:click.prevent="deleteParcel({{ $parcel->id }})"
+                                                                           onclick="return confirm('Are you sure want to remove this parcel ({{ $parcel->tracking_no }})?')">
+                                                                            <em class="icon ni ni-trash"></em>
+                                                                            <span>Remove</span>
+                                                                        </a>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                @endif
+                                            @endif
+
                                     </td>
                                     @else
                                         <td class="nk-tb-col">
@@ -449,7 +453,7 @@
                                                 <span>Invoice</span>
                                             </a>
                                         </td>
-                                    @endcannot
+                                    @endif
                                 </tr>
                             @endforeach
                             </tbody>

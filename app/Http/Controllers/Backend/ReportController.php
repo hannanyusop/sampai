@@ -11,6 +11,14 @@ use Illuminate\Http\Request;
 
 class ReportController extends Controller{
 
+    public function __construct()
+    {
+//        dd(is);
+//        if (auth()->user()->hasAllAccess()){
+//            return redirect()->route('admin.dashboard');
+//        }
+    }
+
     public function monthly(Request $request){
 
         if(!$request->year){
@@ -138,6 +146,11 @@ class ReportController extends Controller{
         }
 
         return view('backend.report.daily', compact('sale', 'date', 'office_id'));
+    }
+
+    public function rangedSales()
+    {
+        return view('backend.report.rangedSales');
     }
 
     public function dailyUpdate($sale_id)

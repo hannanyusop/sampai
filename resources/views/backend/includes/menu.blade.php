@@ -66,7 +66,7 @@
             </ul>
         </li>
 
-        @if($logged_in_user->can('staff.finance'))
+        @if($logged_in_user->can('staff.finance') && !$logged_in_user->hasAllAccess())
             <li class="nk-menu-item has-sub">
                 <a href="#" class="nk-menu-link nk-menu-toggle">
                     <span class="nk-menu-text">Report</span>
@@ -80,6 +80,11 @@
                     <li class="nk-menu-item">
                         <a href="{{ route('admin.report.daily') }}" class="nk-menu-link">
                             <span class="nk-menu-text">Daily Sales Report</span>
+                        </a>
+                    </li>
+                    <li class="nk-menu-item">
+                        <a href="{{ route('admin.report.rangedSales') }}" class="nk-menu-link">
+                            <span class="nk-menu-text">Ranged Sales Report</span>
                         </a>
                     </li>
                     <li class="nk-menu-item">

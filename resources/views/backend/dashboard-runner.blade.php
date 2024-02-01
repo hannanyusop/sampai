@@ -86,7 +86,7 @@
                                 <div class="nk-tb-item nk-tb-head">
                                     <div class="nk-tb-col nk-tb-channel"><span>Code</span></div>
                                     <div class="nk-tb-col nk-tb-prev-sessions"><span>Create At</span></div>
-                                    <div class="nk-tb-col nk-tb-change"><span>Total Parcel(s)</span></div>
+                                    <div class="nk-tb-col nk-tb-change"><span>Total Destination (s)</span></div>
                                     <div class="nk-tb-col nk-tb-change tb-col-sm text-right"><span></span></div>
                                 </div><!-- .nk-tb-head -->
 
@@ -103,7 +103,7 @@
                                             </div>
                                             <div class="nk-tb-col nk-tb-change">
                                         <span class="tb-sub">
-                                            {{ $trip->parcels->count() }}<span class="currency currency-usd"> Parcel(s) </span>
+                                            {{ $trip->trips->count() }}<span class="currency currency-usd"> Destination(s) </span>
                                         </span>
                                             </div>
                                             <div class="nk-tb-col nk-tb-trend text-right">

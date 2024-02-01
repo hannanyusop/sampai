@@ -133,6 +133,7 @@ Route::group([
     Route::get('daily', [ReportController::class, 'daily'])->name('daily');
     Route::put('daily-update/{id}', [ReportController::class, 'dailyUpdate'])->name('dailyUpdate');
 
+    Route::get('rangedSales', [ReportController::class, 'rangedSales'])->name('rangedSales');
 
 });
 
