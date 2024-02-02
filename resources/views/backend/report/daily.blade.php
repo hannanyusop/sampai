@@ -170,7 +170,7 @@
                                                 </div>
                                             </div>
                                             @foreach($sale->pickups as $pickup)
-                                                <div class="nk-tb-item">
+                                            <div class="nk-tb-item {{ ($pickup->total != $pickup->total_payment)? "bg-danger text-white" : "" }}">
                                                 <div class="nk-tb-col">
                                                     <span class="fw-bold">{{ $pickup->code }}</span>
                                                 </div>
