@@ -92,35 +92,6 @@
                                             @enderror
                                         </div>
 
-                                        <div class="col-md-6 mb-2">
-                                            <p>
-                                                <span class="text-soft">Prof Of Delivery</span>
-                                            </p>
-                                            <div class="form-control-wrap">
-                                                <div class="form-file">
-                                                    <input type="file" accept="image/*" class="form-file-input" id="customFile" wire:model="prof_of_delivery">
-                                                    <br>@error('prof_of_delivery')<span class="text-danger">{{ $message }}</span>@enderror
-                                                    <small>* Only Image Allowed</small>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6 mb-2">
-                                            @if ($prof_of_delivery)
-                                                Invoice Preview:<br>
-                                                <img width="200px" src="{{ $prof_of_delivery->temporaryUrl() }}">
-                                            @endif
-                                        </div>
-
-                                        <div class="col-md-12 mb-2">
-                                            <span class="text-soft">Note</span>
-                                            <textarea class="form-control" wire:model="notes" placeholder="You can put any payment remark here ... "></textarea>
-
-                                            @error('notes')
-                                            <span class="text-danger">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-
                                         <div class="col-md-12 mb-2">
                                             <p>
                                                 <span class="text-soft">Payment Type</span>
@@ -192,6 +163,35 @@
                                                     </tr>
                                                 </table>
                                             </div>
+                                        </div>
+
+                                        <div class="col-md-6 mb-2">
+                                            <p>
+                                                <span class="text-soft">Prof Of Delivery</span>
+                                            </p>
+                                            <div class="form-control-wrap">
+                                                <div class="form-file">
+                                                    <input type="file" accept="image/*" class="form-file-input" id="customFile" wire:model="prof_of_delivery">
+                                                    <br>@error('prof_of_delivery')<span class="text-danger">{{ $message }}</span>@enderror
+                                                    <small>* Only Image Allowed</small>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 mb-2">
+                                            @if ($prof_of_delivery)
+                                                Invoice Preview:<br>
+                                                <img width="200px" src="{{ $prof_of_delivery->temporaryUrl() }}">
+                                            @endif
+                                        </div>
+
+                                        <div class="col-md-12 mb-2">
+                                            <span class="text-soft">Note</span>
+                                            <textarea class="form-control" wire:model="notes" placeholder="You can put any payment remark here ... "></textarea>
+
+                                            @error('notes')
+                                            <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
 
                                         <div class="col-md-12">
