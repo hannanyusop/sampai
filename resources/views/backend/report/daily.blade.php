@@ -157,16 +157,16 @@
                                                     <span class="sub-text">Pickup Code</span>
                                                 </div>
                                                 <div class="nk-tb-col tb-col-sm">
-                                                    <span class="sub-text">total_price</span>
+                                                    <span class="sub-text">Total Price</span>
                                                 </div>
                                                 <div class="nk-tb-col tb-col-xxl">
-                                                    <span class="sub-text">total_payment</span>
+                                                    <span class="sub-text">Payment Receive</span>
                                                 </div>
                                                 <div class="nk-tb-col">
-                                                    <span class="sub-text">payment_method</span>
+                                                    <span class="sub-text">Method</span>
                                                 </div>
                                                 <div class="nk-tb-col">
-                                                    <span class="sub-text">user_id</span>
+                                                    <span class="sub-text">Stafg</span>
                                                 </div>
                                             </div>
                                             @foreach($sale->pickups as $pickup)
@@ -175,7 +175,7 @@
                                                     <span class="fw-bold">{{ $pickup->code }}</span>
                                                 </div>
                                                 <div class="nk-tb-col tb-col-sm">
-                                                    <span class="fw-bold">{{ displayPriceFormat($pickup->total_price, '$') }}</span>
+                                                    <span class="fw-bold">{{ displayPriceFormat($pickup->total, '$') }}</span>
                                                 </div>
                                                 <div class="nk-tb-col tb-col-xxl">
                                                     <span class="fw-bold">{{ displayPriceFormat($pickup->total_payment, '$') }}</span>
