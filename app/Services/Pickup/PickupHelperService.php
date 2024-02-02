@@ -9,7 +9,7 @@ class PickupHelperService
 
     const PAYMENT_STATUS_NOT_PAID = 1, PAYMENT_STATUS_PAID = 2;
 
-    const PAYMENT_METHOD_CASH = 1, PAYMENT_METHOD_BANK_TRANSFER = 2;
+    const PAYMENT_METHOD_CASH = 1, PAYMENT_METHOD_BANK_TRANSFER = 2, PAYMENT_METHOD_BOTH = 3;
 
     public static function statuseBadge(){
 
@@ -26,6 +26,7 @@ class PickupHelperService
         return [
             self::PAYMENT_METHOD_CASH   => 'Cash',
             self::PAYMENT_METHOD_BANK_TRANSFER => 'Bank Transfer',
+            self::PAYMENT_METHOD_BOTH => 'Both (Cash & Bank Transfer)',
         ];
     }
 

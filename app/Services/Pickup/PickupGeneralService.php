@@ -77,6 +77,8 @@ class PickupGeneralService
                 'serve_by'         => auth()->user()->id,
                 'payment_method'   => $request->payment_method,
                 'payment_status'   => PickupHelperService::PAYMENT_STATUS_PAID,
+                'cash_received'    => $request->total_payment,
+                'bank_transfer_received' => $request->total_payment,
                 'total_payment'    => $request->total_payment,
                 'prof_of_delivery' => $request->prof_of_delivery,
                 'total_price'      => $request->total_price,
@@ -85,11 +87,8 @@ class PickupGeneralService
             $daily_sale->total_sales += $request->total_payment;
             $daily_sale->expected_sales += $request->total_price;
 
-            if ($request->payment_method == PickupHelperService::PAYMENT_METHOD_CASH) {
-                $daily_sale->cash += $request->total_payment;
-            } elseif ($request->payment_method == PickupHelperService::PAYMENT_METHOD_BANK_TRANSFER) {
-                $daily_sale->bank_transfer += $request->total_payment;
-            }
+            $daily_sale->cash += $request->cash_received;
+            $daily_sale->bank_transfer += $request->bank_transfer_received;
 
             $daily_sale->save();
 

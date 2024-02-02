@@ -20,6 +20,12 @@ class PickupSearch extends Component
     public $pickup = null;
     public $pickup_name;
 
+    public $balance = 0.00, $total = 0.00;
+
+    public $notes = null;
+
+    public $cash_received = 0.00, $bank_transfer_received = 0.00;
+
     public $payment_method, $total_payment, $prof_of_delivery;
 
     public function render()
@@ -38,7 +44,10 @@ class PickupSearch extends Component
         }
 
         $this->pickup_name = $pickup->user->name;
-        $this->total_payment = $pickup->total;
+        $this->total_payment = 0.00;
+        $this->total = $pickup->total;
+
+        $this->balance = -$this->total;
 
     }
 
@@ -81,12 +90,40 @@ class PickupSearch extends Component
         $request = new Request();
         $request->pickup_name = $this->pickup_name;
         $request->payment_method = $this->payment_method;
+        $request->cash_received = $this->cash_received;
+        $request->bank_transfer_received = $this->bank_transfer_received;
         $request->total_payment = $this->total_payment;
+        $request->notes = $this->notes;
         $request->prof_of_delivery = $file;
         $request->total_price = $this->pickup->total;
 
         $result = PickupGeneralService::deliver($request, $this->pickup);
 
         session()->flash($result['status'], $result['message']);
+
+        $this->cash_received = 0.00;
+        $this->bank_transfer_received = 0.00;
+        $this->total_payment = 0.00;
+        $this->balance = 0.00;
+    }
+
+    public function getBalance()
+    {
+
+        $this->validate([
+            'cash_received' => 'required|numeric|min:0.00',
+            'bank_transfer_received' => 'required|numeric|min:0.00',
+        ]);
+
+        if ($this->payment_method == PickupHelperService::PAYMENT_METHOD_BANK_TRANSFER){
+            $this->cash_received = 0.00;
+        }
+
+        if ($this->payment_method == PickupHelperService::PAYMENT_METHOD_CASH){
+            $this->bank_transfer_received = 0.00;
+        }
+
+        $this->total_payment = $this->cash_received + $this->bank_transfer_received;
+        $this->balance =  $this->total_payment - $this->total;
     }
 }
