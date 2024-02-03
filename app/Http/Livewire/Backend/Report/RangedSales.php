@@ -42,7 +42,7 @@ $this->validate([
 
         $this->total_sales = $this->sales->sum('total_sales');
         $this->expected_sales = $this->sales->sum('expected_sales');
-        $this->cash_received = $this->sales->sum('cash_received');
+        $this->cash_received = $this->sales->sum('cash');
         $this->bank_transfer = $this->sales->sum('bank_transfer');
 
     }
