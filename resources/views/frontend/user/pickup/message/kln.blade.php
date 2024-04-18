@@ -7,16 +7,21 @@ For assitant pls text <br>
 📍📍Business hour <br>
 Monday n Thursday CLOSE <br><br>
 
-OPEN <br>
-📌 Tuesday n wednesday 10.30am-6pm <br>
-📌 Friday 10.00am-11.45 2pm-6pm <br>
-📌 Sat n Sun 10.30am-6pm <br><br>
+{{--OPEN <br>--}}
+{{--📌 Tuesday n wednesday 10.30am-6pm <br>--}}
+{{--📌 Friday 10.00am-11.45 2pm-6pm <br>--}}
+{{--📌 Sat n Sun 10.30am-6pm <br><br>--}}
 
-<hr>
-*Hari Raya Notice<br>
-💜 7th April 2024 (Tuesday)<br>
-⏱️ 10:30am - 4:30pm<br>
-⏱️ 7pm - 9pm<br><br>
+OPEN <br>
+📌 Operation Hour : 10:30AM - 6:00PM <br>
+📌 Friday 10.00am-11.45 2pm-6pm <br>
+📌 Closed on Monday & Thursday <br><br>
+
+{{--<hr>--}}
+{{--*Hari Raya Notice<br>--}}
+{{--💜 7th April 2024 (Tuesday)<br>--}}
+{{--⏱️ 10:30am - 4:30pm<br>--}}
+{{--⏱️ 7pm - 9pm<br><br>--}}
 
 Cuti :
 ‼️10-15 April 2024<br>

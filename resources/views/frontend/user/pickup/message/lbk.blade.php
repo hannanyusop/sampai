@@ -14,20 +14,20 @@ PERINGATAN SEMASA COLLECT PARCEL<br><br>
 *************<br>
 📌Business Hour<br>
 💜 Monday - Thurday & Saturday<br>
-⏱️ 10.00 am - 7.00 pm<br><br>
+⏱️ 10.00 am - 6.00 pm<br><br>
 
 💙 Friday<br>
 ⏱️ 10am - 12pm<br>
 ⏱️ 2pm - 7pm<br><br>
 
-<hr>
-*Hari Raya  Notice<br>
-💜 9th April 2024 (Tuesday)<br>
-⏱️ 9am - 5pm<br>
-⏱️ 7pm - 9pm<br><br>
+{{--<hr>--}}
+{{--*Hari Raya  Notice<br>--}}
+{{--💜 9th April 2024 (Tuesday)<br>--}}
+{{--⏱️ 9am - 5pm<br>--}}
+{{--⏱️ 7pm - 9pm<br><br>--}}
 
-Cuti :
-‼️10-17 April 2024<br>
+{{--Cuti :--}}
+{{--‼️10-17 April 2024<br>--}}
 <hr>
 
 
