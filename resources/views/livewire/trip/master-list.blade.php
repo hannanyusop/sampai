@@ -13,7 +13,27 @@
                     <div class="nk-block-head-content">
                         <a href="{{ route('admin.tripBatch.show', $trip_batch) }}" class="btn btn-outline-light bg-warning d-none d-sm-inline-flex"><em class="icon ni ni-back-alt"></em><span>Back</span></a>
                         <a href="#" wire:click="export()" class="btn btn-success d-none d-sm-inline-flex"><em class="icon ni ni-download-cloud"></em><span>Export</span></a>
-                        <a href="#" wire:click="exportWhatsappBot()" class="btn btn-success d-none d-sm-inline-flex"><em class="icon ni ni-download-cloud"></em><span>Whatsapp Bot Export</span></a>
+{{--                        <a href="#" wire:click="exportWhatsappBot()" class="btn btn-success d-none d-sm-inline-flex"><em class="icon ni ni-download-cloud"></em><span>Whatsapp Bot Export</span></a>--}}
+
+                        <div class="drodown m-2">
+                            <button href="#" class="dropdown-toggle btn btn-info" data-toggle="dropdown"><em class="icon ni ni-download-cloud"></em><span>Whatsapp Bot Export</span></button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <ul class="link-list-opt no-bdr">
+                                    <a ref="#" wire:click="exportWhatsappBot()">
+                                        <em class="icon ni ni-chevron-right"></em>
+                                        <span>All</span>
+                                    </a>
+                                </ul>
+                                @foreach($trip_batch->trips as $trip)
+                                    <ul class="link-list-opt no-bdr">
+                                        <a href="#" wire:click="exportWhatsappBot({{ $trip->id }})">
+                                            <em class="icon ni ni-chevron-right"></em>
+                                            <span>Only For {{ $trip->destination->code }}</span>
+                                        </a>
+                                    </ul>
+                                @endforeach
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

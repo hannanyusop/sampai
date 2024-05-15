@@ -4,6 +4,7 @@ namespace App\Exports\Trip;
 
 use App\Domains\Auth\Models\Parcels;
 use App\Domains\Auth\Models\Trip;
+use App\Models\Pickup;
 use App\Models\TripBatch;
 use App\Services\Parcel\ParcelHelperService;
 use Maatwebsite\Excel\Concerns\FromArray;
@@ -22,9 +23,11 @@ class WhatsappBotExport implements FromArray, ShouldAutoSize, WithStyles, WithCo
     use Exportable;
 
     public $trip_batch;
+    public $trip_id = null;
 
-    public function __construct(TripBatch $trip_batch){
+    public function __construct(TripBatch $trip_batch, $trip_id = null){
         $this->trip_batch = $trip_batch;
+        $this->trip_id    = $trip_id;
     }
 
     public function array() : array
@@ -33,19 +36,23 @@ class WhatsappBotExport implements FromArray, ShouldAutoSize, WithStyles, WithCo
 
         $trip_batch = $this->trip_batch;
 
-        $trip_batch = TripBatch::with(['pickups'])->find($trip_batch->id);
+        $trip_batch = TripBatch::find($trip_batch->id);
 
         $array[] = ['Trip ID', __("#:code", ['code' => $trip_batch->number])];
         $array[] = ['Date', reformatDatetime($trip_batch->date, 'd M, Y')];
         $array[] = [''];
         $array[] = [''];
 
-
-
         $array[] = ['No.','User ID','Name', 'Code','Destination', 'Price ($)','Status', 'Remark', 'Phone Number', 'Message'];
 
-        $ttl_tax = 0;
-        foreach ($trip_batch->pickups as $key => $pickup){
+
+        $pickups = Pickup::with(['user', 'dropPoint'])->whereHas('trip', function($query) use ($trip_batch){
+            $query->where('trip_batch_id', $trip_batch->id);
+        })->when($this->trip_id, function ($query) {
+            $query->where('trip_id', $this->trip_id);
+        })->get();
+
+        foreach ($pickups as $key => $pickup){
             $array[] = [
                 $key+1,
                 $pickup?->user->id,
@@ -59,7 +66,6 @@ class WhatsappBotExport implements FromArray, ShouldAutoSize, WithStyles, WithCo
                 ($pickup->dropPoint->code == "L") ? ParcelHelperService::LBKWhatsappText($pickup) : ParcelHelperService::KLNWhatsappText($pickup)
             ];
 
-            $ttl_tax+=$pickup->tax;
 
         }
 

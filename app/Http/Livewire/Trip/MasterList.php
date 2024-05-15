@@ -139,8 +139,9 @@ class MasterList extends Component
         return Excel::download(new MasterListExport($this->trip_batch), time()."_".$this->trip_batch->number.'.xlsx');
     }
 
-    public function exportWhatsappBot(){
-        return Excel::download(new WhatsappBotExport($this->trip_batch), time()."_".$this->trip_batch->number.'.xlsx');
+    public function exportWhatsappBot($tripId = null){
+
+        return Excel::download(new WhatsappBotExport($this->trip_batch, $tripId), time()."_".$this->trip_batch->number.'.xlsx');
     }
 
     public function editRate(){
