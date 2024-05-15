@@ -21,15 +21,6 @@ PERINGATAN SEMASA COLLECT PARCEL<br><br>
 ⏱️ 2pm - 7pm<br><br>
 
 <hr>
-*Hari Raya  Notice<br>
-💜 9th April 2024 (Tuesday)<br>
-⏱️ 9am - 5pm<br>
-⏱️ 7pm - 9pm<br><br>
-
-Cuti :
-‼️10-17 April 2024<br>
-<hr>
-
 
 🤍🖤 Sunday CLOSED<br><br>
 
