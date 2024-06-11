@@ -13,6 +13,12 @@ class BillingController extends Controller
 {
 
     public function view(TripBatch $tripBatch){
+
+        $tripBatch = $tripBatch->load([
+            'pickups',
+            'pickups.dropPoint'
+        ]);
+
         return view('backend.billing.view', compact('tripBatch'));
     }
 
