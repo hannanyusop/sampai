@@ -24,6 +24,9 @@
                         <h6 class="overline-title">Service Charge</h6>
                     </th>
                     <th class="nk-tb-col">
+                        <h6 class="overline-title">Declare Charge</h6>
+                    </th>
+                    <th class="nk-tb-col">
                         <h6 class="overline-title">Permit</h6>
                     </th>
                     <th class="nk-tb-col">
@@ -67,6 +70,11 @@
                         <td class="nk-tb-col">
                             <div class="sub-text">
                                 <div>{{ displayPriceFormat($parcel->service_charge, '$')}}</div>
+                            </div>
+                        </td>
+                        <td class="nk-tb-col">
+                            <div class="sub-text">
+                                <div>{{ displayPriceFormat($parcel->declare_charge, '$')}}</div>
                             </div>
                         </td>
                         <td class="nk-tb-col">

@@ -23,7 +23,7 @@ class MasterList extends Component
     use WithPagination;
     public $selected_parcel;
     public $trip_batch;
-    public $trip, $tax, $trip_ids = [], $service_charge = 0.00, $percent = 0.00, $price = 0.00, $currency_exchange = 0.00, $permit = 0.00;
+    public $trip, $tax, $trip_ids = [], $service_charge = 0.00, $percent = 0.00, $price = 0.00, $currency_exchange = 0.00, $permit = 0.00, $declare_charge = 0.00, $cod_fee = 0.00;
     public $cod_fee_ori;
     public $tracking_no, $edited_id = 0;
     public $drop_point_id, $drop_points = [];
@@ -82,7 +82,8 @@ class MasterList extends Component
         $this->percent = $parcel->percent;
         $this->service_charge = $parcel->service_charge;
         $this->permit = $parcel->permit;
-        $this->cod_fee_ori = $parcel->cod_fee_ori;
+        $this->cod_fee = $parcel->cod_fee;
+        $this->declare_charge = $parcel->declare_charge;
     }
 
     public function updateTax()
@@ -92,7 +93,8 @@ class MasterList extends Component
             'percent'        => 'required|numeric|min:0|max:100',
             'service_charge' => 'required|numeric|min:0.00',
             'permit'         => 'required|numeric|min:0.00',
-            'cod_fee_ori'    => 'required|numeric|min:0.00',
+            'cod_fee'    => 'required|numeric|min:0.00',
+            'declare_charge' => 'required|numeric|min:0.00',
         ]);
 
 
@@ -115,8 +117,8 @@ class MasterList extends Component
         $parcel->percent = $this->percent;
         $parcel->service_charge = $this->service_charge;
         $parcel->permit = $this->permit;
-        $parcel->cod_fee_ori = $this->cod_fee_ori;
-        $parcel->cod_fee = ParcelHelperService::ConvertToBND($this->cod_fee_ori, $this->pos_rate);
+        $parcel->cod_fee = $this->cod_fee;
+        $parcel->declare_charge = $this->declare_charge;
         $parcel->save();
 
         $this->edited_id = null;
@@ -126,7 +128,8 @@ class MasterList extends Component
         $this->percent = 0.00;
         $this->price = 0.00;
         $this->permit = 0.00;
-        $this->cod_fee_ori = 0.00;
+        $this->cod_fee = 0.00;
+        $this->declare_charge = 0.00;
 
         session()->flash('success', __('Billing For :tracking_no updated!', ['tracking_no' => $parcel->tracking_no]));
     }

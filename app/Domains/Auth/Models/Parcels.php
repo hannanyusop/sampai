@@ -54,7 +54,7 @@ class Parcels extends Model{
     }
 
     public function getTotalBillingAttribute(){
-        return $this->cod_fee + $this->service_charge + $this->tax + $this->permit;
+        return $this->cod_fee + $this->service_charge + $this->tax + $this->permit + $this->declare_charge;
     }
 
     public function getTotalBillingFormattedAttribute(){

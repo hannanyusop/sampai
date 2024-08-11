@@ -84,6 +84,10 @@
                 <div class="alert alert-fill alert-info alert-icon element"><em class="icon ni ni-alert-circle"></em>
                     <strong>This item is not ready for pickup.</strong> Please wait until further notice. </div>
             @else
+
+                <hr>
+                    <h4>Grand Total : {{ displayPriceFormat($pickup->total, '$') }}</h4>
+                <hr>
                 <div class="invoice-bills">
                     <div class="table-responsive">
                         <table class="table table-striped">

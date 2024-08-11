@@ -158,10 +158,10 @@
                             <th class="nk-tb-col tb-col-lg"><span class="sub-text">Parcel Price / {{ ($currency_exchange) }} ($)</span></th>
                             <th class="nk-tb-col tb-col-md"><span class="sub-text">Tax Percentage (%)</span></th>
                             <th class="nk-tb-col tb-col-lg"><span class="sub-text">Tax ($)</span></th>
-                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">COD (RM)</span></th>
-                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">COD Converted ($)</span></th>
+                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">COD ($)</span></th>
                             <th class="nk-tb-col tb-col-lg"><span class="sub-text">Service Charge ($)</span></th>
                             <th class="nk-tb-col tb-col-lg"><span class="sub-text">Permit ($)</span></th>
+                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">Declare Charge ($)</span></th>
                             <th class="nk-tb-col tb-col-lg"><span class="sub-text">Action</span></th>
                         </tr>
                         </thead>
@@ -196,9 +196,6 @@
                                         <span>{{ displayPriceFormat($parcel->tax, '$') }}</span>
                                     </td>
                                     <td class="nk-tb-col tb-col-lg">
-                                        <span>{{ displayPriceFormat($parcel->cod_fee_ori, 'RM') }}</span>
-                                    </td>
-                                    <td class="nk-tb-col tb-col-lg">
                                         <span>{{ displayPriceFormat($parcel->cod_fee, '$') }}</span>
                                     </td>
                                     <td class="nk-tb-col tb-col-lg">
@@ -206,6 +203,9 @@
                                     </td>
                                     <td class="nk-tb-col tb-col-lg">
                                         <span>{{ displayPriceFormat($parcel->permit, '$') }}</span>
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        <span>{{ displayPriceFormat($parcel->declare_charge, '$') }}</span>
                                     </td>
                                     <td class="nk-tb-col tb-col-lg">
                                         <button class="btn btn-info" wire:click="changeEditedId({{ $parcel->id }})"><em class="icon ni ni-edit"></em></button>
@@ -226,10 +226,9 @@
                                         <span>{{ displayPriceFormat($parcel->tax, '$') }}</span>
                                     </td>
                                     <td class="nk-tb-col tb-col-lg">
-                                        <input type="number" class="form-control" value="{{ $parcel->cod_fee_ori }}" min="0.00" placeholder="COD Fee ($)" wire:model="cod_fee_ori">
-                                        @error('cod_fee_ori') <span class="text-danger">{{ $message }}</span> @enderror
+                                        <input type="number" class="form-control" value="{{ $parcel->cod_fee }}" min="0.00" placeholder="COD Fee ($)" wire:model="cod_fee">
+                                        @error('cod_fee') <span class="text-danger">{{ $message }}</span> @enderror
                                     </td>
-                                    <td> - </td>
                                     <td class="nk-tb-col tb-col-lg">
                                         <input type="number" class="form-control" value="{{ $parcel->cod_fee }}" min="0.00" placeholder="COD ($)" wire:model="service_charge">
                                         @error('service_charge') <span class="text-danger">{{ $message }}</span> @enderror
@@ -237,6 +236,10 @@
                                     <td class="nk-tb-col tb-col-lg">
                                         <input type="number" class="form-control" value="{{ $parcel->permit }}" min="0.00" placeholder="Service Charge ($)" wire:model="permit">
                                         @error('service_charge') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        <input type="number" class="form-control" value="{{ $parcel->declare_charge }}" min="0.00" placeholder="Declare Charge ($)" wire:model="declare_charge">
+                                        @error('declare_charge') <span class="text-danger">{{ $message }}</span> @enderror
                                     </td>
                                     <td class="nk-tb-col tb-col-lg">
                                         <button class="btn btn-success" wire:click="updateTax()">

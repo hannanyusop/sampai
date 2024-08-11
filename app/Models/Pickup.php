@@ -51,7 +51,7 @@ class Pickup extends Model
     }
 
     public function getTotalAttribute(){
-        return $this->parcels()->sum('cod_fee') + $this->parcels()->sum('service_charge') + $this->parcels()->sum('tax') + $this->parcels()->sum('permit');
+        return $this->parcels()->sum('cod_fee') + $this->parcels()->sum('service_charge') + $this->parcels()->sum('tax') + $this->parcels()->sum('permit') + $this->parcels()->sum('declare_charge');
     }
 
     public function getGrossPriceAttribute(){
