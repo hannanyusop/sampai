@@ -147,6 +147,12 @@
                     </li>
 
                     <li class="nk-menu-item">
+                        <a href="{{ route('admin.category.index') }}" class="nk-menu-link">
+                            <span class="nk-menu-text">{{ __('Category Setting') }}</span>
+                        </a>
+                    </li>
+
+                    <li class="nk-menu-item">
                         <a href="{{ route('admin.office.index') }}" class="nk-menu-link">
                             <span class="nk-menu-text">{{ __('Office Management') }}</span>
                         </a>

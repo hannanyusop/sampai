@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\SubcategoryController;
 use App\Http\Controllers\Backend\UnregisteredParcelController;
 use App\Models\UnregisteredParcel;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +24,8 @@ Route::get('dashboard', [DashboardController::class, 'index'])
 
 
 Route::resource('tripBatch', TripBatchController::class);
+Route::resource('category', CategoryController::class);
+Route::resource('subcategory', SubcategoryController::class);
 
 Route::group(['prefix' => 'trip/', 'as' => 'trip.'], function (){
 
