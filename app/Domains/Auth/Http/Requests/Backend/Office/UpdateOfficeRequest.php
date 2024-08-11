@@ -15,20 +15,21 @@ class UpdateOfficeRequest extends FormRequest
 
     public function authorize(){
 
-        return auth()->user()->isAdmin();
+        return auth()->user()->canAny(['admin.access.user', 'staff.manager']);
     }
 
 
     public function rules()
     {
         return [
-            'code' => 'required|unique:offices,code,'.$this->id.'|min:3|max:5',
-            'name' => 'required|max:20',
+            'code' => 'required|unique:offices,code,'.$this->id.'|min:1|max:5',
+            'name' => 'required|max:50',
             'is_drop_point' => '',
             'address' => '',
             'location' => '',
             'operation_day' => '',
-
+            'whatsapp_template' => '',
+            'pickup_remark' => ''
         ];
     }
 

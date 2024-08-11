@@ -13,6 +13,7 @@
             </div>
         </div>
     </div>
+
     <div class="nk-content-wrap">
         <div class="card card-bordered">
             <div class="card-inner">
@@ -89,6 +90,36 @@
                                         <span id="fv-destination_id-error" class="invalid">{{ $message }}</span>
                                     @enderror
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-3 align-center">
+                        <div class="col-lg-5">
+                            <div class="form-group">
+                                <label class="form-label" for="whatsapp_template">Whatsapp Bot</label>
+                                <span class="form-note"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="form-group">
+                                <div class="form-control-wrap">
+                                    <textarea id="whatsapp_template" name="whatsapp_template" placeholder="Insert your whatsapp bot template here . . ." class="form-control" rows="5">{{ old('whatsapp_template') ?? $office->whatsapp_template }}</textarea>
+                                    @error('whatsapp_template')
+                                    <span id="fv-whatsapp_template-error" class="invalid">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <div class="alert alert-info mt-3">
+                                  <b> Remark :</b>
+                                    <br>Use | for new line
+                                    <br> Available variable : name, pickup_code,total_billing,price,pickup_point,tax,permit,total_parcel,link
+                                </div>
+
+                               <div class="alert alert-secondary mt-3">
+                                   <b>Preview</b><br>
+                                   {{ \App\Services\Parcel\ParcelHelperService::GeneralWhatsappText($pickup, $offices) }}
+                               </div>
+
                             </div>
                         </div>
                     </div>

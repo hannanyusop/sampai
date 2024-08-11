@@ -6,7 +6,7 @@
     <div class="nk-content-wrap">
 
         <div class="nk-block">
-            <div class="col-xxl-8">
+            <div class="col-md-12">
                 <div class="card card-bordered card-full">
                     <div class="card-inner">
                         <div class="card-title-group">
@@ -59,7 +59,9 @@
                                         <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs">
                                             <ul class="link-list-plain">
                                                 <li><a href="{{ route('admin.office.edit', $office->id) }}">Edit</a></li>
-{{--                                                <li><a href="{{ route('admin.office.delete', $office->id) }}" onclick="">Delete</a></li>--}}
+                                                <li><a href="{{ route('admin.office.editReceivingRemark', $office) }}">Edit Receiving Remark</a></li>
+
+                                                {{--                                                <li><a href="{{ route('admin.office.delete', $office->id) }}" onclick="">Delete</a></li>--}}
                                             </ul>
                                         </div>
                                     </div>

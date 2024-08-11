@@ -31,11 +31,12 @@
 
     @if(in_array($pickup->status, [\App\Services\Pickup\PickupHelperService::STATUS_READY_TO_DELIVER]))
         <div class="alert alert-fill alert-secondary alert-icon">
-            @if($pickup->dropPoint->code == "K")
-                @include('frontend.user.pickup.message.kln')
-            @else
-                @include('frontend.user.pickup.message.lbk')
-            @endif
+            {!! $pickup->dropPoint->pickup_remark !!}
+{{--            @if($pickup->dropPoint->code == "K")--}}
+{{--                @include('frontend.user.pickup.message.kln')--}}
+{{--            @else--}}
+{{--                @include('frontend.user.pickup.message.lbk')--}}
+{{--            @endif--}}
         </div>
     @endif
 

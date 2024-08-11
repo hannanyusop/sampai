@@ -112,6 +112,7 @@ Route::group(['prefix' => 'office/', 'as' => 'office.'], function (){
     Route::get('create', [OfficeController::class, 'create'])->name('create')->middleware('permission:admin.access.user');
     Route::post('create', [OfficeController::class, 'insert'])->name('insert')->middleware('permission:admin.access.user');
     Route::get('edit/{id?}', [OfficeController::class, 'edit'])->name('edit')->middleware('permission:staff.manager|admin.access.user');
+    Route::get('edit-receiving-remark/{office}', [OfficeController::class, 'editReceivingRemark'])->name('editReceivingRemark')->middleware('permission:staff.manager|admin.access.user');
     Route::post('edit/{id?}', [OfficeController::class, 'update'])->name('update')->middleware('permission:staff.manager|admin.access.user');
     Route::get('delete/{id}', [OfficeController::class, 'delete'])->name('delete')->middleware('permission:admin.access.user');
 

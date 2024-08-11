@@ -12,9 +12,9 @@
                     <div class="card-inner-group">
                         <div class="card-inner">
                             <div class="sp-plan-head">
-                                <h6 class="title">Parcel Details</h6>
+                                <h6 class="title mb-5">Parcel Details</h6>
                                 <div class="text-right mt-n5 mr-n2">
-                                    @if($parcel->status == \App\Services\Parcel\ParcelHelperService::STATUS_REGISTERED)
+                                    @if(is_null($parcel->pickup_id))
                                         <a href="{{ route('frontend.user.parcel.edit',encrypt($parcel->id)) }}" class="btn btn-md btn-primary">Edit Parcel</a>
                                     @endif
                                 </div>

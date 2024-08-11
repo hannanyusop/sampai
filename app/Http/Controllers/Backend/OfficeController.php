@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Backend;
 use App\Domains\Auth\Http\Requests\Backend\Office\InsertOfficeRequest;
 use App\Domains\Auth\Http\Requests\Backend\Office\UpdateOfficeRequest;
 use App\Domains\Auth\Models\Office;
+use App\Domains\Auth\Models\Parcels;
 use App\Domains\Auth\Models\User;
 use App\Http\Controllers\Controller;
+use App\Models\Pickup;
 
 class OfficeController extends Controller
 {
@@ -41,15 +43,18 @@ class OfficeController extends Controller
 
     public function edit($id = null){
 
+        $pickup = Pickup::first();
+        $offices  = Office::select(['id','whatsapp_template'])->pluck('whatsapp_template', 'id')->toArray();
+
         if (auth()->user()->can('admin.access.user')){
 
             $office = Office::findOrFail($id);
-            return view('backend.office.edit', compact('office'));
+            return view('backend.office.edit', compact('office', 'pickup', 'offices'));
 
         }else if(auth()->user()->can('staff.manager')){
 
             $office = Office::findOrFail(auth()->user()->office_id);
-            return view('backend.office.manager-edit', compact('office'));
+            return view('backend.office.manager-edit', compact('office', 'pickup', 'offices'));
 
         }else{
             return  redirect()->back()->withFlashError('Permission Denied');
@@ -58,39 +63,31 @@ class OfficeController extends Controller
 
     }
 
+    public function editReceivingRemark(Office $office)
+    {
+
+        return view('backend.office.edit-receiving-remark', compact('office'));
+
+    }
+
     public function update(UpdateOfficeRequest $request, $id = null){
 
-        if (auth()->user()->can('admin.access.user')){
 
-            $office = Office::findOrFail($id);
+        $office_id  = auth()->user()->can('admin.access.user') ? $id : auth()->user()->office_id;
 
-            $office->code = strtoupper($request->code);
-            $office->name = strtoupper($request->name);
-            $office->is_drop_point = ($request->is_drop_point)? 1 : 0;
-            $office->address = $request->address;
-            $office->location = $request->location;
-            $office->operation_day = $request->operation_day;
+        $office = Office::findOrFail($office_id);
 
-            $office->save();
-            return redirect()->back()->withFlashSuccess('Office updated.');
+        $office->code = strtoupper($request->code);
+        $office->name = strtoupper($request->name);
+        $office->is_drop_point = ($request->is_drop_point)? 1 : 0;
+        $office->address = $request->address;
+        $office->location = $request->location;
+        $office->operation_day = $request->operation_day;
+        $office->whatsapp_template = $request->whatsapp_template;
+        $office->pickup_remark  = $request->pickup_remark;
 
-        } elseif(auth()->user()->can('staff.manager')){
-
-            $office = Office::findOrFail(auth()->user()->office_id);
-
-            $office->code = strtoupper($request->code);
-            $office->name = strtoupper($request->name);
-            $office->is_drop_point = ($request->is_drop_point)? 1 : 0;
-            $office->address = $request->address;
-            $office->location = $request->location;
-            $office->operation_day = $request->operation_day;
-
-            $office->save();
-            return redirect()->back()->withFlashSuccess('Office updated.');
-
-        }else{
-            return  redirect()->back()->withFlashError('Permission Denied');
-        }
+        $office->save();
+        return redirect()->back()->withFlashSuccess('Office updated.');
     }
 
     public function delete($id){

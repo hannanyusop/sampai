@@ -53,6 +53,10 @@ class ParcelController extends Controller{
             return redirect()->back()->with('warning', 'Parcel not found!');
         }
 
+        if (!is_null($parcel->pickup_id)){
+            return  redirect()->back()->withErrors('Ops! Unable edit this parcel. Reason : Already have pickup code.');
+        }
+
         if ($parcel->status != ParcelHelperService::STATUS_REGISTERED) {
             return redirect()->back()->with('warning', 'Please contact admin to edit this parcel.');
         }

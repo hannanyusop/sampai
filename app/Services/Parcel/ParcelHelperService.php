@@ -40,9 +40,12 @@ class ParcelHelperService
         return (is_null($status))? $statuses : $statuses[$status] ?? __('Invalid status');
     }
 
-    public static function LBKWhatsappText(Pickup $pickup) :string{
+    public static function GeneralWhatsappText(Pickup $pickup, array $offices)
+    {
 
-        $text = __("Salam/Hi :name |Your parcel ready to be collected.|Pickup code:  :pickup_code . | For more detail please visit :link.", [
+        $template = $offices[$pickup->office_id] ?? "Pickup code:  :pickup_code";
+
+        $text = __($template, [
             'name' => \Str::upper($pickup?->user?->name),
             'pickup_code' => $pickup?->code,
             'total_billing' => displayPriceFormat($pickup->total, '$'),
@@ -55,25 +58,8 @@ class ParcelHelperService
         ]);
 
         return $text;
+
     }
-
-    public static function KLNWhatsappText(Pickup $pickup) :string{
-
-        $text = __("Salam/Hi :name |Your parcel ready to be collected.|Pickup code:  :pickup_code . | For more detail please visit :link.", [
-            'name' => \Str::upper($pickup?->user?->name),
-            'pickup_code' => $pickup?->code,
-            'total_billing' => displayPriceFormat($pickup->total, '$'),
-            'price' => displayPriceFormat($pickup->price, '$'),
-            'pickup_point' => $pickup->pickup?->dropPoint?->name,
-            'tax' => displayPriceFormat($pickup->tax, '$'),
-            'permit' => displayPriceFormat($pickup->permit, '$'),
-            'total_parcel' => $pickup->parcels->count(),
-            'link' => route('frontend.user.pickup.show', encrypt($pickup->id))
-        ]);
-
-        return $text;
-    }
-
 
     public static function CalculateTax(float $price,float $currency_exchange,int $percent){
 

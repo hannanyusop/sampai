@@ -2,6 +2,7 @@
 
 namespace App\Exports\Trip;
 
+use App\Domains\Auth\Models\Office;
 use App\Domains\Auth\Models\Parcels;
 use App\Domains\Auth\Models\Trip;
 use App\Models\Pickup;
@@ -52,6 +53,8 @@ class WhatsappBotExport implements FromArray, ShouldAutoSize, WithStyles, WithCo
             $query->where('trip_id', $this->trip_id);
         })->get();
 
+        $offices  = Office::select(['id','whatsapp_template'])->pluck('whatsapp_template', 'id')->toArray();
+
         foreach ($pickups as $key => $pickup){
             $array[] = [
                 $key+1,
@@ -63,10 +66,8 @@ class WhatsappBotExport implements FromArray, ShouldAutoSize, WithStyles, WithCo
                 $pickup->status_label,
                 '',
                 $pickup?->user?->phone_number,
-                ($pickup->dropPoint->code == "L") ? ParcelHelperService::LBKWhatsappText($pickup) : ParcelHelperService::KLNWhatsappText($pickup)
+                ParcelHelperService::GeneralWhatsappText($pickup, $offices)
             ];
-
-
         }
 
         return $array;
