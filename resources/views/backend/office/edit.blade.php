@@ -117,7 +117,7 @@
 
                                <div class="alert alert-secondary mt-3">
                                    <b>Preview</b><br>
-                                   {{ \App\Services\Parcel\ParcelHelperService::GeneralWhatsappText($pickup, $offices) }}
+                                   {!! str_replace('|', "<br>", \App\Services\Parcel\ParcelHelperService::GeneralWhatsappText($pickup, $offices)) !!}
                                </div>
 
                             </div>
