@@ -62,14 +62,21 @@
                             </div>
                             <div class="sp-plan-desc sp-plan-desc-mb">
                                 <ul class="row gx-1">
+                                    <li class="col-sm-12">
+                                        <hr>
+                                        <p><span class="text-soft">Ketegori Barang</span></p>
+                                        <div class="row gx-1">
+                                            @foreach($parcel->cat as $category_id => $category_name)
+                                                <span class="badge badge-primary mr-1">{{ $category_name }}</span>
+                                            @endforeach
+                                        </div>
+                                    </li>
+
                                     <li class="col-sm-8">
                                         <p><span class="text-soft">Item Description (Keterangan barang)</span>
                                             {{ $parcel->description }}
                                         </p>
                                     </li>
-
-
-
 
                                     <li class="col-sm-4">
                                         <p>

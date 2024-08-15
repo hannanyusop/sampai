@@ -19,18 +19,18 @@
                         @can('admin.trip.billing')
                             <a href="{{ route('admin.billing.view', $tripBatch) }}" class="btn btn-primary d-none d-sm-inline-flex"><em class="icon ni ni-money"></em>Billing</a>
                         @endcan
-                        @can('staff.biacc')
-                            <button wire:click="exportBiacc()" class="btn btn-outline-light bg-success"><em class="icon ni ni-download"></em>
-                                <span>
-                                     <div wire:loading>
-                                        Exporting file...
-                                    </div>
-                                    <div wire:loading.remove>
-                                        Export List (BIACC)
-                                    </div>
-                                </span>
-                            </button>
-                        @endcan
+{{--                        @can('staff.biacc')--}}
+{{--                            <button wire:click="exportBiacc()" class="btn btn-outline-light bg-success"><em class="icon ni ni-download"></em>--}}
+{{--                                <span>--}}
+{{--                                     <div wire:loading>--}}
+{{--                                        Exporting file...--}}
+{{--                                    </div>--}}
+{{--                                    <div wire:loading.remove>--}}
+{{--                                        Export List (BIACC)--}}
+{{--                                    </div>--}}
+{{--                                </span>--}}
+{{--                            </button>--}}
+{{--                        @endcan--}}
                         @can('staff.distributor')
                             @if($tripBatch->status == \App\Services\TripBatch\TripBatchHelperService::STATUS_PENDING)
                                 <button wire:click="showUploadForm()" class="btn btn-outline-light bg-primary d-none d-sm-inline-flex"><em class="icon ni ni-upload-cloud"></em><span>Upload</span></button>

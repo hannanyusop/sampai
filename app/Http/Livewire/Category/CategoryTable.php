@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Category;
 
 use App\Models\Category;
+use App\Models\Subcategory;
 use Livewire\Component;
 
 class CategoryTable extends Component
@@ -16,8 +17,9 @@ class CategoryTable extends Component
 
     public function mount()
     {
-        $this->categories = Category::all();
+        $this->fetchCategories();
     }
+
     public function render()
     {
         return view('livewire.category.category-table');
@@ -25,31 +27,58 @@ class CategoryTable extends Component
 
     public function createCategory()
     {
+        $this->validate([
+            'category_title' => 'required|string|max:255|unique:categories,title,'
+        ],[
+            'category_title.required' => 'The category title field is required.',
+            'category_title.unique' => 'The category title has already been taken.',
+            'category_title.max' => 'The category title may not be greater than 255 characters.'
+        ]);
+
         Category::create([
             'title' => $this->category_title
         ]);
 
         $this->category_title = '';
-        $this->categories     = Category::all();
+        $this->fetchCategories();
+        session()->flash('message', 'Category created successfully.');
     }
 
     public function editCategory($id){
         $this->category       = Category::find($id);
         $this->category_title = $this->category->title;
-        $this->action_type      = 'create';
+        $this->action_type      = 'update';
+    }
+
+    public function deleteCategory($id)
+    {
+        Category::destroy($id);
+        $this->fetchCategories();
     }
 
     public function updateCategory()
     {
+        $this->validate([
+            'category_title' => 'required|string|max:255|unique:categories,title,'.$this->category->id,
+        ],[
+            'category_title.required' => 'The category title field is required.',
+            'category_title.unique' => 'The category title has already been taken.',
+            'category_title.max' => 'The category title may not be greater than 255 characters.'
+        ]);
+
+        dd('sdf');
+
         $this->category->update([
             'title' => $this->category_title
         ]);
+
+        dd($this->category_title);
 
         $this->category       = null;
         $this->category_title = '';
         $this->action_type    = 'update';
 
-        $this->categories     = Category::all();
+        $this->fetchCategories();
     }
 
     public function addSubcategory($id)
@@ -58,27 +87,16 @@ class CategoryTable extends Component
         $this->action_type = 'add_subcategory';
     }
 
-    public function createSubcategory()
-    {
-        $this->validate([
-            'subcategory_title' => 'required|string|max:255|unique:subcategories,title,NULL,id,category_id,'.$this->category->id,
-        ]);
-
-        $this->category->subcategories()->create([
-            'title' => $this->subcategory_title
-        ]);
-
-        $this->category_title = '';
-        $this->subcategory_title = '';
-        $this->categories     = Category::all();
-        $this->category = null;
-
-    }
-
     public function cancel()
     {
         $this->category       = null;
         $this->category_title = '';
         $this->action_type    = 'create';
+    }
+
+
+    private function fetchCategories()
+    {
+        $this->categories = Category::get();
     }
 }

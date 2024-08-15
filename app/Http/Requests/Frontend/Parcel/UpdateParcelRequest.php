@@ -16,6 +16,7 @@ class UpdateParcelRequest extends FormRequest
     {
         return [
             "receiver_name" => "required|max:200",
+            "category"      => "array|min:1|required|exists:categories,id",
             "phone_number"  => "required|max:20",
             "tracking_no"   => "required|unique:parcels,tracking_no,{$this->id}|max:50",
             "description"   => "required|max:1000",

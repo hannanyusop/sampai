@@ -19,6 +19,14 @@ class Parcels extends Model{
         return $this->hasOneThrough(Trip::class, Pickup::class, 'id', 'id', 'pickup_id', 'trip_id');
     }
 
+    public function getCatAttribute(){
+
+
+        if (is_null($this->categories)){
+            return [];
+        }
+        return json_decode($this->categories, true);
+    }
     public function transactions(){
 
         return $this->hasMany(ParcelTransaction::class, 'parcel_id', 'id')->orderBy('id', 'DESC');

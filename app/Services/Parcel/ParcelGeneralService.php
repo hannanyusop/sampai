@@ -2,10 +2,10 @@
 
 namespace App\Services\Parcel;
 
-use App\Domains\Auth\Http\Requests\Backend\Parcel\CompleteRequest;
 use App\Domains\Auth\Models\Office;
 use App\Domains\Auth\Models\Parcels;
 use App\Domains\Auth\Models\Trip;
+use App\Models\Category;
 use App\Models\Pickup;
 use App\Models\TripBatch;
 use App\Models\UnregisteredParcel;
@@ -106,6 +106,8 @@ class ParcelGeneralService
                 $parcel->invoice_url   = $file;
             }
 
+            $formatted_categories = ParcelGeneralService::restructureCategory($request->category);
+
             $parcel->receiver_name = strtoupper($request->receiver_name);
             $parcel->phone_number = $request->phone_number;
             $parcel->tracking_no = strtoupper($request->tracking_no);
@@ -113,6 +115,7 @@ class ParcelGeneralService
             $parcel->quantity = $request->quantity;
             $parcel->price = $request->price;
             $parcel->office_id  = $request->office_id;
+            $parcel->categories = json_encode($formatted_categories);
             $parcel->save();
 
             DB::commit();
@@ -339,5 +342,23 @@ class ParcelGeneralService
 
         addParcelTransaction($parcel->id, $remark);
         return true;
+    }
+
+    public static function  restructureCategory($categories = []){
+
+        $formatted_categories = [];
+
+        $categoryAll = Category::all();
+
+        foreach ($categories as $category_id) {
+
+            $subcategory = $categoryAll->where('id', $category_id)->first();
+
+            if ($subcategory) {
+                $formatted_categories[$subcategory->id] = $subcategory->title;
+            }
+        }
+
+        return $formatted_categories;
     }
 }

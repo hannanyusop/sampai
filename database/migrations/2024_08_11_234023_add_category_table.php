@@ -19,17 +19,18 @@ class AddCategoryTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('subcategories', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('category_id')->constrained()->onDelete('cascade');
-            $table->string('title')->unique()->nullable();
-            $table->timestamps();
+        Schema::table('parcels', function (Blueprint $table) {
+            $table->text('categories')->nullable(true);
         });
     }
 
     public function down()
     {
+
         Schema::dropIfExists('categories');
-        Schema::dropIfExists('subcategories');
+
+        Schema::table('parcels', function (Blueprint $table) {
+            $table->dropColumn('categories');
+        });
     }
 }

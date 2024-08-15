@@ -59,6 +59,18 @@
 
                             <hr>
                             <h5>{{ __('Item Information') }}</h5>
+
+                            <label class="form-label" for="item_name">Category</label>
+
+                            <div class="row">
+                                @foreach($categories as $category)
+                                    <div class="col-md-3 my-2">
+                                        <input type="checkbox" name="category[]" value="{{ $category->id }}" {{ is_array(old('category')) && in_array($category->id, old('category')) ? 'checked' : '' }}>
+                                        {{ $category->title }}
+                                    </div>
+                                @endforeach
+                            </div>
+
                             <div class="row g-4">
 
                                 <div class="col-lg-12">
@@ -142,7 +154,7 @@
                                         <div class="mb-3">
                                             @foreach($drop_points as $drop_point)
                                                 <div class="form-check">
-                                                    <input type="radio" name="office_id" id="drop_point_{{ $drop_point->id }}" value="{{ $drop_point->id }}" class="form-check-input" {{ old('office_id') == $drop_point->id ?? "checked" }}>
+                                                    <input type="radio" name="office_id" id="drop_point_{{ $drop_point->id }}" value="{{ $drop_point->id }}" class="form-check-input" {{ old('office_id') == $drop_point->id ? "checked" : "" }}>
                                                     <lable class="form-check-label">{{ $drop_point->code." - ".$drop_point->name }}</lable>
                                                 </div>
                                             @endforeach

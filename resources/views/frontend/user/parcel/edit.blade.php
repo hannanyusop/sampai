@@ -46,6 +46,25 @@
                                     </li>
                                 </ul>
                             </div>
+
+                            <hr>
+                            <h5>{{ __('Item Information') }}</h5>
+
+                            <label class="form-label" for="item_name">Category</label>
+
+                            <div class="row">
+                                @foreach($categories as $category)
+                                    <div class="col-md-3 my-2">
+                                        <input type="checkbox"  name="category[]" value="{{ $category->id }}" {{ in_array($category->id, array_keys($parcel->cat)) ? 'checked' : '' }}>
+                                        {{ $category->title }}
+                                    </div>
+                                @endforeach
+
+                                @error('category')
+                                <span id="fv-name-error" class="invalid">{{ $message }}</span>
+                                @enderror
+                            </div>
+
                             <div class="sp-plan-desc sp-plan-desc-mb my-1">
                                 <ul class="row gx-4">
                                     <li class="col-sm-12">

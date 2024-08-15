@@ -25,7 +25,12 @@ Route::get('dashboard', [DashboardController::class, 'index'])
 
 Route::resource('tripBatch', TripBatchController::class);
 Route::resource('category', CategoryController::class);
-Route::resource('subcategory', SubcategoryController::class);
+Route::group([
+    'prefix' => 'category/',
+    'as' => 'category.',
+], function (){
+    Route::get('updateCat/{category}', [CategoryController::class, 'updateCat'])->name('updateCat');
+});
 
 Route::group(['prefix' => 'trip/', 'as' => 'trip.'], function (){
 

@@ -49,11 +49,17 @@ class MasterListExport implements FromArray, ShouldAutoSize, WithStyles, WithCol
 
 
 
-        $array[] = ['No.','User ID', 'Tracking No', 'Code', 'Guni', 'Receiver Name', 'Phone Number', 'Description','Destination', 'Price (RM)','Percentage (%)', 'Tax (BND $)', 'Service Charge ($)', 'Status', 'Remark', 'Phone Number', 'Message'];
+        $array[] = ['No.','User ID', 'Tracking No', 'Code', 'Guni', 'Receiver Name', 'Phone Number', 'Description', 'Category', 'Destination', 'Price (RM)','Percentage (%)', 'Tax (BND $)', 'Service Charge ($)', 'Status', 'Remark', 'Phone Number', 'Message'];
 
         $ttl_tax = 0;
-        $ttl_parcel = count($parcels);
         foreach ($parcels as $key => $parcel){
+
+            $category_to_string = '';
+            foreach ($parcel->cat as $category_title){
+                $category_to_string .= $category_title . ',';
+                $category_to_string .= "\n";
+            }
+
             $array[] = [
                 $key+1,
                 $parcel?->user->id,
@@ -63,6 +69,7 @@ class MasterListExport implements FromArray, ShouldAutoSize, WithStyles, WithCol
                 $parcel?->receiver_name,
                 $parcel?->phone_number,
                 $parcel?->description,
+                $category_to_string,
                 $parcel?->dropPoint?->name,
                 $parcel->price ? number_format($parcel->price, '2', '.') : '0.00',
                 $parcel->percentage ? number_format($parcel->percentage, '2', '.') : '0.00',

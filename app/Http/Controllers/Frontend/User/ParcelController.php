@@ -6,6 +6,8 @@ use App\Domains\Auth\Models\Parcels;
 use App\Domains\Auth\Models\TrackHistories;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Frontend\Parcel\StoreParcelRequest;
+use App\Models\Category;
+use App\Models\Subcategory;
 use App\Models\UnregisteredParcel;
 use App\Services\Parcel\ParcelGeneralService;
 use App\Services\Parcel\ParcelHelperService;
@@ -44,10 +46,11 @@ class ParcelController extends Controller{
     public function edit($id){
         $drop_points = Office::where('is_drop_point', 1)->get();
 
+        $categories = Category::get();
+
         $parcel = Parcels::with('dropPoint')->where([
             'user_id' => auth()->user()->id,
         ])->find(decrypt($id));
-
 
         if(!$parcel){
             return redirect()->back()->with('warning', 'Parcel not found!');
@@ -63,7 +66,7 @@ class ParcelController extends Controller{
 
         $receiver = null;
 
-        return view('frontend.user.parcel.edit', compact('parcel', 'drop_points', 'receiver'));
+        return view('frontend.user.parcel.edit', compact('parcel', 'drop_points', 'receiver', 'categories'));
     }
 
     public function update(UpdateParcelRequest $request, $id){
@@ -73,12 +76,9 @@ class ParcelController extends Controller{
             'status' => ParcelHelperService::STATUS_REGISTERED
         ])->findOrFail($id);
 
-
         $result = ParcelGeneralService::update($request, $parcel);
 
         return redirect()->back()->with($result['status'], $result['message']);
-
-
     }
 
     public function search(Request $request){
@@ -110,16 +110,20 @@ class ParcelController extends Controller{
 
     public function create(){
 
+        $categories = Category::get();
+
         $origins = [
             'Lazada' => 'Lazada',
             'Shopee' => 'Shopee'
         ];
         $drop_points = Office::where('is_drop_point', 1)->get();
 
-        return view('frontend.user.parcel.create', compact('drop_points', 'origins'));
+        return view('frontend.user.parcel.create', compact('drop_points', 'origins', 'categories'));
     }
 
     public function store(StoreParcelRequest $request){
+
+        $formatted_categories = ParcelGeneralService::restructureCategory($request->category);
 
         $parcel = new Parcels();
         $parcel->user_id       = auth()->user()->id;
@@ -132,6 +136,7 @@ class ParcelController extends Controller{
         $parcel->quantity      = $request->quantity;
         $parcel->order_origin  = $request->order_origin;
         $parcel->office_id     = $request->office_id;
+        $parcel->categories    = json_encode($formatted_categories);
         $file                  = Storage::disk('public')->put('invoice', $request->file('invoice_url'));
         $parcel->invoice_url   = $file;
         $parcel->save();

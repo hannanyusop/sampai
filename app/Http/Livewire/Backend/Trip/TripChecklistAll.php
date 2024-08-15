@@ -69,7 +69,6 @@ class TripChecklistAll extends Component
     public function undo(){
         if($this->last_parcel){
 
-            dd($this->last_parcel);
             $parcel = Parcels::findOrfail($this->last_parcel->id);
             $parcel->update(['checked' => false]);
             session()->flash('success', 'Undo successful');
