@@ -98,8 +98,7 @@
                         <div class="my-2">
                             <b>Lambak</b>
                             <ul>
-                               <li><a href="https://wa.me/673892145">https://wa.me/673892145</a></li>
-                                <li><a href="https://wa.me/6738677698">https://wa.me/6738677698</a></li>
+                               <li><a href="https://wa.me/6738921454">https://wa.me/6738921454</a></li>
                             </ul>
                         </div>
 
