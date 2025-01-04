@@ -363,10 +363,9 @@ class ParcelGeneralService
         return $formatted_categories;
     }
 
-    public static function exportBulk(TripBatch $tripBatch,array $parcels) : array
+    public static function exportBulk(TripBatch $tripBatch, array $parcels): array
     {
-
-        if ($tripBatch->is_closed){
+        if ($tripBatch->is_closed) {
             return [
                 GeneralHelperService::KEY_STATUS  => GeneralHelperService::STATUS_ERROR,
                 GeneralHelperService::KEY_MESSAGE => __('Trip Batch is closed')
@@ -379,22 +378,19 @@ class ParcelGeneralService
         $grouped = $parcels->groupBy('customer_id');
 
         $offices = Office::where('is_drop_point', true)->get();
-
         $trips = $tripBatch->trips;
 
         $processData = [];
 
-        $grouped->each(function ($parcels, $key) use ($tripBatch, $offices, $trips, $processData) {
-
+        // Use `&$processData` to pass by reference
+        $grouped->each(function ($parcels, $key) use ($tripBatch, $offices, $trips, &$processData) {
             $customer = User::find($key);
 
-            $parcels->each(function ($data)  use ($customer, $offices, $trips, $processData)  : array {
-
+            $parcels->each(function ($data) use ($customer, $offices, $trips, &$processData) {
                 $office = $offices->where('code', $data['destination'])->first();
 
                 $parcel = Parcels::where('tracking_no', strtoupper($data['tracking']))->first();
-
-                if (!$parcel){
+                if (!$parcel) {
                     $parcel = new Parcels();
                 }
 
@@ -418,7 +414,6 @@ class ParcelGeneralService
                 $trip = $trips->where('destination_id', $office->id)->first();
 
                 $servicePickup = PickupGeneralService::getPickupByUser($customer, $trip, $office);
-
                 $pickup = $servicePickup[GeneralHelperService::KEY_DATA];
 
                 $parcel->code = self::GenerateCode($pickup, $parcel);
@@ -427,7 +422,8 @@ class ParcelGeneralService
 
                 addParcelTransaction($parcel->id, "Parcel received by NUJ and assigned to trip $trip->code");
 
-                return $processData[] =  [
+                // Push the processed data into `$processData`
+                $processData[] = [
                     'name' => $customer->name,
                     'phone' => $customer->phone_number,
                     'tracking' => $data['tracking'],
@@ -437,7 +433,6 @@ class ParcelGeneralService
                 ];
             });
         });
-
 
         return [
             GeneralHelperService::KEY_STATUS  => GeneralHelperService::STATUS_SUCCESS,

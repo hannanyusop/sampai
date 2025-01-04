@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Backend\TripBatch;
 use App\Domains\Auth\Models\Office;
 use App\Domains\Auth\Models\User;
 use App\Exports\parcel\ExportBulk;
+use App\Exports\parcel\ExportBulkTemplate;
 use App\Models\TripBatch;
 use App\Services\General\GeneralHelperService;
 use App\Services\Parcel\ParcelGeneralService;
@@ -36,9 +37,13 @@ class TripBatchBulkImport extends Component
         return view('livewire.backend.trip-batch.trip-batch-bulk-import');
     }
 
+    public function downloadTemplate()
+    {
+       return Excel::download(new ExportBulkTemplate(), 'bulk_import_template.xlsx');
+    }
+
     public function viewData()
     {
-        $this->data = [];
         $this->validate([
             'file' => 'required|file|mimes:xlsx,xls',
         ]);
@@ -94,9 +99,13 @@ class TripBatchBulkImport extends Component
         $this->validate([
             'parcels.*.customer_id' => 'required|numeric|exists:users,id,type,' . User::TYPE_USER,
             'parcels.*.destination' => 'required|exists:offices,code,is_drop_point,1',
+            'parcels.*.tracking'    => 'unique:parcels,tracking_no',
         ], [
             'parcels.*.customer_id.required' => 'Please select customer',
             'parcels.*.customer_id.exists'   => 'Selected customer not found / invalid',
+            'parcels.*.destination.required' => 'Please select destination',
+            'parcels.*.destination.exists'   => 'Selected destination not found / invalid',
+            'parcels.*.tracking.unique'      => 'Tracking number already registered. Remove duplicate tracking number',
         ]);
 
         //convert parcels.*.customer_id to integer

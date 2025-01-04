@@ -5,11 +5,20 @@
                 <div class="card card-bordered">
                     <div class="card-inner">
                         <div class="card-head">
-                            <h5 class="card-title">Bulk Upload</h5>
+                            <div class="card-title">
+                                <h6 class="title"><span class="mr-2">Bulk Upload</span></h6>
+                            </div>
+                            <div class="card-tools">
+                                <button wire:click="downloadTemplate" class="btn btn-success">Download Template</button>
+                            </div>
                         </div>
                         <div class="form-validate">
 
-                            <div class="row g-4">
+                            Available Destination (Use Code): <br>
+                            @foreach($offices as $office)
+                                <span class="badge badge-primary"><b>{{ $office->code }}</b> - {{ $office->name }}</span>
+                            @endforeach
+                            <div class="row mt-2">
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label class="form-label" for="invoice">Invoice</label>
@@ -23,10 +32,10 @@
                                 </div>
                             </div>
 
-                            <div class="row g-4">
+                            <div class="row mt-2">
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <button wire:click="viewData()" class="btn btn-lg btn-primary">Submit</button>
+                                        <button wire:click="viewData()" class="btn btn-primary">Submit</button>
                                     </div>
                                 </div>
                             </div>
@@ -50,7 +59,8 @@
                                 </thead>
                                 <tbody>
                                 @foreach ($parcels as $id => $parcel)
-                                    <tr><td>{{ $loop->iteration }}</td>
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
                                         @foreach($header as $key)
                                             <td>
                                                 @if($key == 'destination')
@@ -66,6 +76,12 @@
                                                     @enderror
                                                 @else
                                                     {{ strtoupper($parcel[$key] ?? "") }}
+
+                                                    @if($key == 'tracking')
+                                                        @error('parcels.'.$id.'.tracking')
+                                                            <br><small id="fv-invoice-error" class="invalid text-danger font-weight-bold"><span class="ni ni-alert-circle"></span>{{ $message }}</small>
+                                                        @enderror
+                                                    @endif
                                                 @endif
                                             </td>
                                         @endforeach
