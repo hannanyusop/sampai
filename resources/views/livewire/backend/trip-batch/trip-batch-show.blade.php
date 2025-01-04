@@ -13,8 +13,8 @@
                     </div>
                     <div class="nk-block-head-content">
                         <a href="{{ route('admin.tripBatch.index') }}" class="btn btn-outline-light bg-warning d-none d-sm-inline-flex"><em class="icon ni ni-back-alt"></em><span>Back</span></a>
-                        <a href="{{ route('admin.tripBatch.bulkImport', $tripBatch) }}" class="btn btn-success d-none d-sm-inline-flex"><em class="icon ni ni-list-check"></em><span>Bulk Import</span></a>
-                    @can('admin.trip.master')
+                        @can('admin.trip.master')
+                            <a href="{{ route('admin.tripBatch.bulkImport', $tripBatch) }}" class="btn btn-success d-none d-sm-inline-flex"><em class="icon ni ni-list-check"></em><span>Bulk Import</span></a>
                             <a href="{{ route('admin.trip.masterList', $tripBatch->id) }}" class="btn btn-success d-none d-sm-inline-flex"><em class="icon ni ni-list-check"></em><span>Master List</span></a>
                         @endcan
                         @can('admin.trip.billing')

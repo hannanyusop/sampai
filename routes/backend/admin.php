@@ -34,6 +34,7 @@ Route::resource('category', CategoryController::class);
 Route::group([
     'prefix' => 'category/',
     'as' => 'category.',
+    'middleware' => 'permission:admin.trip.master',
 ], function (){
     Route::get('updateCat/{category}', [CategoryController::class, 'updateCat'])->name('updateCat');
 });
