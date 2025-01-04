@@ -93,4 +93,9 @@ class TripBatchController extends Controller
         return view('backend.trip_batch.receive');
     }
 
+    public function bulkImport(TripBatch $tripBatch)
+    {
+        return view('backend.trip_batch.bulk-import', compact('tripBatch'));
+    }
+
 }

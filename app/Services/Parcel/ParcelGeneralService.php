@@ -5,6 +5,7 @@ namespace App\Services\Parcel;
 use App\Domains\Auth\Models\Office;
 use App\Domains\Auth\Models\Parcels;
 use App\Domains\Auth\Models\Trip;
+use App\Domains\Auth\Models\User;
 use App\Models\Category;
 use App\Models\Pickup;
 use App\Models\TripBatch;
@@ -360,5 +361,88 @@ class ParcelGeneralService
         }
 
         return $formatted_categories;
+    }
+
+    public static function exportBulk(TripBatch $tripBatch,array $parcels) : array
+    {
+
+        if ($tripBatch->is_closed){
+            return [
+                GeneralHelperService::KEY_STATUS  => GeneralHelperService::STATUS_ERROR,
+                GeneralHelperService::KEY_MESSAGE => __('Trip Batch is closed')
+            ];
+        }
+
+        $tripBatch->load('trips');
+
+        $parcels = collect($parcels);
+        $grouped = $parcels->groupBy('customer_id');
+
+        $offices = Office::where('is_drop_point', true)->get();
+
+        $trips = $tripBatch->trips;
+
+        $processData = [];
+
+        $grouped->each(function ($parcels, $key) use ($tripBatch, $offices, $trips, $processData) {
+
+            $customer = User::find($key);
+
+            $parcels->each(function ($data)  use ($customer, $offices, $trips, $processData)  : array {
+
+                $office = $offices->where('code', $data['destination'])->first();
+
+                $parcel = Parcels::where('tracking_no', strtoupper($data['tracking']))->first();
+
+                if (!$parcel){
+                    $parcel = new Parcels();
+                }
+
+                $parcel->user_id       = $customer->id;
+                $parcel->tracking_no   = strtoupper($data['tracking']);
+                $parcel->status        = ParcelHelperService::STATUS_REGISTERED;
+                $parcel->receiver_name = strtoupper($customer->name);
+                $parcel->phone_number  = $customer->phone_number;
+                $parcel->description   = "";
+                $parcel->price         = 0.00;
+                $parcel->quantity      = 1;
+                $parcel->order_origin  = "";
+                $parcel->office_id     = $office->id;
+                $parcel->invoice_url   = null;
+                $parcel->save();
+
+                addParcelTransaction($parcel->id, ParcelHelperService::statuses(ParcelHelperService::STATUS_REGISTERED));
+
+                $parcel->load('trip');
+
+                $trip = $trips->where('destination_id', $office->id)->first();
+
+                $servicePickup = PickupGeneralService::getPickupByUser($customer, $trip, $office);
+
+                $pickup = $servicePickup[GeneralHelperService::KEY_DATA];
+
+                $parcel->code = self::GenerateCode($pickup, $parcel);
+                $parcel->pickup_id = $pickup->id;
+                $parcel->save();
+
+                addParcelTransaction($parcel->id, "Parcel received by NUJ and assigned to trip $trip->code");
+
+                return $processData[] =  [
+                    'name' => $customer->name,
+                    'phone' => $customer->phone_number,
+                    'tracking' => $data['tracking'],
+                    'code' => $parcel->code,
+                    'pickup' => $pickup->code,
+                    'destination' => $office->name,
+                ];
+            });
+        });
+
+
+        return [
+            GeneralHelperService::KEY_STATUS  => GeneralHelperService::STATUS_SUCCESS,
+            GeneralHelperService::KEY_MESSAGE => __('Successfully Assign'),
+            GeneralHelperService::KEY_DATA => $processData
+        ];
     }
 }

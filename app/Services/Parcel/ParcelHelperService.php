@@ -77,4 +77,14 @@ class ParcelHelperService
 
     }
 
+    public static function getRequiredHeader()
+    {
+        return [
+            'tracking',
+            'name',
+            'phone',
+            'destination'
+        ];
+    }
+
 }

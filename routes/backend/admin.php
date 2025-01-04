@@ -24,6 +24,12 @@ Route::get('dashboard', [DashboardController::class, 'index'])
 
 
 Route::resource('tripBatch', TripBatchController::class);
+Route::group([
+    'as' => 'tripBatch.',
+    'prefix' => 'tripBatch/{tripBatch}/'
+], function (){
+    Route::get('bulk-import', [TripBatchController::class,'bulkImport'])->name('bulkImport');
+});
 Route::resource('category', CategoryController::class);
 Route::group([
     'prefix' => 'category/',
@@ -33,6 +39,8 @@ Route::group([
 });
 
 Route::group(['prefix' => 'trip/', 'as' => 'trip.'], function (){
+
+
 
     Route::get('', [TripController::class, 'index'])->name('index');
     Route::get('checklist/{trip}', [TripController::class, 'checklist'])->name('checklist');
