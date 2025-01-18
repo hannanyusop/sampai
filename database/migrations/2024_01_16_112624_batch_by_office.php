@@ -11,9 +11,14 @@ class BatchByOffice extends Migration
     public function up()
     {
         Schema::table('trip_batches', function (Blueprint $table) {
-            $table->unsignedInteger('office_id')->nullable()->after('id');
-            $table->foreign('office_id')->references('id')->on('offices')->onDelete('cascade');
-            $table->boolean('is_closed')->default(false)->after('office_id');
+
+            //fk office_id
+            $table->unsignedBigInteger('office_id');
+            $table->foreign('office_id')
+                ->references('id')
+                ->on('offices');
+
+            $table->boolean('is_closed')->default(false);
 
             $table->index('office_id');
         });
