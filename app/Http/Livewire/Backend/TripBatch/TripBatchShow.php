@@ -62,6 +62,11 @@ class TripBatchShow extends Component
         return view('livewire.backend.trip-batch.trip-batch-show', compact('tripBatch', 'parcels'));
     }
 
+    public function downloadTemplate()
+    {
+        return response()->download(public_path('assets/template/offline_parcel.xlsx'));
+    }
+
     public function search(){
 
         $service = ParcelGeneralService::insertableParcel($this->tracking_no, $this->tripBatch);
@@ -136,13 +141,25 @@ class TripBatchShow extends Component
 
     //upload excel
 
-    public function upload()
+    public function upploadBulkImport()
     {
         $this->validate([
             'excel' => 'required|file|mimes:xlsx',
         ]);
 
-        Excel::import(new OfflineParcelImport($this->tripBatch), $this->excel);
+        try {
+            Excel::import(new OfflineParcelImport($this->tripBatch), $this->excel);
+
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+
+            $errorMessages = [];
+            foreach ($failures as $failure) {
+                $errorMessages[] = 'Error in row ' . $failure->row()-1 . ': ' . implode(', ', $failure->errors());
+            }
+
+            session()->flash('insert_'.GeneralHelperService::STATUS_ERROR, implode('<br>', $errorMessages));
+        }
     }
 
     public function showUploadForm(){

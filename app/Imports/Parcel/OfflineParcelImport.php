@@ -8,8 +8,9 @@ use DB;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithValidation;
 
-class OfflineParcelImport implements ToCollection, WithHeadingRow
+class OfflineParcelImport implements ToCollection, WithHeadingRow, WithValidation
 {
 
     //constructor
@@ -28,7 +29,7 @@ class OfflineParcelImport implements ToCollection, WithHeadingRow
         //get total data
         $total_data = $collection->count();
 
-        $required_header = ['no_item', 'nama', 'tracking_no', 'harga'];
+        $required_header = ['nama', 'tracking_no', 'harga', 'service_charge'];
 
         if (count(array_diff($required_header, $header)) > 0) {
 
@@ -40,24 +41,49 @@ class OfflineParcelImport implements ToCollection, WithHeadingRow
 
         //start db commit
         DB::beginTransaction();
-        foreach ($collection as $parcel){
 
-            $checking = ParcelGeneralService::insertableParcel( $parcel['tracking_no'] , $this->tripBatch);
+        foreach ($collection as $currentParcel) {
+
+            $checking = ParcelGeneralService::insertableParcel( $currentParcel['tracking_no'] , $this->tripBatch);
 
             if ($checking[GeneralHelperService::KEY_STATUS] == GeneralHelperService::STATUS_ERROR) {
                 DB::rollBack();
                 return session()->flash('insert_'.GeneralHelperService::STATUS_ERROR, $checking[GeneralHelperService::KEY_MESSAGE]);
             }
 
-            $inserting = ParcelGeneralService::assignToTripBatch($parcel['tracking_no'], $this->tripBatch);
+            $inserting = ParcelGeneralService::assignToTripBatch($currentParcel['tracking_no'], $this->tripBatch);
             $parcel    = $inserting[GeneralHelperService::KEY_DATA];
 
-            $parcel->receiver_name = $parcel['nama'];
-            $parcel->price = $parcel['harga'];
+            $parcel->receiver_name = $currentParcel['nama'];
+            $parcel->price = $currentParcel['harga'];
+            $parcel->service_charge = $currentParcel['service_charge'];
             $parcel->save();
         }
 
         DB::commit();
         return session()->flash('insert_'.GeneralHelperService::STATUS_SUCCESS, __(':total_data parcel inserted', ['total_data' => $total_data]));
+    }
+
+    public function rules(): array
+    {
+        return[
+            'tracking_no'    => 'required|exists:parcels,tracking_no',
+            'service_charge' => 'required|numeric',
+            'harga'          => 'required|numeric',
+            'nama'           => 'required',
+        ];
+    }
+
+    public function customValidationMessages(): array
+    {
+        return [
+            'tracking_no.required'    => __('Tracking number is required'),
+            'tracking_no.exists'      => __('Tracking number not exist'),
+            'service_charge.required' => __('Service charge is required'),
+            'service_charge.numeric'  => __('Service charge must be numeric'),
+            'harga.required'          => __('Price is required'),
+            'harga.numeric'           => __('Price must be numeric'),
+            'nama.required'           => __('Receiver name is required'),
+        ];
     }
 }

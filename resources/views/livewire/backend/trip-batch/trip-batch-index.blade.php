@@ -41,7 +41,7 @@
                     </div>
 
                     <div class="card card-bordered">
-                        <div class="card-inner p-0 border-top">
+                        <div class="card-inner p-0 border-top m-2">
 
                             <div class="table-responsive">
                                 <table class="table table-bordered">
@@ -69,6 +69,10 @@
                                         </tr>
                                     @endforeach
                                 </table>
+                            </div>
+
+                            <div class="my-2">
+                                {!! $batches->links() !!}
                             </div>
                         </div>
                     </div><!-- .card -->

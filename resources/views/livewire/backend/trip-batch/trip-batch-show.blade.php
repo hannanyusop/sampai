@@ -99,12 +99,12 @@
                             <div class="my-2">
                                 @if(session()->get('insert_success'))
                                     <div class="alert alert-success">
-                                        <i class="icon ni ni-check me-2"></i> {{ session()->get('insert_success') }}
+                                        <i class="icon ni ni-check me-2"></i> {!! session()->get('insert_success') !!}
                                     </div>
                                 @endif
                                 @if(session()->get('insert_error'))
                                     <div class="alert alert-danger">
-                                        <i class="icon ni ni-bell me-2"></i> {{ session()->get('insert_error') }}
+                                        <i class="icon ni ni-bell me-2"></i> {!! session()->get('insert_error') !!}
                                     </div>
                                 @endif
                             </div>
@@ -209,7 +209,10 @@
                                 @else
                                     <div  class="nk-refwg-invite card-inner">
 
-                                        <div class="alert alert-info"><span class="ni ni-info"></span> Excel header must have <b class="font-italic">No Item,Name, Tracking No, Harga</b> </div>
+
+                                        @error('excel') <span class="text-danger">{{ $message }}</span> @enderror
+
+                                        <div class="alert alert-info"><span class="ni ni-info"></span> Excel header must have <b class="font-italic">No Item,Name, Tracking No, Harga, Service Charge</b> </div>
                                         <div class="nk-refwg-title">
                                             <div class="title-sub">Upload Offline Parcel</div>
                                         </div>
@@ -221,8 +224,9 @@
                                         </div>
 
                                         <div class="text-center my-2">
-                                            <button wire:click="hideUploadForm()" class="btn btn-danger me-2"><i class="icon ni ni-times"></i>Cancel</button>
-                                            <button wire:click="upload()" class="btn btn-success me-2"><i class="icon ni ni-check"></i>Save</button>
+                                            <button wire:click="downloadTemplate()" class="btn btn-secondary m-2"><i class="icon ni ni-download-cloud"></i> Download Template</button>
+                                            <button wire:click="hideUploadForm()" class="btn btn-danger me-2"><i class="icon ni ni-times"></i> Cancel</button>
+                                            <button wire:click="upploadBulkImport()" class="btn btn-success me-2"><i class="icon ni ni-check"></i>Save</button>
                                         </div>
 
                                         @if($last_parcel)

@@ -140,7 +140,7 @@ class ParcelGeneralService
 
     }
 
-    public static function insertableParcel($tracking_no, TripBatch $tripBatch){
+    public static function insertableParcel($tracking_no, TripBatch $tripBatch , $service_charge = null){
 
         $parcel =  self::query()->where([
             'tracking_no' => $tracking_no,
