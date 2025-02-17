@@ -16,6 +16,7 @@
                             @endif
                         @else
                             <a class="btn-solid-lg" href="{{ route(homeRoute()) }}"><i class="fa fa-home"></i> Go To Dashboard</a>
+                            <a class="btn-solid-lg" href="{{ route('frontend.auth.logout') }}"><i class="fa fa-lock"></i> Log Out </a>
                         @endif
                     </div> <!-- end of text-container -->
                 </div> <!-- end of col -->
