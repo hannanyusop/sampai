@@ -32,23 +32,24 @@
                 <table class="table mt-5" data-auto-responsive="false">
                     <thead>
                     <tr class="nk-tb-item nk-tb-head">
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Trip</span></th>
-                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Office</span></th>
+                        <th class="nk-tb-col tb-col-lg"><span class="sub-text">Trip</span></th>
+                        <th class="nk-tb-col tb-col-lg"><span class="sub-text">Office</span></th>
                         <th class=""><span class="sub-text">Code</span></th>
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Pickup By</span></th>
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Pickup Datetime</span></th>
                         <th class=""><span class="sub-text">Status</span></th>
                         <th class="nk-tb-col nk-tb-col-tools text-right">
+                            Action
                         </th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($pickups as $pickup)
                         <tr class="nk-tb-item">
-                            <td class="nk-tb-col tb-col-mb">
+                            <td class="nk-tb-col tb-col-lg">
                                 <span class="tb-amount">{{ $pickup->trip->code }}</span>
                             </td>
-                            <td class="nk-tb-col tb-col-mb">
+                            <td class="nk-tb-col tb-col-lg">
                                 <span class="tb-amount">{{ $pickup->dropPoint->name }}</span>
                             </td>
                             <td class="">
@@ -64,18 +65,7 @@
                                 <span class="tb-status text-success">{{ $pickup->status_label }}</span>
                             </td>
                             <td class="nk-tb-col nk-tb-col-tools">
-                                <ul class="nk-tb-actions gx-1">
-                                    <li>
-                                        <div class="drodown">
-                                            <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <ul class="link-list-opt no-bdr">
-                                                    <li><a href="{{ route('frontend.user.pickup.show',encrypt($pickup->id)) }}"><em class="icon ni ni-link-alt"></em><span>@lang('View')</span></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
+                                <a class="btn btn-primary btn-md" href="{{ route('frontend.user.pickup.show',encrypt($pickup->id)) }}">@lang('View')</a>
                             </td>
                         </tr>
                     @endforeach
