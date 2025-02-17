@@ -6,6 +6,12 @@
 @section('content')
     <div class="nk-content-wrap">
 
+        <div class="row mb-3">
+            <div class="col-xl-12">
+                <a class="btn btn-secondary" href="{{ route('frontend.user.parcel.index') }}"><i class="ni ni-arrow-left-circle"></i> Back</a>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-xl-12">
                 <div class="card card-bordered">

@@ -50,18 +50,7 @@
                                     <span class="tb-status text-success">{{ $parcel->status_label }}</span>
                                 </td>
                                 <td class="nk-tb-col">
-                                    <ul class="nk-tb-actions gx-1">
-                                        <li>
-                                            <div class="drodown">
-                                                <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <ul class="link-list-opt no-bdr">
-                                                        <li><a href="{{ route('frontend.user.parcel.show',encrypt($parcel->id)) }}"><em class="icon ni ni-link-alt"></em><span>@lang('View')</span></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
+                                    <a class="btn btn-primary btn-xs" href="{{ route('frontend.user.parcel.show',encrypt($parcel->id)) }}"><span>@lang('View')</span></a>
                                 </td>
                             </tr>
                         @endforeach

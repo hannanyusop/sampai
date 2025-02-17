@@ -1,11 +1,11 @@
 "use strict";
 
 !function (NioApp, $) {
-  "use strict"; //////// for developer - User Balance //////// 
-  // Avilable options to pass from outside 
+  "use strict"; //////// for developer - User Balance ////////
+  // Avilable options to pass from outside
   // labels: array,
   // legend: false - boolean,
-  // dataUnit: string, (Used in tooltip or other section for display) 
+  // dataUnit: string, (Used in tooltip or other section for display)
   // datasets: [{label : string, color: string (color code with # or other format), data: array}]
 
   var profileBalance = {
