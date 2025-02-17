@@ -20,7 +20,7 @@
                         </div>
 
 
-                        <div class="fixed-bottom d-block d-md-none p-3"> <!-- Applies fixed positioning at bottom for mobile only -->
+                        <div class="fixed-bottom  p-3"> <!-- Applies fixed positioning at bottom for mobile only -->
                             <a href="{{ route('frontend.user.dashboard') }}" class="btn btn-secondary btn-md btn-block">
                                 Back To Dashboard
                             </a>

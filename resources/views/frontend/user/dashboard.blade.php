@@ -75,6 +75,17 @@
         </div>
 
         <div class="col-md-2 col-sm-2">
+            <a href="{{ route('frontend.user.account') }}" class="menu-card card-inner card-inner-lg">
+                <div class="align-center">
+                    <div class="nk-block-content">
+                        <i class="icon ni ni-user-circle menu-icon"></i>
+                        <h5 class="menu-label">Account Setting</h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-2 col-sm-2">
             <a href="{{ route('frontend.auth.logout') }}" class="menu-card card-inner card-inner-lg">
                 <div class="align-center">
                     <div class="nk-block-content">
