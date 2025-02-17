@@ -2,52 +2,90 @@
 
 @section('title', __('Dashboard'))
 
-{{--@php--}}
-{{--$dataUser = dataUserDashboard();--}}
-{{--@endphp--}}
+<style>
+    .menu-card {
+        text-align: center;
+        padding: 2em;
+        border-radius: 10px;
+        background-color: #f8f9fa;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        display: flex;
+        justify-content: center;
+        margin: 0.5em;
+    }
 
+    .menu-card:hover {
+        background-color: #f1f1f1;
+        box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    .menu-icon {
+        font-size: 3em;
+    }
+    .menu-label {
+        font-size: 1em;
+        margin-top: 1em;
+    }
+</style>
 @section('content')
-    <div class="nk-content-wrap">
-        <div class="nk-block-head nk-block-head-lg">
-            <div class="nk-block-between-md g-4">
-                <div class="nk-block-head-content">
-                    <h2 class="nk-block-title fw-normal">Welcome, {{ auth()->user()->name }}</h2>
-                    <div class="nk-block-des">
-                        <p>Welcome to our dashboard. Manage your account and your subscriptions.</p>
-                    </div>
-                </div>
-            </div>
-        </div><!-- .nk-block-head -->
 
-    </div>
-
-    <div class="modal fade" tabindex="-1" id="modalAlert">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <a href="#" class="close" data-bs-dismiss="modal">
-                    <em class="icon ni ni-cross"></em>
-                </a>
-                <div class="modal-body modal-body-lg text-center">
-                    <div class="nk-modal">
-                        <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-check bg-success"></em>
-                        <h4 class="nk-modal-title">Congratulations!</h4>
-                        <div class="nk-modal-text">
-                            <div class="caption-text">You’ve successfully bought <strong>0.5968</strong> BTC for <strong>200.00</strong> USD </div>
-                            <span class="sub-text-sm">Learn when you reciveve bitcoin in your wallet. <a href="#"> Click here</a>
-                </span>
-                        </div>
-                        <div class="nk-modal-action">
-                            <a href="" class="btn btn-lg btn-mw btn-primary" data-bs-dismiss="modal">View</a>
-                            <a href="#" class="btn btn-lg btn-mw btn-primary" data-bs-dismiss="modal">Close</a>
-                        </div>
-                    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="user-account-info between-center text-center">
+                <div class="user-account-main">
+                    <h6 class="overline-title-alt">Date & Time</h6>
+                    <div class="user-balance" id="time"></div>
+                    <div class="user-balance-alt" id="dates"> </div>
                 </div>
             </div>
         </div>
+    </div>
 
-{{--        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAlert"></button>--}}
+    <div class="row">
+        <div class="col-md-2 col-sm-2">
+            <a href="{{ route('frontend.user.parcel.create') }}" class="menu-card card-inner card-inner-lg">
+                <div class="align-center">
+                    <div class="nk-block-content">
+                        <i class="icon ni ni-plus-circle menu-icon"></i>
+                        <h5 class="menu-label">Add Parcel</h5>
+                    </div>
+                </div>
+            </a>
+        </div>
 
-        @endsection
+        <div class="col-md-2 col-sm-2">
+            <a href="{{ route('frontend.user.parcel.index') }}" class="menu-card card-inner card-inner-lg">
+                <div class="align-center">
+                    <div class="nk-block-content">
+                        <i class="icon ni ni-list menu-icon"></i>
+                        <h5 class="menu-label">Parcel List</h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-2 col-sm-2">
+            <a href="{{ route('frontend.user.pickup.index') }}" class="menu-card card-inner card-inner-lg">
+                <div class="align-center">
+                    <div class="nk-block-content">
+                        <i class="icon ni ni-tags menu-icon"></i>
+                        <h5 class="menu-label">Pickup List</h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-2 col-sm-2">
+            <a href="{{ route('frontend.auth.logout') }}" class="menu-card card-inner card-inner-lg">
+                <div class="align-center">
+                    <div class="nk-block-content">
+                        <i class="icon ni ni-lock-alt menu-icon"></i>
+                        <h5 class="menu-label">Log out</h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+@endsection
 @push('after-scripts')
     <script>
         // $(document).ready(function(){

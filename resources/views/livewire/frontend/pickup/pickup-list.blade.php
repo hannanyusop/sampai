@@ -2,7 +2,7 @@
 <div class="nk-block nk-block-lg">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb mb-3">
-            <li class="breadcrumb-item text-lg"><a href="#">Parcel Management</a></li>
+            <li class="breadcrumb-item text-lg"><a href="{{ route('frontend.user.dashboard') }}">Dashboard</a></li>
             <li class="breadcrumb-item active"><a href="{{ route('frontend.user.pickup.index') }}">Pickup List</a></li>
         </ol>
     </nav>

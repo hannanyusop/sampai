@@ -11,14 +11,20 @@
         <div class="nk-wrap ">
             @include('frontend.includes.topbar')
             <div class="nk-content">
-                <div class="nk-content-inner">
-                    @include('frontend.includes.menu')
+                <div class="nk-content-inner p-3">
                     <div class="nk-content-body">
                         @include('includes.partials.messages')
                         @include('includes.partials.logged-in-as')
-                        @yield('content')
+                        <div class="mb-5">
+                            @yield('content')
+                        </div>
 
-                        @include('frontend.includes.footer')
+
+                        <div class="fixed-bottom d-block d-md-none p-3"> <!-- Applies fixed positioning at bottom for mobile only -->
+                            <a href="{{ route('frontend.user.dashboard') }}" class="btn btn-secondary btn-md btn-block">
+                                Back To Dashboard
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
