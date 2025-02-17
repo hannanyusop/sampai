@@ -12,6 +12,8 @@
         display: flex;
         justify-content: center;
         margin: 0.5em;
+        width: 10em;
+        height: 10em;
     }
 
     .menu-card:hover {
@@ -41,7 +43,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-2 col-sm-2">
+        <div class="">
             <a href="{{ route('frontend.user.parcel.create') }}" class="menu-card card-inner card-inner-lg">
                 <div class="align-center">
                     <div class="nk-block-content">
@@ -52,7 +54,7 @@
             </a>
         </div>
 
-        <div class="col-md-2 col-sm-2">
+        <div class="">
             <a href="{{ route('frontend.user.parcel.index') }}" class="menu-card card-inner card-inner-lg">
                 <div class="align-center">
                     <div class="nk-block-content">
@@ -63,7 +65,7 @@
             </a>
         </div>
 
-        <div class="col-md-2 col-sm-2">
+        <div class="">
             <a href="{{ route('frontend.user.pickup.index') }}" class="menu-card card-inner card-inner-lg">
                 <div class="align-center">
                     <div class="nk-block-content">
@@ -74,7 +76,7 @@
             </a>
         </div>
 
-        <div class="col-md-2 col-sm-2">
+        <div class="">
             <a href="{{ route('frontend.user.account') }}" class="menu-card card-inner card-inner-lg">
                 <div class="align-center">
                     <div class="nk-block-content">
@@ -85,7 +87,7 @@
             </a>
         </div>
 
-        <div class="col-md-2 col-sm-2">
+        <div class="">
             <a href="{{ route('frontend.auth.logout') }}" class="menu-card card-inner card-inner-lg">
                 <div class="align-center">
                     <div class="nk-block-content">
