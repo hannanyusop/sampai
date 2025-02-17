@@ -279,22 +279,13 @@ if(!function_exists('dataUserDashboard')){
 
         $parcel = Parcels::pluck('tracking_no');
 
-        $pending = Subscribe::where('subscribes.user_id', auth()->user()->id)->whereNotIn('tracking_no', $parcel)->count();
+        $pending = 10;
 
-        $transit = Subscribe::leftJoin('parcels', 'parcels.tracking_no', '=','subscribes.tracking_no')
-            ->where('subscribes.user_id', auth()->user()->id)
-            ->whereIn('status', [0,1,2])
-            ->count();
+        $transit = 0;
 
-        $arrive = Subscribe::leftJoin('parcels', 'parcels.tracking_no', '=','subscribes.tracking_no')
-            ->where('subscribes.user_id', auth()->user()->id)
-            ->whereIn('status', [3])
-            ->count();
+        $arrive = 0;
 
-        $received = Subscribe::leftJoin('parcels', 'parcels.tracking_no', '=','subscribes.tracking_no')
-            ->where('subscribes.user_id', auth()->user()->id)
-            ->whereIn('status', [4])
-            ->count();
+        $received = 0;
 
         return [
             'pending' => $pending,
