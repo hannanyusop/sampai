@@ -15,6 +15,18 @@ class Parcels extends Model{
 
     protected $appends = ['total_billing', 'status_label', 'price_formated', 'tax_formated', 'coding', 'gross_price', 'total_billing_formatted', 'invoice_path'];
 
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function ($parcel) {
+            $parcel->transactions()->delete();
+
+            if ($parcel->invoice_url && Storage::disk('public')->exists($parcel->invoice_url)){
+                Storage::disk('public')->delete($parcel->invoice_url);
+            }
+        });
+    }
+
     public function trip(){
         return $this->hasOneThrough(Trip::class, Pickup::class, 'id', 'id', 'pickup_id', 'trip_id');
     }

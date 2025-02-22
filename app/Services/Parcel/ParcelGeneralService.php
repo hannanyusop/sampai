@@ -21,6 +21,12 @@ use Illuminate\Support\Facades\Storage;
 class ParcelGeneralService
 {
 
+    public static function getCurrentPath() : string
+    {
+        $current_year = date('Y');
+        $current_month = date('m');
+        return "invoice/$current_year/$current_month";
+    }
     public static function query()
     {
         return Parcels::with('transactions')->when(!auth()->user()->can('staff.distributor') || !auth()->user()->can('staff.runner'), function ($q){
@@ -61,7 +67,7 @@ class ParcelGeneralService
             $parcel->office_id     = $request->office_id;
 
             if ($request->hasFile('invoice_url')){
-                $file                  = Storage::disk('public')->put('invoice', $request->file('invoice_url'));
+                $file                  = Storage::disk('public')->put(self::getCurrentPath(), $request->file('invoice_url'));
                 $parcel->invoice_url   = $file;
             }
 
@@ -103,7 +109,7 @@ class ParcelGeneralService
 
             if ($request->hasFile('invoice_url')){
 
-                $file                  = Storage::disk('public')->put('invoice', $request->file('invoice_url'));
+                $file                  = Storage::disk('public')->put(self::getCurrentPath(), $request->file('invoice_url'));
                 $parcel->invoice_url   = $file;
             }
 

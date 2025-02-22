@@ -29,6 +29,16 @@ class Pickup extends Model
         return $this->hasMany(Parcels::class, 'pickup_id', 'id');
     }
 
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function ($pickup) {
+            $pickup->parcels()->each(function ($parcel) {
+                $parcel->forceDelete();
+            });
+        });
+    }
+
     public function dailySale()
     {
         return $this->belongsTo(DailySale::class, 'daily_sale_id', 'id');

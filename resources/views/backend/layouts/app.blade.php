@@ -1,6 +1,33 @@
 <!DOCTYPE html>
 <html lang="zxx" class="js">
 
+<style>
+    .menu-card {
+        text-align: center;
+        padding: 2em;
+        border-radius: 10px;
+        background-color: #f8f9fa;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        display: flex;
+        justify-content: center;
+        margin: 0.5em;
+        width: 10em;
+        height: 10em;
+    }
+
+    .menu-card:hover {
+        background-color: #f1f1f1;
+        box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    .menu-icon {
+        font-size: 3em;
+    }
+    .menu-label {
+        font-size: 1em;
+        margin-top: 1em;
+    }
+</style>
+
 @include('backend.includes.header1')
 
 <body class="nk-body npc-invest bg-lighter ">

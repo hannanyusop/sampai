@@ -164,5 +164,9 @@ Route::group(['prefix' => 'setting/', 'as' => 'setting.', 'middleware' => 'permi
     Route::get('system', [SettingController::class, 'system'])->name('system');
     Route::post('system', [SettingController::class, 'systemSave'])->name('systemSave');
 
+    Route::get('storage', [SettingController::class, 'storageManagement'])->name('storage');
+    Route::get('data', [SettingController::class, 'dataManagement'])->name('file');
+
+
 
 });

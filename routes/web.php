@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\LocaleController;
+use Illuminate\Support\Facades\Route;
 
 /*
  * Global Routes
@@ -10,6 +12,19 @@ use App\Http\Controllers\LocaleController;
 
 // Switch between the included languages
 Route::get('lang/{lang}', [LocaleController::class, 'change'])->name('locale.change');
+
+
+Route::group([
+    'middleware' => 'auth'
+], function () {
+
+    Route::group([
+        'prefix' => 'account',
+        'as' => 'account.'
+    ], function () {
+        Route::get('update-password', [AccountController::class, 'updatePassword'])->name('update-password');
+    });
+});
 
 /*
  * Frontend Routes

@@ -72,4 +72,14 @@ class SettingController extends Controller{
 
         return redirect()->back()->withFlashSuccess('Payment setting updated!');
     }
+
+    public function storageManagement()
+    {
+        return view('backend.setting.storage');
+    }
+
+    public function dataManagement()
+    {
+        return view('backend.setting.data');
+    }
 }

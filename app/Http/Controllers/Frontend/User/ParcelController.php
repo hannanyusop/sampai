@@ -137,7 +137,7 @@ class ParcelController extends Controller{
         $parcel->order_origin  = $request->order_origin;
         $parcel->office_id     = $request->office_id;
         $parcel->categories    = json_encode($formatted_categories);
-        $file                  = Storage::disk('public')->put('invoice', $request->file('invoice_url'));
+        $file                  = Storage::disk('public')->put(ParcelGeneralService::getCurrentPath(), $request->file('invoice_url'));
         $parcel->invoice_url   = $file;
         $parcel->save();
 

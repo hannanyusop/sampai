@@ -3,7 +3,6 @@
 @section('title', __('Dashboard'))
 
 @section('content')
-    @php $data = parcelData() @endphp
 
     <div class="container-xl wide-lg">
         <div class="nk-content-body">
@@ -20,148 +19,198 @@
                 </div><!-- .nk-block-between -->
             </div><!-- .nk-block-head -->
             <div class="nk-block">
-                <div class="row gy-gs">
-                    <div class="col-lg-5 col-xl-4">
-                        <div class="nk-block">
-                            <div class="nk-block-head-xs">
-                                <div class="nk-block-head-content">
-                                    <h5 class="nk-block-title title">Overview</h5>
-                                </div>
-                            </div><!-- .nk-block-head -->
-                            <div class="nk-block">
-                                <div class="card card-bordered text-light is-dark h-100">
-                                    <div class="card-inner">
-                                        <div class="nk-wg7">
-                                            <div class="nk-wg7-stats">
-                                                <div class="nk-wg7-title">Total Parcel Received</div>
-                                                <div class="number-lg amount">{{ $data['all'] }}</div>
-                                            </div>
-                                            <div class="nk-wg7-stats-group">
-                                                <div class="nk-wg7-stats w-50">
-                                                    <div class="nk-wg7-title">Delivered To Customer</div>
-                                                    <div class="number">{{ $data['delivered'] }}</div>
-                                                </div>
-                                                <div class="nk-wg7-stats w-50">
-                                                    <div class="nk-wg7-title">Return</div>
-                                                    <div class="number">{{ $data['return'] }}</div>
-                                                </div>
-                                            </div>
-                                        </div><!-- .nk-wg7 -->
-                                    </div><!-- .card-inner -->
-                                </div><!-- .card -->
-                            </div><!-- .nk-block -->
-                        </div><!-- .nk-block -->
-                    </div><!-- .col -->
-                    <div class="col-lg-7 col-xl-8">
-                        <div class="nk-block">
-                            <div class="nk-block nk-block-md">
-                                <div class="nk-block-head-xs">
-                                    <div class="nk-block-between-md g-2">
-                                        <div class="nk-block-head-content">
-                                            <h6 class="nk-block-title title">Data</h6>
-                                        </div>
-                                    </div>
-                                </div><!-- .nk-block-head -->
-                                <div class="row g-2">
-                                    <div class="col-sm-4">
-                                        <div class="card bg-light">
-                                            <div class="nk-wgw sm">
-                                                <a class="nk-wgw-inner" href="">
-                                                    <div class="nk-wgw-name">
-                                                        <h5 class="nk-wgw-title title">Total Staff</h5>
-                                                    </div>
-                                                    <div class="nk-wgw-balance">
-                                                        <div class="amount">{{ $data['staff'] }}</div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div><!-- .col -->
-                                    <div class="col-sm-4">
-                                        <div class="card bg-light">
-                                            <div class="nk-wgw sm">
-                                                <a class="nk-wgw-inner" href="#">
-                                                    <div class="nk-wgw-name">
-                                                        <h5 class="nk-wgw-title title">Total Office</h5>
-                                                    </div>
-                                                    <div class="nk-wgw-balance">
-                                                        <div class="amount">{{ $data['office'] }}</div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div><!-- .col -->
-                                    <div class="col-sm-4">
-                                        <div class="card bg-light">
-                                            <div class="nk-wgw sm">
-                                                <a class="nk-wgw-inner" href="#">
-                                                    <div class="nk-wgw-name">
-                                                        <h5 class="nk-wgw-title title">Total Registered Users</h5>
-                                                    </div>
-                                                    <div class="nk-wgw-balance">
-                                                        <div class="amount">{{ $data['user'] }}</div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div><!-- .col -->
-                                </div><!-- .row -->
-                            </div> <!-- .nk-block -->
 
-                            <div class="nk-block-head-xs">
-                                <div class="nk-block-between-md g-2">
-                                    <div class="nk-block-head-content">
-                                        <h6 class="nk-block-title title">Parcel</h6>
+                <div class="row">Trip Management</div>
+                <div class="row">
+                    <a href="{{ route('admin.tripBatch.index') }}" class="menu-card card-inner card-inner-lg">
+                        <div class="align-center">
+                            <div class="nk-block-content">
+                                <i class="icon ni ni-plus-circle menu-icon"></i>
+                                <h5 class="menu-label">Trip List</h5>
+                            </div>
+                        </div>
+                    </a>
+
+                    @if($logged_in_user->can('admin.trip.open'))
+                        <a href="{{ route('admin.tripBatch.create') }}" class="menu-card card-inner card-inner-lg">
+                            <div class="align-center">
+                                <div class="nk-block-content">
+                                    <i class="icon ni ni-plus-circle menu-icon"></i>
+                                    <h5 class="menu-label">Create Trip</h5>
+                                </div>
+                            </div>
+                        </a>
+                    @endif
+
+                    @if($logged_in_user->can('staff.inhouse') && auth()->user()->office_id != 0)
+                        <a href="{{ route('admin.trip.receive') }}" class="menu-card card-inner card-inner-lg">
+                            <div class="align-center">
+                                <div class="nk-block-content">
+                                    <i class="icon ni ni-plus-circle menu-icon"></i>
+                                    <h5 class="menu-label">Receive Trip</h5>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a href="{{ route('admin.parcel.scan') }}" class="menu-card card-inner card-inner-lg">
+                            <div class="align-center">
+                                <div class="nk-block-content">
+                                    <i class="icon ni ni-plus-circle menu-icon"></i>
+                                    <h5 class="menu-label">Scan User QRCode</h5>
+                                </div>
+                            </div>
+                        </a>
+                    @endif
+                    @if($logged_in_user->can('staff.runner'))
+
+                    @endif
+
+                    <a href="{{ route('admin.parcel.index') }}" class="menu-card card-inner card-inner-lg">
+                        <div class="align-center">
+                            <div class="nk-block-content">
+                                <i class="icon ni ni-plus-circle menu-icon"></i>
+                                <h5 class="menu-label">Parcel List</h5>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="{{ route('admin.unregisteredParcel.index') }}" class="menu-card card-inner card-inner-lg">
+                        <div class="align-center">
+                            <div class="nk-block-content">
+                                <i class="icon ni ni-plus-circle menu-icon"></i>
+                                <h5 class="menu-label">Unregistered Parcel List</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                @if($logged_in_user->can('staff.finance') && !$logged_in_user->hasAllAccess())
+                <div class="row">Report</div>
+                <div class="row">
+
+                    <a href="{{ route('admin.report.monthly') }}" class="menu-card card-inner card-inner-lg">
+                        <div class="align-center">
+                            <div class="nk-block-content">
+                                <i class="icon ni ni-plus-circle menu-icon"></i>
+                                <h5 class="menu-label">Parcel Report</h5>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="{{ route('admin.report.daily') }}" class="menu-card card-inner card-inner-lg">
+                        <div class="align-center">
+                            <div class="nk-block-content">
+                                <i class="icon ni ni-plus-circle menu-icon"></i>
+                                <h5 class="menu-label">Daily Sales Report</h5>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="{{ route('admin.report.rangedSales') }}" class="menu-card card-inner card-inner-lg">
+                        <div class="align-center">
+                            <div class="nk-block-content">
+                                <i class="icon ni ni-plus-circle menu-icon"></i>
+                                <h5 class="menu-label">Ranged Sales Report</h5>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="{{ route('admin.report.income') }}" class="menu-card card-inner card-inner-lg">
+                        <div class="align-center">
+                            <div class="nk-block-content">
+                                <i class="icon ni ni-plus-circle menu-icon"></i>
+                                <h5 class="menu-label">Monthly Sales Report</h5>
+                            </div>
+                        </div>
+                    </a>
+
+                </div>
+                @endif
+
+                @if ($logged_in_user->hasAllAccess() ||(
+        $logged_in_user->can('admin.access.user.list') ||
+        $logged_in_user->can('admin.access.user.deactivate') ||
+        $logged_in_user->can('admin.access.user.reactivate') ||
+        $logged_in_user->can('admin.access.user.clear-session') ||
+        $logged_in_user->can('admin.access.user.impersonate') ||
+        $logged_in_user->can('admin.access.user.change-password')))
+
+                    <div class="row mt-5">System Setting</div>
+                    <div class="row">
+
+                        <a href="{{ route('admin.setting.system') }}" class="menu-card card-inner card-inner-lg">
+                            <div class="align-center">
+                                <div class="nk-block-content">
+                                    <i class="icon ni ni-plus-circle menu-icon"></i>
+                                    <h5 class="menu-label">{{ __('System Setting') }}</h5>
+                                </div>
+                            </div>
+                        </a>
+
+                        @if ($logged_in_user->hasAllAccess() ||(
+                               $logged_in_user->can('admin.access.user.list') ||
+                               $logged_in_user->can('admin.access.user.deactivate') ||
+                               $logged_in_user->can('admin.access.user.reactivate') ||
+                               $logged_in_user->can('admin.access.user.clear-session') ||
+                               $logged_in_user->can('admin.access.user.impersonate') ||
+                               $logged_in_user->can('admin.access.user.change-password')))
+                            <a href="{{ route('admin.auth.user.index') }}" class="menu-card card-inner card-inner-lg">
+                                <div class="align-center">
+                                    <div class="nk-block-content">
+                                        <i class="icon ni ni-plus-circle menu-icon"></i>
+                                        <h5 class="menu-label">{{ __('User Management') }}</h5>
                                     </div>
                                 </div>
-                            </div><!-- .nk-block-head -->
-                            <div class="row g-2">
-                                <div class="col-sm-4">
-                                    <div class="card bg-light">
-                                        <div class="nk-wgw sm">
-                                            <a class="nk-wgw-inner" href="#">
-                                                <div class="nk-wgw-name">
-                                                    <h5 class="nk-wgw-title title">NUJ Office</h5>
-                                                </div>
-                                                <div class="nk-wgw-balance">
-                                                    <div class="amount">{{ $data['umel'] }}</div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div><!-- .col -->
-                                <div class="col-sm-4">
-                                    <div class="card bg-light">
-                                        <div class="nk-wgw sm">
-                                            <a class="nk-wgw-inner" href="#">
-                                                <div class="nk-wgw-name">
-                                                    <h5 class="nk-wgw-title title">In Progress</h5>
-                                                </div>
-                                                <div class="nk-wgw-balance">
-                                                    <div class="amount">{{ $data['runner'] }}</div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div><!-- .col -->
-                                <div class="col-sm-4">
-                                    <div class="card bg-light">
-                                        <div class="nk-wgw sm">
-                                            <a class="nk-wgw-inner" href="#">
-                                                <div class="nk-wgw-name">
-                                                    <h5 class="nk-wgw-title title">Drop Point Office</h5>
-                                                </div>
-                                                <div class="nk-wgw-balance">
-                                                    <div class="amount">{{ $data['drop'] }}</div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div><!-- .col -->
-                            </div><!-- .row -->
-                        </div><!-- .nk-block -->
-                    </div><!-- .col -->
-                </div><!-- .row -->
+                            </a>
+                        @endif
+
+                        <a href="{{ route('admin.auth.role.index') }}" class="menu-card card-inner card-inner-lg">
+                            <div class="align-center">
+                                <div class="nk-block-content">
+                                    <i class="icon ni ni-plus-circle menu-icon"></i>
+                                    <h5 class="menu-label">{{ __('Role Management') }}</h5>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a href="{{ route('admin.category.index') }}" class="menu-card card-inner card-inner-lg">
+                            <div class="align-center">
+                                <div class="nk-block-content">
+                                    <i class="icon ni ni-plus-circle menu-icon"></i>
+                                    <h5 class="menu-label">{{ __('Category Setting') }}</h5>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a href="{{ route('admin.office.index') }}" class="menu-card card-inner card-inner-lg">
+                            <div class="align-center">
+                                <div class="nk-block-content">
+                                    <i class="icon ni ni-plus-circle menu-icon"></i>
+                                    <h5 class="menu-label">{{ __('Office Management') }}</h5>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a href="{{ route('admin.setting.storage') }}" class="menu-card card-inner card-inner-lg">
+                            <div class="align-center">
+                                <div class="nk-block-content">
+                                    <i class="icon ni ni-plus-circle menu-icon"></i>
+                                    <h5 class="menu-label">Storage Management</h5>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a href="{{ route('admin.setting.file') }}" class="menu-card card-inner card-inner-lg">
+                            <div class="align-center">
+                                <div class="nk-block-content">
+                                    <i class="icon ni ni-plus-circle menu-icon"></i>
+                                    <h5 class="menu-label">Data Management</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @endif
+
             </div><!-- .nk-block -->
         </div>
     </div>
