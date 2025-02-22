@@ -22,6 +22,37 @@
                         <button wire:click="getData()" class="btn btn-primary mt-4">Get Data</button>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Path</th>
+                                    <th>Exist</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if($data)
+                                    @foreach($data as $key => $value)
+                                        <tr>
+                                            <td>{{ $value['month'] }}</td>
+                                            <td>{{ $value['path'] }}</td>
+                                            <td>{{ $value['exists'] ? "Exist" : "Not Exist" }}</td>
+                                            <td>
+                                                @if($value['exists'])
+                                                    <button wire:click="deletePath('{{ $value['key'] }}','{{ $value['path'] }}')" class="btn btn-danger">Delete</button>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
