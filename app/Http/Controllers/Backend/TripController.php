@@ -144,7 +144,8 @@ class TripController extends Controller
 
     public function view($id){
 
-        $trip = Trip::with('parcels')->findOrFail($id);
+        $trip = Trip::with( 'parcels', 'parcels.lastTransaction', 'parcels.pickup')
+            ->findOrFail($id);
 
         $parcels = $trip->parcels;
 

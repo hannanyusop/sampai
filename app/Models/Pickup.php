@@ -23,7 +23,7 @@ class Pickup extends Model
         'notification_sent', 'notification_send_at', 'daily_sale_id', 'cash_received', 'bank_transfer_received'
     ];
 
-    protected $appends = ['status_label', 'status_badge', 'payment_method_label', 'payment_status_label', 'total', 'gross_price', 'permit', 'tax', 'service_charge'];
+//    protected $appends = ['status_label', 'status_badge', 'payment_method_label', 'payment_status_label', 'total', 'gross_price', 'permit', 'tax', 'service_charge'];
 
     public function parcels(){
         return $this->hasMany(Parcels::class, 'pickup_id', 'id');

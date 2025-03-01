@@ -44,7 +44,8 @@ class TripBatchShow extends Component
 
         $tripBatch = $this->tripBatch;
 
-        $parcels =  Parcels::whereHas('pickup', function ($query) use ($tripBatch) {
+        $parcels =  Parcels::with('pickup')
+            ->whereHas('pickup', function ($query) use ($tripBatch) {
             $query->whereIn('trip_id', $tripBatch->trips->pluck('id')->toArray());
         })
             ->when($this->filter_tracking_no, function ($query) {
@@ -57,7 +58,7 @@ class TripBatchShow extends Component
                 $query->where('phone_number', 'like', '%'.$this->filter_phone_no.'%');
             })
             ->orderBy('updated_at', 'desc')
-            ->paginate(20);
+            ->paginate(10);
 
         return view('livewire.backend.trip-batch.trip-batch-show', compact('tripBatch', 'parcels'));
     }

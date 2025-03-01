@@ -19,7 +19,6 @@
                     <div class="nk-block-head-content">
                         <ul class="nk-block-tools gx-3">
                             <li><a href="{{ route('admin.pickup.search') }}" class="btn btn-primary"><span>Kaunter Serahan</span> <em class="icon ni ni-qr"></em></a></li>
-{{--                            <li><a href="{{ route('admin.parcel.scan') }}" class="btn btn-primary"><span>Kaunter Serhan</span> <em class="icon ni ni-qr"></em></a></li>--}}
                             <li><a href="{{ route('admin.trip.receive') }}" class="btn btn-success"><span>Receive Trip</span> <em class="icon ni ni-truck"></em></a></li>
                             <li class="opt-menu-md dropdown">
                                 <a href="#" class="btn btn-white btn-light btn-icon" data-toggle="dropdown"><em class="icon ni ni-setting"></em></a>
@@ -38,160 +37,9 @@
             </div><!-- .nk-block-head -->
 
             <div class="nk-block">
-                <div class="row g-2">
-                    <div class="col-sm-3 col-md-4">
-                        <div class="card bg-light">
-                            <div class="nk-wgw sm">
-                                <a class="nk-wgw-inner" href="#">
-                                    <div class="nk-wgw-name">
-                                        <div class="nk-wgw-icon">
-                                            <em class="icon ni ni-search"></em>
-                                        </div>
-                                        <h5 class="nk-wgw-title title">Pending</h5>
-                                    </div>
-                                    <div class="nk-wgw-balance">
-                                        <div class="amount">{{ $data['otw'] }}</div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div><!-- .col -->
-                    <div class="col-sm-3 col-md-4">
-                        <div class="card bg-light">
-                            <div class="nk-wgw sm">
-                                <a class="nk-wgw-inner" href="#">
-                                    <div class="nk-wgw-name">
-                                        <div class="nk-wgw-icon">
-                                            <em class="icon ni ni-thumbs-up"></em>
-                                        </div>
-                                        <h5 class="nk-wgw-title title">Ready To Collect</h5>
-                                    </div>
-                                    <div class="nk-wgw-balance">
-                                        <div class="amount">{{ $data['ready'] }}</div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3 col-md-4">
-                        <div class="card bg-light">
-                            <div class="nk-wgw sm">
-                                <a class="nk-wgw-inner" href="#">
-                                    <div class="nk-wgw-name">
-                                        <div class="nk-wgw-icon">
-                                            <em class="icon ni ni-text-rich"></em>
-                                        </div>
-                                        <h5 class="nk-wgw-title title">Delivered</h5>
-                                    </div>
-                                    <div class="nk-wgw-balance">
-                                        <div class="amount">{{ $data['delivered'] }}</div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3 col-md-6">
-                        <div class="card bg-light">
-                            <div class="nk-wgw sm">
-                                <a class="nk-wgw-inner" href="#">
-                                    <div class="nk-wgw-name">
-                                        <div class="nk-wgw-icon">
-                                            <em class="icon ni ni-text-rich"></em>
-                                        </div>
-                                        <h5 class="nk-wgw-title title">Returned</h5>
-                                    </div>
-                                    <div class="nk-wgw-balance">
-                                        <div class="amount">{{ $data['return'] }}</div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3 col-md-6">
-                        <div class="card bg-light">
-                            <div class="nk-wgw sm">
-                                <a class="nk-wgw-inner" href="#">
-                                    <div class="nk-wgw-name">
-                                        <div class="nk-wgw-icon">
-                                            <em class="icon ni ni-check-thick"></em>
-                                        </div>
-                                        <h5 class="nk-wgw-title title">All</h5>
-                                    </div>
-                                    <div class="nk-wgw-balance">
-                                        <div class="amount">{{ $data['all'] }}</div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div><!-- .col -->
-                </div><!-- .row -->
-            </div>
-
-            <div class="nk-block">
                 <div class="row g-gs">
                     <div class="col-xxl-8">
-
-                        <div class="card card-bordered">
-                            <div class="card-inner p-0 border-top">
-
-                                <table class="table table-orders">
-                                    <thead class="tb-odr-head">
-                                    <tr class="tb-odr-item">
-                                        <th class="tb-odr-info">
-                                            <span class="tb-odr-id">Trip No.</span>
-                                            <span class="tb-odr-date d-none d-md-inline-block">Date</span>
-                                        </th>
-                                        <th class="tb-odr-amount">
-                                            <span class="tb-odr-total">Destination</span>
-                                            <span class="tb-odr-status d-none d-md-inline-block">Status</span>
-                                        </th>
-                                        <th class="tb-odr-amount">
-                                            <span class="tb-odr-total">Current Location</span>
-                                            <span class="tb-odr-status d-none d-md-inline-block">Total Parcel</span>
-                                        </th>
-                                        <th class="tb-odr-action">&nbsp;</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody class="tb-odr-body">
-                                    @foreach($trips as $trip)
-
-                                        <tr class="tb-odr-item">
-                                            <td class="tb-odr-info">
-                                                <span class="tb-odr-id"><a href="#">{{ $trip->code }}</a></span>
-                                                <span class="tb-odr-date">{{ $trip->date }}</span>
-                                            </td>
-                                            <td class="tb-odr-amount">
-                                        <span class="tb-odr-total">
-                                            <span class="amount">{{ $trip->destination->code }}</span>
-                                        </span>
-                                                <span class="tb-odr-status">{!! $trip->status_badge !!}</span>
-                                            </td>
-                                            <td class="tb-odr-amount">
-                                         <span class="tb-odr-total">
-                                            <span class="amount">
-
-                                            </span>
-                                        </span>
-                                                <span class="tb-odr-status">{{ $trip->parcels->count() }} Parcel(s)
-                                        </span>
-                                            </td>
-                                            <td class="tb-odr-action">
-                                                <div class="dropdown">
-                                                    <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-md">
-                                                        <ul class="link-list-plain">
-                                                            <li><a href="{{ route('admin.trip.view', $trip->id) }}">View</a></li>
-
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div><!-- .card -->
+                        @livewire('trip.trip-list')
                     </div>
                 </div>
             </div>

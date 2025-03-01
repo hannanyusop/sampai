@@ -64,20 +64,7 @@ class DashboardController extends Controller
 
             return view('backend.dashboard-runner', compact('closed_trips', 'picked_trips', 'total'));
         }elseif (auth()->user()->can('staff.inhouse')){
-
-            $data =  [
-                'all' => Parcels::whereNotIn('status', [ParcelHelperService::STATUS_REGISTERED])->count(),
-                'delivered' => Parcels::where('status', ParcelHelperService::STATUS_DELIVERED)->count(),
-                'ready' => Parcels::where('status', ParcelHelperService::STATUS_READY_TO_COLLECT)->count(),
-                'return' => Parcels::where('parcels.status', ParcelHelperService::STATUS_RETURN)->count(),
-                'otw' => Parcels::whereIn('parcels.status', [ParcelHelperService::STATUS_RECEIVED,ParcelHelperService::STATUS_OUTBOUND_TO_DROP_POINT])->count(),
-            ];
-
-            $trips = Trip::whereIn('status', [TripBatchHelperService::STATUS_IN_TRANSIT, TripBatchHelperService::STATUS_ARRIVED])
-                ->where('destination_id', auth()->user()->office_id)
-                ->get();
-
-            return view('backend.dashboard', compact('trips', 'data'));
+            return view('backend.dashboard');
 
         }elseif (auth()->user()->can('staff.biacc')){
 

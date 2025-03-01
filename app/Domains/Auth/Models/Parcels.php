@@ -13,7 +13,7 @@ class Parcels extends Model{
 
     protected $fillable = ['pickup_id', 'status', 'checked', 'service_charge', 'guni', 'cod_fee'];
 
-    protected $appends = ['total_billing', 'status_label', 'price_formated', 'tax_formated', 'coding', 'gross_price', 'total_billing_formatted', 'invoice_path'];
+//    protected $appends = ['total_billing', 'status_label', 'price_formated', 'tax_formated', 'coding', 'gross_price', 'total_billing_formatted', 'invoice_path'];
 
     public static function boot() {
         parent::boot();
@@ -56,7 +56,8 @@ class Parcels extends Model{
     }
 
     public function lastTransaction(){
-        return $this->hasOne(ParcelTransaction::class, 'parcel_id', 'id')->orderBy('id', 'DESC');
+        return $this->hasOne(ParcelTransaction::class, 'parcel_id', 'id')
+            ->orderBy('id', 'DESC');
     }
 
     public function dropPoint(){
