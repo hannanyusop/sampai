@@ -24,7 +24,7 @@ class ParcelList extends Component
     {
 
         $parcels = ParcelGeneralService::query()
-            ->with('user', 'pickup')
+            ->with('user', 'pickup', 'dropPoint')
             ->where('tracking_no', 'like', '%'.$this->tracking_no.'%')
             ->when($this->office_id != 0, function($query){
                 $query->where('office_id', $this->office_id);

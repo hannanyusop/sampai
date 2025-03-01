@@ -19,12 +19,7 @@ use Illuminate\Support\Facades\Storage;
 class ParcelController extends Controller{
 
     public function index(){
-
-        $parcels = ParcelGeneralService::query()
-            ->orderBy('status')
-            ->orderBy('id', 'desc')
-            ->get();
-        return view('frontend.user.parcel.index', compact('parcels'));
+        return view('frontend.user.parcel.index');
     }
 
     public function view($id){

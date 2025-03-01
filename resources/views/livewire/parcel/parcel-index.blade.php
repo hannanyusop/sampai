@@ -1,0 +1,64 @@
+<div class="card card-bordered card-preview">
+    <div class="card-inner">
+        @if ($logged_in_user->can('staff.inhouse'))
+            <div class="row text-right">
+                <div class="m-2 float-right">
+                    <a href="{{ route('admin.parcel.scan') }}" class="btn btn-primary"><span>Scan User QRCode</span><em class="icon ni ni-qr"></em></a>
+                </div>
+            </div>
+        @endif
+
+         <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="search">Search</label>
+                        <input type="text" class="form-control" id="search" wire:model="search" placeholder="Search by Tracking No">
+                    </div>
+                </div>
+            </div>
+        <table class="nk-tb-list nk-tb-ulist">
+            <thead>
+            <tr class="nk-tb-item nk-tb-head">
+                <th class="nk-tb-col"><span class="sub-text">Tracking No</span></th>
+                <th class="nk-tb-col tb-col-lg"><span class="sub-text">Drop Point</span></th>
+                <th class="nk-tb-col tb-col-lg"><span class="sub-text">Pickup By</span></th>
+                <th class="nk-tb-col tb-col-lg"><span class="sub-text">Pickup Datetime</span></th>
+                <th class="nk-tb-col tb-col-md"><span class="sub-text">Status</span></th>
+                <th class="nk-tb-col text-right">
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($parcels as $parcel)
+                <tr class="nk-tb-item">
+                    <td class="nk-tb-col">
+                        <div class="user-card">
+                            <div class="user-info">
+                                <span class="tb-lead">{{ $parcel->tracking_no }} <span class="dot dot-success d-md-none ml-1"></span></span>
+                                <span>Pickup Code : {{ $parcel->coding }}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="nk-tb-col tb-col-lg">
+                        <span>{{ $parcel?->dropPoint?->code }}</span>
+                    </td>
+                    <td class="nk-tb-col tb-col-lg">
+                        <span>{{ (!is_null($parcel->pickup_name))? $parcel->pickup_name : "" }}</span>
+                    </td>
+                    <td class="nk-tb-col tb-col-lg">
+                        <span>{{ (!is_null($parcel->pickup_name))? $parcel->pickup_datetime : "" }}</span>
+                    </td>
+                    <td class="nk-tb-col tb-col-md">
+                        <span class="tb-status text-success">{{ $parcel->status_label }}</span>
+                    </td>
+                    <td class="nk-tb-col">
+                        <a class="btn btn-primary btn-xs" href="{{ route('frontend.user.parcel.show',encrypt($parcel->id)) }}"><span>@lang('View')</span></a>
+                    </td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+
+        {{ $parcels->links() }}
+    </div>
+</div><!-- .card-preview -->
