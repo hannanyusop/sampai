@@ -22,6 +22,7 @@ class TripBatchIndex extends Component
     public function render()
     {
         $batches = TripBatchGeneralService::query()
+            ->with('office')
             ->when(count($this->statuses) > 0, fn($query) => $query->whereHas('trips', fn($q) => $q->whereIn('status', $this->statuses)))
             ->when($this->tripBatchId, fn($query) => $query->where('id', $this->id))
             ->orderBy('id', 'desc')

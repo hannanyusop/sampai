@@ -34,18 +34,19 @@ class PickupSearch extends Component
     }
 
     public function search(){
-        $this->pickup = null;
 
-        $pickup = $this->pickup = Pickup::where('code', $this->code)->first();
+        $this->pickup = Pickup::with('parcels', 'parcels.pickup')
+            ->where('code', $this->code)
+            ->first();
 
         if(!$this->pickup){
             session()->flash('error', __('No pickup found with this code'));
             return;
         }
 
-        $this->pickup_name = $pickup->user->name;
+        $this->pickup_name = $this->pickup->user->name;
         $this->total_payment = 0.00;
-        $this->total = $pickup->total;
+        $this->total = $this->pickup->total;
 
         $this->balance = -$this->total;
 

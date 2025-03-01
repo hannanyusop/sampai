@@ -8,14 +8,11 @@ use App\Domains\Auth\Models\Trip;
 use App\Domains\Auth\Models\User;
 use App\Mail\Pickup\SendNotification;
 use App\Services\Pickup\PickupHelperService;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Mail;
 
 class Pickup extends Model
 {
-    use HasFactory;
     use SoftDeletes;
 
     protected $fillable = ['total_tax', 'status', 'pickup_name', 'pickup_datetime', 'serve_by',
