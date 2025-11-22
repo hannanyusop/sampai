@@ -35,7 +35,6 @@ class AuthServiceProvider extends ServiceProvider
             return $user->hasAllAccess() ? true : null;
         });
 
-        Passport::routes();
         Passport::tokensExpireIn(now()->addYears(10));
         Passport::refreshTokensExpireIn(now()->addYears(10));
         Passport::personalAccessTokensExpireIn(now()->addYears(10));
