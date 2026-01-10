@@ -303,6 +303,114 @@
         padding: 0 5px;
     }
 
+    /* Info Banner Carousel */
+    .info-banner-carousel {
+        position: fixed;
+        bottom: 80px;
+        left: 16px;
+        right: 16px;
+        z-index: 100;
+    }
+
+    @media (min-width: 768px) {
+        .info-banner-carousel {
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: 600px;
+        }
+    }
+
+    .carousel-container {
+        position: relative;
+        overflow: hidden;
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    }
+
+    .carousel-track {
+        display: flex;
+        transition: transform 0.4s ease-in-out;
+    }
+
+    .carousel-slide {
+        min-width: 100%;
+        padding: 16px 20px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .carousel-slide.development {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .carousel-slide.app-coming {
+        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    }
+
+    .carousel-slide.phone-view {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .carousel-slide-icon {
+        width: 44px;
+        height: 44px;
+        background: rgba(255,255,255,0.2);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .carousel-slide-icon i {
+        font-size: 1.5rem;
+        color: white;
+    }
+
+    .carousel-slide-content {
+        flex: 1;
+    }
+
+    .carousel-slide-title {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: white;
+        margin: 0 0 4px 0;
+    }
+
+    .carousel-slide-text {
+        font-size: 0.75rem;
+        color: rgba(255,255,255,0.9);
+        margin: 0;
+    }
+
+    .carousel-dots {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px 0 8px;
+        background: rgba(0,0,0,0.03);
+    }
+
+    .carousel-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(102, 126, 234, 0.3);
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s;
+        padding: 0;
+    }
+
+    .carousel-dot.active {
+        background: #667eea;
+        width: 24px;
+        border-radius: 4px;
+    }
+
     /* Responsive */
     @media (min-width: 576px) {
         .menu-grid {
@@ -444,6 +552,46 @@
             <div class="menu-sublabel">{{ __('Sign out safely') }}</div>
         </a>
     </div>
+
+    <!-- Info Banner Carousel -->
+    <div class="info-banner-carousel" id="infoBannerCarousel">
+        <div class="carousel-container">
+                        <div class="carousel-track" id="carouselTrack">
+                <div class="carousel-slide development">
+                    <div class="carousel-slide-icon">
+                        <i class="ni ni-setting-alt"></i>
+                    </div>
+                    <div class="carousel-slide-content">
+                        <h6 class="carousel-slide-title">{{ __('Under Development') }}</h6>
+                        <p class="carousel-slide-text">{{ __('This page is still being improved. Some features may change.') }}</p>
+                    </div>
+                </div>
+                <div class="carousel-slide app-coming">
+                    <div class="carousel-slide-icon">
+                        <i class="ni ni-mobile"></i>
+                    </div>
+                    <div class="carousel-slide-content">
+                        <h6 class="carousel-slide-title">{{ __('Mobile App Coming Soon!') }}</h6>
+                        <p class="carousel-slide-text">{{ __('Stay tuned for our iOS and Android apps. Coming to App Store & Play Store!') }}</p>
+                    </div>
+                </div>
+                <div class="carousel-slide phone-view">
+                    <div class="carousel-slide-icon">
+                        <i class="ni ni-mobile"></i>
+                    </div>
+                    <div class="carousel-slide-content">
+                        <h6 class="carousel-slide-title">{{ __('Optimized for Mobile') }}</h6>
+                        <p class="carousel-slide-text">{{ __('This platform is designed for phone view. For best experience, use on your mobile device.') }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-dots">
+                <button class="carousel-dot active" onclick="goToSlide(0)" aria-label="Slide 1"></button>
+                <button class="carousel-dot" onclick="goToSlide(1)" aria-label="Slide 2"></button>
+                <button class="carousel-dot" onclick="goToSlide(2)" aria-label="Slide 3"></button>
+            </div>
+        </div>
+    </div>
 </div>
 
 @endsection
@@ -474,5 +622,63 @@
 
     updateTime();
     setInterval(updateTime, 1000);
+
+    // Info Banner Carousel
+    var currentSlide = 0;
+    var totalSlides = 3;
+    var autoSlideInterval;
+
+    function goToSlide(index) {
+        currentSlide = index;
+        var track = document.getElementById('carouselTrack');
+        track.style.transform = 'translateX(-' + (index * 100) + '%)';
+
+        // Update dots
+        var dots = document.querySelectorAll('.carousel-dot');
+        dots.forEach(function(dot, i) {
+            dot.classList.toggle('active', i === index);
+        });
+
+        // Reset auto-slide timer
+        resetAutoSlide();
+    }
+
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % totalSlides;
+        goToSlide(currentSlide);
+    }
+
+    function resetAutoSlide() {
+        clearInterval(autoSlideInterval);
+        autoSlideInterval = setInterval(nextSlide, 5000);
+    }
+
+    // Start auto-slide
+    resetAutoSlide();
+
+    // Touch swipe support
+    var carouselTrack = document.getElementById('carouselTrack');
+    var touchStartX = 0;
+    var touchEndX = 0;
+
+    carouselTrack.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+    }, false);
+
+    carouselTrack.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, false);
+
+    function handleSwipe() {
+        var diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 50) {
+            if (diff > 0 && currentSlide < totalSlides - 1) {
+                goToSlide(currentSlide + 1);
+            } else if (diff < 0 && currentSlide > 0) {
+                goToSlide(currentSlide - 1);
+            }
+        }
+    }
 </script>
 @endpush

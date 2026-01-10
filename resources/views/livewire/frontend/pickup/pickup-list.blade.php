@@ -402,14 +402,19 @@
     <!-- Sticky Header (Search + Filter) -->
     <div class="sticky-header">
         <!-- Search Section -->
-        <div class="search-section">
-            <div class="search-wrap">
-                <i class="ni ni-search search-icon"></i>
+        <div class="search-section" style="display:block !important; visibility:visible !important; opacity:1 !important; padding:16px; padding-bottom:8px; background:white;">
+            <div class="search-wrap" style="display:block !important; visibility:visible !important; opacity:1 !important; position:relative; min-height:50px;">
+                <i class="ni ni-search search-icon" style="position:absolute; left:16px; top:50%; transform:translateY(-50%); color:#999; font-size:1.25rem; z-index:1; pointer-events:none;"></i>
                 <input type="text"
                        wire:model.debounce.300ms="code"
-                       placeholder="{{ __('Search by pickup code...') }}">
+                       placeholder="{{ __('Search by pickup code...') }}"
+                       autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       spellcheck="false"
+                       style="display:block !important; visibility:visible !important; opacity:1 !important; width:100%; height:50px; padding:14px 16px 14px 48px; border:2px solid #e5e5e5 !important; border-radius:14px; background:#f5f6fa !important; font-size:16px; color:#333 !important; -webkit-appearance:none; appearance:none; position:relative; z-index:2; pointer-events:auto !important; -webkit-user-select:text !important; user-select:text !important;">
                 @if($code)
-                    <button type="button" wire:click="$set('code', '')" class="clear-btn">
+                    <button type="button" wire:click="$set('code', '')" class="clear-btn" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); width:28px; height:28px; border-radius:50%; background:#ddd; border:none; color:#666; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:3;">
                         <i class="ni ni-cross"></i>
                     </button>
                 @endif
