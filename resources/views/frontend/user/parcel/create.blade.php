@@ -1,183 +1,643 @@
 @extends('frontend.layouts.app')
 
-@section('title', __('Search Parcel'))
+@section('title', __('Add Parcel'))
+
+<style>
+    .create-parcel-container {
+        padding-bottom: 100px;
+    }
+
+    /* Form Header */
+    .form-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 24px 20px;
+        color: white;
+        text-align: center;
+        margin: -1px -1px 0;
+    }
+
+    @media (max-width: 767px) {
+        .form-header {
+            margin: 0;
+            border-radius: 0;
+        }
+    }
+
+    .form-header-icon {
+        width: 60px;
+        height: 60px;
+        background: rgba(255,255,255,0.2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 12px;
+        font-size: 1.75rem;
+    }
+
+    .form-header-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 4px;
+    }
+
+    .form-header-subtitle {
+        font-size: 0.9rem;
+        opacity: 0.9;
+    }
+
+    /* Form Sections */
+    .form-section {
+        padding: 0 16px;
+        margin-bottom: 16px;
+    }
+
+    .section-title {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #999;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 20px 4px 8px;
+    }
+
+    .form-card {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        padding: 20px;
+    }
+
+    /* Form Inputs */
+    .app-form-group {
+        margin-bottom: 20px;
+    }
+
+    .app-form-group:last-child {
+        margin-bottom: 0;
+    }
+
+    .app-form-label {
+        display: block;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #1a1a2e;
+        margin-bottom: 8px;
+    }
+
+    .app-form-label .required {
+        color: #e53e3e;
+    }
+
+    .app-form-input {
+        width: 100%;
+        padding: 14px 16px;
+        border: 2px solid #e5e5e5;
+        border-radius: 12px;
+        font-size: 1rem;
+        transition: all 0.2s;
+        background: white;
+    }
+
+    .app-form-input:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .app-form-input.is-invalid {
+        border-color: #e53e3e;
+    }
+
+    .app-form-input[readonly] {
+        background: #f8f9fa;
+        color: #6c757d;
+        cursor: not-allowed;
+    }
+
+    .app-form-hint {
+        font-size: 0.8rem;
+        color: #888;
+        margin-top: 6px;
+    }
+
+    .app-form-error {
+        font-size: 0.8rem;
+        color: #e53e3e;
+        margin-top: 6px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    /* Categories Grid */
+    .categories-container {
+        max-height: 280px;
+        overflow-y: auto;
+    }
+
+    .categories-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
+    }
+
+    .category-checkbox {
+        display: none;
+    }
+
+    .category-item {
+        display: flex;
+    }
+
+    .category-label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 4px;
+        background: #f5f6fa;
+        border-radius: 8px;
+        font-size: 0.7rem;
+        font-weight: 500;
+        color: #666;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+        min-height: 44px;
+        line-height: 1.2;
+        width: 100%;
+    }
+
+    .category-label:active {
+        transform: scale(0.98);
+    }
+
+    .category-checkbox:checked + .category-label {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+    /* Collection Points */
+    .collection-points {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .collection-radio {
+        display: none;
+    }
+
+    .collection-label {
+        display: flex;
+        align-items: center;
+        padding: 16px;
+        background: #f5f6fa;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .collection-radio:checked + .collection-label {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        border: 2px solid #667eea;
+    }
+
+    .collection-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 12px;
+        color: #667eea;
+        font-size: 1.25rem;
+    }
+
+    .collection-info {
+        flex: 1;
+    }
+
+    .collection-code {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #1a1a2e;
+    }
+
+    .collection-name {
+        font-size: 0.8rem;
+        color: #888;
+    }
+
+    .collection-check {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        border: 2px solid #ddd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 0.75rem;
+    }
+
+    .collection-radio:checked + .collection-label .collection-check {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-color: #667eea;
+    }
+
+    /* File Upload */
+    .file-upload-wrap {
+        position: relative;
+    }
+
+    .file-upload-area {
+        border: 2px dashed #ddd;
+        border-radius: 12px;
+        padding: 24px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .file-upload-area:hover {
+        border-color: #667eea;
+        background: rgba(102, 126, 234, 0.02);
+    }
+
+    .file-upload-icon {
+        font-size: 2rem;
+        color: #667eea;
+        margin-bottom: 8px;
+    }
+
+    .file-upload-text {
+        font-size: 0.9rem;
+        color: #666;
+    }
+
+    .file-upload-input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    /* Submit Button */
+    .submit-section {
+        padding: 20px 16px;
+        padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+        background: white;
+        position: sticky;
+        bottom: 0;
+        z-index: 20;
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 16px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 14px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .submit-btn:active {
+        transform: scale(0.98);
+    }
+
+    /* Textarea */
+    .app-form-textarea {
+        width: 100%;
+        padding: 14px 16px;
+        border: 2px solid #e5e5e5;
+        border-radius: 12px;
+        font-size: 1rem;
+        resize: vertical;
+        min-height: 100px;
+        transition: all 0.2s;
+    }
+
+    .app-form-textarea:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    /* Desktop */
+    @media (min-width: 768px) {
+        .create-parcel-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-header {
+            border-radius: 16px 16px 0 0;
+            margin: 0;
+        }
+
+        .submit-section {
+            position: relative;
+            bottom: auto;
+        }
+    }
+
+</style>
 
 @section('content')
+<div class="create-parcel-container">
+    <x-forms.post :action="route('frontend.user.parcel.store')" class="form-validate" enctype="multipart/form-data">
 
-    <div class="nk-block">
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="card card-bordered">
-                    <div class="card-inner">
-                        <div class="card-head">
-                            <h5 class="card-title">Add Parcel</h5>
+        <!-- Form Header -->
+        <div class="form-header">
+            <div class="form-header-icon">
+                <i class="ni ni-box"></i>
+            </div>
+            <div class="form-header-title">{{ __('Register New Parcel') }}</div>
+            <div class="form-header-subtitle">{{ __('Fill in the details below') }}</div>
+        </div>
+
+        <!-- Tracking Info -->
+        <div class="form-section">
+            <div class="section-title">{{ __('Tracking Information') }}</div>
+            <div class="form-card">
+                <div class="app-form-group">
+                    <label class="app-form-label">
+                        {{ __('Tracking Number') }} <span class="required">*</span>
+                    </label>
+                    <input type="text"
+                           name="tracking_no"
+                           class="app-form-input text-uppercase"
+                           value="{{ old('tracking_no') }}"
+                           placeholder="{{ __('Enter tracking number') }}"
+                           required>
+                    @error('tracking_no')
+                        <div class="app-form-error">
+                            <i class="ni ni-alert-circle"></i> {{ $message }}
                         </div>
-                        <x-forms.post :action="route('frontend.user.parcel.store')" class="form-validate" enctype="multipart/form-data">
-                            <div class="row g-4">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="tracking_no">Tracking No</label>
-                                        <div class="form-control-wrap">
-                                            <input type="text" class="form-control text-uppercase" id="tracking_no" name="tracking_no" value="{{ old('tracking_no') }}" required>
-                                            @error('tracking_no')
-                                            <span id="fv-name-error" class="invalid">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row g-4">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="receiver_name">Receiver Name</label>
-                                        <div class="form-control-wrap">
-                                            <input type="text" list="prevUser" class="form-control text-uppercase" id="receiver_name" name="receiver_name" value="{{ old('receiver_name') ?? auth()->user()->name }}">
-{{--                                            <datalist id="prevUser">--}}
-{{--                                                @foreach($sName as $suggestion)--}}
-{{--                                                    <option value="{{ $suggestion['receiver_name'] }}">--}}
-{{--                                                @endforeach--}}
-{{--                                            </datalist>--}}
-                                            @error('name')
-                                            <span id="fv-name-error" class="invalid">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="receiver_name">Phone Number</label>
-                                        <div class="form-control-wrap">
-                                            <input type="text" class="form-control text-uppercase" name="phone_number" value="{{ old('phone_number') ?? auth()->user()->phone_number }}">
-                                            <small class="text-info">*Go to profile to update your phone number</small><br>
-                                            @error('phone_number')
-                                                <span id="fv-name-error" class="invalid">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                    @enderror
+                </div>
+            </div>
+        </div>
 
-                            <hr>
-                            <h5>{{ __('Item Information') }}</h5>
+        <!-- Receiver Info -->
+        <div class="form-section">
+            <div class="section-title">{{ __('Receiver Information') }}</div>
+            <div class="form-card">
+                <div class="app-form-group">
+                    <label class="app-form-label">{{ __('Receiver Name') }}</label>
+                    <input type="text"
+                           name="receiver_name"
+                           class="app-form-input text-uppercase"
+                           value="{{ auth()->user()->name }}"
+                           readonly>
+                </div>
 
-                            <label class="form-label" for="item_name">Category</label>
+                <div class="app-form-group">
+                    <label class="app-form-label">{{ __('Phone Number') }}</label>
+                    <input type="text"
+                           name="phone_number"
+                           class="app-form-input"
+                           value="{{ auth()->user()->phone_number }}"
+                           readonly>
+                    <div class="app-form-hint">{{ __('Go to profile to update your details') }}</div>
+                </div>
+            </div>
+        </div>
 
-                            <div class="row">
-                                @foreach($categories as $category)
-                                    <div class="col-md-3 my-2">
-                                        <input type="checkbox" name="category[]" value="{{ $category->id }}" {{ is_array(old('category')) && in_array($category->id, old('category')) ? 'checked' : '' }}>
+        <!-- Item Information -->
+        <div class="form-section">
+            <div class="section-title">{{ __('Item Information') }}</div>
+            <div class="form-card">
+                <div class="app-form-group">
+                    <label class="app-form-label">{{ __('Category') }} <span class="required">*</span></label>
+                    <div class="categories-container">
+                        <div class="categories-grid">
+                            @foreach($categories as $category)
+                                <div class="category-item">
+                                    <input type="checkbox"
+                                           name="category[]"
+                                           value="{{ $category->id }}"
+                                           id="cat_{{ $category->id }}"
+                                           class="category-checkbox"
+                                           {{ is_array(old('category')) && in_array($category->id, old('category')) ? 'checked' : '' }}>
+                                    <label for="cat_{{ $category->id }}" class="category-label">
                                         {{ $category->title }}
-                                    </div>
-                                @endforeach
-                            </div>
-
-                            <div class="row g-4">
-
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="receiver_name">Item Description (Keterangan barang)</label>
-                                        <div class="form-control-wrap">
-                                            <textarea class="form-control" rows="4" name="description">{{ old('description') }}</textarea>
-                                            <small class="text-info font-weight-bold">Max:1000 characters | *Simple description of every items, quantity & price, example: Shirt 2pcs RM10. (Keterangan ringkas setiap barang, contoh: Baju 2pcs RM10)</small><br>
-                                            @error('description')
-                                                <span id="fv-name-error" class="invalid">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
+                                    </label>
                                 </div>
-
-                            </div>
-
-                            <div class="row g-4">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="quantity">Quantity</label>
-                                        <div class="form-control-wrap">
-                                            <input type="number" class="form-control" name="quantity" value="{{ old('quantity') }}">
-                                            @error('quantity')
-                                                <span id="fv-quantity-error" class="invalid">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="price">Price (Harga) RM</label>
-                                        <div class="form-control-wrap">
-                                            <input class="form-control" name="price" min="1" value="{{ old('price') }}">
-                                            @error('price')
-                                            <span id="fv-price-error" class="invalid">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row g-4">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="invoice">Invoice</label>
-                                        <div class="form-control-wrap">
-                                            <input type="file" id="invoice" name="invoice_url" value="{{ old('invoice_url') }}">
-                                            @error('invoice_url')
-                                                <br><small id="fv-invoice-error" class="invalid text-danger font-weight-bold"><span class="ni ni-alert-circle"></span>{{ $message }}</small>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="order_origin">Product Remark (Order origin)</label>
-                                        <div class="form-control-wrap">
-                                            <input type="text" list="order_origin" class="form-control" id="order_origin" name="order_origin" value="{{ old('order_origin') }}">
-                                                <datalist id="order_origin">
-                                                    @foreach($origins as $origin)
-                                                        <option value="{{ $origin }}">
-                                                    @endforeach
-                                                </datalist>
-                                            @error('order_origin')
-                                            <span id="fv-order_origin-error" class="invalid">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row g-4">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <div class="form-label-group">
-                                            <label class="form-label" for="identification">Collection point</label>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            @foreach($drop_points as $drop_point)
-                                                <div class="form-check">
-                                                    <input type="radio" name="office_id" id="drop_point_{{ $drop_point->id }}" value="{{ $drop_point->id }}" class="form-check-input" {{ old('office_id') == $drop_point->id ? "checked" : "" }}>
-                                                    <lable class="form-check-label">{{ $drop_point->code." - ".$drop_point->name }}</lable>
-                                                </div>
-                                            @endforeach
-                                            @error('office_id')
-                                                <small id="fv-office_id-error" class="invalid text-danger">{{ $message }}</small>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row g-4">
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-lg btn-primary">Submit</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </x-forms.post>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="app-form-error category-error" id="categoryError" style="display: none;">
+                        <i class="ni ni-alert-circle"></i> {{ __('Please select at least 1 category') }}
                     </div>
                 </div>
-            </div><!-- .col -->
+
+                <div class="app-form-group">
+                    <label class="app-form-label">{{ __('Item Description') }}</label>
+                    <textarea name="description"
+                              class="app-form-textarea"
+                              placeholder="{{ __('Describe your items (e.g., Shirt 2pcs RM10)') }}">{{ old('description') }}</textarea>
+                    <div class="app-form-hint">{{ __('Max: 1000 characters. Simple description of items with quantity & price.') }}</div>
+                    @error('description')
+                        <div class="app-form-error">
+                            <i class="ni ni-alert-circle"></i> {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
+                <div class="app-form-group">
+                    <label class="app-form-label">{{ __('Quantity') }}</label>
+                    <input type="number"
+                           name="quantity"
+                           class="app-form-input"
+                           value="{{ old('quantity') }}"
+                           placeholder="{{ __('Number of items') }}"
+                           min="1">
+                    @error('quantity')
+                        <div class="app-form-error">
+                            <i class="ni ni-alert-circle"></i> {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
+                <div class="app-form-group">
+                    <label class="app-form-label">{{ __('Price (RM)') }}</label>
+                    <input type="text"
+                           name="price"
+                           class="app-form-input"
+                           value="{{ old('price') }}"
+                           placeholder="{{ __('Total price in RM') }}">
+                    @error('price')
+                        <div class="app-form-error">
+                            <i class="ni ni-alert-circle"></i> {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+            </div>
         </div>
-    </div>
+
+        <!-- Invoice & Remark -->
+        <div class="form-section">
+            <div class="section-title">{{ __('Invoice & Remark') }}</div>
+            <div class="form-card">
+                <div class="app-form-group">
+                    <label class="app-form-label">{{ __('Invoice Image') }}</label>
+                    <div class="file-upload-wrap">
+                        <div class="file-upload-area">
+                            <div class="file-upload-icon">
+                                <i class="ni ni-upload-cloud"></i>
+                            </div>
+                            <div class="file-upload-text">{{ __('Tap to upload invoice') }}</div>
+                        </div>
+                        <input type="file" name="invoice_url" class="file-upload-input" accept="image/*">
+                    </div>
+                    @error('invoice_url')
+                        <div class="app-form-error">
+                            <i class="ni ni-alert-circle"></i> {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
+                <div class="app-form-group">
+                    <label class="app-form-label">{{ __('Product Remark (Order Origin)') }}</label>
+                    <input type="text"
+                           name="order_origin"
+                           list="order_origin_list"
+                           class="app-form-input"
+                           value="{{ old('order_origin') }}"
+                           placeholder="{{ __('e.g., Shopee, Lazada') }}">
+                    <datalist id="order_origin_list">
+                        @foreach($origins as $origin)
+                            <option value="{{ $origin }}">
+                        @endforeach
+                    </datalist>
+                    @error('order_origin')
+                        <div class="app-form-error">
+                            <i class="ni ni-alert-circle"></i> {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+            </div>
+        </div>
+
+        <!-- Collection Point -->
+        <div class="form-section">
+            <div class="section-title">{{ __('Collection Point') }} <span style="color: #e53e3e;">*</span></div>
+            <div class="form-card">
+                <div class="collection-points">
+                    @foreach($drop_points as $drop_point)
+                        <div>
+                            <input type="radio"
+                                   name="office_id"
+                                   value="{{ $drop_point->id }}"
+                                   id="office_{{ $drop_point->id }}"
+                                   class="collection-radio"
+                                   {{ old('office_id') == $drop_point->id ? 'checked' : '' }}>
+                            <label for="office_{{ $drop_point->id }}" class="collection-label">
+                                <div class="collection-icon">
+                                    <i class="ni ni-map-pin"></i>
+                                </div>
+                                <div class="collection-info">
+                                    <div class="collection-code">{{ $drop_point->code }}</div>
+                                    <div class="collection-name">{{ $drop_point->name }}</div>
+                                </div>
+                                <div class="collection-check">
+                                    <i class="ni ni-check"></i>
+                                </div>
+                            </label>
+                        </div>
+                    @endforeach
+                </div>
+                @error('office_id')
+                    <div class="app-form-error" style="margin-top: 12px;">
+                        <i class="ni ni-alert-circle"></i> {{ $message }}
+                    </div>
+                @enderror
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="submit-section">
+            <button type="submit" class="submit-btn">
+                <i class="ni ni-send"></i> {{ __('Submit Parcel') }}
+            </button>
+        </div>
+
+    </x-forms.post>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    // Show form errors on page load
+    @if($errors->any())
+        Swal.fire({
+            icon: 'error',
+            title: '{{ __("Error") }}',
+            html: '{!! implode("<br>", $errors->all()) !!}',
+            confirmButtonColor: '#667eea'
+        });
+    @endif
+
+    // Show success message
+    @if(session('flash_success') || session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: '{{ __("Success") }}',
+            text: '{{ session("flash_success") ?? session("success") }}',
+            confirmButtonColor: '#667eea'
+        });
+    @endif
+
+    // File upload preview
+    document.querySelector('.file-upload-input').addEventListener('change', function(e) {
+        const fileName = e.target.files[0]?.name;
+        if (fileName) {
+            document.querySelector('.file-upload-text').textContent = fileName;
+        }
+    });
+
+    // Form validation - require at least 1 category
+    const categoryError = document.getElementById('categoryError');
+
+    document.querySelector('.form-validate').addEventListener('submit', function(e) {
+        const checkedCategories = document.querySelectorAll('.category-checkbox:checked');
+        if (checkedCategories.length === 0) {
+            e.preventDefault();
+            categoryError.style.display = 'flex';
+            Swal.fire({
+                icon: 'error',
+                title: '{{ __("Error") }}',
+                text: '{{ __("Please select at least 1 category") }}',
+                confirmButtonColor: '#667eea'
+            });
+            document.querySelector('.categories-container').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    });
+
+    // Hide error when category is selected
+    document.querySelectorAll('.category-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            const checkedCategories = document.querySelectorAll('.category-checkbox:checked');
+            if (checkedCategories.length > 0) {
+                categoryError.style.display = 'none';
+            }
+        });
+    });
+</script>
 @endsection

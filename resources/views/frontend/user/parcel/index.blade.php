@@ -1,8 +1,6 @@
 @extends('frontend.layouts.app')
-@section('title', __('Parcel List'))
+@section('title', __('My Parcels'))
 
 @section('content')
-    <div class="nk-block nk-block-lg">
-        @livewire('parcel.parcel-index')
-    </div>
+    @livewire('parcel.parcel-index')
 @endsection
