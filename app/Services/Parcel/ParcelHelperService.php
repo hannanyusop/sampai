@@ -25,6 +25,12 @@ class ParcelHelperService
     const COMPLETED_STATUS = [self::STATUS_DELIVERED, self::STATUS_RETURN];
 
 
+    public static function showPricing($status) : bool
+    {
+        return in_array($status, [self::STATUS_READY_TO_COLLECT, self::STATUS_DELIVERED,self::STATUS_RETURN]);
+    }
+
+
     public static function statuses($status = null){
 
         $statuses = [

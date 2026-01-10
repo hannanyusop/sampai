@@ -53,17 +53,19 @@
                                         </p>
                                     </li>
 
-                                    <li class="col-sm-4">
-                                        <p><span class="text-soft">Service Charge</span>
-                                            {{ displayPriceFormat($parcel->service_charge, '$')}}
-                                        </p>
-                                    </li>
+                                    @if($showPrice)
+                                        <li class="col-sm-4">
+                                            <p><span class="text-soft">Service Charge</span>
+                                                {{ displayPriceFormat($parcel->service_charge, '$')}}
+                                            </p>
+                                        </li>
 
-                                    <li class="col-sm-4">
-                                        <p><span class="text-soft">Tax</span>
-                                            {{ $parcel->tax_formated }}
-                                        </p>
-                                    </li>
+                                        <li class="col-sm-4">
+                                            <p><span class="text-soft">Tax</span>
+                                                {{ $parcel->tax_formated }}
+                                            </p>
+                                        </li>
+                                    @endif
                                 </ul>
                             </div>
                             <div class="sp-plan-desc sp-plan-desc-mb">

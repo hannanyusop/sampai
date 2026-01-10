@@ -33,9 +33,11 @@ class ParcelController extends Controller{
             return redirect()->back()->with('warning', 'Parcel not found!');
         }
 
+        $showPrice = ParcelHelperService::showPricing($parcel->status);
+
         $receiver = null;
 
-        return view('frontend.user.parcel.view', compact('parcel', 'receiver'));
+        return view('frontend.user.parcel.view', compact('parcel', 'receiver', 'showPrice'));
     }
 
     public function edit($id){
