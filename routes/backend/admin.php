@@ -86,6 +86,8 @@ Route::group([
     Route::get('view/{tripBatch}', [BillingController::class, 'view'])->name('view');
     Route::get('export/{tripBatch}', [BillingController::class, 'export'])->name('export');
     Route::get('resendNotification/{pickup}', [BillingController::class, 'resendNotification'])->name('resendNotification');
+    Route::get('sendWhatsAppNotification/{pickup}', [BillingController::class, 'sendWhatsAppNotification'])->name('sendWhatsAppNotification');
+    Route::get('notificationHistory/{pickup}', [BillingController::class, 'notificationHistory'])->name('notificationHistory');
 });
 
 Route::group(['prefix' => 'trip-remark/', 'as' => 'trip-remark.'], function (){

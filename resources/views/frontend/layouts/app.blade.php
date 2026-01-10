@@ -12,26 +12,42 @@
 
         .nk-content {
             padding: 0 !important;
+            margin: 0 !important;
         }
 
         .nk-content-inner {
             padding: 0 !important;
+            margin: 0 !important;
         }
 
         .nk-content-body {
             padding: 0 !important;
+            margin: 0 !important;
         }
 
         .nk-wrap {
             padding: 0 !important;
+            margin: 0 !important;
         }
 
         .nk-main {
             padding: 0 !important;
+            margin: 0 !important;
         }
 
         body.nk-body {
             padding-top: 0 !important;
+            margin: 0 !important;
+        }
+
+        .nk-app-root {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
         }
     }
 
@@ -104,9 +120,12 @@
         margin-bottom: 0;
     }
 
+    /* Show bottom nav on all screen sizes including laptop */
     @media (min-width: 768px) {
         .bottom-nav {
-            display: none;
+            max-width: 500px;
+            left: 50%;
+            transform: translateX(-50%);
         }
     }
 </style>
@@ -117,7 +136,6 @@
     <div class="nk-main ">
         <!-- wrap @s -->
         <div class="nk-wrap ">
-            @include('frontend.includes.topbar')
             @if(!request()->routeIs('frontend.user.dashboard'))
                 @include('frontend.includes.mobile-header')
             @endif

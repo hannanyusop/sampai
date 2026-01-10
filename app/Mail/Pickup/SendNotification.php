@@ -12,14 +12,18 @@ class SendNotification extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public Pickup $pickup;
+    public string $messageContent;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Pickup $pickup)
+    public function __construct(Pickup $pickup, string $messageContent = '')
     {
         $this->pickup = $pickup;
+        $this->messageContent = $messageContent;
     }
 
     /**
@@ -29,7 +33,7 @@ class SendNotification extends Mailable
      */
     public function build()
     {
-        return $this->subject('Email From AllPHPTricks.com')
+        return $this->subject(__('Pickup Notification - :code', ['code' => $this->pickup->code]))
             ->view('email.pickup.send-notification');
     }
 }

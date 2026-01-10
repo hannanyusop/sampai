@@ -57,6 +57,14 @@ class Pickup extends Model
         return $this->belongsTo(User::class, 'serve_by', 'id');
     }
 
+    public function notifications(){
+        return $this->hasMany(PickupNotification::class, 'pickup_id', 'id');
+    }
+
+    public function latestNotification(){
+        return $this->hasOne(PickupNotification::class, 'pickup_id', 'id')->latestOfMany();
+    }
+
     public function getTotalAttribute(){
         return $this->parcels()->sum('cod_fee') + $this->parcels()->sum('service_charge') + $this->parcels()->sum('tax') + $this->parcels()->sum('permit') + $this->parcels()->sum('declare_charge');
     }

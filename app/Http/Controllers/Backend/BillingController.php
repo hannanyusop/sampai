@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Mail\Pickup\SendNotification;
 use App\Models\Pickup;
+use App\Models\PickupNotification;
 use App\Models\TripBatch;
 use Illuminate\Http\Request;
 use Mail;
@@ -27,24 +28,109 @@ class BillingController extends Controller
 
     public function resendNotification(Pickup $pickup){
 
-//        return view('email.pickup.send-notification', compact('pickup'));
-//        $pickup->sendNotificationEmail();
+        $email = $pickup->user?->email ?? 'hannan135589@gmail.com';
+
+        // Generate message content from office whatsapp_template
+        $offices = \App\Domains\Auth\Models\Office::pluck('whatsapp_template', 'id')->toArray();
+        $messageContent = \App\Services\Parcel\ParcelHelperService::GeneralWhatsappText($pickup, $offices);
+
+        $notification = PickupNotification::create([
+            'pickup_id' => $pickup->id,
+            'via' => PickupNotification::VIA_EMAIL,
+            'address' => $email,
+            'content' => $messageContent,
+            'status' => PickupNotification::STATUS_PENDING,
+        ]);
 
         try {
-            Mail::to('hannan135589@gmail.com')->send(new SendNotification($pickup));
+            Mail::to($email)->send(new SendNotification($pickup, $messageContent));
 
-            $this->update([
+            $notification->update([
+                'status' => PickupNotification::STATUS_SENT,
+                'provider_remark' => 'Email sent successfully',
+            ]);
+
+            $pickup->update([
                 'notification_sent' => 1,
                 'notification_send_at' => now()
             ]);
 
             return redirect()->back()->with('success', 'Notification sent successfully');
         } catch (\Exception $e) {
+            $notification->update([
+                'status' => PickupNotification::STATUS_FAILED,
+                'provider_remark' => $e->getMessage(),
+            ]);
+
             return redirect()->back()->with('error', $e->getMessage());
         }
 
     }
 
+    public function sendWhatsAppNotification(Pickup $pickup)
+    {
+        $phoneNumber = $pickup->user?->phone_number;
 
+        if (empty($phoneNumber)) {
+            return redirect()->back()->with('error', __('User does not have a phone number.'));
+        }
+
+        $offices = \App\Domains\Auth\Models\Office::pluck('whatsapp_template', 'id')->toArray();
+        $message = \App\Services\Parcel\ParcelHelperService::GeneralWhatsappText($pickup, $offices);
+
+        $notification = PickupNotification::create([
+            'pickup_id' => $pickup->id,
+            'via' => PickupNotification::VIA_WHATSAPP,
+            'address' => $phoneNumber,
+            'content' => $message,
+            'status' => PickupNotification::STATUS_PENDING,
+        ]);
+
+        try {
+            $service = new \App\Services\Twilio\TwilioWhatsAppService();
+            $result = $service->send($phoneNumber, $message);
+
+            $notification->update([
+                'status' => PickupNotification::STATUS_SENT,
+                'provider_remark' => 'Message SID: ' . ($result['sid'] ?? 'N/A'),
+            ]);
+
+            $pickup->update([
+                'notification_sent' => 1,
+                'notification_send_at' => now()
+            ]);
+
+            return redirect()->back()->with('success', __('WhatsApp notification sent!'));
+        } catch (\Exception $e) {
+            $notification->update([
+                'status' => PickupNotification::STATUS_FAILED,
+                'provider_remark' => $e->getMessage(),
+            ]);
+
+            return redirect()->back()->with('error', __('WhatsApp Error: ') . $e->getMessage());
+        }
+    }
+
+    public function notificationHistory(Pickup $pickup)
+    {
+        $notifications = $pickup->notifications()->orderBy('created_at', 'desc')->get();
+
+        return response()->json([
+            'pickup_code' => $pickup->code,
+            'notifications' => $notifications->map(function ($n) {
+                return [
+                    'id' => $n->id,
+                    'via' => $n->via,
+                    'via_badge' => $n->via_badge,
+                    'address' => $n->address,
+                    'content' => \Str::limit($n->content, 100),
+                    'status' => $n->status,
+                    'status_badge' => $n->status_badge,
+                    'provider_remark' => $n->provider_remark,
+                    'created_at' => $n->created_at->format('d M Y H:i'),
+                ];
+            }),
+        ]);
+    }
 
 }

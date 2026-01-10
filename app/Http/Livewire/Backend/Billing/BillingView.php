@@ -22,9 +22,10 @@ class BillingView extends Component
     public function render()
     {
         $tripBatchId = $this->tripBatch->id;
-        $pickups = Pickup::whereHas('trip', function ($query) use ($tripBatchId) {
-            $query->where('trip_batch_id', $tripBatchId);
-        })->paginate(20);
+        $pickups = Pickup::with(['latestNotification'])
+            ->whereHas('trip', function ($query) use ($tripBatchId) {
+                $query->where('trip_batch_id', $tripBatchId);
+            })->paginate(20);
 
         return view('livewire.backend.billing.billing-view', compact('pickups'));
     }

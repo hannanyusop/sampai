@@ -137,6 +137,9 @@
                                             <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:40px 80px 10px;font-family:'Raleway',sans-serif;" align="left">
 
                                                 <div style="font-size: 14px; line-height: 160%; text-align: center; word-wrap: break-word;">
+                                                    @if(!empty($messageContent))
+                                                        <p style="line-height: 160%; text-align: left; white-space: pre-line;">{!! nl2br(e($messageContent)) !!}</p>
+                                                    @else
                                                     <p style="line-height: 160%; text-align: left;"><strong>Hello {{ $pickup?->user->name }},</strong></p>
                                                     <p style="line-height: 160%; text-align: left;"> </p>
                                                     <p style="line-height: 160%; text-align: left;">Your total bill for code: </p>
@@ -155,6 +158,7 @@
                                                     <p style="line-height: 160%; text-align: left;"> </p>
                                                     <p style="line-height: 160%; text-align: left;">Pickup Office : <br /><br />More information Click or Copy :  <a href="{{ route('frontend.user.pickup.show', encrypt($pickup->id)) }}">{{ route('frontend.user.pickup.show', encrypt($pickup->id)) }}</a> <br /><br /><br /></p>
                                                     <p style="line-height: 160%; text-align: left;"><br /><br /><br /></p>
+                                                    @endif
                                                 </div>
 
                                             </td>

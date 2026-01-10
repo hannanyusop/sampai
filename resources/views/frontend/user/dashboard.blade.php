@@ -8,7 +8,8 @@
         min-height: 100vh;
         background: linear-gradient(180deg, #f0f4ff 0%, #ffffff 100%);
         padding-bottom: 100px;
-        margin: 0;
+        margin: -1rem;
+        margin-bottom: 0;
     }
 
     /* App Header */
@@ -21,8 +22,6 @@
         position: relative;
         margin: 0;
         margin-bottom: -40px;
-        margin-left: -1px;
-        margin-right: -1px;
     }
 
     @media (max-width: 767px) {
