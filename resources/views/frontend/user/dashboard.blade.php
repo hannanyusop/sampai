@@ -305,19 +305,13 @@
 
     /* Info Banner Carousel */
     .info-banner-carousel {
-        position: fixed;
-        bottom: 80px;
-        left: 16px;
-        right: 16px;
-        z-index: 100;
+        margin: 24px 16px 0;
     }
 
     @media (min-width: 768px) {
         .info-banner-carousel {
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
             max-width: 600px;
+            margin: 24px auto 0;
         }
     }
 
