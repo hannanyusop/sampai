@@ -8,7 +8,7 @@
     }
 
     .gradient-text {
-        background: linear-gradient(135deg, #00c6a7 0%, #1ed5b9 50%, #6ee7c2 100%);
+        background: linear-gradient(135deg, #ffffff 0%, #e0f7f3 50%, #ffffff 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -40,7 +40,7 @@
     /* Hero */
     .hero-section {
         min-height: 100vh;
-        background: #fafffe;
+        background: linear-gradient(180deg, #009680 0%, #00a88f 40%, #00b89c 70%, #ffffff 100%);
         display: flex;
         align-items: center;
         padding: 120px 0 80px;
@@ -55,7 +55,7 @@
         right: -200px;
         width: 600px;
         height: 600px;
-        background: linear-gradient(135deg, rgba(0, 198, 167, 0.08) 0%, rgba(110, 231, 194, 0.05) 100%);
+        background: rgba(255, 255, 255, 0.1);
         border-radius: 50%;
     }
 
@@ -66,7 +66,7 @@
         left: -100px;
         width: 400px;
         height: 400px;
-        background: linear-gradient(135deg, rgba(0, 198, 167, 0.05) 0%, rgba(110, 231, 194, 0.03) 100%);
+        background: rgba(255, 255, 255, 0.05);
         border-radius: 50%;
     }
 
@@ -80,18 +80,18 @@
         align-items: center;
         gap: 8px;
         padding: 10px 20px;
-        background: linear-gradient(135deg, rgba(0, 198, 167, 0.1) 0%, rgba(110, 231, 194, 0.1) 100%);
+        background: rgba(255, 255, 255, 0.2);
         border-radius: 100px;
         font-size: 14px;
         font-weight: 600;
-        color: #00c6a7;
+        color: white;
         margin-bottom: 24px;
     }
 
     .hero-title {
         font-size: 56px;
         font-weight: 800;
-        color: #1a1a2e;
+        color: white;
         line-height: 1.1;
         margin-bottom: 24px;
         letter-spacing: -1px;
@@ -99,7 +99,7 @@
 
     .hero-subtitle {
         font-size: 18px;
-        color: #6b7280;
+        color: rgba(255, 255, 255, 0.9);
         line-height: 1.7;
         margin-bottom: 40px;
         max-width: 480px;
@@ -116,20 +116,20 @@
         align-items: center;
         gap: 10px;
         padding: 16px 32px;
-        background: linear-gradient(135deg, #00c6a7 0%, #1ed5b9 100%);
-        color: white;
+        background: white;
+        color: #009680;
         font-size: 16px;
         font-weight: 600;
         border-radius: 14px;
         text-decoration: none;
         transition: all 0.3s ease;
-        box-shadow: 0 10px 40px rgba(0, 198, 167, 0.3);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
     }
 
     .btn-gradient:hover {
         transform: translateY(-3px);
-        box-shadow: 0 15px 50px rgba(0, 198, 167, 0.4);
-        color: white;
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+        color: #009680;
         text-decoration: none;
     }
 
@@ -138,19 +138,20 @@
         align-items: center;
         gap: 10px;
         padding: 16px 32px;
-        background: white;
-        color: #1a1a2e;
+        background: transparent;
+        color: white;
         font-size: 16px;
         font-weight: 600;
         border-radius: 14px;
         text-decoration: none;
         transition: all 0.3s ease;
-        border: 2px solid #e5e7eb;
+        border: 2px solid rgba(255, 255, 255, 0.5);
     }
 
     .btn-light:hover {
-        border-color: #00c6a7;
-        color: #00c6a7;
+        border-color: white;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
         text-decoration: none;
     }
 
@@ -393,7 +394,20 @@
     /* Features */
     .features-section {
         padding: 100px 0;
-        background: white;
+        background: linear-gradient(135deg, #009680 0%, #00a88f 50%, #00b89c 100%);
+    }
+
+    .features-section .section-tag {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+    }
+
+    .features-section .section-title {
+        color: white;
+    }
+
+    .features-section .section-desc {
+        color: rgba(255, 255, 255, 0.9);
     }
 
     .features-grid {
@@ -522,7 +536,7 @@
     /* CTA */
     .cta-section {
         padding: 100px 0;
-        background: linear-gradient(135deg, #00c6a7 0%, #1ed5b9 50%, #6ee7c2 100%);
+        background: linear-gradient(135deg, #009680 0%, #00a88f 50%, #00b89c 100%);
         position: relative;
         overflow: hidden;
     }
