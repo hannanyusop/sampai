@@ -5,6 +5,84 @@
                 <div class="card-inner-group">
                     <div class="card-inner">
 
+                        <!-- Flash Messages -->
+                        @if (session()->has('success'))
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{ session('success') }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        @endif
+                        @if (session()->has('error'))
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                {{ session('error') }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        @endif
+
+                        <!-- Filters -->
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <label class="form-label">{{ __('Status') }}</label>
+                                <select wire:model.lazy="filterStatus" class="form-select form-control">
+                                    <option value="">{{ __('All Status') }}</option>
+                                    @foreach($statuses as $key => $label)
+                                        <option value="{{ $key }}">{{ $label }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">{{ __('Destination') }}</label>
+                                <select wire:model.lazy="filterDestination" class="form-select form-control">
+                                    <option value="">{{ __('All Destinations') }}</option>
+                                    @foreach($destinations as $destination)
+                                        <option value="{{ $destination->id }}">{{ $destination->label }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">&nbsp;</label>
+                                <div class="custom-control custom-checkbox mt-2">
+                                    <input type="checkbox" wire:model.lazy="filterNotYetNotified" class="custom-control-input" id="filterNotYetNotified">
+                                    <label class="custom-control-label" for="filterNotYetNotified">{{ __('Not yet notified') }}</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">&nbsp;</label>
+                                <div>
+                                    <button type="button" wire:click="clearFilters" class="btn btn-outline-secondary btn-sm">
+                                        <em class="icon ni ni-reload"></em> {{ __('Clear Filters') }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bulk Actions -->
+                        <div class="alert alert-light mb-3">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <span>
+                                    @if(count($selectedPickups) > 0)
+                                        {{ __(':count item(s) selected', ['count' => count($selectedPickups)]) }}
+                                    @else
+                                        {{ __('Select items for bulk action') }}
+                                    @endif
+                                </span>
+                                <div>
+                                    <button type="button" class="btn btn-primary btn-sm" {{ count($selectedPickups) == 0 ? 'disabled' : '' }}
+                                            onclick="if(confirm('Send Email to {{ count($selectedPickups) }} selected items?')) { @this.bulkSendEmail() }">
+                                        <em class="icon ni ni-mail"></em> {{ __('Bulk Send Email') }}
+                                    </button>
+                                    <button type="button" class="btn btn-success btn-sm" {{ count($selectedPickups) == 0 ? 'disabled' : '' }}
+                                            onclick="if(confirm('Send WhatsApp to {{ count($selectedPickups) }} selected items?')) { @this.bulkSendWhatsApp() }">
+                                        <em class="icon ni ni-whatsapp"></em> {{ __('Bulk Send WhatsApp') }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="my-3">
                             {{ $pickups->links() }}
                         </div>
@@ -13,6 +91,12 @@
                             <table class="table table-bordered">
                                 <thead class="bg-dark text-white">
                                 <tr>
+                                    <th style="width: 40px;">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" wire:model="selectAll" class="custom-control-input" id="selectAll">
+                                            <label class="custom-control-label" for="selectAll"></label>
+                                        </div>
+                                    </th>
                                     <th>{{ __('Name') }}</th>
                                     <td>{{ __('Phone Number') }}</td>
                                     <th>{{ __('Code') }}</th>
@@ -33,6 +117,12 @@
                                 <tbody>
                                 @foreach($pickups as $pickup)
                                     <tr>
+                                        <td>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" wire:model="selectedPickups" value="{{ $pickup->id }}" class="custom-control-input" id="pickup-{{ $pickup->id }}">
+                                                <label class="custom-control-label" for="pickup-{{ $pickup->id }}"></label>
+                                            </div>
+                                        </td>
                                         <td>{{ $pickup?->user?->name }}</td>
                                         <td>{{ $pickup?->user?->phone_number }}</td>
                                         <td>{{ $pickup->code }}</td>

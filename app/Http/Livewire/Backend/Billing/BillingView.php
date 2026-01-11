@@ -2,10 +2,15 @@
 
 namespace App\Http\Livewire\Backend\Billing;
 
+use App\Domains\Auth\Models\Office;
+use App\Mail\Pickup\SendNotification;
 use App\Models\Pickup;
+use App\Models\PickupNotification;
 use App\Models\TripBatch;
+use App\Services\Pickup\PickupHelperService;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Mail;
 
 class BillingView extends Component
 {
@@ -14,19 +19,209 @@ class BillingView extends Component
 
     public $tripBatch;
 
+    // Filters
+    public $filterStatus = '';
+    public $filterDestination = '';
+    public $filterNotYetNotified = false;
+
+    // Bulk selection
+    public $selectedPickups = [];
+    public $selectAll = false;
+
+    protected $queryString = [
+        'filterStatus' => ['except' => ''],
+        'filterDestination' => ['except' => ''],
+        'filterNotYetNotified' => ['except' => false],
+    ];
+
     public function mount($tripBatch)
     {
         $this->tripBatch = $tripBatch;
     }
 
-    public function render()
+    public function updatingFilterStatus()
+    {
+        $this->resetPage();
+        $this->selectedPickups = [];
+        $this->selectAll = false;
+    }
+
+    public function updatingFilterDestination()
+    {
+        $this->resetPage();
+        $this->selectedPickups = [];
+        $this->selectAll = false;
+    }
+
+    public function updatingFilterNotYetNotified()
+    {
+        $this->resetPage();
+        $this->selectedPickups = [];
+        $this->selectAll = false;
+    }
+
+    public function updatedSelectAll($value)
+    {
+        if ($value) {
+            $this->selectedPickups = $this->getFilteredPickupsQuery()->pluck('id')->map(fn($id) => (string) $id)->toArray();
+        } else {
+            $this->selectedPickups = [];
+        }
+    }
+
+    public function getFilteredPickupsQuery()
     {
         $tripBatchId = $this->tripBatch->id;
-        $pickups = Pickup::with(['latestNotification'])
+
+        return Pickup::with(['latestNotification', 'user', 'dropPoint', 'parcels'])
             ->whereHas('trip', function ($query) use ($tripBatchId) {
                 $query->where('trip_batch_id', $tripBatchId);
-            })->paginate(20);
+            })
+            ->when($this->filterStatus !== '', function ($query) {
+                $query->where('status', $this->filterStatus);
+            })
+            ->when($this->filterDestination !== '', function ($query) {
+                $query->where('office_id', $this->filterDestination);
+            })
+            ->when($this->filterNotYetNotified, function ($query) {
+                $query->doesntHave('notifications');
+            });
+    }
 
-        return view('livewire.backend.billing.billing-view', compact('pickups'));
+    public function bulkSendEmail()
+    {
+        if (empty($this->selectedPickups)) {
+            session()->flash('error', __('Please select at least one pickup.'));
+            return;
+        }
+
+        $pickups = Pickup::whereIn('id', $this->selectedPickups)->get();
+        $offices = Office::pluck('whatsapp_template', 'id')->toArray();
+        $successCount = 0;
+        $failCount = 0;
+
+        foreach ($pickups as $pickup) {
+            $email = $pickup->user?->email ?? null;
+            if (!$email) {
+                $failCount++;
+                continue;
+            }
+
+            $messageContent = \App\Services\Parcel\ParcelHelperService::GeneralWhatsappText($pickup, $offices);
+
+            $notification = PickupNotification::create([
+                'pickup_id' => $pickup->id,
+                'via' => PickupNotification::VIA_EMAIL,
+                'address' => $email,
+                'content' => $messageContent,
+                'status' => PickupNotification::STATUS_PENDING,
+            ]);
+
+            try {
+                Mail::to($email)->send(new SendNotification($pickup, $messageContent));
+
+                $notification->update([
+                    'status' => PickupNotification::STATUS_SENT,
+                    'provider_remark' => 'Email sent successfully',
+                ]);
+
+                $pickup->update([
+                    'notification_sent' => 1,
+                    'notification_send_at' => now()
+                ]);
+
+                $successCount++;
+            } catch (\Exception $e) {
+                $notification->update([
+                    'status' => PickupNotification::STATUS_FAILED,
+                    'provider_remark' => $e->getMessage(),
+                ]);
+                $failCount++;
+            }
+        }
+
+        $this->selectedPickups = [];
+        $this->selectAll = false;
+
+        session()->flash('success', __(':success emails sent successfully, :fail failed.', ['success' => $successCount, 'fail' => $failCount]));
+    }
+
+    public function bulkSendWhatsApp()
+    {
+        if (empty($this->selectedPickups)) {
+            session()->flash('error', __('Please select at least one pickup.'));
+            return;
+        }
+
+        $pickups = Pickup::whereIn('id', $this->selectedPickups)->get();
+        $offices = Office::pluck('whatsapp_template', 'id')->toArray();
+        $successCount = 0;
+        $failCount = 0;
+
+        foreach ($pickups as $pickup) {
+            $phoneNumber = $pickup->user?->phone_number;
+            if (!$phoneNumber) {
+                $failCount++;
+                continue;
+            }
+
+            $message = \App\Services\Parcel\ParcelHelperService::GeneralWhatsappText($pickup, $offices);
+
+            $notification = PickupNotification::create([
+                'pickup_id' => $pickup->id,
+                'via' => PickupNotification::VIA_WHATSAPP,
+                'address' => $phoneNumber,
+                'content' => $message,
+                'status' => PickupNotification::STATUS_PENDING,
+            ]);
+
+            try {
+                $service = new \App\Services\Twilio\TwilioWhatsAppService();
+                $result = $service->send($phoneNumber, $message);
+
+                $notification->update([
+                    'status' => PickupNotification::STATUS_SENT,
+                    'provider_remark' => 'Message SID: ' . ($result['sid'] ?? 'N/A'),
+                ]);
+
+                $pickup->update([
+                    'notification_sent' => 1,
+                    'notification_send_at' => now()
+                ]);
+
+                $successCount++;
+            } catch (\Exception $e) {
+                $notification->update([
+                    'status' => PickupNotification::STATUS_FAILED,
+                    'provider_remark' => $e->getMessage(),
+                ]);
+                $failCount++;
+            }
+        }
+
+        $this->selectedPickups = [];
+        $this->selectAll = false;
+
+        session()->flash('success', __(':success WhatsApp messages sent successfully, :fail failed.', ['success' => $successCount, 'fail' => $failCount]));
+    }
+
+    public function clearFilters()
+    {
+        $this->filterStatus = '';
+        $this->filterDestination = '';
+        $this->filterNotYetNotified = false;
+        $this->selectedPickups = [];
+        $this->selectAll = false;
+        $this->resetPage();
+    }
+
+    public function render()
+    {
+        $pickups = $this->getFilteredPickupsQuery()->paginate(20);
+
+        $statuses = PickupHelperService::statusLabel();
+        $destinations = Office::where('is_drop_point', 1)->orderBy('code')->get();
+
+        return view('livewire.backend.billing.billing-view', compact('pickups', 'statuses', 'destinations'));
     }
 }
