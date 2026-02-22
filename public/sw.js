@@ -1,4 +1,4 @@
-const CACHE_NAME = 'nuj-express-v1';
+const CACHE_NAME = 'nuj-express-v2';
 const STATIC_ASSETS = [
     '/',
     '/assets/css/dashlite.css',
@@ -27,6 +27,39 @@ self.addEventListener('activate', event => {
                     .map(key => caches.delete(key))
             )
         ).then(() => self.clients.claim())
+    );
+});
+
+// Push notifications
+self.addEventListener('push', event => {
+    let data = {};
+    try {
+        data = event.data?.json() || {};
+    } catch (e) {
+        data = {};
+    }
+
+    const title = data.notification?.title || 'NUJ Express';
+    const options = {
+        body: data.notification?.body || '',
+        icon: '/images/logo.png',
+        badge: '/images/favicon.png',
+        data: data.data || {},
+    };
+
+    event.waitUntil(self.registration.showNotification(title, options));
+});
+
+// Handle notification click
+self.addEventListener('notificationclick', event => {
+    event.notification.close();
+    event.waitUntil(
+        clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clientList => {
+            if (clientList.length > 0) {
+                return clientList[0].focus();
+            }
+            return clients.openWindow('/');
+        })
     );
 });
 
