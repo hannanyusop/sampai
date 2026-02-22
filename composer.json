@@ -26,6 +26,7 @@
         "laravel/framework": "^v8.83.27",
         "laravel/passport": "^10.4",
         "laravel/socialite": "^5.0",
+        "laravel/telescope": "^5.17",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.0",
         "livewire/livewire": "^2.0",
