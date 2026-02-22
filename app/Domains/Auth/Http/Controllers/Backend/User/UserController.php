@@ -37,7 +37,17 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::get();
+        $query = User::query();
+
+        if ($search = request('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%");
+            });
+        }
+
+        $users = $query->latest()->paginate(15)->withQueryString();
+
         return view('backend.auth.user.index', compact('users'));
     }
 

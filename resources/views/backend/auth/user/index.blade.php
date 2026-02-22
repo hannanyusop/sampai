@@ -11,14 +11,19 @@
     <div class="nk-block nk-block-lg">
         <div class="card card-bordered card-preview">
             <div class="card-inner">
-                @if ($logged_in_user->hasAllAccess())
-                    <div class="row text-right">
-                        <div class="m-2 float-right">
-                            <a href="{{ route('admin.auth.user.create') }}" class="btn btn-primary">Create New User</a>
-                        </div>
-                    </div>
-                @endif
-                <table class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <form method="GET" action="{{ route('admin.auth.user.index') }}" class="d-flex align-items-center">
+                        <input type="text" name="search" class="form-control" placeholder="Search by name or email..." value="{{ request('search') }}" style="width: 250px;">
+                        <button type="submit" class="btn btn-outline-primary ml-2">Search</button>
+                        @if(request('search'))
+                            <a href="{{ route('admin.auth.user.index') }}" class="btn btn-outline-secondary ml-1">Clear</a>
+                        @endif
+                    </form>
+                    @if ($logged_in_user->hasAllAccess())
+                        <a href="{{ route('admin.auth.user.create') }}" class="btn btn-primary">Create New User</a>
+                    @endif
+                </div>
+                <table class="nk-tb-list nk-tb-ulist" data-auto-responsive="false">
                     <thead>
                     <tr class="nk-tb-item nk-tb-head">
                         <th class="nk-tb-col nk-tb-col-check">
@@ -180,6 +185,14 @@
                     @endforeach
                     </tbody>
                 </table>
+                <div class="mt-3 d-flex justify-content-between align-items-center">
+                    <div class="text-muted">
+                        Showing {{ $users->firstItem() ?? 0 }} to {{ $users->lastItem() ?? 0 }} of {{ $users->total() }} users
+                    </div>
+                    <div>
+                        {{ $users->links() }}
+                    </div>
+                </div>
             </div>
         </div><!-- .card-preview -->
     </div> <!-- nk-block -->
