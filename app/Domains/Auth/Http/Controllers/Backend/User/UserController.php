@@ -46,7 +46,7 @@ class UserController extends Controller
             });
         }
 
-        $users = $query->latest()->paginate(15)->withQueryString();
+        $users = $query->orderBy('id', 'asc')->paginate(15)->withQueryString();
 
         return view('backend.auth.user.index', compact('users'));
     }

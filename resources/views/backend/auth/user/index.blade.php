@@ -118,7 +118,8 @@
                             <td class="nk-tb-col tb-col-md">
                                 @if($user->fcm_token)
                                     <span class="badge badge-dot badge-success">Registered</span>
-                                    <button type="button" class="btn btn-xs btn-outline-primary ml-1 btn-test-fcm" data-user-id="{{ $user->id }}">
+                                    <small class="d-block text-muted" style="word-break: break-all; max-width: 250px;">{{ $user->fcm_token }}</small>
+                                    <button type="button" class="btn btn-xs btn-outline-primary ml-1 mt-1 btn-test-fcm" data-user-id="{{ $user->id }}">
                                         <em class="icon ni ni-send"></em> Test
                                     </button>
                                 @else
