@@ -63,9 +63,9 @@
         }
     });
 
-    @auth
+    @if(auth()->check())
     registerFcm();
-    @endauth
+    @endif
 </script>
 
 <!-- Page Loading Overlay -->
