@@ -50,13 +50,18 @@
                                     <label class="custom-control-label" for="filterNotYetNotified">{{ __('Not yet notified') }}</label>
                                 </div>
                             </div>
+                         </div>
+                        <div class="row mb-3">
                             <div class="col-md-3">
-                                <label class="form-label">&nbsp;</label>
-                                <div>
-                                    <button type="button" wire:click="clearFilters" class="btn btn-outline-secondary btn-sm">
-                                        <em class="icon ni ni-reload"></em> {{ __('Clear Filters') }}
-                                    </button>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" wire:model.lazy="filterInvalidPhone" class="custom-control-input" id="filterInvalidPhone">
+                                    <label class="custom-control-label" for="filterInvalidPhone">{{ __('Invalid phone (no +6)') }}</label>
                                 </div>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="button" wire:click="clearFilters" class="btn btn-outline-secondary btn-sm">
+                                    <em class="icon ni ni-reload"></em> {{ __('Clear Filters') }}
+                                </button>
                             </div>
                         </div>
 
@@ -124,7 +129,18 @@
                                             </div>
                                         </td>
                                         <td>{{ $pickup?->user?->name }}</td>
-                                        <td>{{ $pickup?->user?->phone_number }}</td>
+                                        <td>
+                                            @php
+                                                $phone = $pickup?->user?->phone_number;
+                                                $isInvalid = !$phone || !str_starts_with($phone, '+6');
+                                            @endphp
+                                            <span class="{{ $isInvalid ? 'text-danger' : '' }}">{{ $phone ?: '-' }}</span>
+                                            @if($pickup->user)
+                                                <button type="button" class="btn btn-xs btn-outline-primary ml-1" wire:click="editPhoneNumber({{ $pickup->id }})" title="{{ __('Edit') }}">
+                                                    <em class="icon ni ni-edit"></em>
+                                                </button>
+                                            @endif
+                                        </td>
                                         <td>{{ $pickup->code }}</td>
                                         <td>
                                             @foreach($pickup->parcels as $parcel)
@@ -208,10 +224,44 @@
             </div>
         </div>
     </div>
+
+    <!-- Edit Phone Number Modal -->
+    <div class="modal fade" id="editPhoneModal" tabindex="-1" role="dialog" aria-labelledby="editPhoneModalLabel" aria-hidden="true" wire:ignore.self>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editPhoneModalLabel">{{ __('Edit Phone Number') }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">{{ __('Phone Number') }}</label>
+                        <input type="text" wire:model.defer="editingPhoneNumber" class="form-control" placeholder="+60123456789">
+                        <small class="text-muted">{{ __('Must start with +6 (e.g. +60123456789)') }}</small>
+                        @error('editingPhoneNumber') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Cancel') }}</button>
+                    <button type="button" class="btn btn-primary" wire:click="updatePhoneNumber">{{ __('Save') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @push('after-scripts')
 <script>
+    // Edit Phone Modal events
+    window.addEventListener('show-edit-phone-modal', function() {
+        $('#editPhoneModal').modal('show');
+    });
+    window.addEventListener('hide-edit-phone-modal', function() {
+        $('#editPhoneModal').modal('hide');
+    });
+
     function showNotificationHistory(pickupId) {
         var modalEl = document.getElementById('notificationHistoryModal');
         var contentDiv = document.getElementById('notificationHistoryContent');

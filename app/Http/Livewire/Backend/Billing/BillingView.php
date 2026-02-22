@@ -23,15 +23,22 @@ class BillingView extends Component
     public $filterStatus = '';
     public $filterDestination = '';
     public $filterNotYetNotified = false;
+    public $filterInvalidPhone = false;
 
     // Bulk selection
     public $selectedPickups = [];
     public $selectAll = false;
 
+    // Edit phone number
+    public $editingPickupId = null;
+    public $editingUserId = null;
+    public $editingPhoneNumber = '';
+
     protected $queryString = [
         'filterStatus' => ['except' => ''],
         'filterDestination' => ['except' => ''],
         'filterNotYetNotified' => ['except' => false],
+        'filterInvalidPhone' => ['except' => false],
     ];
 
     public function mount($tripBatch)
@@ -54,6 +61,13 @@ class BillingView extends Component
     }
 
     public function updatingFilterNotYetNotified()
+    {
+        $this->resetPage();
+        $this->selectedPickups = [];
+        $this->selectAll = false;
+    }
+
+    public function updatingFilterInvalidPhone()
     {
         $this->resetPage();
         $this->selectedPickups = [];
@@ -85,6 +99,15 @@ class BillingView extends Component
             })
             ->when($this->filterNotYetNotified, function ($query) {
                 $query->doesntHave('notifications');
+            })
+            ->when($this->filterInvalidPhone, function ($query) {
+                $query->whereHas('user', function ($q) {
+                    $q->where(function ($q2) {
+                        $q2->whereNull('phone_number')
+                           ->orWhere('phone_number', '')
+                           ->orWhere('phone_number', 'not like', '+6%');
+                    });
+                });
             });
     }
 
@@ -210,9 +233,45 @@ class BillingView extends Component
         $this->filterStatus = '';
         $this->filterDestination = '';
         $this->filterNotYetNotified = false;
+        $this->filterInvalidPhone = false;
         $this->selectedPickups = [];
         $this->selectAll = false;
         $this->resetPage();
+    }
+
+    public function editPhoneNumber($pickupId)
+    {
+        $pickup = Pickup::with('user')->find($pickupId);
+        if ($pickup && $pickup->user) {
+            $this->editingPickupId = $pickupId;
+            $this->editingUserId = $pickup->user->id;
+            $this->editingPhoneNumber = $pickup->user->phone_number ?? '';
+            $this->dispatchBrowserEvent('show-edit-phone-modal');
+        }
+    }
+
+    public function updatePhoneNumber()
+    {
+        $this->validate([
+            'editingPhoneNumber' => 'required|string|max:20',
+        ]);
+
+        if ($this->editingUserId) {
+            \App\Domains\Auth\Models\User::where('id', $this->editingUserId)->update([
+                'phone_number' => $this->editingPhoneNumber,
+            ]);
+
+            session()->flash('success', __('Phone number updated successfully.'));
+            $this->closeEditPhoneModal();
+        }
+    }
+
+    public function closeEditPhoneModal()
+    {
+        $this->editingPickupId = null;
+        $this->editingUserId = null;
+        $this->editingPhoneNumber = '';
+        $this->dispatchBrowserEvent('hide-edit-phone-modal');
     }
 
     public function render()

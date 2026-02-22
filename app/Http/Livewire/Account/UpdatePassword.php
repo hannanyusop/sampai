@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Account;
 
+use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 
 class UpdatePassword extends Component
@@ -20,8 +21,14 @@ class UpdatePassword extends Component
             'password' => 'required|confirmed|min:8',
         ]);
 
+        if (! Hash::check($this->current_password, auth()->user()->password)) {
+            $this->addError('current_password', __('The current password is incorrect.'));
+            return;
+        }
+
         auth()->user()->update([
             'password' => bcrypt($this->password),
+            'password_changed_at' => now(),
         ]);
 
         $this->current_password = '';
