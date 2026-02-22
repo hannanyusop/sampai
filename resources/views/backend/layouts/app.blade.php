@@ -31,6 +31,20 @@
 @include('backend.includes.header1')
 
 <body class="nk-body npc-invest bg-lighter ">
+
+<!-- Notification Enable Banner (iOS requires user gesture) -->
+@if(auth()->check())
+<div id="fcm-enable-banner" style="display:none; align-items:center; justify-content:space-between; padding:12px 16px; background:#00c6a7; color:#fff; font-size:14px; gap:10px; z-index:99999; position:relative;">
+    <span>Enable push notifications to stay updated.</span>
+    <button onclick="window.registerFcm && window.registerFcm(); this.parentElement.style.display='none';"
+        style="background:#fff; color:#00c6a7; border:none; padding:6px 16px; border-radius:6px; font-weight:600; cursor:pointer; white-space:nowrap;">
+        Enable
+    </button>
+    <button onclick="this.parentElement.style.display='none';"
+        style="background:transparent; color:#fff; border:none; cursor:pointer; font-size:18px; padding:0 4px;">&times;</button>
+</div>
+@endif
+
 <div class="nk-app-root">
     <!-- wrap @s -->
     <div class="nk-wrap ">
