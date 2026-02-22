@@ -75,10 +75,28 @@
         }
     });
 
+    // Expose globally so a button can trigger it
+    window.registerFcm = registerFcm;
+
     @if(auth()->check())
-    registerFcm();
+    // Auto-register only if permission was already granted (works on all platforms)
+    if (Notification.permission === 'granted') {
+        registerFcm();
+    }
     @endif
 </script>
+
+@if(auth()->check())
+<script>
+    // Show enable-notifications banner if permission not yet granted
+    document.addEventListener('DOMContentLoaded', function() {
+        if ('Notification' in window && Notification.permission === 'default') {
+            var banner = document.getElementById('fcm-enable-banner');
+            if (banner) banner.style.display = 'flex';
+        }
+    });
+</script>
+@endif
 
 <!-- Page Loading Overlay -->
 <style>
