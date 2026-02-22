@@ -13,6 +13,61 @@
     }
 </script>
 
+<!-- Firebase Cloud Messaging -->
+<script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+    import { getMessaging, getToken, onMessage } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging.js';
+
+    const firebaseConfig = {
+        apiKey: "{{ config('services.fcm.api_key') }}",
+        projectId: "{{ config('services.fcm.project_id') }}",
+        messagingSenderId: "{{ config('services.fcm.sender_id') }}",
+        appId: "{{ config('services.fcm.app_id') }}",
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const messaging = getMessaging(app);
+
+    async function registerFcm() {
+        try {
+            const permission = await Notification.requestPermission();
+            if (permission !== 'granted') return;
+
+            const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+            const token = await getToken(messaging, {
+                vapidKey: "{{ config('services.fcm.vapid_key', '') }}",
+                serviceWorkerRegistration: registration,
+            });
+
+            if (token) {
+                await fetch('/fcm/token', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content,
+                    },
+                    body: JSON.stringify({ token: token }),
+                });
+            }
+        } catch (err) {
+            console.error('FCM registration failed:', err);
+        }
+    }
+
+    onMessage(messaging, (payload) => {
+        if (payload.notification) {
+            new Notification(payload.notification.title, {
+                body: payload.notification.body,
+                icon: '/images/logo.png',
+            });
+        }
+    });
+
+    @auth
+    registerFcm();
+    @endauth
+</script>
+
 <!-- Page Loading Overlay -->
 <style>
     .page-loader {

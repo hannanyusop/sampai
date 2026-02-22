@@ -14,6 +14,10 @@ use App\Domains\Auth\Services\PermissionService;
 use App\Domains\Auth\Services\RoleService;
 use App\Domains\Auth\Services\UserService;
 use App\Http\Controllers\Controller;
+use App\Notifications\ParcelStatusNotification;
+use NotificationChannels\Fcm\FcmChannel;
+use NotificationChannels\Fcm\FcmMessage;
+use NotificationChannels\Fcm\Resources\Notification as FcmNotification;
 
 class UserController extends Controller
 {
@@ -147,5 +151,30 @@ class UserController extends Controller
         $this->userService->delete($user);
 
         return redirect()->route('admin.auth.user.deleted')->withFlashSuccess(__('The user was successfully deleted.'));
+    }
+
+    public function testNotification(User $user)
+    {
+        if (empty($user->fcm_token)) {
+            return response()->json(['message' => 'User has no FCM token'], 422);
+        }
+
+        $notification = new \Illuminate\Notifications\Notification;
+        $message = FcmMessage::create()
+            ->setData(['type' => 'test'])
+            ->setNotification(
+                FcmNotification::create()
+                    ->setTitle('Test Notification')
+                    ->setBody('This is a test push notification from NUJ Express.')
+            );
+
+        $user->notify(new class($message) extends \Illuminate\Notifications\Notification {
+            protected $message;
+            public function __construct($message) { $this->message = $message; }
+            public function via($notifiable) { return [FcmChannel::class]; }
+            public function toFcm($notifiable) { return $this->message; }
+        });
+
+        return response()->json(['message' => 'Notification sent']);
     }
 }

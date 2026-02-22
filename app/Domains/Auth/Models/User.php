@@ -65,7 +65,8 @@ class User extends Authenticatable implements MustVerifyEmail, TwoFactorAuthenti
         'wallet',
         'wallet_total',
         'default_drop_point',
-        'phone_number'
+        'phone_number',
+        'fcm_token',
     ];
 
     /**
@@ -133,6 +134,11 @@ class User extends Authenticatable implements MustVerifyEmail, TwoFactorAuthenti
     protected static function newFactory()
     {
         return UserFactory::new();
+    }
+
+    public function routeNotificationForFcm()
+    {
+        return $this->fcm_token;
     }
 
     public function office(){

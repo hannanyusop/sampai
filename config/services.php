@@ -85,4 +85,12 @@ return [
         'auth_token' => env('TWILIO_AUTH_TOKEN'),
         'whatsapp_from' => env('TWILIO_WHATSAPP_FROM'),
     ],
+
+    'fcm' => [
+        'api_key' => env('FCM_API_KEY'),
+        'project_id' => env('FCM_PROJECT_ID'),
+        'sender_id' => env('FCM_MESSAGING_SENDER_ID'),
+        'app_id' => env('FCM_APP_ID'),
+        'vapid_key' => env('FCM_VAPID_KEY', ''),
+    ],
 ];

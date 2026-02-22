@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\Pickup;
 use App\Models\TripBatch;
 use App\Models\UnregisteredParcel;
+use App\Notifications\ParcelStatusNotification;
 use App\Services\General\GeneralHelperService;
 use App\Services\Pickup\PickupGeneralService;
 use App\Services\Role\RoleHelperService;
@@ -348,6 +349,11 @@ class ParcelGeneralService
         $remark = "Parcel delivered to ".$pickup_name;
 
         addParcelTransaction($parcel->id, $remark);
+
+        if ($parcel->user) {
+            $parcel->user->notify(new ParcelStatusNotification($parcel, ParcelHelperService::STATUS_DELIVERED));
+        }
+
         return true;
     }
 

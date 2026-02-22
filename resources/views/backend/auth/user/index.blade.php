@@ -33,6 +33,7 @@
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Last Login</span></th>
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Last IP</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Status</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">FCM Token</span></th>
                         <th class="nk-tb-col nk-tb-col-tools text-right">
                             <div class="dropdown">
                                 <a href="#" class="btn btn-xs btn-outline-light btn-icon dropdown-toggle" data-toggle="dropdown" data-offset="0,5"><em class="icon ni ni-plus"></em></a>
@@ -109,6 +110,16 @@
                                     <span class="tb-status text-danger">Inactive</span>
                                 @endif
                             </td>
+                            <td class="nk-tb-col tb-col-md">
+                                @if($user->fcm_token)
+                                    <span class="badge badge-dot badge-success">Registered</span>
+                                    <button type="button" class="btn btn-xs btn-outline-primary ml-1 btn-test-fcm" data-user-id="{{ $user->id }}">
+                                        <em class="icon ni ni-send"></em> Test
+                                    </button>
+                                @else
+                                    <span class="badge badge-dot badge-gray">None</span>
+                                @endif
+                            </td>
                             <td class="nk-tb-col nk-tb-col-tools">
                                 <ul class="nk-tb-actions gx-1">
                                     <li>
@@ -174,3 +185,39 @@
     </div> <!-- nk-block -->
 
 @endsection
+
+@push('after-scripts')
+<script>
+    document.querySelectorAll('.btn-test-fcm').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var userId = this.dataset.userId;
+            var button = this;
+            button.disabled = true;
+            button.innerHTML = '<em class="icon ni ni-loader"></em> Sending...';
+
+            fetch('/admin/auth/user/' + userId + '/test-notification', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content,
+                },
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                button.innerHTML = '<em class="icon ni ni-check"></em> Sent!';
+                setTimeout(function() {
+                    button.disabled = false;
+                    button.innerHTML = '<em class="icon ni ni-send"></em> Test';
+                }, 2000);
+            })
+            .catch(function() {
+                button.innerHTML = '<em class="icon ni ni-cross"></em> Failed';
+                setTimeout(function() {
+                    button.disabled = false;
+                    button.innerHTML = '<em class="icon ni ni-send"></em> Test';
+                }, 2000);
+            });
+        });
+    });
+</script>
+@endpush

@@ -6,6 +6,7 @@ use App\Domains\Auth\Models\Office;
 use App\Domains\Auth\Models\Parcels;
 use App\Domains\Auth\Models\User;
 use App\Http\Controllers\Controller;
+use App\Notifications\ParcelStatusNotification;
 use App\Services\Parcel\ParcelGeneralService;
 use App\Services\Parcel\ParcelHelperService;
 use Illuminate\Http\Request;
@@ -63,6 +64,10 @@ class ParcelController extends Controller{
         $remark = "Parcel delivered to ".$parcel->pickup_name;
 
         addParcelTransaction($parcel->id, $remark);
+
+        if ($parcel->user) {
+            $parcel->user->notify(new ParcelStatusNotification($parcel, ParcelHelperService::STATUS_DELIVERED));
+        }
 
         return redirect()->back()->withFlashSuccess('Parcel marked as received');
     }

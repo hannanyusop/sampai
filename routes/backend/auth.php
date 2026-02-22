@@ -79,6 +79,9 @@ Route::group([
                     ->name('assignSave')
                     ->middleware('permission:admin.access.user.list');
 
+                Route::post('test-notification', [UserController::class, 'testNotification'])
+                    ->name('test-notification');
+
                 Route::get('password/change', [UserPasswordController::class, 'edit'])
                     ->name('change-password')
                     ->middleware('permission:admin.access.user.change-password');

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\FcmTokenController;
 use App\Http\Controllers\LocaleController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +18,8 @@ Route::get('lang/{lang}', [LocaleController::class, 'change'])->name('locale.cha
 Route::group([
     'middleware' => 'auth'
 ], function () {
+
+    Route::post('fcm/token', [FcmTokenController::class, 'store'])->name('fcm.token');
 
     Route::group([
         'prefix' => 'account',

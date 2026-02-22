@@ -4,6 +4,7 @@ namespace App\Services\Trip;
 
 use App\Domains\Auth\Models\Trip;
 use App\Models\Pickup;
+use App\Notifications\ParcelStatusNotification;
 use App\Services\Parcel\ParcelHelperService;
 use App\Services\Pickup\PickupHelperService;
 use Illuminate\Support\Facades\DB;
@@ -37,6 +38,10 @@ class TripGeneralService
 
             $parcel->status = ParcelHelperService::STATUS_INBOUND_TO_DROP_POINT;
             $parcel->save();
+
+            if ($parcel->user) {
+                $parcel->user->notify(new ParcelStatusNotification($parcel, ParcelHelperService::STATUS_INBOUND_TO_DROP_POINT));
+            }
         }
 
         $trip->status = TripHelperService::STATUS_PICKUP_POINT_PROCESS;
@@ -76,6 +81,10 @@ class TripGeneralService
 
             $parcel->status = ParcelHelperService::STATUS_READY_TO_COLLECT;
             $parcel->save();
+
+            if ($parcel->user) {
+                $parcel->user->notify(new ParcelStatusNotification($parcel, ParcelHelperService::STATUS_READY_TO_COLLECT));
+            }
         }
 
         $trip->status = TripHelperService::STATUS_ARRIVED;

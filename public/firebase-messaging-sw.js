@@ -1,0 +1,22 @@
+importScripts('https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging-compat.js');
+
+firebase.initializeApp({
+    apiKey: self.__FIREBASE_CONFIG__?.apiKey || '',
+    projectId: self.__FIREBASE_CONFIG__?.projectId || '',
+    messagingSenderId: self.__FIREBASE_CONFIG__?.messagingSenderId || '',
+    appId: self.__FIREBASE_CONFIG__?.appId || '',
+});
+
+const messaging = firebase.messaging();
+
+messaging.onBackgroundMessage((payload) => {
+    const title = payload.notification?.title || 'NUJ Express';
+    const options = {
+        body: payload.notification?.body || '',
+        icon: '/images/logo.png',
+        badge: '/images/favicon.png',
+    };
+
+    self.registration.showNotification(title, options);
+});
