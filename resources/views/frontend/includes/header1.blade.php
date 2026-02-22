@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="@page-discription">
     <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}">
+    @include('includes.pwa')
     @yield('meta')
     @stack('before-styles')
     <link rel="stylesheet" href={{ asset('assets/css/dashlite.css') }}?ver=1.4.0">

@@ -9,6 +9,7 @@
     <meta name="description" content="NUJ Express - Fast, secure parcel tracking and delivery service in Brunei.">
     <meta property="og:image" content="{{ asset('images/cover.png') }}" />
     <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}">
+    @include('includes.pwa')
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">

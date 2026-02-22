@@ -537,6 +537,14 @@
             <div class="menu-sublabel">{{ __('Account settings') }}</div>
         </a>
 
+        <a href="#" id="pwa-install-btn" class="menu-card" style="display: none;" onclick="installPWA(event)">
+            <div class="menu-icon-wrap" style="background: rgba(0, 198, 167, 0.1);">
+                <i class="icon ni ni-download menu-icon" style="color: #00c6a7;"></i>
+            </div>
+            <h5 class="menu-label">{{ __('Install App') }}</h5>
+            <div class="menu-sublabel">{{ __('Add to home screen') }}</div>
+        </a>
+
         <a href="{{ route('frontend.auth.logout') }}" class="menu-card logout">
             <div class="menu-icon-wrap">
                 <i class="icon ni ni-signout menu-icon"></i>
@@ -591,6 +599,32 @@
 
 @push('after-script')
 <script type="text/javascript">
+    // PWA Install
+    var deferredPrompt = null;
+
+    window.addEventListener('beforeinstallprompt', function(e) {
+        e.preventDefault();
+        deferredPrompt = e;
+        document.getElementById('pwa-install-btn').style.display = '';
+    });
+
+    function installPWA(e) {
+        e.preventDefault();
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(function(result) {
+            if (result.outcome === 'accepted') {
+                document.getElementById('pwa-install-btn').style.display = 'none';
+            }
+            deferredPrompt = null;
+        });
+    }
+
+    window.addEventListener('appinstalled', function() {
+        document.getElementById('pwa-install-btn').style.display = 'none';
+        deferredPrompt = null;
+    });
+
     function updateTime() {
         var d = new Date();
         var hour = d.getHours();

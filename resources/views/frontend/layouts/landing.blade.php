@@ -27,6 +27,7 @@
 
     <!-- Favicon  -->
     <link rel="icon" href="{{ asset('images/favicon.png') }}">
+    @include('includes.pwa')
 
     <style>
         * {

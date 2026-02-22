@@ -1,0 +1,29 @@
+{
+    "name": "NUJ Courier Management System",
+    "short_name": "NUJ Express",
+    "description": "Fast, secure parcel tracking and delivery service",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#00c6a7",
+    "orientation": "any",
+    "icons": [
+        {
+            "src": "/images/favicon.png",
+            "sizes": "64x64",
+            "type": "image/png"
+        },
+        {
+            "src": "/images/logo.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/images/logo.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        }
+    ]
+}
