@@ -30,17 +30,24 @@
 
     async function registerFcm() {
         try {
+            console.log('[FCM] Starting registration...');
+            console.log('[FCM] Config:', firebaseConfig);
+
             const permission = await Notification.requestPermission();
+            console.log('[FCM] Permission:', permission);
             if (permission !== 'granted') return;
 
             const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+            console.log('[FCM] Service worker registered');
+
             const token = await getToken(messaging, {
                 vapidKey: "{{ config('services.fcm.vapid_key', '') }}",
                 serviceWorkerRegistration: registration,
             });
+            console.log('[FCM] Token received:', token ? 'yes' : 'no');
 
             if (token) {
-                await fetch('/fcm/token', {
+                const res = await fetch('/fcm/token', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -48,6 +55,7 @@
                     },
                     body: JSON.stringify({ token: token }),
                 });
+                console.log('[FCM] Token save response:', res.status);
             }
         } catch (err) {
             console.error('FCM registration failed:', err);
