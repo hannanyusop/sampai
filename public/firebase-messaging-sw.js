@@ -1,11 +1,15 @@
+// Firebase config is injected via query string during registration
+// Parse config from URL search params
+const params = new URL(location.href).searchParams;
+
 importScripts('https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js');
 importScripts('https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging-compat.js');
 
 firebase.initializeApp({
-    apiKey: self.__FIREBASE_CONFIG__?.apiKey || '',
-    projectId: self.__FIREBASE_CONFIG__?.projectId || '',
-    messagingSenderId: self.__FIREBASE_CONFIG__?.messagingSenderId || '',
-    appId: self.__FIREBASE_CONFIG__?.appId || '',
+    apiKey: params.get('apiKey'),
+    projectId: params.get('projectId'),
+    messagingSenderId: params.get('messagingSenderId'),
+    appId: params.get('appId'),
 });
 
 const messaging = firebase.messaging();

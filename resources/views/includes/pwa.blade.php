@@ -37,7 +37,11 @@
             console.log('[FCM] Permission:', permission);
             if (permission !== 'granted') return;
 
-            const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+            const swUrl = '/firebase-messaging-sw.js?apiKey=' + encodeURIComponent(firebaseConfig.apiKey)
+                + '&projectId=' + encodeURIComponent(firebaseConfig.projectId)
+                + '&messagingSenderId=' + encodeURIComponent(firebaseConfig.messagingSenderId)
+                + '&appId=' + encodeURIComponent(firebaseConfig.appId);
+            const registration = await navigator.serviceWorker.register(swUrl);
             console.log('[FCM] Service worker registered');
 
             const token = await getToken(messaging, {
