@@ -141,7 +141,6 @@
     .info-icon.blue { background: rgba(79, 172, 254, 0.1); color: #4facfe; }
     .info-icon.orange { background: rgba(255, 154, 0, 0.1); color: #ff9a00; }
     .info-icon.pink { background: rgba(245, 87, 108, 0.1); color: #f5576c; }
-
     .info-details { flex: 1; min-width: 0; }
 
     .info-label {
@@ -395,6 +394,21 @@
                     <div class="info-details">
                         <div class="link-title">{{ __('Change Password') }}</div>
                         <div class="link-subtitle">{{ (is_null($logged_in_user->password_changed_at)) ? __('Never changed') : $logged_in_user->password_changed_at->diffForHumans() }}</div>
+                    </div>
+                    <div class="link-arrow"><i class="ni ni-chevron-right"></i></div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Notifications -->
+        <div class="section-group">
+            <div class="section-label">{{ __('Notifications') }}</div>
+            <div class="info-card">
+                <a href="{{ route('frontend.user.notifications') }}" class="link-row">
+                    <div class="info-icon green"><i class="ni ni-bell"></i></div>
+                    <div class="info-details">
+                        <div class="link-title">{{ __('Notification Settings') }}</div>
+                        <div class="link-subtitle">{{ __('Manage push notifications') }}</div>
                     </div>
                     <div class="link-arrow"><i class="ni ni-chevron-right"></i></div>
                 </a>

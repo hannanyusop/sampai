@@ -20,6 +20,8 @@ Route::group([
 ], function () {
 
     Route::post('fcm/token', [FcmTokenController::class, 'store'])->name('fcm.token');
+    Route::delete('fcm/token', [FcmTokenController::class, 'destroy'])->name('fcm.token.destroy');
+    Route::post('fcm/test-notification', [FcmTokenController::class, 'testNotification'])->name('fcm.test-notification');
 
     Route::group([
         'prefix' => 'account',

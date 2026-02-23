@@ -16,4 +16,9 @@ class AccountController extends Controller
     {
         return view('frontend.user.account');
     }
+
+    public function notifications()
+    {
+        return view('frontend.user.notifications');
+    }
 }
