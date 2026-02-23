@@ -9,7 +9,7 @@
 
     /* Form Header */
     .form-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, var(--accent-color, #667eea) 0%, var(--gradient-end, #764ba2) 100%);
         padding: 24px 20px;
         color: white;
         text-align: center;
@@ -55,16 +55,16 @@
     .section-title {
         font-size: 0.75rem;
         font-weight: 600;
-        color: #999;
+        color: var(--text-muted, #999);
         text-transform: uppercase;
         letter-spacing: 0.5px;
         padding: 20px 4px 8px;
     }
 
     .form-card {
-        background: white;
+        background: var(--bg-card, white);
         border-radius: 16px;
-        box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        box-shadow: var(--shadow, 0 2px 12px rgba(0,0,0,0.06));
         padding: 20px;
     }
 
@@ -81,7 +81,7 @@
         display: block;
         font-size: 0.9rem;
         font-weight: 600;
-        color: #1a1a2e;
+        color: var(--text-primary, #1a1a2e);
         margin-bottom: 8px;
     }
 
@@ -92,17 +92,18 @@
     .app-form-input {
         width: 100%;
         padding: 14px 16px;
-        border: 2px solid #e5e5e5;
+        border: 2px solid var(--border-color, #e5e5e5);
         border-radius: 12px;
         font-size: 1rem;
         transition: all 0.2s;
-        background: white;
+        background: var(--bg-card, white);
+        color: var(--text-primary, #1a1a2e);
     }
 
     .app-form-input:focus {
         outline: none;
-        border-color: #667eea;
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        border-color: var(--accent-color, #667eea);
+        box-shadow: 0 0 0 3px var(--accent-light, rgba(102, 126, 234, 0.1));
     }
 
     .app-form-input.is-invalid {
@@ -110,14 +111,14 @@
     }
 
     .app-form-input[readonly] {
-        background: #f8f9fa;
-        color: #6c757d;
+        background: var(--input-bg, #f8f9fa);
+        color: var(--text-secondary, #6c757d);
         cursor: not-allowed;
     }
 
     .app-form-hint {
         font-size: 0.8rem;
-        color: #888;
+        color: var(--text-muted, #888);
         margin-top: 6px;
     }
 
@@ -155,11 +156,11 @@
         align-items: center;
         justify-content: center;
         padding: 8px 4px;
-        background: #f5f6fa;
+        background: var(--input-bg, #f5f6fa);
         border-radius: 8px;
         font-size: 0.7rem;
         font-weight: 500;
-        color: #666;
+        color: var(--text-secondary, #666);
         cursor: pointer;
         transition: all 0.2s;
         text-align: center;
@@ -173,7 +174,7 @@
     }
 
     .category-checkbox:checked + .category-label {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, var(--accent-color, #667eea) 0%, var(--gradient-end, #764ba2) 100%);
         color: white;
     }
 
@@ -192,27 +193,27 @@
         display: flex;
         align-items: center;
         padding: 16px;
-        background: #f5f6fa;
+        background: var(--input-bg, #f5f6fa);
         border-radius: 12px;
         cursor: pointer;
         transition: all 0.2s;
     }
 
     .collection-radio:checked + .collection-label {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-        border: 2px solid #667eea;
+        background: var(--accent-light, rgba(102, 126, 234, 0.1));
+        border: 2px solid var(--accent-color, #667eea);
     }
 
     .collection-icon {
         width: 40px;
         height: 40px;
         border-radius: 10px;
-        background: white;
+        background: var(--bg-card, white);
         display: flex;
         align-items: center;
         justify-content: center;
         margin-right: 12px;
-        color: #667eea;
+        color: var(--accent-color, #667eea);
         font-size: 1.25rem;
     }
 
@@ -223,19 +224,19 @@
     .collection-code {
         font-size: 0.95rem;
         font-weight: 600;
-        color: #1a1a2e;
+        color: var(--text-primary, #1a1a2e);
     }
 
     .collection-name {
         font-size: 0.8rem;
-        color: #888;
+        color: var(--text-muted, #888);
     }
 
     .collection-check {
         width: 24px;
         height: 24px;
         border-radius: 50%;
-        border: 2px solid #ddd;
+        border: 2px solid var(--border-color, #ddd);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -244,8 +245,8 @@
     }
 
     .collection-radio:checked + .collection-label .collection-check {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-color: #667eea;
+        background: linear-gradient(135deg, var(--accent-color, #667eea) 0%, var(--gradient-end, #764ba2) 100%);
+        border-color: var(--accent-color, #667eea);
     }
 
     /* File Upload */
@@ -254,7 +255,7 @@
     }
 
     .file-upload-area {
-        border: 2px dashed #ddd;
+        border: 2px dashed var(--border-color, #ddd);
         border-radius: 12px;
         padding: 24px;
         text-align: center;
@@ -263,19 +264,19 @@
     }
 
     .file-upload-area:hover {
-        border-color: #667eea;
-        background: rgba(102, 126, 234, 0.02);
+        border-color: var(--accent-color, #667eea);
+        background: var(--accent-light, rgba(102, 126, 234, 0.02));
     }
 
     .file-upload-icon {
         font-size: 2rem;
-        color: #667eea;
+        color: var(--accent-color, #667eea);
         margin-bottom: 8px;
     }
 
     .file-upload-text {
         font-size: 0.9rem;
-        color: #666;
+        color: var(--text-secondary, #666);
     }
 
     .file-upload-input {
@@ -292,7 +293,7 @@
     .submit-section {
         padding: 20px 16px;
         padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
-        background: white;
+        background: var(--bg-card, white);
         position: sticky;
         bottom: 0;
         z-index: 20;
@@ -302,7 +303,7 @@
     .submit-btn {
         width: 100%;
         padding: 16px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, var(--accent-color, #667eea) 0%, var(--gradient-end, #764ba2) 100%);
         color: white;
         border: none;
         border-radius: 14px;
@@ -325,18 +326,20 @@
     .app-form-textarea {
         width: 100%;
         padding: 14px 16px;
-        border: 2px solid #e5e5e5;
+        border: 2px solid var(--border-color, #e5e5e5);
         border-radius: 12px;
         font-size: 1rem;
         resize: vertical;
         min-height: 100px;
         transition: all 0.2s;
+        background: var(--bg-card, white);
+        color: var(--text-primary, #1a1a2e);
     }
 
     .app-form-textarea:focus {
         outline: none;
-        border-color: #667eea;
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        border-color: var(--accent-color, #667eea);
+        box-shadow: 0 0 0 3px var(--accent-light, rgba(102, 126, 234, 0.1));
     }
 
     /* Desktop */

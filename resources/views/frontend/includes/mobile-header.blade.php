@@ -20,7 +20,7 @@
     @media (max-width: 767px) {
         .mobile-app-header {
             display: block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--accent-color, #667eea) 0%, var(--gradient-end, #764ba2) 100%);
             padding: 16px 20px;
             padding-top: calc(16px + env(safe-area-inset-top, 0px));
             color: white;

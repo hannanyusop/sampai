@@ -6,6 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="@page-discription">
     <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}">
+    <script>
+        (function(){
+            var t = localStorage.getItem('theme');
+            var c = localStorage.getItem('accentColor');
+            if(t) document.documentElement.setAttribute('data-theme', t);
+            if(c) document.documentElement.style.setProperty('--accent-color', c);
+        })();
+    </script>
     @include('includes.pwa')
     @yield('meta')
     @stack('before-styles')

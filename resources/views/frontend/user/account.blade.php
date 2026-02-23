@@ -8,12 +8,12 @@
 <style>
     .account-page {
         min-height: 100vh;
-        background: #f5f6fa;
+        background: var(--bg-primary, #f5f6fa);
         padding-bottom: 100px;
     }
 
     .profile-hero {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, var(--accent-color, #667eea) 0%, var(--gradient-end, #764ba2) 100%);
         padding: 32px 20px 40px;
         text-align: center;
         position: relative;
@@ -101,7 +101,7 @@
     .section-label {
         font-size: 0.7rem;
         font-weight: 700;
-        color: #999;
+        color: var(--text-muted, #999);
         text-transform: uppercase;
         letter-spacing: 0.8px;
         padding: 0 4px;
@@ -109,9 +109,9 @@
     }
 
     .info-card {
-        background: white;
+        background: var(--bg-card, white);
         border-radius: 14px;
-        box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+        box-shadow: var(--shadow, 0 1px 8px rgba(0,0,0,0.06));
         overflow: hidden;
     }
 
@@ -119,7 +119,7 @@
         display: flex;
         align-items: center;
         padding: 14px 16px;
-        border-bottom: 1px solid #f2f3f5;
+        border-bottom: 1px solid var(--border-color, #f2f3f5);
     }
 
     .info-row:last-child { border-bottom: none; }
@@ -136,7 +136,7 @@
         flex-shrink: 0;
     }
 
-    .info-icon.purple { background: rgba(102, 126, 234, 0.1); color: #667eea; }
+    .info-icon.purple { background: var(--accent-light, rgba(102, 126, 234, 0.1)); color: var(--accent-color, #667eea); }
     .info-icon.green { background: rgba(17, 153, 142, 0.1); color: #11998e; }
     .info-icon.blue { background: rgba(79, 172, 254, 0.1); color: #4facfe; }
     .info-icon.orange { background: rgba(255, 154, 0, 0.1); color: #ff9a00; }
@@ -145,7 +145,7 @@
 
     .info-label {
         font-size: 0.7rem;
-        color: #999;
+        color: var(--text-muted, #999);
         font-weight: 500;
         text-transform: uppercase;
         letter-spacing: 0.3px;
@@ -153,7 +153,7 @@
 
     .info-value {
         font-size: 0.9rem;
-        color: #1a1a2e;
+        color: var(--text-primary, #1a1a2e);
         font-weight: 500;
         white-space: nowrap;
         overflow: hidden;
@@ -166,7 +166,7 @@
         display: flex;
         align-items: center;
         padding: 14px 16px;
-        border-bottom: 1px solid #f2f3f5;
+        border-bottom: 1px solid var(--border-color, #f2f3f5);
         cursor: pointer;
         transition: background 0.15s;
         text-decoration: none;
@@ -174,11 +174,11 @@
     }
 
     .link-row:last-child { border-bottom: none; }
-    .link-row:hover { background: #fafafa; text-decoration: none; color: inherit; }
+    .link-row:hover { background: var(--badge-bg, #fafafa); text-decoration: none; color: inherit; }
 
-    .link-row .link-title { font-size: 0.9rem; font-weight: 600; color: #1a1a2e; }
-    .link-row .link-subtitle { font-size: 0.75rem; color: #999; }
-    .link-arrow { color: #ccc; font-size: 1rem; margin-left: auto; flex-shrink: 0; }
+    .link-row .link-title { font-size: 0.9rem; font-weight: 600; color: var(--text-primary, #1a1a2e); }
+    .link-row .link-subtitle { font-size: 0.75rem; color: var(--text-muted, #999); }
+    .link-arrow { color: var(--text-muted, #ccc); font-size: 1rem; margin-left: auto; flex-shrink: 0; }
 
     .logout-btn {
         display: flex;
@@ -186,7 +186,7 @@
         justify-content: center;
         width: 100%;
         padding: 14px;
-        background: white;
+        background: var(--bg-card, white);
         color: #e53e3e;
         font-weight: 600;
         font-size: 0.9rem;
@@ -202,20 +202,121 @@
     .account-footer {
         text-align: center;
         padding: 24px 20px;
-        color: #ccc;
+        color: var(--text-muted, #ccc);
         font-size: 0.75rem;
     }
 
-    .account-footer .app-name { font-weight: 600; color: #aaa; }
+    .account-footer .app-name { font-weight: 600; color: var(--text-muted, #aaa); }
+
+    /* Appearance Section */
+    .toggle-row {
+        display: flex;
+        align-items: center;
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--border-color, #f2f3f5);
+    }
+    .toggle-row:last-child { border-bottom: none; }
+
+    .toggle-details { flex: 1; min-width: 0; }
+    .toggle-title { font-size: 0.9rem; font-weight: 600; color: var(--text-primary, #1a1a2e); }
+    .toggle-subtitle { font-size: 0.75rem; color: var(--text-muted, #999); }
+
+    .toggle-switch {
+        position: relative;
+        width: 48px;
+        height: 26px;
+        flex-shrink: 0;
+    }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider {
+        position: absolute;
+        inset: 0;
+        background: #ddd;
+        border-radius: 26px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    .toggle-slider::before {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        left: 3px;
+        bottom: 3px;
+        background: white;
+        border-radius: 50%;
+        transition: transform 0.3s;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    }
+    .toggle-switch input:checked + .toggle-slider { background: var(--accent-color, #667eea); }
+    .toggle-switch input:checked + .toggle-slider::before { transform: translateX(22px); }
+
+    .color-picker-row {
+        padding: 14px 16px;
+    }
+    .color-picker-label {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--text-primary, #1a1a2e);
+        margin-bottom: 12px;
+    }
+    .color-options {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+    .color-dot {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 3px solid transparent;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+    .color-dot:hover { transform: scale(1.1); }
+    .color-dot.active { border-color: var(--text-primary, #1a1a2e); }
+    .color-dot.active::after {
+        content: '\2713';
+        color: white;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    }
+    .color-custom {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 2px dashed var(--text-muted, #999);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+    }
+    .color-custom i { font-size: 0.85rem; color: var(--text-muted, #999); }
+    .color-custom input {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+    }
 
     /* Edit form */
     .edit-form-section { display: none; }
     .edit-form-section.active { display: block; }
 
     .edit-form-card {
-        background: white;
+        background: var(--bg-card, white);
         border-radius: 14px;
-        box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+        box-shadow: var(--shadow, 0 1px 8px rgba(0,0,0,0.06));
         padding: 20px 16px;
     }
 
@@ -225,7 +326,7 @@
         display: block;
         font-size: 0.75rem;
         font-weight: 600;
-        color: #666;
+        color: var(--text-secondary, #666);
         text-transform: uppercase;
         letter-spacing: 0.3px;
         margin-bottom: 6px;
@@ -234,16 +335,16 @@
     .form-field .form-input {
         width: 100%;
         padding: 12px 14px;
-        border: 1.5px solid #e8e8e8;
+        border: 1.5px solid var(--border-color, #e8e8e8);
         border-radius: 10px;
         font-size: 0.9rem;
-        color: #1a1a2e;
-        background: #fafbfc;
+        color: var(--text-primary, #1a1a2e);
+        background: var(--input-bg, #fafbfc);
         transition: border-color 0.2s, background 0.2s;
         outline: none;
     }
 
-    .form-field .form-input:focus { border-color: #667eea; background: white; }
+    .form-field .form-input:focus { border-color: var(--accent-color, #667eea); background: var(--bg-card, white); }
     .form-field .field-error { font-size: 0.75rem; color: #e53e3e; margin-top: 4px; }
 
     .form-field .field-info {
@@ -260,7 +361,7 @@
     .btn-save {
         flex: 1;
         padding: 12px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, var(--accent-color, #667eea) 0%, var(--gradient-end, #764ba2) 100%);
         color: white;
         border: none;
         border-radius: 10px;
@@ -274,8 +375,8 @@
 
     .btn-cancel {
         padding: 12px 20px;
-        background: #f5f6fa;
-        color: #666;
+        background: var(--bg-primary, #f5f6fa);
+        color: var(--text-secondary, #666);
         border: none;
         border-radius: 10px;
         font-size: 0.9rem;
@@ -415,6 +516,39 @@
             </div>
         </div>
 
+        <!-- Appearance -->
+        <div class="section-group">
+            <div class="section-label">{{ __('Appearance') }}</div>
+            <div class="info-card">
+                <div class="toggle-row">
+                    <div class="info-icon purple"><i class="ni ni-moon"></i></div>
+                    <div class="toggle-details">
+                        <div class="toggle-title">{{ __('Dark Mode') }}</div>
+                        <div class="toggle-subtitle">{{ __('Easier on the eyes at night') }}</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode(this.checked)">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="color-picker-row">
+                    <div class="color-picker-label">{{ __('Accent Color') }}</div>
+                    <div class="color-options">
+                        <div class="color-dot" style="background:#667eea;" data-color="#667eea" onclick="setAccentColor('#667eea')"></div>
+                        <div class="color-dot" style="background:#00c6a7;" data-color="#00c6a7" onclick="setAccentColor('#00c6a7')"></div>
+                        <div class="color-dot" style="background:#f5576c;" data-color="#f5576c" onclick="setAccentColor('#f5576c')"></div>
+                        <div class="color-dot" style="background:#ff9a00;" data-color="#ff9a00" onclick="setAccentColor('#ff9a00')"></div>
+                        <div class="color-dot" style="background:#11998e;" data-color="#11998e" onclick="setAccentColor('#11998e')"></div>
+                        <div class="color-dot" style="background:#6366f1;" data-color="#6366f1" onclick="setAccentColor('#6366f1')"></div>
+                        <div class="color-custom" title="{{ __('Custom color') }}">
+                            <i class="ni ni-plus"></i>
+                            <input type="color" id="customColorPicker" value="#667eea" onchange="setAccentColor(this.value)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Account Info -->
         <div class="section-group">
             <div class="section-label">{{ __('Account') }}</div>
@@ -509,5 +643,35 @@
     @if($errors->has('image'))
         $(function(){ $("#update-image").modal('show'); });
     @endif
+
+    // Theme: Dark Mode
+    function toggleDarkMode(on) {
+        var theme = on ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+    }
+
+    // Theme: Accent Color
+    function setAccentColor(color) {
+        document.documentElement.style.setProperty('--accent-color', color);
+        localStorage.setItem('accentColor', color);
+        updateColorDots(color);
+    }
+
+    function updateColorDots(active) {
+        document.querySelectorAll('.color-dot').forEach(function(dot) {
+            dot.classList.toggle('active', dot.getAttribute('data-color') === active);
+        });
+    }
+
+    // Initialize theme state on page load
+    (function() {
+        var theme = localStorage.getItem('theme');
+        var color = localStorage.getItem('accentColor') || '#667eea';
+        var toggle = document.getElementById('darkModeToggle');
+        if (toggle) toggle.checked = (theme === 'dark');
+        updateColorDots(color);
+        document.getElementById('customColorPicker').value = color;
+    })();
 </script>
 @endsection

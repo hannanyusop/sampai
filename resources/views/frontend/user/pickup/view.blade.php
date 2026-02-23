@@ -9,7 +9,7 @@
 
     /* Header */
     .pickup-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, var(--accent-color, #667eea) 0%, var(--gradient-end, #764ba2) 100%);
         padding: 24px 20px;
         color: white;
         position: relative;
@@ -153,16 +153,16 @@
     .section-title {
         font-size: 0.75rem;
         font-weight: 600;
-        color: #999;
+        color: var(--text-muted, #999);
         text-transform: uppercase;
         letter-spacing: 0.5px;
         padding: 16px 4px 8px;
     }
 
     .info-card {
-        background: white;
+        background: var(--bg-card, white);
         border-radius: 16px;
-        box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        box-shadow: var(--shadow, 0 2px 12px rgba(0,0,0,0.06));
         padding: 20px;
     }
 
@@ -177,7 +177,7 @@
         width: 56px;
         height: 56px;
         border-radius: 50%;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, var(--accent-color, #667eea) 0%, var(--gradient-end, #764ba2) 100%);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -194,7 +194,7 @@
     .customer-name {
         font-size: 1.1rem;
         font-weight: 600;
-        color: #1a1a2e;
+        color: var(--text-primary, #1a1a2e);
         margin-bottom: 4px;
     }
 
@@ -209,11 +209,11 @@
         align-items: center;
         gap: 8px;
         font-size: 0.85rem;
-        color: #666;
+        color: var(--text-secondary, #666);
     }
 
     .customer-contact-item i {
-        color: #667eea;
+        color: var(--accent-color, #667eea);
         width: 16px;
     }
 
@@ -232,7 +232,7 @@
 
     .pickup-detail-label {
         font-size: 0.75rem;
-        color: #999;
+        color: var(--text-muted, #999);
         text-transform: uppercase;
         letter-spacing: 0.3px;
     }
@@ -240,12 +240,12 @@
     .pickup-detail-value {
         font-size: 0.95rem;
         font-weight: 600;
-        color: #1a1a2e;
+        color: var(--text-primary, #1a1a2e);
     }
 
     /* Grand Total Card */
     .total-card {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, var(--accent-color, #667eea) 0%, var(--gradient-end, #764ba2) 100%);
         border-radius: 16px;
         padding: 24px;
         color: white;
@@ -271,9 +271,9 @@
 
     /* Parcel List */
     .parcel-item {
-        background: white;
+        background: var(--bg-card, white);
         border-radius: 16px;
-        box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        box-shadow: var(--shadow, 0 2px 12px rgba(0,0,0,0.06));
         padding: 16px;
         margin-bottom: 12px;
     }
@@ -288,12 +288,12 @@
     .parcel-tracking {
         font-size: 0.95rem;
         font-weight: 600;
-        color: #1a1a2e;
+        color: var(--text-primary, #1a1a2e);
     }
 
     .parcel-coding {
         font-size: 0.8rem;
-        color: #667eea;
+        color: var(--accent-color, #667eea);
         font-weight: 500;
     }
 
@@ -308,7 +308,7 @@
         grid-template-columns: repeat(3, 1fr);
         gap: 8px;
         padding: 12px;
-        background: #f8f9fa;
+        background: var(--input-bg, #f8f9fa);
         border-radius: 10px;
         margin-bottom: 12px;
     }
@@ -319,7 +319,7 @@
 
     .charge-label {
         font-size: 0.65rem;
-        color: #999;
+        color: var(--text-muted, #999);
         text-transform: uppercase;
         letter-spacing: 0.3px;
     }
@@ -327,7 +327,7 @@
     .charge-value {
         font-size: 0.8rem;
         font-weight: 600;
-        color: #1a1a2e;
+        color: var(--text-primary, #1a1a2e);
     }
 
     .parcel-actions {
@@ -350,7 +350,7 @@
     }
 
     .parcel-action-btn.primary {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, var(--accent-color, #667eea) 0%, var(--gradient-end, #764ba2) 100%);
         color: white;
     }
 
@@ -361,13 +361,13 @@
     }
 
     .parcel-action-btn.secondary {
-        background: #f5f6fa;
-        color: #666;
+        background: var(--input-bg, #f5f6fa);
+        color: var(--text-secondary, #666);
     }
 
     .parcel-action-btn.secondary:hover {
-        background: #eef0f8;
-        color: #666;
+        background: var(--border-color, #eef0f8);
+        color: var(--text-secondary, #666);
         text-decoration: none;
     }
 
@@ -375,12 +375,12 @@
     .empty-parcels {
         text-align: center;
         padding: 40px 20px;
-        color: #888;
+        color: var(--text-muted, #888);
     }
 
     .empty-parcels i {
         font-size: 3rem;
-        color: #ddd;
+        color: var(--border-color, #ddd);
         margin-bottom: 12px;
     }
 

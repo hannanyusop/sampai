@@ -6,15 +6,15 @@
 
         /* Search & Filter Sticky Header */
         .sticky-header {
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            background: var(--bg-card, white);
+            box-shadow: var(--shadow, 0 2px 10px rgba(0,0,0,0.05));
         }
 
         /* Search Section */
         .search-section {
             padding: 16px;
             padding-bottom: 8px;
-            background: white;
+            background: var(--bg-card, white);
             display: block !important;
         }
 
@@ -28,25 +28,25 @@
             width: 100%;
             height: 50px;
             padding: 14px 16px 14px 48px;
-            border: 2px solid #e5e5e5 !important;
-            background: #f5f6fa !important;
+            border: 2px solid var(--border-color, #e5e5e5) !important;
+            background: var(--input-bg, #f5f6fa) !important;
             border-radius: 14px;
             font-size: 0.95rem;
-            color: #333 !important;
+            color: var(--text-primary, #333) !important;
             transition: all 0.2s;
             -webkit-appearance: none;
             appearance: none;
         }
 
         .search-wrap input::placeholder {
-            color: #999 !important;
+            color: var(--text-muted, #999) !important;
             opacity: 1;
         }
 
         .search-wrap input:focus {
             outline: none;
-            background: #eef0f8;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: var(--accent-color, #667eea) !important;
+            box-shadow: 0 0 0 3px var(--accent-light, rgba(102, 126, 234, 0.1));
         }
 
         .search-wrap .search-icon {
@@ -54,7 +54,7 @@
             left: 16px;
             top: 50%;
             transform: translateY(-50%);
-            color: #999;
+            color: var(--text-muted, #999);
             font-size: 1.25rem;
         }
 
@@ -66,9 +66,9 @@
             width: 28px;
             height: 28px;
             border-radius: 50%;
-            background: #ddd;
+            background: var(--border-color, #ddd);
             border: none;
-            color: #666;
+            color: var(--text-secondary, #666);
             font-size: 0.8rem;
             cursor: pointer;
             display: flex;
@@ -80,7 +80,7 @@
         .filter-section {
             padding: 16px;
             padding-top: 12px;
-            background: white;
+            background: var(--bg-card, white);
         }
 
         .filter-tabs {
@@ -102,8 +102,8 @@
             border-radius: 20px;
             font-size: 0.85rem;
             font-weight: 600;
-            background: #f5f6fa;
-            color: #666;
+            background: var(--input-bg, #f5f6fa);
+            color: var(--text-secondary, #666);
             border: none;
             cursor: pointer;
             transition: all 0.2s;
@@ -111,11 +111,11 @@
         }
 
         .filter-tab:hover {
-            background: #eef0f8;
+            background: var(--border-color, #eef0f8);
         }
 
         .filter-tab.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--accent-color, #667eea) 0%, var(--gradient-end, #764ba2) 100%);
             color: white;
         }
 
@@ -125,7 +125,7 @@
             align-items: center;
             gap: 8px;
             padding: 0 16px 12px;
-            background: white;
+            background: var(--bg-card, white);
         }
 
         .active-filter-tag {
@@ -133,8 +133,8 @@
             align-items: center;
             gap: 6px;
             padding: 6px 12px;
-            background: rgba(102, 126, 234, 0.1);
-            color: #667eea;
+            background: var(--accent-light, rgba(102, 126, 234, 0.1));
+            color: var(--accent-color, #667eea);
             border-radius: 20px;
             font-size: 0.8rem;
             font-weight: 500;
@@ -143,7 +143,7 @@
         .active-filter-tag button {
             background: none;
             border: none;
-            color: #667eea;
+            color: var(--accent-color, #667eea);
             cursor: pointer;
             padding: 0;
             font-size: 1rem;
@@ -171,7 +171,7 @@
             justify-content: center;
             width: 100%;
             padding: 14px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--accent-color, #667eea) 0%, var(--gradient-end, #764ba2) 100%);
             color: white;
             border-radius: 14px;
             font-weight: 600;
@@ -191,11 +191,11 @@
         }
 
         .parcel-card {
-            background: white;
+            background: var(--bg-card, white);
             border-radius: 16px;
             padding: 16px;
             margin-bottom: 12px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            box-shadow: var(--shadow, 0 2px 12px rgba(0,0,0,0.06));
             display: block;
             text-decoration: none;
             color: inherit;
@@ -206,7 +206,7 @@
             text-decoration: none;
             color: inherit;
             transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-lg, 0 4px 20px rgba(0,0,0,0.1));
         }
 
         .parcel-card:active {
@@ -223,13 +223,13 @@
         .parcel-tracking {
             font-size: 1rem;
             font-weight: 700;
-            color: #1a1a2e;
+            color: var(--text-primary, #1a1a2e);
             margin-bottom: 4px;
         }
 
         .parcel-code {
             font-size: 0.8rem;
-            color: #888;
+            color: var(--text-muted, #888);
         }
 
         .parcel-status {
@@ -241,7 +241,7 @@
             letter-spacing: 0.3px;
         }
 
-        .parcel-status.registered { background: rgba(102, 126, 234, 0.1); color: #667eea; }
+        .parcel-status.registered { background: var(--accent-light, rgba(102, 126, 234, 0.1)); color: var(--accent-color, #667eea); }
         .parcel-status.received { background: rgba(255, 193, 7, 0.15); color: #d39e00; }
         .parcel-status.outbound { background: rgba(23, 162, 184, 0.15); color: #117a8b; }
         .parcel-status.inbound { background: rgba(111, 66, 193, 0.15); color: #6f42c1; }
@@ -264,12 +264,12 @@
             width: 32px;
             height: 32px;
             border-radius: 8px;
-            background: #f5f6fa;
+            background: var(--input-bg, #f5f6fa);
             display: flex;
             align-items: center;
             justify-content: center;
             margin-right: 10px;
-            color: #667eea;
+            color: var(--accent-color, #667eea);
             font-size: 1rem;
         }
 
@@ -280,7 +280,7 @@
 
         .detail-label {
             font-size: 0.7rem;
-            color: #999;
+            color: var(--text-muted, #999);
             text-transform: uppercase;
             letter-spacing: 0.3px;
         }
@@ -288,7 +288,7 @@
         .detail-value {
             font-size: 0.85rem;
             font-weight: 600;
-            color: #1a1a2e;
+            color: var(--text-primary, #1a1a2e);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -298,11 +298,11 @@
         .results-count {
             padding: 0 16px 12px;
             font-size: 0.85rem;
-            color: #888;
+            color: var(--text-muted, #888);
         }
 
         .results-count strong {
-            color: #1a1a2e;
+            color: var(--text-primary, #1a1a2e);
         }
 
         /* Empty State */
@@ -315,25 +315,25 @@
             width: 80px;
             height: 80px;
             border-radius: 50%;
-            background: #f5f6fa;
+            background: var(--input-bg, #f5f6fa);
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 20px;
             font-size: 2.5rem;
-            color: #ccc;
+            color: var(--text-muted, #ccc);
         }
 
         .empty-title {
             font-size: 1.1rem;
             font-weight: 600;
-            color: #1a1a2e;
+            color: var(--text-primary, #1a1a2e);
             margin-bottom: 8px;
         }
 
         .empty-text {
             font-size: 0.9rem;
-            color: #888;
+            color: var(--text-muted, #888);
             margin-bottom: 24px;
         }
 
@@ -341,7 +341,7 @@
             display: inline-flex;
             align-items: center;
             padding: 12px 24px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--accent-color, #667eea) 0%, var(--gradient-end, #764ba2) 100%);
             color: white;
             border-radius: 12px;
             font-weight: 600;
@@ -367,12 +367,12 @@
             border-radius: 10px;
             margin: 0 4px;
             border: none;
-            background: #f5f6fa;
-            color: #667eea;
+            background: var(--input-bg, #f5f6fa);
+            color: var(--accent-color, #667eea);
         }
 
         .pagination-wrap .page-item.active .page-link {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--accent-color, #667eea) 0%, var(--gradient-end, #764ba2) 100%);
             color: white;
         }
 
@@ -396,9 +396,9 @@
     <!-- Sticky Header (Search + Filter) -->
     <div class="sticky-header">
         <!-- Search Section -->
-        <div class="search-section" style="display:block !important; visibility:visible !important; opacity:1 !important; padding:16px; padding-bottom:8px; background:white;">
-            <div class="search-wrap" style="display:block !important; visibility:visible !important; opacity:1 !important; position:relative; min-height:50px;">
-                <i class="ni ni-search search-icon" style="position:absolute; left:16px; top:50%; transform:translateY(-50%); color:#999; font-size:1.25rem; z-index:1; pointer-events:none;"></i>
+        <div class="search-section">
+            <div class="search-wrap">
+                <i class="ni ni-search search-icon"></i>
                 <input type="text"
                        class="form-control"
                        wire:model.debounce.300ms="search"
@@ -406,10 +406,9 @@
                        autocomplete="off"
                        autocorrect="off"
                        autocapitalize="off"
-                       spellcheck="false"
-                       style="display:block !important; visibility:visible !important; opacity:1 !important; width:100%; height:50px; padding:14px 16px 14px 48px; border:2px solid #e5e5e5 !important; border-radius:14px; background:#f5f6fa !important; font-size:16px; color:#333 !important; -webkit-appearance:none; appearance:none; position:relative; z-index:2; pointer-events:auto !important; -webkit-user-select:text !important; user-select:text !important;">
+                       spellcheck="false">
                 @if($search)
-                    <button type="button" wire:click="$set('search', '')" class="clear-btn" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); width:28px; height:28px; border-radius:50%; background:#ddd; border:none; color:#666; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:3;">
+                    <button type="button" wire:click="$set('search', '')" class="clear-btn">
                         <i class="ni ni-cross"></i>
                     </button>
                 @endif
