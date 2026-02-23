@@ -14,6 +14,9 @@ Route::group(['as' => 'user.', 'middleware' => ['auth', 'password.expires', conf
         ->middleware('is_user')
         ->name('dashboard');
 
+    Route::get('pwa-setup', [DashboardController::class, 'pwaSetup'])
+        ->name('pwa-setup');
+
     Route::get('account', [AccountController::class, 'index'])
         ->name('account');
 

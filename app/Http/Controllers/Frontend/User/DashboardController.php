@@ -33,4 +33,9 @@ class DashboardController extends Controller{
 
         return view('frontend.user.dashboard', compact('stats'));
     }
+
+    public function pwaSetup()
+    {
+        return view('frontend.user.pwa-setup');
+    }
 }

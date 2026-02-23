@@ -8,7 +8,7 @@
 <style>
     .notif-page {
         min-height: 100vh;
-        background: #f5f6fa;
+        background: var(--bg-primary);
         padding-bottom: 100px;
     }
 
@@ -55,7 +55,7 @@
     .section-label {
         font-size: 0.7rem;
         font-weight: 700;
-        color: #999;
+        color: var(--text-muted);
         text-transform: uppercase;
         letter-spacing: 0.8px;
         padding: 0 4px;
@@ -63,9 +63,9 @@
     }
 
     .info-card {
-        background: white;
+        background: var(--bg-card);
         border-radius: 14px;
-        box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+        box-shadow: var(--shadow);
         overflow: hidden;
     }
 
@@ -73,7 +73,7 @@
         display: flex;
         align-items: center;
         padding: 14px 16px;
-        border-bottom: 1px solid #f2f3f5;
+        border-bottom: 1px solid var(--border-color);
     }
 
     .info-row:last-child { border-bottom: none; }
@@ -99,7 +99,7 @@
 
     .info-label {
         font-size: 0.7rem;
-        color: #999;
+        color: var(--text-muted);
         font-weight: 500;
         text-transform: uppercase;
         letter-spacing: 0.3px;
@@ -107,7 +107,7 @@
 
     .info-value {
         font-size: 0.9rem;
-        color: #1a1a2e;
+        color: var(--text-primary);
         font-weight: 500;
     }
 
@@ -115,7 +115,7 @@
         display: flex;
         align-items: center;
         padding: 14px 16px;
-        border-bottom: 1px solid #f2f3f5;
+        border-bottom: 1px solid var(--border-color);
         cursor: pointer;
         transition: background 0.15s;
         text-decoration: none;
@@ -123,11 +123,11 @@
     }
 
     .link-row:last-child { border-bottom: none; }
-    .link-row:hover { background: #fafafa; text-decoration: none; color: inherit; }
+    .link-row:hover { background: var(--bg-secondary); text-decoration: none; color: inherit; }
 
-    .link-row .link-title { font-size: 0.9rem; font-weight: 600; color: #1a1a2e; }
-    .link-row .link-subtitle { font-size: 0.75rem; color: #999; }
-    .link-arrow { color: #ccc; font-size: 1rem; margin-left: auto; flex-shrink: 0; }
+    .link-row .link-title { font-size: 0.9rem; font-weight: 600; color: var(--text-primary); }
+    .link-row .link-subtitle { font-size: 0.75rem; color: var(--text-muted); }
+    .link-arrow { color: var(--text-muted); font-size: 1rem; margin-left: auto; flex-shrink: 0; }
 
     .notif-status-dot {
         width: 8px;
@@ -137,7 +137,7 @@
         margin-right: 6px;
     }
     .notif-status-dot.active { background: #11998e; }
-    .notif-status-dot.inactive { background: #999; }
+    .notif-status-dot.inactive { background: var(--text-muted); }
     .notif-status-dot.blocked { background: #e53e3e; }
 
     .notif-feedback {

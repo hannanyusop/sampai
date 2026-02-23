@@ -334,6 +334,14 @@
             <div class="m-sub">{{ __('Add to home') }}</div>
         </a>
 
+        <a href="{{ route('frontend.user.pwa-setup') }}" class="m-card">
+            <div class="m-icon" style="background: rgba(0, 198, 167, 0.1);">
+                <i class="icon ni ni-mobile" style="color: #00c6a7;"></i>
+            </div>
+            <h5 class="m-label">{{ __('Setup PWA') }}</h5>
+            <div class="m-sub">{{ __('Install app guide') }}</div>
+        </a>
+
         <a href="{{ route('frontend.auth.logout') }}" class="m-card logout">
             <div class="m-icon"><i class="icon ni ni-signout"></i></div>
             <h5 class="m-label">{{ __('Log Out') }}</h5>
