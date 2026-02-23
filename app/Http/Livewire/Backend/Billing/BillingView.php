@@ -7,8 +7,7 @@ use App\Mail\Pickup\SendNotification;
 use App\Models\Pickup;
 use App\Models\PickupNotification;
 use App\Models\TripBatch;
-use App\Notifications\ParcelStatusNotification;
-use App\Services\Parcel\ParcelHelperService;
+use App\Jobs\SendPickupPushNotificationJob;
 use App\Services\Pickup\PickupHelperService;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -237,54 +236,16 @@ class BillingView extends Component
             return;
         }
 
-        $pickups = Pickup::with(['user', 'parcels'])->whereIn('id', $this->selectedPickups)->get();
-        $successCount = 0;
-        $failCount = 0;
+        $count = count($this->selectedPickups);
 
-        foreach ($pickups as $pickup) {
-            $user = $pickup->user;
-            if (!$user || empty($user->fcm_token)) {
-                $failCount++;
-                continue;
-            }
-
-            $notification = PickupNotification::create([
-                'pickup_id' => $pickup->id,
-                'via' => PickupNotification::VIA_FCM,
-                'address' => 'fcm_token',
-                'content' => 'Push notification sent for ' . $pickup->parcels->count() . ' parcel(s)',
-                'status' => PickupNotification::STATUS_PENDING,
-            ]);
-
-            try {
-                foreach ($pickup->parcels as $parcel) {
-                    $user->notify(new ParcelStatusNotification($parcel, ParcelHelperService::STATUS_READY_TO_COLLECT));
-                }
-
-                $notification->update([
-                    'status' => PickupNotification::STATUS_SENT,
-                    'provider_remark' => 'Push notification sent successfully',
-                ]);
-
-                $pickup->update([
-                    'notification_sent' => 1,
-                    'notification_send_at' => now()
-                ]);
-
-                $successCount++;
-            } catch (\Exception $e) {
-                $notification->update([
-                    'status' => PickupNotification::STATUS_FAILED,
-                    'provider_remark' => $e->getMessage(),
-                ]);
-                $failCount++;
-            }
+        foreach ($this->selectedPickups as $pickupId) {
+            SendPickupPushNotificationJob::dispatch((int) $pickupId);
         }
 
         $this->selectedPickups = [];
         $this->selectAll = false;
 
-        session()->flash('success', __(':success push notifications sent successfully, :fail failed.', ['success' => $successCount, 'fail' => $failCount]));
+        session()->flash('success', __(':count push notification(s) queued.', ['count' => $count]));
     }
 
     public function clearFilters()

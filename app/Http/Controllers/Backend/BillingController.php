@@ -7,8 +7,7 @@ use App\Mail\Pickup\SendNotification;
 use App\Models\Pickup;
 use App\Models\PickupNotification;
 use App\Models\TripBatch;
-use App\Notifications\ParcelStatusNotification;
-use App\Services\Parcel\ParcelHelperService;
+use App\Jobs\SendPickupPushNotificationJob;
 use Illuminate\Http\Request;
 use Mail;
 
@@ -121,40 +120,9 @@ class BillingController extends Controller
             return redirect()->back()->with('error', __('User does not have push notification enabled.'));
         }
 
-        $pickup->load('parcels');
+        SendPickupPushNotificationJob::dispatch($pickup->id);
 
-        $notification = PickupNotification::create([
-            'pickup_id' => $pickup->id,
-            'via' => PickupNotification::VIA_FCM,
-            'address' => 'fcm_token',
-            'content' => 'Push notification sent for ' . $pickup->parcels->count() . ' parcel(s)',
-            'status' => PickupNotification::STATUS_PENDING,
-        ]);
-
-        try {
-            foreach ($pickup->parcels as $parcel) {
-                $user->notify(new ParcelStatusNotification($parcel, ParcelHelperService::STATUS_READY_TO_COLLECT));
-            }
-
-            $notification->update([
-                'status' => PickupNotification::STATUS_SENT,
-                'provider_remark' => 'Push notification sent successfully',
-            ]);
-
-            $pickup->update([
-                'notification_sent' => 1,
-                'notification_send_at' => now()
-            ]);
-
-            return redirect()->back()->with('success', __('Push notification sent successfully'));
-        } catch (\Exception $e) {
-            $notification->update([
-                'status' => PickupNotification::STATUS_FAILED,
-                'provider_remark' => $e->getMessage(),
-            ]);
-
-            return redirect()->back()->with('error', __('Push notification failed: ') . $e->getMessage());
-        }
+        return redirect()->back()->with('success', __('Push notification queued.'));
     }
 
     public function notificationHistory(Pickup $pickup)
