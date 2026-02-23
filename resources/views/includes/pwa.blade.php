@@ -64,10 +64,16 @@
 
     onMessage(messaging, (payload) => {
         if (payload.notification) {
-            new Notification(payload.notification.title, {
+            const link = payload.data?.link || '/';
+            const notification = new Notification(payload.notification.title, {
                 body: payload.notification.body,
                 icon: '/images/logo.png',
+                data: { link: link },
             });
+            notification.onclick = function(event) {
+                event.preventDefault();
+                window.open(link, '_self');
+            };
         }
     });
 

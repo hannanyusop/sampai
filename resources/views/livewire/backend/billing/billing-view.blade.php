@@ -84,6 +84,10 @@
                                             onclick="if(confirm('Send WhatsApp to {{ count($selectedPickups) }} selected items?')) { @this.bulkSendWhatsApp() }">
                                         <em class="icon ni ni-whatsapp"></em> {{ __('Bulk Send WhatsApp') }}
                                     </button>
+                                    <button type="button" class="btn btn-warning btn-sm" {{ count($selectedPickups) == 0 ? 'disabled' : '' }}
+                                            onclick="if(confirm('Send Push Notification to {{ count($selectedPickups) }} selected items?')) { @this.bulkSendPushNotification() }">
+                                        <em class="icon ni ni-bell"></em> {{ __('Bulk Send Push') }}
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -177,6 +181,13 @@
                                                        class="btn btn-success btn-sm"
                                                        onclick="return confirm('Send WhatsApp to {{ $pickup->user->phone_number }}?')">
                                                         <em class="icon ni ni-whatsapp"></em> {{ __('WhatsApp') }}
+                                                    </a>
+                                                @endif
+                                                @if($pickup->user?->fcm_token)
+                                                    <a href="{{ route('admin.billing.sendPushNotification', $pickup) }}"
+                                                       class="btn btn-warning btn-sm"
+                                                       onclick="return confirm('Send Push Notification?')">
+                                                        <em class="icon ni ni-bell"></em> {{ __('Push') }}
                                                     </a>
                                                 @endif
                                                 <button type="button" class="btn btn-outline-secondary btn-sm"

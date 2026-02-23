@@ -13,6 +13,7 @@ class PickupNotification extends Model
     const VIA_EMAIL = 'email';
     const VIA_SMS = 'sms';
     const VIA_WHATSAPP = 'whatsapp';
+    const VIA_FCM = 'fcm';
 
     protected $fillable = [
         'pickup_id',
@@ -43,6 +44,7 @@ class PickupNotification extends Model
             self::VIA_EMAIL => '<span class="badge bg-primary"><em class="icon ni ni-mail"></em> Email</span>',
             self::VIA_WHATSAPP => '<span class="badge bg-success"><em class="icon ni ni-whatsapp"></em> WhatsApp</span>',
             self::VIA_SMS => '<span class="badge bg-info"><em class="icon ni ni-mobile"></em> SMS</span>',
+            self::VIA_FCM => '<span class="badge bg-warning"><em class="icon ni ni-bell"></em> Push</span>',
             default => '<span class="badge bg-secondary">' . $this->via . '</span>',
         };
     }

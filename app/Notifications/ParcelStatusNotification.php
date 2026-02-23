@@ -36,12 +36,16 @@ class ParcelStatusNotification extends Notification
     {
         $statusLabel = ParcelHelperService::statuses($this->status);
         $trackingNo = $this->parcel->tracking_no;
+        $link = $this->parcel->pickup_id
+            ? route('frontend.user.pickup.show', encrypt($this->parcel->pickup_id))
+            : url('/');
 
         return FcmMessage::create()
             ->setData([
                 'parcel_id' => (string) $this->parcel->id,
                 'tracking_no' => $trackingNo,
                 'status' => (string) $this->status,
+                'link' => $link,
             ])
             ->setNotification(
                 FcmNotification::create()
