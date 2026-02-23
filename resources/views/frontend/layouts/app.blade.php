@@ -157,7 +157,7 @@
 
 <!-- Notification Enable Banner (iOS requires user gesture) -->
 @if(auth()->check())
-<div id="fcm-enable-banner" style="display:none; align-items:center; justify-content:space-between; padding:12px 16px; background:#00c6a7; color:#fff; font-size:14px; gap:10px; z-index:99999; position:relative;">
+<div id="fcm-enable-banner" style="display:none; align-items:center; justify-content:space-between; padding:12px 16px; padding-top:calc(12px + env(safe-area-inset-top, 0px)); background:#00c6a7; color:#fff; font-size:14px; gap:10px; z-index:99999; position:relative;">
     <span>Enable push notifications to stay updated.</span>
     <button onclick="window.registerFcm && window.registerFcm(); this.parentElement.style.display='none';"
         style="background:#fff; color:#00c6a7; border:none; padding:6px 16px; border-radius:6px; font-weight:600; cursor:pointer; white-space:nowrap;">

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover">
 
     <meta name="author" content="NUJ Express">
 
@@ -42,6 +42,7 @@
             right: 0;
             z-index: 1000;
             padding: 16px 0;
+            padding-top: calc(16px + env(safe-area-inset-top, 0px));
             transition: all 0.3s ease;
             background: transparent;
         }
