@@ -17,6 +17,9 @@ Route::group(['as' => 'user.', 'middleware' => ['auth', 'password.expires', conf
     Route::get('pwa-setup', [DashboardController::class, 'pwaSetup'])
         ->name('pwa-setup');
 
+    Route::get('notification-setup', [DashboardController::class, 'notificationSetup'])
+        ->name('notification-setup');
+
     Route::get('account', [AccountController::class, 'index'])
         ->name('account');
 

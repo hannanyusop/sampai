@@ -38,4 +38,9 @@ class DashboardController extends Controller{
     {
         return view('frontend.user.pwa-setup');
     }
+
+    public function notificationSetup()
+    {
+        return view('frontend.user.notification-setup');
+    }
 }

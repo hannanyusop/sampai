@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Domains\Auth\Models\Parcels;
 use App\Domains\Auth\Models\Trip;
+use App\Domains\Auth\Models\User;
 use App\Http\Controllers\Controller;
 use App\Models\TripBatch;
 use App\Services\Parcel\ParcelHelperService;
@@ -11,6 +12,10 @@ use App\Services\Sales\DailySaleGeneralService;
 use App\Services\Trip\TripHelperService;
 use App\Services\TripBatch\TripBatchGeneralService;
 use App\Services\TripBatch\TripBatchHelperService;
+use Illuminate\Http\Request;
+use NotificationChannels\Fcm\FcmChannel;
+use NotificationChannels\Fcm\FcmMessage;
+use NotificationChannels\Fcm\Resources\Notification as FcmNotification;
 
 /**
  * Class DashboardController.
@@ -85,5 +90,48 @@ class DashboardController extends Controller
             return view('backend.finance', compact('daily_sales', 'today'));
         }
 
+    }
+
+    public function notifyUsers()
+    {
+        return view('backend.notify-users');
+    }
+
+    public function sendNotification(Request $request)
+    {
+        $request->validate([
+            'message' => 'required|string|max:1000',
+        ]);
+
+        $users = User::whereNotNull('fcm_token')->get();
+
+        if ($users->isEmpty()) {
+            return back()->with('flash_warning', 'No users with FCM tokens found.');
+        }
+
+        $fcmMessage = FcmMessage::create()
+            ->setData(['type' => 'broadcast'])
+            ->setNotification(
+                FcmNotification::create()
+                    ->setTitle('NUJ Express')
+                    ->setBody($request->message)
+            );
+
+        $sent = 0;
+        foreach ($users as $user) {
+            try {
+                $user->notify(new class($fcmMessage) extends \Illuminate\Notifications\Notification {
+                    protected $message;
+                    public function __construct($message) { $this->message = $message; }
+                    public function via($notifiable) { return [FcmChannel::class]; }
+                    public function toFcm($notifiable) { return $this->message; }
+                });
+                $sent++;
+            } catch (\Exception $e) {
+                continue;
+            }
+        }
+
+        return back()->with('flash_success', "Notification sent to {$sent} user(s).");
     }
 }

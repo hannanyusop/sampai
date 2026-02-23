@@ -342,6 +342,14 @@
             <div class="m-sub">{{ __('Install app guide') }}</div>
         </a>
 
+        <a href="{{ route('frontend.user.notification-setup') }}" class="m-card">
+            <div class="m-icon" style="background: rgba(79, 172, 254, 0.1);">
+                <i class="icon ni ni-bell" style="color: #4facfe;"></i>
+            </div>
+            <h5 class="m-label">{{ __('Notifications') }}</h5>
+            <div class="m-sub">{{ __('Setup guide') }}</div>
+        </a>
+
         <a href="{{ route('frontend.auth.logout') }}" class="m-card logout">
             <div class="m-icon"><i class="icon ni ni-signout"></i></div>
             <h5 class="m-label">{{ __('Log Out') }}</h5>

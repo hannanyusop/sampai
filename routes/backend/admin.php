@@ -21,6 +21,11 @@ Route::redirect('/', '/admin/dashboard', 301);
 Route::get('dashboard', [DashboardController::class, 'index'])
     ->name('dashboard');
 
+Route::get('notify-users', [DashboardController::class, 'notifyUsers'])
+    ->name('notify-users');
+Route::post('notify-users', [DashboardController::class, 'sendNotification'])
+    ->name('notify-users.send');
+
 
 
 Route::resource('tripBatch', TripBatchController::class);

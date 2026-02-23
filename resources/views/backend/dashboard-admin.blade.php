@@ -208,6 +208,15 @@
                                 </div>
                             </div>
                         </a>
+
+                        <a href="{{ route('admin.notify-users') }}" class="menu-card card-inner card-inner-lg">
+                            <div class="align-center">
+                                <div class="nk-block-content">
+                                    <i class="icon ni ni-send menu-icon"></i>
+                                    <h5 class="menu-label">Notify User</h5>
+                                </div>
+                            </div>
+                        </a>
                     </div>
                 @endif
 
