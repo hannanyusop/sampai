@@ -239,7 +239,7 @@ class BillingView extends Component
         $count = count($this->selectedPickups);
 
         foreach ($this->selectedPickups as $pickupId) {
-            SendPickupPushNotificationJob::dispatch((int) $pickupId);
+            SendPickupPushNotificationJob::dispatchSync((int) $pickupId);
         }
 
         $this->selectedPickups = [];

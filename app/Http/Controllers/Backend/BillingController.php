@@ -120,7 +120,7 @@ class BillingController extends Controller
             return redirect()->back()->with('error', __('User does not have push notification enabled.'));
         }
 
-        SendPickupPushNotificationJob::dispatch($pickup->id);
+        SendPickupPushNotificationJob::dispatchSync($pickup->id);
 
         return redirect()->back()->with('success', __('Push notification queued.'));
     }
