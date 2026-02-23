@@ -29,7 +29,7 @@ npm-debug.log
 output.txt
 Thumbs.db
 yarn-error.log
-
+firebase.json
 public/uploads/images/
 /public/invoice/
 /public/pickup/
