@@ -40,7 +40,11 @@ class TripGeneralService
             $parcel->save();
 
             if ($parcel->user) {
-                $parcel->user->notify(new ParcelStatusNotification($parcel, ParcelHelperService::STATUS_INBOUND_TO_DROP_POINT));
+                try {
+                    $parcel->user->notify(new ParcelStatusNotification($parcel, ParcelHelperService::STATUS_INBOUND_TO_DROP_POINT));
+                } catch (\Exception $e) {
+                    \Log::error('FCM notification failed for parcel #' . $parcel->tracking_no . ': ' . $e->getMessage());
+                }
             }
         }
 
@@ -83,7 +87,11 @@ class TripGeneralService
             $parcel->save();
 
             if ($parcel->user) {
-                $parcel->user->notify(new ParcelStatusNotification($parcel, ParcelHelperService::STATUS_READY_TO_COLLECT));
+                try {
+                    $parcel->user->notify(new ParcelStatusNotification($parcel, ParcelHelperService::STATUS_READY_TO_COLLECT));
+                } catch (\Exception $e) {
+                    \Log::error('FCM notification failed for parcel #' . $parcel->tracking_no . ': ' . $e->getMessage());
+                }
             }
         }
 

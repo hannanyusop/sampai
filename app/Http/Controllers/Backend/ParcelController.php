@@ -66,7 +66,11 @@ class ParcelController extends Controller{
         addParcelTransaction($parcel->id, $remark);
 
         if ($parcel->user) {
-            $parcel->user->notify(new ParcelStatusNotification($parcel, ParcelHelperService::STATUS_DELIVERED));
+            try {
+                $parcel->user->notify(new ParcelStatusNotification($parcel, ParcelHelperService::STATUS_DELIVERED));
+            } catch (\Exception $e) {
+                \Log::error('FCM notification failed for parcel #' . $parcel->tracking_no . ': ' . $e->getMessage());
+            }
         }
 
         return redirect()->back()->withFlashSuccess('Parcel marked as received');

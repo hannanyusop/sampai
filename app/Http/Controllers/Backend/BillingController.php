@@ -120,7 +120,12 @@ class BillingController extends Controller
             return redirect()->back()->with('error', __('User does not have push notification enabled.'));
         }
 
-        SendPickupPushNotificationJob::dispatchSync($pickup->id);
+        try {
+            SendPickupPushNotificationJob::dispatchSync($pickup->id);
+        } catch (\Exception $e) {
+            \Log::error('FCM push notification failed for pickup #' . $pickup->code . ': ' . $e->getMessage());
+            return redirect()->back()->with('error', __('Failed to send push notification.'));
+        }
 
         return redirect()->back()->with('success', __('Push notification queued.'));
     }

@@ -236,16 +236,23 @@ class BillingView extends Component
             return;
         }
 
-        $count = count($this->selectedPickups);
+        $successCount = 0;
+        $failCount = 0;
 
         foreach ($this->selectedPickups as $pickupId) {
-            SendPickupPushNotificationJob::dispatchSync((int) $pickupId);
+            try {
+                SendPickupPushNotificationJob::dispatchSync((int) $pickupId);
+                $successCount++;
+            } catch (\Exception $e) {
+                \Log::error('FCM push notification failed for pickup #' . $pickupId . ': ' . $e->getMessage());
+                $failCount++;
+            }
         }
 
         $this->selectedPickups = [];
         $this->selectAll = false;
 
-        session()->flash('success', __(':count push notification(s) queued.', ['count' => $count]));
+        session()->flash('success', __(':success push notification(s) sent, :fail failed.', ['success' => $successCount, 'fail' => $failCount]));
     }
 
     public function clearFilters()
