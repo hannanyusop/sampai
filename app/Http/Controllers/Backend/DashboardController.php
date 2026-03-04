@@ -90,6 +90,7 @@ class DashboardController extends Controller
             return view('backend.finance', compact('daily_sales', 'today'));
         }
 
+        abort(403, 'You do not have permission to access the dashboard.');
     }
 
     public function notifyUsers()
