@@ -423,7 +423,7 @@
 
                                             @if(!auth()->user()->can('staff.inhouse') || auth()->user()->hasAllAccess())
                                                 @if($parcel->id == $edit_parcel_id)
-                                                    <button class="btn btn-sm btn-success" wire:click="updateParcel({{ $parcel }})"><em class="icon ni ni-check-circle"></em></button>
+                                                    <button class="btn btn-sm btn-success" wire:click="updateParcel({{ $parcel->id }})"><em class="icon ni ni-check-circle"></em></button>
                                                 @else
                                                     <ul class="nk-tb-actions gx-1">
                                                         <li>
@@ -431,7 +431,7 @@
                                                                 <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                                                 <div class="dropdown-menu dropdown-menu-right">
                                                                     <ul class="link-list-opt no-bdr">
-                                                                        <a href="#" wire:click.prevent="editParcel({{ $parcel }})">
+                                                                        <a href="#" wire:click.prevent="editParcel({{ $parcel->id }})">
                                                                             <em class="icon ni ni-edit"></em>
                                                                             <span>Edit</span>
                                                                         </a>

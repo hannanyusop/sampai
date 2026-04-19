@@ -180,19 +180,21 @@ class TripBatchShow extends Component
 
     #region edit rate
 
-    public function editParcel(Parcels $parcel){
+    public function editParcel($parcelId){
+        $parcel = Parcels::findOrFail($parcelId);
         $this->edit_parcel_id = $parcel->id;
 
         $this->guni_edit = $parcel->guni;
         $this->service_charge_edit = $parcel->service_charge;
     }
 
-    public function updateParcel(Parcels $parcel){
+    public function updateParcel($parcelId){
         $this->validate([
             'guni_edit' => 'required|max:50',
             'service_charge_edit' => 'required|numeric|min:0',
         ]);
 
+        $parcel = Parcels::findOrFail($parcelId);
         $parcel->update([
             'guni' => $this->guni_edit,
             'service_charge' => $this->service_charge_edit,
