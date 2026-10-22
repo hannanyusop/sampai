@@ -63,7 +63,7 @@ class TripController extends Controller
                                          <span class="tb-odr-total">
                                             <span class="amount"></span>
                                         </span>
-                                        <span class="tb-odr-status">'.$trip->parcels->count().'Parcel(s)
+                                        <span class="tb-odr-status">'.$trip->parcels()->count().'Parcel(s)
                                         </span>
                                     </td>
                                     <td class="tb-odr-action">

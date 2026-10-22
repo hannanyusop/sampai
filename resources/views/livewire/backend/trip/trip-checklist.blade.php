@@ -151,6 +151,7 @@
                                 @endforeach
                                 </tbody>
                             </table>
+                            {{ $parcels->links() }}
                         </div>
                     </div>
                 </div>

@@ -34,15 +34,15 @@
                                             <div class="nk-cov-group">
                                                 <div class="nk-cov-data">
                                                     <h6 class="overline-title">Closed</h6>
-                                                    <div class="amount amount-sm">{{ $picked_trips->count() }}</div>
+                                                    <div class="amount amount-sm">{{ $picked_trips->total() }}</div>
                                                 </div>
                                                 <div class="nk-cov-data">
                                                     <h6 class="overline-title">Picked</h6>
-                                                    <div class="amount amount-sm text-info">{{ $closed_trips->count() }}</div>
+                                                    <div class="amount amount-sm text-info">{{ $closed_trips->total() }}</div>
                                                 </div>
                                                 <div class="nk-cov-data">
                                                     <h6 class="overline-title">Total</h6>
-                                                    <div class="amount amount-sm text-success">{{ $picked_trips->count()+$closed_trips->count() }}</div>
+                                                    <div class="amount amount-sm text-success">{{ $picked_trips->total()+$closed_trips->total() }}</div>
                                                 </div>
                                             </div>
                                             <div class="nk-cov-wg2-group">
@@ -90,7 +90,7 @@
                                     <div class="nk-tb-col nk-tb-change tb-col-sm text-right"><span></span></div>
                                 </div><!-- .nk-tb-head -->
 
-                                @if($closed_trips->count() == 0)
+                                @if($closed_trips->total() == 0)
                                     <div class="nk-tb-col nk-tb-covid tb-col-sm text-right"><span>No Closed Trip Found</span></div>
                                 @else
                                     @foreach($closed_trips as $trip)
@@ -103,7 +103,7 @@
                                             </div>
                                             <div class="nk-tb-col nk-tb-change">
                                         <span class="tb-sub">
-                                            {{ $trip->trips->count() }}<span class="currency currency-usd"> Destination(s) </span>
+                                            {{ $trip->trips_count }}<span class="currency currency-usd"> Destination(s) </span>
                                         </span>
                                             </div>
                                             <div class="nk-tb-col nk-tb-trend text-right">
@@ -123,6 +123,7 @@
                                             </div>
                                         </div>
                                     @endforeach
+                                    {{ $closed_trips->withQueryString()->links() }}
                                 @endif
                             </div><!-- .nk-tb-list -->
                         </div><!-- .card -->
@@ -153,7 +154,7 @@
                                                     <td>{{ $tripBatch->number }}</td>
                                                     <td>{{ reformatDatetime($tripBatch->date, 'M d, Y h:i A') }}</td>
                                                     <td>
-                                                        {{ $tripBatch->parcels->count() }}<span class="currency currency-usd"> Parcel(s) </span>
+                                                        {{ $tripBatch->parcels_count }}<span class="currency currency-usd"> Parcel(s) </span>
                                                     </td>
                                                     <td>
                                                         <table>
@@ -165,7 +166,7 @@
                                                             @foreach($tripBatch->trips as $trip)
                                                                 <tr>
                                                                     <td>{{ $trip->destination->name }}</td>
-                                                                    <td>{{ $trip->parcels->count() }}</td>
+                                                                    <td>{{ $trip->parcels_count }}</td>
                                                                     <td>
                                                                         @if(auth()->user()->can('staff.runner'))
                                                                             @if($trip->status == \App\Services\Trip\TripHelperService::STATUS_IN_TRANSIT && $trip->runner_id == auth()->user()->id)
@@ -187,6 +188,7 @@
 
                                             @endforelse
                                         </table>
+                                        {{ $picked_trips->withQueryString()->links() }}
                                     </div>
                                 </div>
                             </div>

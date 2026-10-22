@@ -88,7 +88,17 @@ abstract class BaseService
      */
     public function count()
     {
-        return $this->get()->count();
+        $this->newQuery()->setClauses()->setScopes();
+
+        // Count the original result set, including global scopes and any limit.
+        $query = $this->query->toBase();
+        $count = $query->getConnection()->query()
+            ->fromSub($query, 'counted_models')
+            ->count();
+
+        $this->unsetClauses();
+
+        return $count;
     }
 
     /**

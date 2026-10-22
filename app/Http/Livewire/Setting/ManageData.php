@@ -95,9 +95,9 @@ class ManageData extends Component
             ->where('status', PickupHelperService::STATUS_DELIVERED)
             ->whereMonth('created_at', $month);
 
-        $pickup_ids   = $pickup_query->select('id')->get()->pluck('id');
+        $pickup_ids   = (clone $pickup_query)->select('id');
         $parcel_query = Parcels::whereIn('pickup_id', $pickup_ids);
-        $parcel_ids   = $parcel_query->select('id')->get()->pluck('id');
+        $parcel_ids   = (clone $parcel_query)->select('id');
         $transaction_query = ParcelTransaction::whereIn('parcel_id', $parcel_ids);
 
         $transaction_query->delete();

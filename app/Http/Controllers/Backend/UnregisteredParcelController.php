@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Log;
 class UnregisteredParcelController extends Controller
 {
     public function index(){
-        $unregisteredParcels = UnregisteredParcel::all();
+        $unregisteredParcels = UnregisteredParcel::orderBy('id', 'desc')->paginate(50);
         return view('backend.unregistered_parcel.index', compact('unregisteredParcels'));
     }
 

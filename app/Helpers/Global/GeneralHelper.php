@@ -78,13 +78,11 @@ if(!function_exists('generateTripCode')){
 
     function generateTripCode($office_id, $date){
 
-        $trips = Trip::where('destination_id', $office_id)
-//            ->whereDate('date', $date)
-            ->get();
+        $tripCount = Trip::where('destination_id', $office_id)->count();
 
         $office = Office::find($office_id);
 
-        $x = $trips->count()+1;
+        $x = $tripCount + 1;
 
         return $office->code."/".date('Y-m-d')."/".$x;
     }
@@ -276,8 +274,6 @@ if(!function_exists('sendEmail')){
 if(!function_exists('dataUserDashboard')){
 
     function dataUserDashboard(){
-
-        $parcel = Parcels::pluck('tracking_no');
 
         $pending = 10;
 

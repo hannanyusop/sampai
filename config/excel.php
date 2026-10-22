@@ -228,7 +228,7 @@ return [
         | Drivers: memory|illuminate|batch
         |
         */
-        'driver'     => 'memory',
+        'driver'     => env('EXCEL_CACHE_DRIVER', 'illuminate'),
 
         /*
         |--------------------------------------------------------------------------
@@ -257,7 +257,7 @@ return [
         |
         */
         'illuminate' => [
-            'store' => null,
+            'store' => 'excel_cells',
         ],
     ],
 

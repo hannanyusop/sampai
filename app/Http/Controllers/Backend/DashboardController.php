@@ -32,8 +32,10 @@ class DashboardController extends Controller
 
             $trip_batches = TripBatchGeneralService::query()->wherehas('trips',
                 fn ($q) => $q->whereIn('status', [TripBatchHelperService::STATUS_PENDING]))
+                ->with('trips.destination')
+                ->withCount('parcels')
                 ->orderBy('id', 'desc')
-                ->get();
+                ->paginate(25, ['*'], 'activeTripsPage');
             $total_current_month = 0;
             $month = 1;
             $pr = array();
@@ -56,10 +58,17 @@ class DashboardController extends Controller
 
         }elseif (auth()->user()->can('staff.runner')){
 
-            $closed_trips = TripBatchGeneralService::getByStatus([TripHelperService::STATUS_CLOSED])->get();
+            $closed_trips = TripBatchGeneralService::getByStatus([TripHelperService::STATUS_CLOSED])
+                ->without('trips')
+                ->withCount('trips')
+                ->orderBy('id', 'desc')
+                ->paginate(25, ['*'], 'closedTripsPage');
 
             $picked_trips = TripBatchGeneralService::getByStatus([TripBatchHelperService::STATUS_IN_TRANSIT])
-                ->get();
+                ->with(['trips' => fn ($query) => $query->with('destination')->withCount('parcels')])
+                ->withCount('parcels')
+                ->orderBy('id', 'desc')
+                ->paginate(25, ['*'], 'pickedTripsPage');
 
             $total = [
                 'current' => Trip::whereYear('created_at', date('Y'))->count(),
@@ -72,7 +81,8 @@ class DashboardController extends Controller
 
         }elseif (auth()->user()->can('staff.biacc')){
 
-            $trip_batches  = TripBatchGeneralService::query()->orderBy('id', 'desc')->limit(5)->get();
+            $trip_batches  = TripBatchGeneralService::query()->with(['office', 'trips.destination'])
+                ->withCount('parcels')->orderBy('id', 'desc')->limit(5)->get();
 
             return view('backend.dashboard-biacc', compact('trip_batches'));
         }elseif (auth()->user()->can('staff.finance')) {
@@ -103,9 +113,9 @@ class DashboardController extends Controller
             'message' => 'required|string|max:1000',
         ]);
 
-        $users = User::whereNotNull('fcm_token')->get();
+        $users = User::whereNotNull('fcm_token');
 
-        if ($users->isEmpty()) {
+        if (! (clone $users)->exists()) {
             return back()->with('flash_warning', 'No users with FCM tokens found.');
         }
 
@@ -118,7 +128,7 @@ class DashboardController extends Controller
             );
 
         $sent = 0;
-        foreach ($users as $user) {
+        foreach ($users->lazyById(200) as $user) {
             try {
                 $user->notify(new class($fcmMessage) extends \Illuminate\Notifications\Notification {
                     protected $message;

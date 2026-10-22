@@ -3,25 +3,27 @@
 namespace App\Exports\Trip;
 
 use App\Domains\Auth\Models\Office;
-use App\Domains\Auth\Models\Parcels;
-use App\Domains\Auth\Models\Trip;
 use App\Models\Pickup;
 use App\Models\TripBatch;
 use App\Services\Parcel\ParcelHelperService;
-use Maatwebsite\Excel\Concerns\FromArray;
+use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithCustomChunkSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
-use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\Exportable;
 
-class WhatsappBotExport implements FromArray, ShouldAutoSize, WithStyles, WithColumnWidths, WithEvents
+class WhatsappBotExport implements FromQuery, WithMapping, WithHeadings, WithCustomChunkSize, ShouldAutoSize, WithStyles, WithColumnWidths, WithEvents
 {
     use Exportable;
+
+    protected $rowNumber = 0;
+    protected $offices;
 
     public $trip_batch;
     public $trip_id = null;
@@ -31,46 +33,53 @@ class WhatsappBotExport implements FromArray, ShouldAutoSize, WithStyles, WithCo
         $this->trip_id    = $trip_id;
     }
 
-    public function array() : array
+    public function query()
     {
-        $array = [];
-
-        $trip_batch = $this->trip_batch;
-
-        $trip_batch = TripBatch::find($trip_batch->id);
-
-        $array[] = ['Trip ID', __("#:code", ['code' => $trip_batch->number])];
-        $array[] = ['Date', reformatDatetime($trip_batch->date, 'd M, Y')];
-        $array[] = [''];
-        $array[] = [''];
-
-        $array[] = ['No.','User ID','Name', 'Code','Destination', 'Price ($)','Status', 'Remark', 'Phone Number', 'Message'];
-
-
-        $pickups = Pickup::with(['user', 'dropPoint'])->whereHas('trip', function($query) use ($trip_batch){
-            $query->where('trip_batch_id', $trip_batch->id);
+        return Pickup::with([
+            'user' => fn ($query) => $query->without(['roles', 'permissions']),
+            'dropPoint',
+        ])->whereHas('trip', function($query){
+            $query->where('trip_batch_id', $this->trip_batch->id);
         })->when($this->trip_id, function ($query) {
             $query->where('trip_id', $this->trip_id);
-        })->get();
+        })->orderBy('id');
+    }
 
-        $offices  = Office::select(['id','whatsapp_template'])->pluck('whatsapp_template', 'id')->toArray();
+    public function headings(): array
+    {
+        $trip_batch = $this->trip_batch;
+        $this->rowNumber = 0;
+        return [
+            ['Trip ID', __("#:code", ['code' => $trip_batch->number])],
+            ['Date', reformatDatetime($trip_batch->date, 'd M, Y')],
+            [''],
+            [''],
+            ['No.','User ID','Name', 'Code','Destination', 'Price ($)','Status', 'Remark', 'Phone Number', 'Message'],
+        ];
+    }
 
-        foreach ($pickups as $key => $pickup){
-            $array[] = [
-                $key+1,
-                $pickup?->user->id,
-                $pickup?->user->name,
-                $pickup?->code,
-                $pickup?->dropPoint?->name,
-                displayPriceFormat($pickup->total, '$'),
-                $pickup->status_label,
-                '',
-                $pickup?->user?->phone_number,
-                ParcelHelperService::GeneralWhatsappText($pickup, $offices)
-            ];
+    public function chunkSize(): int
+    {
+        return 200;
+    }
+
+    public function map($pickup): array
+    {
+        if ($this->offices === null) {
+        $this->offices = Office::pluck('whatsapp_template', 'id')->toArray();
         }
-
-        return $array;
+        return [
+            ++$this->rowNumber,
+            $pickup?->user?->id,
+            $pickup?->user?->name,
+            $pickup?->code,
+            $pickup?->dropPoint?->name,
+            displayPriceFormat($pickup->total, '$'),
+            $pickup->status_label,
+            '',
+            $pickup?->user?->phone_number,
+            ParcelHelperService::GeneralWhatsappText($pickup, $this->offices)
+        ];
     }
 
     public function columnWidths(): array

@@ -22,6 +22,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label class="form-label" for="invoice">Invoice</label>
+                                        <p class="text-muted">Upload up to 500 parcel rows per file (maximum 10 MB).</p>
                                         <div class="form-control-wrap">
                                             <input type="file" id="invoice" name="file" wire:model="file">
                                             @error('file')
@@ -46,6 +47,11 @@
 
                 <div class="card card-bordered p-5">
                     @if($file)
+                        <div class="form-group">
+                            <label class="form-label" for="customer-search">Find customer options by name or phone</label>
+                            <input id="customer-search" type="text" maxlength="100" wire:model.debounce.300ms="customerSearch" class="form-control">
+                            <small class="text-muted">Showing up to 25 matches plus selected customers. Search to find other customers.</small>
+                        </div>
                         <div class="overflow-auto">
                             <table class="table table-bordered">
                                 <thead>
@@ -88,7 +94,7 @@
                                         <td>
                                             <select wire:model="parcels.{{ $id }}.customer_id" class="form-control">
                                                 <option> -- Select Customer -- </option>
-                                                @foreach($customers as  $customer)
+                                                @foreach($customers->filter(fn ($customer) => $customer->id == ($parcel['customer_id'] ?? null) || in_array($customer->id, $customerMatchIds)) as $customer)
                                                     <option value="{{ $customer->id }}">{{ $customer->name }}</option>
                                                 @endforeach
                                             </select>

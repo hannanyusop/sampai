@@ -59,7 +59,7 @@ class ParcelHelperService
             'pickup_point' => $pickup->pickup?->dropPoint?->name,
             'tax' => displayPriceFormat($pickup->tax, '$'),
             'permit' => displayPriceFormat($pickup->permit, '$'),
-            'total_parcel' => $pickup->parcels->count(),
+            'total_parcel' => $pickup->parcels()->count(),
             'link' => route('frontend.user.pickup.show', encrypt($pickup->id))
         ]);
 

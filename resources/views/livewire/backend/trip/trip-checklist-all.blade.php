@@ -155,6 +155,7 @@
                                 @endforeach
                                 </tbody>
                             </table>
+                            {{ $parcels->links() }}
                         </div>
 
                     </div><!-- .nk-block -->

@@ -6,9 +6,14 @@ use App\Domains\Auth\Models\Parcels;
 use App\Domains\Auth\Models\Trip;
 use App\Models\TripBatch;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class TripChecklistAll extends Component
 {
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
+
     public TripBatch $tripBatch;
     public Parcels $last_parcel;
     public string $tracking_no = '';
@@ -20,27 +25,33 @@ class TripChecklistAll extends Component
         $this->tripBatch = $tripBatch;
     }
 
+    protected function parcelQuery()
+    {
+        return Parcels::whereHas('pickup', function ($query) {
+            $query->whereIn('trip_id', $this->tripBatch->trips()->select('trips.id'));
+        });
+    }
+
     public function render()
     {
+        $query = $this->parcelQuery();
+        $this->total = (clone $query)->count();
+        $this->checked = (clone $query)->where('checked', true)->count();
+        $this->unchecked = (clone $query)->where(function ($query) {
+            $query->where('checked', false)->orWhereNull('checked');
+        })->count();
 
-        $parcels =  Parcels::whereHas('pickup', function ($query)  {
-            $query->whereIn('trip_id', $this->tripBatch->trips->pluck('id')->toArray());
-        })
+        $parcels = $query->with('pickup')
             ->orderBy('pickup_id', 'desc')
-            ->get();
-
-        $this->total = $parcels->count();
-        $this->checked = $parcels->where('checked', true)->count();
-        $this->unchecked = $parcels->where('checked', false)->count();
+            ->orderBy('parcels.id')
+            ->paginate(50);
 
         return view('livewire.backend.trip.trip-checklist-all', compact('parcels'));
     }
 
     public function search(){
 
-        $parcel =  Parcels::whereHas('pickup', function ($query)  {
-            $query->whereIn('trip_id', $this->tripBatch->trips->pluck('id')->toArray());
-        })
+        $parcel =  $this->parcelQuery()
             ->where('tracking_no', $this->tracking_no)
             ->first();
 
@@ -57,9 +68,7 @@ class TripChecklistAll extends Component
     }
 
     public function resetList(){
-        Parcels::whereHas('pickup', function ($query)  {
-            $query->whereIn('trip_id', $this->tripBatch->trips->pluck('id')->toArray());
-        })->update(['checked' => false]);
+        $this->parcelQuery()->update(['checked' => false]);
 
 
 

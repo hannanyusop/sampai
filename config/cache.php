@@ -33,6 +33,12 @@ return [
 
     'stores' => [
 
+        // Keep spreadsheet cell storage separate from application cache entries.
+        'excel_cells' => [
+            'driver' => 'file',
+            'path' => storage_path('framework/cache/excel-cells'),
+        ],
+
         'apc' => [
             'driver' => 'apc',
         ],

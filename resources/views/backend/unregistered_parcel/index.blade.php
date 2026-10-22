@@ -14,7 +14,7 @@
                 <div class="form-group">
                     <a href="{{ route('admin.unregisteredParcel.create') }}" class="btn btn-lg btn-primary">Add Parcel</a>
                 </div>
-                <table class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+                <table class="nk-tb-list nk-tb-ulist" data-auto-responsive="false">
                     <thead>
                     <tr class="nk-tb-item nk-tb-head">
                         <th class="nk-tb-col nk-tb-col-check">
@@ -86,6 +86,7 @@
                     @endforeach
                     </tbody>
                 </table>
+                {{ $unregisteredParcels->withQueryString()->links() }}
             </div>
         </div><!-- .card-preview -->
     </div> <!-- nk-block -->

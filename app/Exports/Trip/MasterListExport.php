@@ -3,23 +3,25 @@
 namespace App\Exports\Trip;
 
 use App\Domains\Auth\Models\Parcels;
-use App\Domains\Auth\Models\Trip;
 use App\Models\TripBatch;
-use App\Services\Parcel\ParcelHelperService;
-use Maatwebsite\Excel\Concerns\FromArray;
+use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithCustomChunkSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
-use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\Exportable;
 
-class MasterListExport implements FromArray, ShouldAutoSize, WithStyles, WithColumnWidths, WithEvents
+class MasterListExport implements FromQuery, WithMapping, WithHeadings, WithCustomChunkSize, ShouldAutoSize, WithStyles, WithColumnWidths, WithEvents
 {
     use Exportable;
+
+    protected $rowNumber = 0;
+    protected $totalTax = 0;
 
     public $trip_batch;
 
@@ -27,68 +29,67 @@ class MasterListExport implements FromArray, ShouldAutoSize, WithStyles, WithCol
         $this->trip_batch = $trip_batch;
     }
 
-    public function array() : array
+    public function query()
     {
-        $array = [];
+        $trip_ids = $this->trip_batch->trips()->select('trips.id');
 
-        $trip_batch = $this->trip_batch;
-
-        $trip_ids = $this->trip_batch->trips()->pluck('id');
-
-        $parcels = Parcels::with(['user', 'pickup', 'pickup.dropPoint'])
+        return Parcels::with([
+            'user' => fn ($query) => $query->without(['roles', 'permissions']),
+            'pickup.dropPoint', 'dropPoint',
+        ])
             ->whereHas('pickup', function($query) use ($trip_ids){
                 $query->whereIn('trip_id', $trip_ids);
-            })->get();
+            })->orderBy('id');
+    }
 
+    public function headings(): array
+    {
+        $trip_batch = $this->trip_batch;
+        $this->rowNumber = 0;
+        $this->totalTax = 0;
+        return [
+            ['Trip ID', __("#:code", ['code' => $trip_batch->number])],
+            ['Date', reformatDatetime($trip_batch->date, 'd M, Y')],
+            [''],
+            [''],
+            ['No.','User ID', 'Tracking No', 'Code', 'Guni', 'Receiver Name', 'Phone Number', 'Description', 'Category', 'Destination', 'Price (RM)','Percentage (%)', 'Tax (BND $)', 'Service Charge ($)', 'Status', 'Remark', 'Phone Number', 'Message'],
+        ];
+    }
 
+    public function chunkSize(): int
+    {
+        return 200;
+    }
 
-        $array[] = ['Trip ID', __("#:code", ['code' => $trip_batch->number])];
-        $array[] = ['Date', reformatDatetime($trip_batch->date, 'd M, Y')];
-        $array[] = [''];
-        $array[] = [''];
-
-
-
-        $array[] = ['No.','User ID', 'Tracking No', 'Code', 'Guni', 'Receiver Name', 'Phone Number', 'Description', 'Category', 'Destination', 'Price (RM)','Percentage (%)', 'Tax (BND $)', 'Service Charge ($)', 'Status', 'Remark', 'Phone Number', 'Message'];
-
-        $ttl_tax = 0;
-        foreach ($parcels as $key => $parcel){
-
-            $category_to_string = '';
-            foreach ($parcel->cat as $category_title){
-                $category_to_string .= $category_title . ',';
-                $category_to_string .= "\n";
-            }
-
-            $array[] = [
-                $key+1,
-                $parcel?->user->id,
-                $parcel?->tracking_no,
-                $parcel?->coding,
-                $parcel?->guni,
-                $parcel?->receiver_name,
-                $parcel?->phone_number,
-                $parcel?->description,
-                $category_to_string,
-                $parcel?->dropPoint?->name,
-                $parcel->price ? number_format($parcel->price, '2', '.') : '0.00',
-                $parcel->percentage ? number_format($parcel->percentage, '2', '.') : '0.00',
-                $parcel->tax ? number_format($parcel->tax, '2', '.') : '0.00',
-                $parcel->service_charge ? number_format($parcel->service_charge, '2', '.') : '0.00',
-                $parcel->status_label,
-                '',
-                $parcel?->user?->phone_number,
-                ""
-            ];
-
-            $ttl_tax+=$parcel->tax;
-
+    public function map($parcel): array
+    {
+        $category_to_string = '';
+        foreach ($parcel->cat as $category_title){
+            $category_to_string .= $category_title . ',';
+            $category_to_string .= "\n";
         }
 
-        $array[] = ['', '', '', '', '','','',__('Total Tax::amount', ['amount' => displayPriceFormat($ttl_tax, '$')])];
-
-
-        return $array;
+        $this->totalTax += $parcel->tax;
+        return [
+            ++$this->rowNumber,
+            $parcel?->user?->id,
+            $parcel?->tracking_no,
+            $parcel?->coding,
+            $parcel?->guni,
+            $parcel?->receiver_name,
+            $parcel?->phone_number,
+            $parcel?->description,
+            $category_to_string,
+            $parcel?->dropPoint?->name,
+            $parcel->price ? number_format($parcel->price, '2', '.') : '0.00',
+            $parcel->percentage ? number_format($parcel->percentage, '2', '.') : '0.00',
+            $parcel->tax ? number_format($parcel->tax, '2', '.') : '0.00',
+            $parcel->service_charge ? number_format($parcel->service_charge, '2', '.') : '0.00',
+            $parcel->status_label,
+            '',
+            $parcel?->user?->phone_number,
+            ""
+        ];
     }
 
     public function columnWidths(): array
@@ -112,6 +113,7 @@ class MasterListExport implements FromArray, ShouldAutoSize, WithStyles, WithCol
     {
         return [
             AfterSheet::class => function(AfterSheet $event) {
+                $event->sheet->append([['', '', '', '', '', '', '', __('Total Tax::amount', ['amount' => displayPriceFormat($this->totalTax, '$')])]]);
                 $event->sheet->getStyle('M')->getAlignment()->setWrapText(true);
             },
         ];

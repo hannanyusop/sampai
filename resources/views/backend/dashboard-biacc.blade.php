@@ -61,7 +61,7 @@
                                                     @foreach($trip_batch->trips as $trip)
                                                         <span class="badge badge-info">{{ $trip->destination->name }}</span>
                                                     @endforeach
-                                                    <br><br>Total : {{ $trip_batch->parcels->count() }}<span
+                                                    <br><br>Total : {{ $trip_batch->parcels_count }}<span
                                                         class="currency currency-usd"> Parcel(s) </span>
                                                 </div>
                                             </div>

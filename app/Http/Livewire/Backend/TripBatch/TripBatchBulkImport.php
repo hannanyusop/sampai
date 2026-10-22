@@ -7,9 +7,10 @@ use App\Domains\Auth\Models\User;
 use App\Exports\parcel\ExportBulk;
 use App\Exports\parcel\ExportBulkTemplate;
 use App\Models\TripBatch;
+use App\Imports\Parcel\BulkPreviewImport;
+use App\Imports\Parcel\BulkPreviewSheet;
 use App\Services\General\GeneralHelperService;
 use App\Services\Parcel\ParcelGeneralService;
-use App\Services\Parcel\ParcelHelperService;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Maatwebsite\Excel\Facades\Excel;
@@ -21,20 +22,32 @@ class TripBatchBulkImport extends Component
 
     public $file;
     public $header = [];
-    public $customers = [];
+    public $customerSearch = '';
     public $parcels = [];
 
     public $offices = [];
 
     public function mount()
     {
-        $this->customers = User::where('type', User::TYPE_USER)->get();
         $this->offices = Office::where('is_drop_point', 1)->get();
     }
 
     public function render()
     {
-        return view('livewire.backend.trip-batch.trip-batch-bulk-import');
+        validator(['customerSearch' => $this->customerSearch], ['customerSearch' => 'nullable|string|max:100'])->validate();
+        $query = User::where('type', User::TYPE_USER)->select('id', 'name', 'phone_number');
+        $matches = (clone $query)->when($this->customerSearch !== '', function ($query) {
+            $query->where(function ($query) {
+                $query->where('name', 'like', '%'.$this->customerSearch.'%')
+                    ->orWhere('phone_number', 'like', '%'.$this->customerSearch.'%');
+            });
+        })->orderBy('id')->limit(25)->toBase()->get();
+        $selectedIds = collect($this->parcels)->pluck('customer_id')->filter()->unique();
+        $selected = (clone $query)->whereIn('id', $selectedIds)->toBase()->get();
+        $customers = $matches->merge($selected)->unique('id');
+        $customerMatchIds = $matches->pluck('id')->all();
+
+        return view('livewire.backend.trip-batch.trip-batch-bulk-import', compact('customers', 'customerMatchIds'));
     }
 
     public function downloadTemplate()
@@ -42,61 +55,58 @@ class TripBatchBulkImport extends Component
        return Excel::download(new ExportBulkTemplate(), 'bulk_import_template.xlsx');
     }
 
+    public function updatedFile()
+    {
+        $this->parcels = [];
+        $this->header = [];
+        $this->resetValidation();
+    }
+
     public function viewData()
     {
         $this->validate([
-            'file' => 'required|file|mimes:xlsx,xls',
+            'file' => 'required|file|mimes:xlsx,xls|max:10240',
         ]);
 
 
-        $array = Excel::toArray([], $this->file->getRealPath());
-
-        $header = array_map('strtolower', $array[0][0]);
-        $header = array_map('trim', $header);
-
-        $requiredHeader = ParcelHelperService::getRequiredHeader();
-
-
-
-        foreach ($requiredHeader as $value) {
-
-            if (!in_array($value, $header)) {
-                dd('error');
-//                NotificationGeneralService::flashNotification(ServiceResultStatusEnum::Error, 'Missing header ' . $value);
-                return;
-            }
+        // Validate the whole bounded preview before replacing the current rows.
+        $import = new BulkPreviewImport;
+        Excel::import($import, $this->file);
+        if ($import->sheet->header === null) {
+            $this->addError('file', __('The spreadsheet is empty.'));
+            return;
         }
 
-        $content = array_slice($array[0], 1);
-
-        $header[] = 'id';
-        $header[] = 'actual_name';
-
-        $this->header = $header;
-
-        foreach ($content as $key => $value) {
-
-            $phone    = $value[2];
-            $customer = $this->customers->where('phone_number', $phone)->first();
+        $customersByPhone = [];
+        $parcels = [];
+        foreach ($import->sheet->rows as $key => $value) {
+            $phone = (string) ($value[2] ?? '');
+            if (! array_key_exists($phone, $customersByPhone)) {
+                $customersByPhone[$phone] = User::where('type', User::TYPE_USER)
+                    ->where('phone_number', $phone)
+                    ->without(['roles', 'permissions'])
+                    ->orderBy('id')->first(['id', 'name']);
+            }
+            $customer = $customersByPhone[$phone];
             $cid = $customer->id ?? null;
-
-            $this->parcels[$key] = [
-                'tracking' => $value[0],
-                'name'     => $value[1],
-                'phone'    => $value[2],
-                'destination' => $value[3],
-                'id'          => $cid,
+            $parcels[$key] = [
+                'tracking' => $value[0] ?? '',
+                'name' => $value[1] ?? '',
+                'phone' => $value[2] ?? '',
+                'destination' => $value[3] ?? '',
+                'id' => $cid,
                 'actual_name' => $customer->name ?? null,
                 'customer_id' => $cid,
             ];
-
         }
-
+        $this->header = array_merge($import->sheet->header, ['id', 'actual_name']);
+        $this->parcels = $parcels;
     }
 
     public function storeAction()
     {
         $this->validate([
+            'parcels' => 'required|array|max:'.BulkPreviewSheet::MAX_ROWS,
             'parcels.*.customer_id' => 'required|numeric|exists:users,id,type,' . User::TYPE_USER,
             'parcels.*.destination' => 'required|exists:offices,code,is_drop_point,1',
             'parcels.*.tracking'    => 'unique:parcels,tracking_no',
@@ -126,6 +136,8 @@ class TripBatchBulkImport extends Component
         $this->parcels = [];
         $this->file = null;
         $this->header = [];
+        $this->customerSearch = '';
+        $this->resetValidation();
     }
 
 }
