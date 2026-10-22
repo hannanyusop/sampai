@@ -26,7 +26,6 @@ class DashboardController extends Controller
     public function index()
     {
         if(auth()->user()->can('admin.access.user')){
-
             return view('backend.dashboard-admin');
         }elseif (auth()->user()->can('staff.distributor')){
 

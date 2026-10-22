@@ -216,7 +216,7 @@ if(!function_exists('parcelData')){
     function parcelData(){
 
         return [
-            'all' => Parcels::all()->count(),
+            'all' => Parcels::count(),
             'delivered' => Parcels::where('status', 4)->count(),
             'return' => Parcels::where('status', 5)->count(),
             'umel' => Parcels::where('status', 1)->count(),
