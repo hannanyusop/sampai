@@ -16,7 +16,9 @@ use App\Http\Livewire\Backend\TripBatch\TripBatchBulkImport;
 use App\Imports\Parcel\BulkPreviewImport;
 use App\Imports\Parcel\BulkPreviewSheet;
 use App\Models\TripBatch;
+use App\Models\Pickup;
 use App\Services\BaseService;
+use App\Services\Parcel\ParcelHelperService;
 use App\Services\Trip\TripHelperService;
 use App\Services\TripBatch\TripBatchHelperService;
 use Illuminate\Database\Eloquent\Model;
@@ -66,6 +68,8 @@ class MemoryQueryTest extends TestCase
             $table->integer('trip_id');
             $table->integer('office_id')->default(1);
             $table->integer('user_id')->nullable();
+            $table->string('code')->nullable();
+            $table->integer('status')->default(0);
             $table->softDeletes();
         });
         Schema::create('parcels', function (Blueprint $table) {
@@ -75,6 +79,11 @@ class MemoryQueryTest extends TestCase
             $table->integer('user_id')->nullable();
             $table->integer('status')->default(0);
             $table->string('tracking_no')->nullable();
+            foreach (['code', 'guni', 'receiver_name', 'phone_number', 'description', 'categories'] as $column) {
+                $table->string($column)->nullable();
+            }
+            $table->decimal('price')->default(0);
+            $table->decimal('percent')->default(0);
             $table->boolean('checked')->nullable()->default(false);
             $table->decimal('tax')->default(0);
             $table->decimal('cod_fee')->default(0);
@@ -190,7 +199,7 @@ class MemoryQueryTest extends TestCase
         foreach ([new MasterListExport($batch), new BiaccExport($batch)] as $export) {
             $this->assertSame(120, $export->query()->count());
             $this->assertSame(range(1, 120), $export->query()->pluck('parcels.id')->all());
-            $this->assertSame(200, $export->chunkSize());
+            $this->assertSame($export instanceof MasterListExport ? 1000 : 200, $export->chunkSize());
         }
         $this->assertSame([1, 2], (new WhatsappBotExport($batch))->query()->pluck('id')->all());
         $this->assertSame([2], (new WhatsappBotExport($batch, 2))->query()->pluck('id')->all());
@@ -297,10 +306,18 @@ class MemoryQueryTest extends TestCase
     public function test_master_export_writes_all_chunks_headers_numbering_and_tax_footer()
     {
         $batch = $this->seedBatchParcels();
-        for ($i = 1; $i <= 85; $i++) {
+        for ($i = 1; $i <= 885; $i++) {
             DB::table('parcels')->insert(['pickup_id' => 1, 'tracking_no' => 'EXTRA'.$i]);
         }
         DB::table('parcels')->whereIn('pickup_id', [1, 2])->update(['tax' => 1]);
+        DB::table('users')->insert(['id' => 1, 'name' => 'Customer', 'phone_number' => '60123456789', 'type' => 'user']);
+        DB::table('pickups')->where('id', 1)->update(['code' => 'PICKUP-1']);
+        DB::table('parcels')->where('id', 1)->update([
+            'user_id' => 1, 'code' => '001', 'guni' => 'BAG-1',
+            'receiver_name' => 'Receiver', 'phone_number' => '60111222333',
+            'description' => 'Fragile items', 'categories' => '["Clothes","Books"]',
+            'price' => 12.5, 'percent' => 5, 'service_charge' => 2.5,
+        ]);
         auth()->setUser(new User(['type' => 'admin']));
         DB::enableQueryLog();
         $contents = Excel::raw(new MasterListExport($batch), \Maatwebsite\Excel\Excel::XLSX);
@@ -314,16 +331,69 @@ class MemoryQueryTest extends TestCase
             $this->assertSame('Trip ID', $sheet->getCell('A1')->getValue());
             $this->assertSame('No.', $sheet->getCell('A5')->getValue());
             $this->assertSame(1, $sheet->getCell('A6')->getValue());
-            $this->assertSame(205, $sheet->getCell('A210')->getValue());
-            $this->assertSame('EXTRA85', $sheet->getCell('C210')->getValue());
-            $this->assertSame('Total Tax:'.displayPriceFormat(205, '$'), $sheet->getCell('H211')->getValue());
-            $parcelQueries = collect($queries)->filter(fn ($entry) => str_contains($entry['query'], 'select * from "parcels"'));
+            $this->assertSame(1005, $sheet->getCell('A1010')->getValue());
+            $this->assertSame('EXTRA885', $sheet->getCell('C1010')->getValue());
+            $this->assertSame('Total Tax:'.displayPriceFormat(1005, '$'), $sheet->getCell('H1011')->getValue());
+            $this->assertSame([
+                1, 1, 'IN1', 'PICKUP-1/001', 'BAG-1', 'Receiver', 60111222333,
+                'Fragile items', "Clothes,\nBooks,\n", 'HQ', 12.5, 5.0, 1.0, 2.5,
+                (new Parcels(['status' => 0]))->status_label, null, 60123456789, null,
+            ], $sheet->rangeToArray('A6:R6', null, false, false)[0]);
+            $this->assertNull($sheet->getCell('B7')->getValue(), 'A missing user must remain blank.');
+            $this->assertSame('R', $sheet->getHighestDataColumn());
+            $this->assertSame(1011, $sheet->getHighestDataRow());
+            foreach (range('A', 'R') as $column) {
+                $this->assertFalse($sheet->getColumnDimension($column)->getAutoSize());
+                $this->assertGreaterThan(0, $sheet->getColumnDimension($column)->getWidth());
+            }
+            $this->assertSame(40.0, $sheet->getColumnDimension('M')->getWidth());
+            $this->assertTrue($sheet->getStyle('M6')->getAlignment()->getWrapText());
+            $parcelQueries = collect($queries)->filter(fn ($entry) => str_contains($entry['query'], 'from "parcels"'));
             $this->assertCount(2, $parcelQueries);
-            foreach ($parcelQueries as $entry) { $this->assertStringContainsString('limit 200', $entry['query']); }
+            foreach ($parcelQueries as $entry) {
+                $this->assertStringContainsString('limit 1000', $entry['query']);
+                $this->assertStringStartsWith('select "id", "pickup_id",', $entry['query']);
+            }
             $workbook->disconnectWorksheets();
         } finally {
             unlink($file);
         }
+    }
+
+    public function test_master_export_mapping_uses_loaded_relations_without_extra_queries()
+    {
+        $batch = $this->seedBatchParcels();
+        DB::table('users')->insert(['id' => 1, 'name' => 'Customer', 'phone_number' => '60123456789', 'type' => 'user']);
+        DB::table('parcels')->where('id', 1)->update(['user_id' => 1]);
+        DB::table('parcels')->where('id', 2)->update(['office_id' => 999]);
+        auth()->setUser(new User(['type' => 'admin']));
+        $export = new MasterListExport($batch);
+        $parcels = $export->query()->get();
+        DB::enableQueryLog();
+        DB::flushQueryLog();
+        foreach ($parcels as $parcel) {
+            $row = $export->map($parcel);
+            $this->assertFalse($parcel->pickup->relationLoaded('dropPoint'));
+            if ($parcel->id === 1) {
+                $this->assertFalse($parcel->user->relationLoaded('roles'));
+                $this->assertFalse($parcel->user->relationLoaded('permissions'));
+                $this->assertSame('60123456789', $row[16]);
+            }
+            if ($parcel->id === 2) {
+                $this->assertNull($row[9]);
+            }
+        }
+        $this->assertSame([], DB::getQueryLog(), 'Mapping must not issue per-parcel queries.');
+        DB::disableQueryLog();
+
+        // The coding accessor needs pickup status as well as its code for customers.
+        auth()->setUser(new User(['type' => User::TYPE_USER]));
+        $parcel = $parcels->first();
+        $parcel->code = '001';
+        $parcel->pickup->code = 'PICKUP-1';
+        $this->assertSame('- NOT READY -', $export->map($parcel)[3]);
+        $parcel->pickup->status = \App\Services\Pickup\PickupHelperService::STATUS_READY_TO_DELIVER;
+        $this->assertSame('PICKUP-1/001', $export->map($parcel)[3]);
     }
 
     public function test_bulk_preview_matches_customers_with_type_and_soft_delete_scopes()
@@ -416,6 +486,92 @@ class MemoryQueryTest extends TestCase
                 $this->assertSame($export instanceof BiaccExport ? 125 : 6, $sheet->getHighestRow());
                 $workbook->disconnectWorksheets();
             } finally { unlink($file); }
+        }
+    }
+
+    public function test_whatsapp_export_reuses_billing_totals_and_preserves_message_templates()
+    {
+        $batch = $this->seedBatchParcels();
+        $template = 'Hello :name; :pickup_code; Total :total_billing; Price :price; Point :pickup_point; Tax :tax; Permit :permit; Count :total_parcel';
+        DB::table('offices')->where('id', 1)->update(['whatsapp_template' => $template]);
+        DB::table('users')->insert(['id' => 1, 'name' => 'Customer', 'phone_number' => '60123456789', 'type' => 'user']);
+        DB::table('pickups')->whereIn('id', [1, 2])->update(['user_id' => 1, 'code' => 'PICKUP-1', 'status' => 2]);
+        DB::table('parcels')->whereIn('pickup_id', [1, 2])->update([
+            'cod_fee' => 1, 'service_charge' => 4, 'tax' => 2, 'permit' => 3, 'declare_charge' => 5,
+        ]);
+        // An empty pickup with missing relations must still export zero totals.
+        DB::table('pickups')->insert(['id' => 5, 'trip_id' => 1, 'office_id' => 999, 'user_id' => 999, 'code' => 'EMPTY']);
+        $expected = [];
+        foreach (Pickup::with(['user' => fn ($query) => $query->without(['roles', 'permissions'])])->whereIn('id', [1, 2, 5])->get() as $pickup) {
+            $expected[$pickup->id] = [
+                displayPriceFormat($pickup->total, '$'),
+                ParcelHelperService::GeneralWhatsappText($pickup, [1 => $template]),
+            ];
+        }
+
+        $export = new WhatsappBotExport($batch);
+        $pickups = $export->query()->get();
+        $this->assertSame([1, 2, 5], $pickups->pluck('id')->all());
+        $this->assertSame(60, $pickups->first()->parcels_count);
+        $this->assertEquals(900, $pickups->first()->export_total);
+        DB::enableQueryLog();
+        DB::flushQueryLog();
+        foreach ($pickups as $pickup) {
+            $row = $export->map($pickup);
+            $this->assertSame($expected[$pickup->id], [$row[5], $row[9]]);
+            $this->assertFalse($pickup->relationLoaded('parcels'));
+            if ($pickup->user) {
+                $this->assertSame('Customer', $row[2]);
+                $this->assertSame('60123456789', $row[8]);
+                $this->assertFalse($pickup->user->relationLoaded('roles'));
+            }
+        }
+        $queries = DB::getQueryLog();
+        DB::disableQueryLog();
+        $this->assertCount(1, $queries, 'Mapping should only load office templates once, without per-pickup queries.');
+        $this->assertStringContainsString('from "offices"', $queries[0]['query']);
+    }
+
+    public function test_whatsapp_workbook_keeps_all_chunks_and_limits_database_queries()
+    {
+        $batch = $this->seedBatchParcels();
+        DB::table('users')->insert(['id' => 1, 'name' => 'Customer', 'phone_number' => '60123456789', 'type' => 'user']);
+        DB::table('pickups')->whereIn('id', [1, 2])->update(['user_id' => 1, 'code' => 'ORIGINAL']);
+        for ($i = 1; $i <= 999; $i++) {
+            DB::table('pickups')->insert(['trip_id' => 1, 'user_id' => 1, 'code' => 'EXTRA'.$i]);
+        }
+        DB::enableQueryLog();
+        DB::flushQueryLog();
+        $contents = Excel::raw(new WhatsappBotExport($batch), \Maatwebsite\Excel\Excel::XLSX);
+        $queries = DB::getQueryLog();
+        DB::disableQueryLog();
+        $this->assertLessThanOrEqual(7, count($queries), 'Queries must scale with chunks, not pickup rows.');
+        $pickupQueries = collect($queries)->filter(fn ($entry) => str_contains($entry['query'], 'from "pickups"'));
+        $this->assertCount(2, $pickupQueries);
+        foreach ($pickupQueries as $entry) {
+            $this->assertStringContainsString('limit 1000', $entry['query']);
+        }
+        $file = tempnam(sys_get_temp_dir(), 'sampai-whatsapp-export-');
+        try {
+            file_put_contents($file, $contents);
+            $workbook = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
+            $sheet = $workbook->getActiveSheet();
+            $this->assertSame('Message', $sheet->getCell('J5')->getValue());
+            $this->assertSame(1, $sheet->getCell('A6')->getValue());
+            $this->assertSame(1001, $sheet->getCell('A1006')->getValue());
+            $this->assertSame('EXTRA999', $sheet->getCell('D1006')->getValue());
+            $this->assertSame('Customer', $sheet->getCell('C1006')->getValue());
+            $this->assertSame(displayPriceFormat(0, '$'), $sheet->getCell('F1006')->getValue());
+            $this->assertSame('Pickup code:  EXTRA999', $sheet->getCell('J1006')->getValue());
+            $this->assertSame('J', $sheet->getHighestDataColumn());
+            $this->assertSame(1006, $sheet->getHighestDataRow());
+            foreach (range('A', 'J') as $column) {
+                $this->assertFalse($sheet->getColumnDimension($column)->getAutoSize());
+            }
+            $this->assertTrue($sheet->getStyle('J6')->getAlignment()->getWrapText());
+            $workbook->disconnectWorksheets();
+        } finally {
+            unlink($file);
         }
     }
 

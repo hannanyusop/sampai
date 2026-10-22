@@ -10,13 +10,12 @@ use Maatwebsite\Excel\Concerns\WithCustomChunkSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\Exportable;
 
-class MasterListExport implements FromQuery, WithMapping, WithHeadings, WithCustomChunkSize, ShouldAutoSize, WithStyles, WithColumnWidths, WithEvents
+class MasterListExport implements FromQuery, WithMapping, WithHeadings, WithCustomChunkSize, WithStyles, WithColumnWidths, WithEvents
 {
     use Exportable;
 
@@ -33,9 +32,14 @@ class MasterListExport implements FromQuery, WithMapping, WithHeadings, WithCust
     {
         $trip_ids = $this->trip_batch->trips()->select('trips.id');
 
-        return Parcels::with([
-            'user' => fn ($query) => $query->without(['roles', 'permissions']),
-            'pickup.dropPoint', 'dropPoint',
+        return Parcels::select([
+            'id', 'pickup_id', 'user_id', 'office_id', 'tracking_no', 'code',
+            'guni', 'receiver_name', 'phone_number', 'description', 'categories',
+            'price', 'percent', 'tax', 'service_charge', 'status',
+        ])->with([
+            'user' => fn ($query) => $query->select('id', 'phone_number')->without(['roles', 'permissions']),
+            'pickup:id,code,status',
+            'dropPoint:id,name',
         ])
             ->whereHas('pickup', function($query) use ($trip_ids){
                 $query->whereIn('trip_id', $trip_ids);
@@ -58,7 +62,7 @@ class MasterListExport implements FromQuery, WithMapping, WithHeadings, WithCust
 
     public function chunkSize(): int
     {
-        return 200;
+        return 1000;
     }
 
     public function map($parcel): array
@@ -82,7 +86,7 @@ class MasterListExport implements FromQuery, WithMapping, WithHeadings, WithCust
             $category_to_string,
             $parcel?->dropPoint?->name,
             $parcel->price ? number_format($parcel->price, '2', '.') : '0.00',
-            $parcel->percentage ? number_format($parcel->percentage, '2', '.') : '0.00',
+            $parcel->percent ? number_format($parcel->percent, '2', '.') : '0.00',
             $parcel->tax ? number_format($parcel->tax, '2', '.') : '0.00',
             $parcel->service_charge ? number_format($parcel->service_charge, '2', '.') : '0.00',
             $parcel->status_label,
@@ -95,7 +99,24 @@ class MasterListExport implements FromQuery, WithMapping, WithHeadings, WithCust
     public function columnWidths(): array
     {
         return [
+            'A' => 8,
+            'B' => 12,
+            'C' => 24,
+            'D' => 24,
+            'E' => 12,
+            'F' => 28,
+            'G' => 20,
+            'H' => 40,
+            'I' => 30,
+            'J' => 24,
+            'K' => 18,
+            'L' => 20,
             'M' => 40,
+            'N' => 22,
+            'O' => 22,
+            'P' => 30,
+            'Q' => 20,
+            'R' => 40,
         ];
     }
 

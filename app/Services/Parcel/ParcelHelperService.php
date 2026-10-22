@@ -46,7 +46,8 @@ class ParcelHelperService
         return (is_null($status))? $statuses : $statuses[$status] ?? __('Invalid status');
     }
 
-    public static function GeneralWhatsappText(Pickup $pickup, array $offices)
+    // Exports can supply SQL aggregates to avoid recalculating totals for every row.
+    public static function GeneralWhatsappText(Pickup $pickup, array $offices, ?array $billing = null)
     {
 
         $template = $offices[$pickup->office_id] ?? "Pickup code:  :pickup_code";
@@ -54,12 +55,12 @@ class ParcelHelperService
         $text = __($template, [
             'name' => \Str::upper($pickup?->user?->name),
             'pickup_code' => $pickup?->code,
-            'total_billing' => displayPriceFormat($pickup->total, '$'),
+            'total_billing' => displayPriceFormat($billing['total'] ?? $pickup->total, '$'),
             'price' => displayPriceFormat($pickup->price, '$'),
             'pickup_point' => $pickup->pickup?->dropPoint?->name,
-            'tax' => displayPriceFormat($pickup->tax, '$'),
-            'permit' => displayPriceFormat($pickup->permit, '$'),
-            'total_parcel' => $pickup->parcels()->count(),
+            'tax' => displayPriceFormat($billing['tax'] ?? $pickup->tax, '$'),
+            'permit' => displayPriceFormat($billing['permit'] ?? $pickup->permit, '$'),
+            'total_parcel' => $billing['total_parcel'] ?? $pickup->parcels()->count(),
             'link' => route('frontend.user.pickup.show', encrypt($pickup->id))
         ]);
 
